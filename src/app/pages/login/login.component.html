@@ -21,7 +21,7 @@
       <div class="card bg-secondary shadow border-0">
         <div class="card-header bg-transparent">
           <div class="text-center text-muted mb-4">
-            <small>Sign in with credentials</small>
+            <h2>Sign in with credentials</h2>
           </div>
           <form role="form">
             <div class="form-group mb-3">
@@ -43,9 +43,9 @@
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input class="form-control" placeholder="Date of Birth" type="password">
+                <input class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
               </div>
             </div>
           </form>
