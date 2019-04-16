@@ -10,7 +10,7 @@ import { AuthService } from './services/auth.service';
 const routes: Routes =[
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '/club-members',
     pathMatch: 'full',
   }, {
     path: '',

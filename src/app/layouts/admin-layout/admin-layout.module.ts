@@ -13,6 +13,7 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.component';
+import { MemberConnectComponent } from 'src/app/pages/member-connect/member-connect.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.co
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    ClubMembersComponent
+    ClubMembersComponent,
+    MemberConnectComponent
   ]
 })
 
