@@ -7,16 +7,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
-    NgbModule
+    NgbModule,
+    ZXingScannerModule.forRoot()
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    QrScannerComponent
   ]
 })
 export class AuthLayoutModule { }
