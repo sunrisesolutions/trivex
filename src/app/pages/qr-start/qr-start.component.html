@@ -1,0 +1,147 @@
+<div class="header bg-gradient-danger py-7 py-lg-8">
+  <div class="container">
+    <div class="header-body text-center">
+      <div class="row">
+        <div class="col-12">
+          <a routerLink="['qr-start']">
+            <div class="text-center" style="margin:auto">
+              <img title="logo.png" alt="logo.png" width="200" style="margin:auto; display: block; " class="img-polaroid media-object" id="user-pic-preview" src="https://magenta-consulting.s3.amazonaws.com/live/default/0001/01/thumb_4_admin.png"  />
+              <h2 class="text-white">World Job Fair 2015</h2>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-12">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-body">
+          <div *ngIf="!loading && !finish" class="container ml-auto mr-auto">
+            <ngb-progressbar type="success" [value]="step*100/totalStep" [striped]="true" [animated]="true" [height]="10"></ngb-progressbar>
+            <div *ngIf="validating" class="alert alert-danger">
+              Please fill in all the necessary information.
+            </div>
+            <form *ngIf="step == 1" #step1Form="ngForm">
+              <h3>Let us know how we can be in contact with you</h3>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      <input class="form-control" name="Name" placeholder="Name" type="text" [(ngModel)]="model.name" #name="ngModel" required>
+                    </div>
+                    <label *ngIf="validating && name.invalid" class="text-red">This field is required.</label>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                      </div>
+                      <input class="form-control" name="contactNumber" placeholder="Contact Number" type="text" [(ngModel)]="model.contactNumber" #contactNumber="ngModel" required>
+                    </div>
+                    <label *ngIf="validating && contactNumber.invalid" class="text-red">This field is required.</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input class="form-control" name="email" placeholder="Email Address" type="email" [(ngModel)]="model.email" #email="ngModel" required email>
+                </div>
+                <label *ngIf="validating && email.invalid" class="text-red">
+                  <span *ngIf="email.errors.required">This field is required.</span>
+                  <span *ngIf="!email.errors.required && email.errors.email">Please enter a valid email address.</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input class="form-control" name="confirmEmail" placeholder="Confirm Email Address" type="email" [(ngModel)]="model.confirmEmail" #confirmEmail="ngModel" required email>
+                </div>
+                <label *ngIf="validating && confirmEmail.invalid" class="text-red">
+                  <span *ngIf="confirmEmail.errors.required">This field is required.</span>
+                  <span *ngIf="!confirmEmail.errors.required && confirmEmail.errors.email">Please enter a valid email address.</span>
+                </label>
+                <label class="text-red" *ngIf="validating && !confirmEmail.invalid && model.email != model.confirmEmail">Confirm email not match.</label>
+              </div>
+            </form>
+            <form class="text-center" *ngIf="step == 2" #step2Form="ngForm">
+              <h3>Select Your Areas of Expertise (skills, experience, interest)</h3>
+              <p>You may select more than one</p>
+              <button type="button" (click)="model.expertise.it = !model.expertise.it" class="btn {{model.expertise.it ? 'btn-info' : ''}}">Information Technology</button>
+              <button type="button" (click)="model.expertise.hr = !model.expertise.hr" class="btn {{model.expertise.hr ? 'btn-info' : ''}}">Human Resources</button>
+            </form>
+            <form class="text-center" *ngIf="step == 3" #step3Form="ngForm">
+              <h3>Which jobs are you interested in?</h3>
+              <p>Select Jobs within the following Industry Spaces:</p>
+              <app-job [(ngModel)]="model.jobs.job2" name="Job 2">
+                Job 2
+                <ol>
+                  <li>Interview is required</li>
+                  <li>Resume is not</li>
+                </ol>
+              </app-job>
+              <app-job [(ngModel)]="model.jobs.job1" name="Job 1">
+                Job 1 no Interview required
+              </app-job>
+            </form>
+            <form class="text-center" *ngIf="step == 4" #step4Form="ngForm">
+              <h3>Did you speak with someone at the event?</h3>
+              <button type="button" (click)="model.spoken = true; next()" class="btn btn-block {{model.spoken == true ? 'btn-info' : ''}}">Yes, I’ve spoken to someone already</button>
+              <button type="button" (click)="model.spoken = false; next()" class="btn btn-block {{model.spoken == false ? 'btn-info' : ''}}">No, I have not spoken to anyone</button>
+            </form>
+            <form class="text-center" *ngIf="step == 5" #step5Form="ngForm">
+              <h3>Who did you speak to at the booth?</h3>
+              <p>Please select the person(s) that you have spoken to.</p>
+              <button type="button" (click)="model.spokenTo.bonjour = !model.spokenTo.bonjour" class="btn {{model.spokenTo.bonjour ? 'btn-info' : ''}}">Bonjour<br/>(OK)</button>
+              <button type="button" (click)="model.spokenTo.binhLe = !model.spokenTo.binhLe" class="btn {{model.spokenTo.binhLe ? 'btn-info' : ''}}">Binh Le<br/>(TRST)</button>
+            </form>
+            <form class="text-center" *ngIf="step == 6" #step6Form="ngForm">
+              <h3>Would you like to drop us a note?</h3>
+              <div class="form-group">
+                <textarea name="note" [(ngModel)]="model.note" class="form-control" rows="6" placeholder="Just leave this field blank if you don't want to send us any note"></textarea>
+              </div>
+            </form>
+
+
+            <div class="text-center">
+                <button *ngIf="step > 1" (click)="back()" class="btn mt-4">Previous Step</button>
+                <button *ngIf="step < totalStep" (click)="next()" class="btn btn-primary mt-4">Next Step</button>
+                <button *ngIf="step == totalStep" (click)="submit()" class="btn btn-success mt-4">Submit Application</button>
+            </div>
+          </div>
+          <div *ngIf="loading" class="container ml-auto mr-auto text-center">
+            <img class="car" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/car.svg" alt=""/>
+            <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt=""/>
+            <img class="sign" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/sign.svg" alt=""/>
+            <p><em>PATIENCE IS A VIRTUE<br/>We're processing your application ...</em></p>
+          </div>
+          <div *ngIf="finish" class="container ml-auto mr-auto">
+            <p>Thank you for visiting our booth and for registering your interest with us. Please feel free to chat with our corporate representatives that are currently on-site.</p>
+            <div class="text-center">
+              <h2>Sunrise. Vn</h2>
+              <button [routerLink]="['/']" class="btn btn-success mt-4">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

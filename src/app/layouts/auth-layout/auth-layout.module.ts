@@ -10,6 +10,8 @@ import { RegisterComponent } from '../../pages/register/register.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component';
 import { QrCodeComponent } from '../../pages/qr-code/qr-code.component';
+import { QrStartComponent } from '../../pages/qr-start/qr-start.component';
+import { JobComponent } from '../../components/job/job.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { QrCodeComponent } from '../../pages/qr-code/qr-code.component';
     LoginComponent,
     RegisterComponent,
     QrScannerComponent,
-    QrCodeComponent
+    QrCodeComponent,
+    QrStartComponent,
+    JobComponent
   ]
 })
 export class AuthLayoutModule { }

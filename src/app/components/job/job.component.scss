@@ -1,0 +1,22 @@
+.green {
+    background: #6bd098;
+}
+.red {
+    background: #f5365c;
+}
+.a-job {
+    cursor: pointer;
+    
+    .job-description {
+        width: calc(100% - 50px);
+    }
+    .job-action {
+        float: right;
+        
+        i {
+            border-radius: 100%;
+            font-size: 30px;
+            color: white;
+        }
+    }
+}
