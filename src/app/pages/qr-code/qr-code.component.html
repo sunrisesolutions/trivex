@@ -1,0 +1,38 @@
+<div class="header bg-gradient-danger py-7 py-lg-8">
+  <div class="container">
+    <div class="header-body text-center mb-7">
+      
+      <div class="row" style="margin-top:5px;">
+        <div class="col-12">
+          <a routerLink="['qr-start']">
+            <div class="text-center" style="margin:auto">
+              <img title="logo.png" alt="logo.png" width="200" style="margin:auto; display: block; " class="img-polaroid media-object" id="user-pic-preview" src="https://magenta-consulting.s3.amazonaws.com/live/default/0001/01/thumb_4_admin.png"  />
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-body">
+          <div class="container ml-auto mr-auto text-center">    
+            <h2>World Job Fair 2015</h2>
+            <h3>The opportunity of a lifetime</h3>
+            <p>Thank you for visiting our career booth. Please scan the QR Code below to register your interest or submit your resume with us.</p>
+            <img id="qr-code" class="img-fluid" title="QR Code" alt="QR Code" style="margin:auto; display: block; " [src]="qrCodeLink"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

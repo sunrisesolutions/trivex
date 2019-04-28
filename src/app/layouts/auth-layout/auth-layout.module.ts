@@ -9,6 +9,7 @@ import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component';
+import { QrCodeComponent } from '../../pages/qr-code/qr-code.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component'
   declarations: [
     LoginComponent,
     RegisterComponent,
-    QrScannerComponent
+    QrScannerComponent,
+    QrCodeComponent
   ]
 })
 export class AuthLayoutModule { }
