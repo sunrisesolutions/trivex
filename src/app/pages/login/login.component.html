@@ -24,12 +24,21 @@
             <h2>Sign in with credentials</h2>
           </div>
           <form role="form">
+            <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input class="form-control" placeholder="NRIC/ID Number" type="email">
+                <input #orgCode ngModel name="org-Code" class="form-control" placeholder="Organize Code" type="email">
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                </div>
+                <input class="form-control"#idNumber ngModel name="id-number" placeholder="NRIC/ID Number" type="email">
               </div>
             </div>
             <div class="form-group">
@@ -38,6 +47,7 @@
                   <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
                 </div>
                 <input class="form-control" placeholder="Phone Number" type="password">
+                <label ></label>
               </div>
             </div>
             <div class="form-group">
@@ -45,7 +55,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
+                <input #birthDate ngModel name="birth-date" class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob"
+                  ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" />
               </div>
             </div>
           </form>
@@ -59,7 +70,7 @@
               </label>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary my-4" (click)="login()">Sign in</button>
+              <button type="submit" class="btn btn-primary my-4" (click)="login()">Sign in</button>
             </div>
           </form>
         </div>
