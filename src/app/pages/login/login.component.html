@@ -23,41 +23,48 @@
           <div class="text-center text-muted mb-4">
             <h2>Sign in with credentials</h2>
           </div>
-          <form role="form">
+          <form (keyup.enter)="login()" role="form">
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input #orgCode ngModel name="org-Code" class="form-control" placeholder="Organize Code" type="email">
+                <input [(ngModel)]="orgCode" name="orgCode" class="form-control" placeholder="Organize Code" type="email">
+              
               </div>
             </div>
+
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input class="form-control"#idNumber ngModel name="id-number" placeholder="NRIC/ID Number" type="email">
+                <input [(ngModel)]="idNumber" name="idNumber" class="form-control" placeholder="NRIC/ID Number" type="email">
+            
               </div>
             </div>
+            
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
                 </div>
-                <input class="form-control" placeholder="Phone Number" type="password">
-                <label ></label>
+                <input [(ngModel)]="phone" name="phone" class="form-control" placeholder="Phone Number" type="password">
+               
               </div>
             </div>
+
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input #birthDate ngModel name="birth-date" class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob"
+                <input #dobi class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob"
                   ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" />
+
               </div>
+              
             </div>
           </form>
         </div>
