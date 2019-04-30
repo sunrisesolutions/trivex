@@ -49,7 +49,9 @@
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                        <span *ngIf="!editPhoneCode" (click)="editPhoneCode = true" class="form-control input-group-text">+{{model.phoneCode}}</span>
                       </div>
+                      <input width="50px" *ngIf="editPhoneCode" class="form-control" name="phoneCode" type="number" [(ngModel)]="model.phoneCode" #phoneCode="ngModel" required (blur)="finishEditPhoneCode()" (keyup.enter)="finishEditPhoneCode()">
                       <input class="form-control" name="contactNumber" placeholder="Contact Number" type="text" [(ngModel)]="model.contactNumber" #contactNumber="ngModel" required>
                     </div>
                     <label *ngIf="validating && contactNumber.invalid" class="text-red">This field is required.</label>

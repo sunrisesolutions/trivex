@@ -10,6 +10,7 @@ export class QrStartComponent implements OnInit {
   model = {
     name: '',
     contactNumber: '',
+    phoneCode: 65,
     email: '',
     confirmEmail: '',
     expertise: {
@@ -33,6 +34,7 @@ export class QrStartComponent implements OnInit {
   validating = false;
   loading = false;
   finish = false;
+  editPhoneCode = false;
 
   @ViewChild('step1Form') step1Form: NgForm;
 
@@ -68,5 +70,12 @@ export class QrStartComponent implements OnInit {
       this.loading = false;
       this.finish = true;
     }, 2000);
+  }
+
+  finishEditPhoneCode() {
+    this.editPhoneCode = false;
+    if (!this.model.phoneCode) {
+      this.model.phoneCode = 65;
+    }
   }
 }
