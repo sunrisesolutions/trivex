@@ -12,6 +12,7 @@ import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component'
 import { QrCodeComponent } from '../../pages/qr-code/qr-code.component';
 import { QrStartComponent } from '../../pages/qr-start/qr-start.component';
 import { JobComponent } from '../../components/job/job.component';
+import { RegisterEventComponent } from '../../pages/register-event/register-event.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { JobComponent } from '../../components/job/job.component';
     QrScannerComponent,
     QrCodeComponent,
     QrStartComponent,
-    JobComponent
+    JobComponent,
+    RegisterEventComponent
   ]
 })
 export class AuthLayoutModule { }

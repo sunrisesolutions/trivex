@@ -56,6 +56,7 @@ export class QrScannerComponent implements OnInit {
   handleQrCodeResult(resultString: string) {
     console.debug('Result: ', resultString);
     this.qrResultString = resultString;
+    location.href = resultString;
   }
 
   onDeviceSelectChange(selectedValue: string) {
