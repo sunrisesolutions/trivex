@@ -22,8 +22,7 @@ export class ClubMembersComponent implements OnInit {
   ngOnInit() {
     this.service.getPosts()
       .subscribe(response => {
-        console.log(response.json())
-        
+        console.log(response)
       });
   }
 

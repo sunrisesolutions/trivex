@@ -31,21 +31,22 @@
         <div *ngIf="step == 1" class="card-body">
           <form class="text-center">
             <h3>Who are you?</h3>
-            <button type="button" (click)="model.role = 'host'; step = 2" class="btn">Event Host</button>
-            <button type="button" (click)="model.role = 'member'; step = 2" class="btn">A Member</button>
+            <button type="button" (click)="model.role = 'host'; step = 2" class="btn">Not a member</button>
+            <button type="button" (click)="model.role = 'member'; step = 2" class="btn">A member</button>
           </form>
         </div>
         <div *ngIf="step == 2" class="card-body bg-transparent pb-5">
           <div class="text-center text-muted mb-4">
             <h2>Register an event</h2>
           </div>
+          
           <form role="form">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="First Name" type="text">
+                <input class="form-control" placeholder="First Name" type="text" [(ngModel)]="registration.givenName" name="givenName">
               </div>
             </div>
             <div class="form-group">
@@ -53,7 +54,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Last Name" type="text">
+                <input class="form-control" placeholder="Last Name" type="text" [(ngModel)]="registration.familyName" name="familyName">
               </div>
             </div>
             <div class="form-group">
@@ -61,7 +62,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input class="form-control datepicker" placeholder="Date of Birth" name="dob" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
+                <input #dobi class="form-control datepicker" placeholder="Date of Birth" [(ngModel)]="dob" name="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
               </div>
             </div>
             <div class="form-group">
@@ -69,15 +70,21 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Phone Number" type="text">
+                <input class="form-control" placeholder="Phone Number" type="text" [(ngModel)]="registration.phoneNumber" name="phoneNumber">
               </div>
             </div>
             <div class="form-group">
-              <div class="input-group input-group-alternative mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                </div>
-                <input class="form-control" placeholder="Role" type="text">
+              <div class="custom-control custom-control-alternative custom-checkbox">
+                <input class="custom-control-input" id="maleCheckbox" type="checkbox" [checked]="registration.gender == 'Male'" (change)="registration.gender = 'Male'">
+                <label class="custom-control-label" for="maleCheckbox">
+                  <span class="text-muted">Male</span>
+                </label>
+              </div>
+              <div class="custom-control custom-control-alternative custom-checkbox">
+                <input class="custom-control-input" id="femaleCheckbox" name="gender" type="checkbox" [checked]="registration.gender == 'Female'" (change)="registration.gender = 'Female'">
+                <label class="custom-control-label" for="femaleCheckbox">
+                  <span class="text-muted">Female</span>
+                </label>
               </div>
             </div>
             <div class="form-group">
@@ -85,10 +92,10 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email">
+                <input class="form-control" placeholder="Email" type="email" [(ngModel)]="registration.email" name="email">
               </div>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
@@ -106,9 +113,9 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="text-center">
-              <button (click)="registerEvent()" type="button" class="btn btn-primary mt-4">Register Event</button>
+              <button (click)="registerEvent()" [disabled]="loading" type="button" class="btn btn-primary mt-4">Register Event</button>
             </div>
           </form>
         </div>            
