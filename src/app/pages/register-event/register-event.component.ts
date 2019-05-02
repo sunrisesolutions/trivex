@@ -11,7 +11,6 @@ import { AttendeeService } from '../../services/attendee.service';
 })
 export class RegisterEventComponent implements OnInit {
   dob: NgbDate;
-  @ViewChild('dobi') dobi: ElementRef;
   
   model = {
     role: ''
@@ -25,13 +24,14 @@ export class RegisterEventComponent implements OnInit {
     gender: '',
     email: '',
     phoneNumber: '',
-    accessToken: ''
+    accessToken: 'token'
   }
   attendee: Attendee;
 
   step = 1;
   done = false;
   loading = false;
+  error = '';
 
   constructor(
     private attendeeService: AttendeeService
@@ -42,7 +42,9 @@ export class RegisterEventComponent implements OnInit {
 
   registerEvent() {
     this.loading = true;
-    this.registration.birthDate = this.dobi.nativeElement.value;
+    if (this.dob) {
+      this.registration.birthDate = new Date(this.dob.year, this.dob.month, this.dob.day).toISOString();
+    }
     this.attendee = {
       registration: this.registration
     }
@@ -50,6 +52,9 @@ export class RegisterEventComponent implements OnInit {
       this.loading = false;
       this.done = true;
       console.log(res);
+    }, err => {
+      this.error = err.error['hydra:description'];
+      this.loading = false;
     })
   }
 }

@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
   dob: NgbDate;
   done = false;
   loading = false;
-  @ViewChild('dobi') dobi: ElementRef;
+  error = '';
 
   registration: Registration = {
     middleName: '',
@@ -21,7 +21,8 @@ export class RegisterComponent implements OnInit {
     familyName: '',
     gender: '',
     email: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    accessToken: 'token'
   }
 
   constructor(
@@ -33,11 +34,17 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.loading = true;
-    this.registration.birthDate = this.dobi.nativeElement.value;
-    this.authService.postRegistration(this.registration).subscribe(res => {
+    if (this.dob) {
+      this.registration.birthDate = new Date(this.dob.year, this.dob.month, this.dob.day).toISOString();
+    }
+    this.authService.postRegistration(this.registration).subscribe(
+      res => {
       console.log(res);
       this.loading = false;
       this.done = true;
+    }, err => {
+      this.error = err.error['hydra:description'];
+      this.loading = false;
     });
   }
 }

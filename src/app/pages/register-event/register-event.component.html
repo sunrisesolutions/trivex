@@ -62,7 +62,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input #dobi class="form-control datepicker" placeholder="Date of Birth" [(ngModel)]="dob" name="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
+                <input class="form-control datepicker" placeholder="Date of Birth" [(ngModel)]="dob" name="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
               </div>
             </div>
             <div class="form-group">
@@ -114,6 +114,9 @@
                 </div>
               </div>
             </div> -->
+            <div *ngIf="error" class="alert alert-danger">
+              {{error}}
+            </div>
             <div class="text-center">
               <button (click)="registerEvent()" [disabled]="loading" type="button" class="btn btn-primary mt-4">Register Event</button>
             </div>
