@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBase: 'https://event.api.trivesg.com'
+  eventApiBase: 'https://event.api.trivesg.com',
+  orgApiBase: 'https://org.api.trivesg.com'
 };
 
 /*

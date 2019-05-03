@@ -11,7 +11,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
   providedIn: 'root'
 })
 export class AuthService implements CanActivate {
-  apiBase = environment.apiBase;
+  apiBase = environment.eventApiBase;
   route = '/registrations';
   url = `${this.apiBase}${this.route}`;
 
@@ -30,10 +30,10 @@ export class AuthService implements CanActivate {
   ) { }
 
   public static getHeaders() {
-    let headers = new HttpHeaders();
-    headers.append('Accept', 'application/ld+json');
-    headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return headers;
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'Accept': 'application/ld+json'
+    });
   }
 
   postRegistration(registration: Registration): Observable<any> {

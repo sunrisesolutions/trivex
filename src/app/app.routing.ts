@@ -1,3 +1,5 @@
+import { ConnectComponent } from './pages/club-members/connect/connect.component';
+import { MemberidComponent } from './pages/club-members/memberid/memberid.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
@@ -6,9 +8,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { AuthService } from './services/auth.service';
-import { MemberidComponent } from './pages/club-members/memberid/memberid.component';
-import { ConnectComponent } from './pages/club-members/connect/connect.component';
-import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
 
 const routes: Routes =[
   {
@@ -17,12 +16,6 @@ const routes: Routes =[
     pathMatch: 'full',
 
   }, {
-    path: 'club-members/:id/info',
-    component: MemberidComponent
-  }, {
-    path: 'club-members/:id/connect',
-    component: ConnectComponent
-  },{
     path: '',
     component: AdminLayoutComponent,
     canActivate: [AuthService],

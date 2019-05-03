@@ -1,7 +1,6 @@
 import { PostService } from "src/app/services/post.service";
 import { Component, OnInit } from "@angular/core";
 
-
 @Component({
   selector: "app-member-connect",
   templateUrl: "./member-connect.component.html",

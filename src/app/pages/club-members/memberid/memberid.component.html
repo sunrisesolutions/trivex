@@ -1,12 +1,11 @@
-<div class="header pb-8 pt-5 pt-lg-5 d-flex align-items-center"
-  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
   <div class="container">
     <div class="row text-center">
       <div class="col col-md-12">
-        <h1 *ngFor="let member of members" class="display-2 text-white">Hello {{member.personData.name}}</h1>
+        <h1 *ngFor="let member of members" class="display-2 text-white">{{member.personData.name}}</h1>
       </div>
     </div>
     <div *ngFor="let member of members" class="row justify-content-center mt-6">
@@ -28,7 +27,6 @@
             </div>
           </div>
           <div class="card-body pt-0 pt-md-4 ml-2">
-
             <div class="row">
               <div hidden class="col">
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
@@ -47,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <div *ngFor="let member of members" class="d-flex flex-column text-center ">
+            <div class="d-flex flex-column text-center ">
               <h1 class="font-weight-bold">
                 {{member.personData.name}}<span class="font-weight-light">, 27</span>
               </h1>
@@ -58,10 +56,6 @@
                 <i class="ni education_hat mr-2"></i>{{member.personData.employerName}}
               </div>
               <hr class="my-4" />
-              <p hidden>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
-                records
-                all of his own music.</p>
-              <a hidden href="javascript:void(0)">Show more</a>
             </div>
           </div>
         </div>

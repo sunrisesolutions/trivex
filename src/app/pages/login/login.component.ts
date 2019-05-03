@@ -20,7 +20,6 @@ import { toBase64String } from "@angular/compiler/src/output/source_map";
 import { SettokenService } from "src/app/services/settoken.service";
 import { error } from "@angular/compiler/src/util";
 import { Routes } from '@angular/router';
-import { QrCodeComponent } from "../qr-code/qr-code.component";
 
 @Component({
   selector: "app-login",

@@ -25,6 +25,7 @@ export class ClubMembersComponent implements OnInit {
       let token = localStorage.getItem("token");
       let decoded = jwt_decode(token);
       this.dec = decoded.im;
+
       
       let getMem = res.json()["hydra:member"];
       this.members = getMem;

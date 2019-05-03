@@ -15,9 +15,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { MemberidComponent } from './pages/club-members/memberid/memberid.component';
-import { ConnectComponent } from './pages/club-members/connect/connect.component';
-import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
 
 @NgModule({
   imports: [
@@ -35,9 +32,7 @@ import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
-    MemberidComponent,
-    ConnectComponent,
+    AuthLayoutComponent
   ],
   providers: [
     PostService

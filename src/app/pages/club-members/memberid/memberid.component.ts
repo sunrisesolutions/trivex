@@ -3,7 +3,7 @@ import { PostService } from "src/app/services/post.service";
 import * as jwt_decode from "jwt-decode";
 import { getRootComponents } from "@angular/core/src/render3/discovery_utils";
 import { HttpParams } from "@angular/common/http";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "info",
@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./memberid.component.scss"]
 })
 export class MemberidComponent implements OnInit {
-  constructor(private service: PostService, private router: Router) {}
+  constructor(private service: PostService, private router: Router,private routes: ActivatedRoute) {}
   id;
   members;
   tokenRes = false;
@@ -22,8 +22,8 @@ export class MemberidComponent implements OnInit {
       this.tokenRes = true;
     }
     
-    this.id = localStorage.getItem('im_id')
-    this.service.getRootID(this.id).subscribe(res => {
+    const id = +this.routes.snapshot.paramMap.get('id');
+    this.service.getRootID(id).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];
       console.log("info user",res.json());

@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Attendee } from '../models/Attendee';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AttendeeService {
-  apiBase = environment.eventApiBase;
-  route = '/attendees';
+export class OrganisationService {
+  apiBase = environment.orgApiBase;
+  route = '/connections';
   url = `${this.apiBase}${this.route}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  postAttendee(attendee: Attendee): Observable<any> {
-    return this.http.post(this.url, attendee, {headers: AuthService.getHeaders()});
+  connectToMember(memberId) {
+    let connection = {
+      toMember: memberId
+    }
+    return this.http.post(this.url, connection, {headers: AuthService.getHeaders()});
   }
 }
