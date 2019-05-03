@@ -8,17 +8,17 @@ import { AuthService } from './auth.service';
 })
 export class OrganisationService {
   apiBase = environment.orgApiBase;
-  route = '/connections';
-  url = `${this.apiBase}${this.route}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  connectToMember(memberId) {
-    let connection = {
-      toMember: memberId
+  connectToMember(id, subject, body) {
+    let url = `${this.apiBase}/individual_members/${id}/email`;
+    let data = {
+      emailSubject: subject,
+      emailBody: body
     }
-    return this.http.post(this.url, connection, {headers: AuthService.getHeaders()});
+    return this.http.put(url, data, {headers: AuthService.getHeaders()});
   }
 }

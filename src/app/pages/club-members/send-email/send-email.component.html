@@ -1,0 +1,90 @@
+<div class="header pb-8 pt-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div *ngIf="member" class="container-fluid d-flex align-items-center mt-6">
+    <div class="row">
+      <div class="col-12 col-lg-7 col-md-5 mb-4">
+        <h1 class="display-2 text-white">{{member.personData.name}}</h1>
+        <div *ngIf="error" class="alert alert-danger">
+          {{error}}
+        </div>
+        <form>
+          <hr class="my-4"/>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label text-white" for="subject">Subject</label>
+                <input [(ngModel)]="subject" name="subject" id="subject" class="form-control form-control-alternative" placeholder="An invitation letter from Club" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="text-white form-control-label">Message</label>
+            <textarea [(ngModel)]="body" name="body" rows="4" class="form-control form-control-alternative" placeholder="Hello Mr Bean, I am very happy to get to know you. Shall we have a coffee some time together? Yours sincerely."></textarea>
+          </div>
+          <div class="row text-white">
+            <div class="col-6"></div>
+            <div class="col-6 text-right">
+              <button class="btn btn-info " (click)="send()" [disabled]="loading">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-lg-5 col-md-7 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                <a href="javascript:void(0)">
+                  <img src="{{this.member.profilePicture}}" class="rounded-circle">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="d-flex justify-content-center mt-8 mb-0">
+              <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-default">Message</a>
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4 ml-2">
+            <div class="row">
+              <div hidden class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span class="heading">22</span>
+                    <span class="description">Friends</span>
+                  </div>
+                  <div>
+                    <span class="heading">10</span>
+                    <span class="description">Photos</span>
+                  </div>
+                  <div>
+                    <span class="heading">89</span>
+                    <span class="description">Comments</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column text-center ">
+              <h1 class="font-weight-bold">
+                {{member.personData.name}}<span class="font-weight-light">, 27</span>
+              </h1>
+              <div class="h2 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i>{{member.personData.jobTitle}}
+              </div>
+              <div class="h2">
+                <i class="ni education_hat mr-2"></i>{{member.personData.employerName}}
+              </div>
+              <hr class="my-4" />
+              <p style="visibility: hidden;">Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
+                records
+                all of his own music.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
