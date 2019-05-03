@@ -1,3 +1,4 @@
+import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.component';
 import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 
 export class Member {
@@ -10,4 +11,8 @@ export class Member {
     email: string;
     password: string;
     status: string;
+
+    // employerName: string;
+    // jobTitle: string;
+    // name: string;
 }

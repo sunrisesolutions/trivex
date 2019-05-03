@@ -9,6 +9,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.component';
 import { MemberConnectComponent } from 'src/app/pages/member-connect/member-connect.component';
+import { MemberidComponent } from 'src/app/pages/club-members/memberid/memberid.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -22,7 +23,7 @@ import { MemberConnectComponent } from 'src/app/pages/member-connect/member-conn
   ],
   declarations: [
     ClubMembersComponent,
-    MemberConnectComponent
+    MemberConnectComponent,
   ]
 })
 

@@ -3,23 +3,25 @@
     <div class="header-body">
       <!-- Card stats -->
       <div class="row">
-        <div *ngFor="let get of gets" class="col-12">
+        <div *ngFor="let member of members" class="col-12">
           <div class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
                 <div class="col-auto">
-                  <img class="icon bg-warning text-white rounded-circle shadow" src="assets/img/theme/team-1-800x800.jpg" alt="">
+                  <img class="icon bg-warning text-white rounded-circle shadow"
+                    src="assets/img/theme/team-1-800x800.jpg" alt="">
                 </div>
                 <div class="col text-muted">
-                  <h2 class="h2 font-weight-bold">{{get.name}} {{get.lastName}}</h2>
-                  <h5 class="card-title text-uppercase mb-0">{{get.company}}</h5>
-                  <span>{{get.role}}</span><br>
-                  <span>{{get.email}}</span><br>
-                  <span>{{get.phone}}</span>
+                  <h2 class="h2 font-weight-bold">{{member.name}}</h2>
+                  <h5 class="card-title text-uppercase mb-0">{{member.company}}</h5>
+                  <span>{{member.jobTitle}}</span><br>
+                  <span>{{member.employerName}}</span><br>
+                  <span>{{member.email}}</span>
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">
-                <a [routerLink]="['/member-connect']" class="text-uppercase btn btn-primary mr-2"><i class="ni ni-send"></i> {{member.status}}</a>
+                <a (click)="onConnect()" class="text-uppercase btn btn-primary text-white mr-2"><i
+                    class="ni ni-send"></i>CONNECT</a>
               </p>
             </div>
           </div>

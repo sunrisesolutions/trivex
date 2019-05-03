@@ -1,8 +1,6 @@
-import { InputData } from './../../services/inputdata';
-import { HttpParams, HttpHeaders } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { PostService } from './../../services/post.service';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http} from '@angular/http';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,7 +11,6 @@ import { decode } from '@angular/router/src/url_tree';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { SettokenService } from 'src/app/services/settoken.service';
 import { error } from '@angular/compiler/src/util';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -44,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('dobi') dobi: ElementRef;
-
+  asd;
   login() {
     const inputDob = this.dobi.nativeElement.value
     const formData = new FormData();

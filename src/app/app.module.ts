@@ -1,3 +1,4 @@
+import { ClubMembersComponent } from './pages/club-members/club-members.component';
 import { PostService } from './services/post.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { MemberidComponent } from './pages/club-members/memberid/memberid.component';
+import { ConnectComponent } from './pages/club-members/connect/connect.component';
 
 @NgModule({
   imports: [
@@ -25,12 +28,15 @@ import { ComponentsModule } from './components/components.module';
     RouterModule,
     AppRoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    MemberidComponent,
+    ConnectComponent,
     
   ],
   providers: [
