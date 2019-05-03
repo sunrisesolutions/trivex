@@ -17,7 +17,7 @@
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">
-                <a [routerLink]="'send-email'" class="text-uppercase btn btn-primary text-white mr-2"><i
+                <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'" class="text-uppercase btn btn-primary text-white mr-2"><i
                     class="ni ni-send"></i>CONNECT</a>
               </p>
             </div>

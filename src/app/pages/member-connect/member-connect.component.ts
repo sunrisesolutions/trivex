@@ -11,6 +11,10 @@ export class MemberConnectComponent implements OnInit {
   members;
   constructor(private service: PostService) {}
 
+  injectNumber(s) {
+    return s.substring(s.lastIndexOf('/') + 1);
+  }
+
   ngOnInit() {
     this.service.getConnect().subscribe(res => {
       let get = res.json()["hydra:member"];

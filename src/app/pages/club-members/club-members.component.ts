@@ -31,4 +31,8 @@ export class ClubMembersComponent implements OnInit {
       this.members = getMem;
     });
   }
+
+  injectNumber(s) {
+    return s.substring(s.lastIndexOf('/') + 1);
+  }
 }
