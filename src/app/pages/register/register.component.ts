@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Registration } from '../../models/Registration';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -8,14 +10,41 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 })
 export class RegisterComponent implements OnInit {
   dob: NgbDate;
-  done: boolean = false;
+  done = false;
+  loading = false;
+  error = '';
 
-  constructor() { }
+  registration: Registration = {
+    middleName: '',
+    birthDate: '',
+    givenName: '',
+    familyName: '',
+    gender: '',
+    email: '',
+    phoneNumber: '',
+    accessToken: 'token'
+  }
+
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
   register() {
-    this.done = true;
+    this.loading = true;
+    if (this.dob) {
+      this.registration.birthDate = new Date(this.dob.year, this.dob.month, this.dob.day).toISOString();
+    }
+    this.authService.postRegistration(this.registration).subscribe(
+      res => {
+      console.log(res);
+      this.loading = false;
+      this.done = true;
+    }, err => {
+      this.error = err.error['hydra:description'];
+      this.loading = false;
+    });
   }
 }

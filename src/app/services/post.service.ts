@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   ClubMembersComponent,
   MEMBERS
@@ -11,11 +12,16 @@ import { Body } from "@angular/http/src/body";
 import { HttpHeaders } from "@angular/common/http";
 import { Data } from "@angular/router";
 import { Observable } from "rxjs";
+=======
+import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+>>>>>>> 397a9a0d220762f8078cd646be1c604e6e4d5ab7
 
 @Injectable({
   providedIn: "root"
 })
 export class PostService {
+<<<<<<< HEAD
   private url = "https://user.api.trivesg.com/login/nric-phone-birthdate";
   private refUrl = "https://user.api.trivesg.com/token/refresh";
   private getUrl = "https://org.api.trivesg.com/individual_members";
@@ -40,6 +46,21 @@ export class PostService {
     header.append("Accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.get(this.getUrl, { headers: header });
+=======
+  private url = 'https://user.api.trivesg.com/login/nric-phone-birthdate';
+  private refUrl = 'https://user.api.trivesg.com/token/refresh';
+  private getUrl = 'https://org.api.trivesg.com/individual_members';
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  getPosts() {
+   
+    let header = new HttpHeaders();
+    header.append('Accept', 'application/ld+json');
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.get(this.getUrl, {headers: header})
+>>>>>>> 397a9a0d220762f8078cd646be1c604e6e4d5ab7
   }
 
   postFormData(post) {

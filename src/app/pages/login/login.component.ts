@@ -53,21 +53,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.service.postFormData(formData)
       .subscribe(response => {
-        console.log("token", response.json());
-        localStorage.setItem('token', response.json().token)
+        console.log("token", response);
+        localStorage.setItem('token', response['token'])
         // decoded
-        let token = response.json().token;
+        let token = response['token'];
         let decoded = jwt_decode(token);
         console.log(decoded);
         //refresh
         let date = ~~(Date.now() / 1000);
         console.log(date);
-        formRef.append('refresh_token', response.json().refresh_token);
+        formRef.append('refresh_token', response['refresh_token']);
         if (decoded.exp < date) {
           this.service.refreshToken(formRef)
             .subscribe(response => {
-              localStorage.setItem('token', response.json().token)
-              console.log("token_refreshed", response.json());
+              localStorage.setItem('token', response['token'])
+              console.log("token_refreshed", response);
             })
         }
         else{

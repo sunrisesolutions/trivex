@@ -54,6 +54,7 @@ export class ClubMembersComponent implements OnInit {
   constructor(private service: PostService, private router: Router) {}
   
   ngOnInit() {
+<<<<<<< HEAD
     
     this.service.getDataAPI().subscribe(res => {
       console.log(res.json());
@@ -65,6 +66,12 @@ export class ClubMembersComponent implements OnInit {
   }
   routingINFO() {
     this.router.navigate([`/club-members/${this.id}/info`]);
+=======
+    this.service.getPosts()
+      .subscribe(response => {
+        console.log(response)
+      });
+>>>>>>> 397a9a0d220762f8078cd646be1c604e6e4d5ab7
   }
 
   onConnect(){
