@@ -33,13 +33,15 @@ export class SidebarComponent implements OnInit {
   public exampleMenuItems: any[];
   public isCollapsed = true;
   uID;
+  img;
   constructor(private router: Router, private service: PostService) {}
 
   ngOnInit() {
     this.service.getDataAPI().subscribe(res => {
       console.log("nav here", res.json());
-      let id = res.json()["hydra:member"]["0"]["@id"];
-      this.uID = id;
+      let getImg = res.json()["hydra:member"]
+      this.img = 
+      this.uID = localStorage.getItem('im_id');
     });
 
     this.menuItems = ROUTES;
@@ -49,6 +51,9 @@ export class SidebarComponent implements OnInit {
   }
   toInfo() {
     this.router.navigate([`club-members/${this.uID}/info`]);
+  }
+  toQrCode() {
+    this.router.navigate([`club-members/${this.uID}/qr-code`]);
   }
   logout() {
     localStorage.clear();

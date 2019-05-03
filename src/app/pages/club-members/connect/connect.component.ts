@@ -9,19 +9,20 @@ import { Router, ActivatedRoute } from "@angular/router";
   styleUrls: ["./connect.component.scss"]
 })
 export class ConnectComponent implements OnInit {
-  constructor(private service: PostService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private service: PostService, private router: Router, private routes: ActivatedRoute) {}
   id;
   status;
   members;
   tokenRes = false;
   cToken;
   ngOnInit() {
-    this.cToken = localStorage.getItem("token");
-    if (this.cToken == localStorage.getItem("token")) {
-      this.tokenRes = true;
-    }
+    // ======= MESSAGE =====
+    // this.cToken = localStorage.getItem("token");
+    // if (this.cToken == localStorage.getItem("token")) {
+    //   this.tokenRes = true;
+    // }
 
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +this.routes.snapshot.paramMap.get('id');
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];
@@ -30,14 +31,14 @@ export class ConnectComponent implements OnInit {
     this.onConnect();
   }
   onConnect() {
-    const id = new HttpParams();
+    // const idTit = new HttpParams();
 
-    id.set("toMember", JSON.stringify(this.id));
-    this.service.uConnect(id).subscribe(response => {
-      console.log(response);
-      if (response.status === 201) {
-        this.status = "You have connected to this person.";
-      }
+    const id = +this.routes.snapshot.paramMap.get('id')
+    // id.set("toMember", JSON.stringify(id));
+    let data = {'toMember': '/individual_members/'+id};
+    this.service.uConnect(JSON.stringify(data)).subscribe(response => {
+      console.log('connect-member',response.json());
+      
     });
   }
   toClubMem(){

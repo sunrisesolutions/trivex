@@ -43,6 +43,10 @@ export class NavbarComponent implements OnInit {
     let id = this.id;
     this.router.navigate([`club-members/${id}/info`]);
   }
+  toQrCode() {
+    let id = this.id;
+    this.router.navigate([`club-members/${id}/qr-code`]);
+  }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === "#") {

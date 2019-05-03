@@ -24,10 +24,10 @@ export class PostService {
   // POST REQUEST
   uConnect(idPost) {
     let header = new Headers();
-    header.append("Content-Type", "application/ld+json");
+    header.append("Content-Type", "application/json");
+    header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.getUrlConnect, JSON.stringify(idPost), {
-      headers: header
+    return this.http.post(this.getUrlConnect, idPost, {headers: header
     });
   }
   postFormData(post) {

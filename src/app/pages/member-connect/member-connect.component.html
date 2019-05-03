@@ -9,19 +9,17 @@
                 <div class="row">
                   <div class="col-auto">
                     <img class="icon bg-warning text-white rounded-circle shadow"
-                      [src]=member.fromMember.profilePicture alt="">
+                      [src]=member.toMember.profilePicture alt="">
                   </div>
                   <div class="col text-muted">
                     <h2 class="h2 font-weight-bold">{{member.toMember.personData.name}}</h2>
-                    <h5 class="card-title text-uppercase mb-0">{{member.toMember.personData.company}}</h5>
                     <span>{{member.toMember.personData.jobTitle}}</span><br>
                     <span>{{member.toMember.personData.employerName}}</span><br>
-                    <span>{{member.toMember.personData.email}}</span>
                   </div>
                 </div>
                 <p class="mt-2 mb-0 text-sm text-right">
                   <a [routerLink]="['/club-members/' + member['@id'] + '/info']" class="text-uppercase btn btn-primary text-white mr-2"><i
-                      class="ni ni-send"></i>CONNECT</a>
+                      class="ni ni-send"></i>EMAIL</a>
                 </p>
               </div>
             </div>
