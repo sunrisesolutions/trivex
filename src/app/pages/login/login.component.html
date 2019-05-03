@@ -33,7 +33,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input [(ngModel)]="orgCode" name="orgCode" class="form-control p-2" placeholder="Organize Code"
+                <input [(ngModel)]="orgCode" name="orgCode" class="form-control p-2" placeholder="Organisation Code"
                   type="email">
 
               </div>
@@ -45,7 +45,7 @@
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
                 <input [(ngModel)]="idNumber" name="idNumber" class="p-2 form-control" placeholder="NRIC/ID Number"
-                  type="email">
+                  type="password">
 
               </div>
             </div>
@@ -56,7 +56,7 @@
                   <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
                 </div>
                 <input [(ngModel)]="phone" name="phone" class="p-2 form-control" placeholder="Phone Number"
-                  type="password">
+                  type="text">
 
               </div>
             </div>
@@ -67,7 +67,7 @@
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
                 <input #dobi class="form-control p-2 datepicker" placeholder="Date of Birth" name="dob"
-                  [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" />
+                  [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" [startDate]="{year: 1990, month: 1, day: 1}" [minDate]="{year: 1970, month: 1, day: 1}" />
 
               </div>
 

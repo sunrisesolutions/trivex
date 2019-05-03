@@ -38,7 +38,6 @@ import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
     AuthLayoutComponent,
     MemberidComponent,
     ConnectComponent,
-    
   ],
   providers: [
     PostService

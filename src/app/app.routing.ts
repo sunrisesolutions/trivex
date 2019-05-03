@@ -1,4 +1,3 @@
-import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
@@ -9,6 +8,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { AuthService } from './services/auth.service';
 import { MemberidComponent } from './pages/club-members/memberid/memberid.component';
 import { ConnectComponent } from './pages/club-members/connect/connect.component';
+import { QrCodeComponent } from './pages/login/qr-code/qr-code.component';
 
 const routes: Routes =[
   {
@@ -22,7 +22,7 @@ const routes: Routes =[
   }, {
     path: 'club-members/:name/:id/connect',
     component: ConnectComponent
-  }, {
+  },{
     path: '',
     component: AdminLayoutComponent,
     canActivate: [AuthService],
@@ -31,6 +31,7 @@ const routes: Routes =[
         path: '',
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
       }
+      
     ]
   }, {
     path: '',

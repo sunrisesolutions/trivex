@@ -1,3 +1,4 @@
+import { AdminLayoutRoutes } from './../../layouts/admin-layout/admin-layout.routing';
 import { Observable } from "rxjs";
 import { PostService } from "./../../services/post.service";
 import { Http } from "@angular/http";
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   phone;
   idNumber;
   id;
+  toQr;
   //
   dob: NgbDate;
   posts: any[];
@@ -41,15 +43,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private service: PostService,
     private http: Http,
-    private serviceToken: SettokenService
+    private serviceToken: SettokenService,
   ) {}
 
   ngOnInit() {
-    this.service.getDataAPI().subscribe(res => {
-      let get = res.json()["hydra:member"]["0"];
-      this.id = get["@id"];
-    });
+    // this.service.getDataAPI().subscribe(res => {
+    //   let get = res.json()["hydra:member"]["0"]["@id"];
+    //   this.id = get;
+    // });
   }
+
   ngOnDestroy() {}
 
   @ViewChild("dobi") dobi: ElementRef;
@@ -67,6 +70,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       let setToken = response.json().token;
       console.log("token", response);
       localStorage.setItem("token", setToken);
+      let id = response.json().im_id;
+      console.log();
       // decoded
       let token = setToken;
       let decoded = jwt_decode(token);
@@ -80,16 +85,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           localStorage.setItem("token", response.json().token);
           console.log("token_refreshed", response);
         });
-      } else {
-        console.log("token còn mới");
-      }
-      // co token thi ....
-      if (token) {
-        this.router.navigate([`/club-members/${this.id}/qr-code`]);
-      }
+      } 
+      this.router.navigate([`club-members/${id}/qr-code`]);
     });
   }
 }
-export const LoginRoutes: Routes = [
-  { path: 'club-members/:name/:id/qr-code',   component: QrCodeComponent }
-];
