@@ -23,6 +23,7 @@ export class SendEmailComponent implements OnInit {
   subject = '';
   body = '';
   error = '';
+  success = false;
 
   ngOnInit() {
     const id = +this.routes.snapshot.paramMap.get('id');
@@ -38,7 +39,7 @@ export class SendEmailComponent implements OnInit {
     let id = memberId.substring(memberId.lastIndexOf('/') + 1);
     this.orgService.connectToMember(id, this.subject, this.body).subscribe(res => {
       this.loading = false;
-      this.router.navigate([`/club-members/${id}/connect`]);
+      this.success = true;
     }, err => {
       this.error = err.error['hydra:description'];
       this.loading = false;
