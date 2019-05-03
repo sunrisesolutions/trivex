@@ -1,16 +1,45 @@
-<div class="header pb-8 pt-5 pt-lg-5 d-flex align-items-center"
-  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
-  <div class="container">
-    <div class="row text-center">
-      <div class="col col-md-12">
-        <h1 *ngFor="let member of members" class="display-2 text-white">Hello {{member.name}}</h1>
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-12 col-lg-7 col-md-5 mb-4">
+        <h1 class="display-2 text-white">Hello Jesse</h1>
+        <p class="text-white mt-0 mb-5">Press the button below to connect to her</p>
+        <div class="row text-white">
+          <div *ngIf="!showForm" class="col-12">
+            <a class="btn btn-info" (click)="showForm = true">Connect</a>
+          </div>
+          <div *ngIf="showForm" class="col-6">
+            <a class="btn" (click)="showForm = false">Cancel</a>
+          </div>
+          <div *ngIf="showForm" class="col-6 text-right">
+            <a class="btn btn-info" (click)="send()">Send</a>
+          </div>
+        </div>
+        <form *ngIf="showForm">
+          <hr class="my-4">
+          <h6 class="heading-small mb-4 text-white">Say something</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-control-label text-white" for="input-address">Subject</label>
+                  <input id="input-address" class="form-control form-control-alternative" placeholder="An invitation letter from Club" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pl-lg-4">
+            <div class="form-group">
+              <label class="text-white form-control-label">Message</label>
+              <textarea rows="4" class="form-control form-control-alternative" placeholder="Hello Mr Bean, I am very happy to get to know you. Shall we have a coffee some time together? Yours sincerely."></textarea>
+            </div>
+          </div>
+        </form>
       </div>
-    </div>
-    <div class="row justify-content-center mt-6">
-      <div class="col-12 col-md-5 order-xl-2 mb-5 mb-xl-0">
+      <div class="col-12 col-lg-5 col-md-7 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-profile shadow">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
@@ -28,7 +57,6 @@
             </div>
           </div>
           <div class="card-body pt-0 pt-md-4 ml-2">
-
             <div class="row">
               <div hidden class="col">
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
@@ -58,10 +86,10 @@
                 <i class="ni education_hat mr-2"></i>{{member.employerName}}
               </div>
               <hr class="my-4" />
-              <p hidden>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
+              <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
                 records
                 all of his own music.</p>
-              <a hidden href="javascript:void(0)">Show more</a>
+              <a href="javascript:void(0)">Show more</a>
             </div>
           </div>
         </div>

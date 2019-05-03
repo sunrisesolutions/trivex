@@ -21,6 +21,7 @@ export class MemberidComponent implements OnInit {
       this.getRootID(id);
     });
   }
+
   getRootID(id) {
     this.service.getRootID(id).subscribe(res => {
       console.log(res.json().personData);
@@ -29,4 +30,7 @@ export class MemberidComponent implements OnInit {
     });
   }
   
+  send() {
+    alert('Sent!');
+  }
 }

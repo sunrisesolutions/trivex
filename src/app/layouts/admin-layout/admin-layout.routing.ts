@@ -11,7 +11,7 @@ import { ConnectComponent } from '../../pages/club-members/connect/connect.compo
 export const AdminLayoutRoutes: Routes = [
     { path: 'club-members',   component: ClubMembersComponent },
     { path: 'member-connect',   component: MemberConnectComponent },
-    { path: 'club-members/:name/:id/info', component: MemberConnectComponent },
+    { path: 'club-members/:name/:id/info', component: MemberidComponent },
     { path: 'club-members/:name/:id/connect', component: ConnectComponent },
     { path: 'club-members/:id/qr-code', component: QrCodeComponent },
     { path: "qr-code", component: QrCodeComponent },

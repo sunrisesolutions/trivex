@@ -28,6 +28,7 @@ export class ClubMembersComponent implements OnInit {
       this.id = get["@id"];
     });
   }
+  
   onConnect() {
     this.router.navigate([`/club-members/${this.id}/info`]);
   }

@@ -10,25 +10,10 @@ export class MemberConnectComponent implements OnInit {
   showForm = false;
   members;
   constructor(private service: PostService) {}
-  
-  ngOnInit() {
-    let id;
-    this.service.getDataAPI().subscribe(response => {
-      let get = response.json()["hydra:member"]["0"]["@id"];
-      id = get;
-      this.getRootID(id);
-    });
-  }
-  
-  getRootID(id) {
-    this.service.getRootID(id).subscribe(res => {
-      console.log(res.json().personData);
-      let getDATA = res.json().personData;
-      this.members = [getDATA];
-    });
-  }
 
-  send() {
-    alert('Sent!');
+  ngOnInit() {
+    this.service.getConnect().subscribe(res => {
+      this.members = res.json()["hydra:member"]
+    });
   }
 }
