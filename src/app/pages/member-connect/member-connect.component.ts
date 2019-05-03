@@ -13,9 +13,8 @@ export class MemberConnectComponent implements OnInit {
 
   ngOnInit() {
     this.service.getConnect().subscribe(res => {
-      let get = res.json()["hydra:member"]
+      let get = res.json()["hydra:member"];
       
-      console.log(get);
       this.members = get;
     });
   }

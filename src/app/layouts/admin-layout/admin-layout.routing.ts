@@ -14,6 +14,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'member-connect',   component: MemberConnectComponent },
     { path: 'club-members/:id/info', component: MemberidComponent },
     { path: 'club-members/:id/connect', component: ConnectComponent },
+    { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
     { path: 'club-members/:id/qr-code', component: QrCodeComponent },
     { path: 'club-members/:id/send-email', component: SendEmailComponent },
     { path: "qr-code", component: QrCodeComponent },
