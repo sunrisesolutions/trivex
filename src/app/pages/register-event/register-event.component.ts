@@ -70,4 +70,7 @@ export class RegisterEventComponent implements OnInit {
       }
     );
   }
+  toLogin(){
+    this.router.navigate['/login'];
+  }
 }

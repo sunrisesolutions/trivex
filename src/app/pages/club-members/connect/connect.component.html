@@ -6,17 +6,17 @@
   <div class="container">
     <div class="row text-center">
       <div class="col col-md-12">
-        <h1 *ngFor="let member of members" class="display-3 text-white">Hello {{member.name}}</h1>
+        <h1 *ngFor="let member of members" class="display-3 text-white">Hello {{member.personData.name}}</h1>
       </div>
     </div>
-    <div class="row justify-content-center mt-6">
+    <div *ngFor="let member of members" class="row justify-content-center mt-6">
       <div class="col-12 col-md-5 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-profile shadow">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
-                <a href="javascript:void(0)">
-                  <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                <a (click)="toClubMem()" href="javascript:void(0)">
+                  <img [src]=member.profilePicture class="rounded-circle">
                 </a>
               </div>
             </div>
@@ -24,12 +24,12 @@
           <div class="card-header border-0 pt-md-4 pb-0 pb-md-4">
             <div class="d-flex justify-content-center mt-8 mb-0">
               <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-default">Message</a>
+              <div [hidden]="tokenRes" href="javascript:void(0)" class="btn btn-sm btn-default">Message</div>
             </div>
           </div>
           <div class="card-body pt-md-2 ml-2">
 
-            <div class="row">
+            <!-- <div class="row">
               <div hidden class="col">
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                   <div>
@@ -46,16 +46,16 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div *ngFor="let member of members" class="d-flex flex-column text-center ">
               <h1 class="font-weight-bold ml-2">
-                {{member.name}}<span class="font-weight-light">, 27</span>
+                {{member.personData.name}}<span class="font-weight-light">, 27</span>
               </h1>
               <div class="h3">
-                <i class="ni business_briefcase-24 mr-2"></i>{{member.jobTitle}}
+                <i class="ni business_briefcase-24 mr-2"></i>{{member.personData.jobTitle}}
               </div>
               <div class="h3">
-                <i class="ni education_hat mr-2"></i>{{member.employerName}}
+                <i class="ni education_hat mr-2"></i>{{member.personData.employerName}}
               </div>
               <hr class="my-2" />
               <p hidden>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and

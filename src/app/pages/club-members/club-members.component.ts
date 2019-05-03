@@ -3,9 +3,8 @@ import { PostService } from "./../../services/post.service";
 import { Component, OnInit, HostBinding } from "@angular/core";
 import { Member } from "src/app/models/Member";
 import { HttpParams } from "@angular/common/http";
-export const MEMBERS: Member[] = [
-  
-];
+import * as jwt_decode from "jwt-decode";
+
 
 @Component({
   selector: "app-club-members",
@@ -16,21 +15,19 @@ export class ClubMembersComponent implements OnInit {
   members = [];
   id;
   posts: any[];
+  uHide = false;
+  dec;
+  uToken;
   constructor(private service: PostService, private router: Router) {}
-  
+
   ngOnInit() {
-    
     this.service.getDataAPI().subscribe(res => {
-      console.log(res.json());
-      let get = res.json()["hydra:member"]["0"];
-      console.log(get);
-      this.members = [get.personData];
-      this.id = get["@id"];
+      let token = localStorage.getItem("token");
+      let decoded = jwt_decode(token);
+      this.dec = decoded.im;
+      
+      let getMem = res.json()["hydra:member"];
+      this.members = getMem;
     });
   }
-  routingINFO() {
-    this.router.navigate([`/club-members/${this.id}/info`]);
-   
-  }
-  
 }

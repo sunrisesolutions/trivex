@@ -68,7 +68,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.service.postFormData(formData).subscribe(response => {
       let setToken = response.json().token;
+      let imID = response.json().im_id;
       console.log("token", response);
+      localStorage.setItem("im_id", imID);
       localStorage.setItem("token", setToken);
       let id = response.json().im_id;
       console.log();

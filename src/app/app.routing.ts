@@ -17,10 +17,10 @@ const routes: Routes =[
     pathMatch: 'full',
 
   }, {
-    path: 'club-members/:name/:id/info',
+    path: 'club-members/:id/info',
     component: MemberidComponent
   }, {
-    path: 'club-members/:name/:id/connect',
+    path: 'club-members/:id/connect',
     component: ConnectComponent
   },{
     path: '',

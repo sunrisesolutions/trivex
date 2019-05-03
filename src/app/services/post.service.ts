@@ -1,6 +1,5 @@
 import {
   ClubMembersComponent,
-  MEMBERS
 } from "./../pages/club-members/club-members.component";
 import { Member } from "./../models/Member";
 import { LoginComponent } from "./../pages/login/login.component";
@@ -19,7 +18,6 @@ export class PostService {
   private url = "https://user.api.trivesg.com/login/nric-phone-birthdate";
   private refUrl = "https://user.api.trivesg.com/token/refresh";
   private getUrl = "https://org.api.trivesg.com/individual_members";
-  private getUrlID = "https://org.api.trivesg.com";
   private getUrlConnect = "https://org.api.trivesg.com/connections";
   constructor(private http: Http) {}
 
@@ -43,7 +41,7 @@ export class PostService {
     let header = new Headers();
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrlID + id, { headers: header });
+    return this.http.get(this.getUrl + "/" + id, { headers: header });
   }
   getDataAPI() {
     let header = new Headers();

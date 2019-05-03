@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'qr-code',
@@ -9,16 +10,13 @@ import { PostService } from 'src/app/services/post.service';
 export class QrCodeComponent implements OnInit {
   id;
   qrLink;
-  constructor(private service: PostService) { }
+  
+  constructor(private service: PostService,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit() {
-    this.service.getDataAPI().subscribe(res => {
-      let get = res.json()["hydra:member"]["0"];
-      this.id = get["@id"];
-      let link = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/club-members${this.id}/connect.png`
-      this.qrLink = link;
-      console.log(res.json())
-    });
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/club-members/${id}/connect.png`
   }
-
 }
