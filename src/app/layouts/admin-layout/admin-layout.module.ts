@@ -15,6 +15,7 @@ import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component'
 import { QrStartComponent } from '../../pages/qr-start/qr-start.component';
 import { JobComponent } from '../../components/job/job.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ConnectComponent } from '../../pages/club-members/connect/connect.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -34,6 +35,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     QrCodeComponent,
     QrStartComponent,
     JobComponent,
+    MemberidComponent,
+    ConnectComponent,
   ]
 })
 
