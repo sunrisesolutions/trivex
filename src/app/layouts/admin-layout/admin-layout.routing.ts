@@ -7,6 +7,7 @@ import { MemberidComponent } from 'src/app/pages/club-members/memberid/memberid.
 import { QrStartComponent } from '../../pages/qr-start/qr-start.component';
 import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component';
 import { ConnectComponent } from '../../pages/club-members/connect/connect.component';
+import { SendEmailComponent } from '../../pages/club-members/send-email/send-email.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'club-members',   component: ClubMembersComponent },
@@ -15,6 +16,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'club-members/:id/connect', component: ConnectComponent },
     { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
     { path: 'club-members/:id/qr-code', component: QrCodeComponent },
+    { path: 'club-members/:id/send-email', component: SendEmailComponent },
     { path: "qr-code", component: QrCodeComponent },
     { path: "qr-start", component: QrStartComponent },
     { path: "qr-scanner", component: QrScannerComponent }
