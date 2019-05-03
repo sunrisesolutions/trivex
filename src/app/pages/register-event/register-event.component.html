@@ -23,30 +23,57 @@
         <div class="card-header bg-transparent pb-5">
           <div class="text-center text-muted">
             <h2>Register event successfully!</h2>
-            <small>Your information has been submitted and the registration is pending approval from our administrator.</small>
+            <small>Your information has been submitted and the registration is pending approval from our
+              administrator.</small>
           </div>
         </div>
       </div>
       <div *ngIf="!done" class="card bg-secondary shadow border-0">
         <div *ngIf="step == 1" class="card-body">
           <form class="text-center">
-            <h3>Who are you?</h3>
-            <button type="button" (click)="model.role = 'host'; step = 2" class="btn">Not a member</button>
-            <button type="button" (click)="model.role = 'member'; step = 2" class="btn">A member</button>
+            <h3>Please select your status.</h3>
+            <div class="row mt-4">
+              <div class="col-md-6 mb-5 mb-lg-0">
+                <div class="px-4">
+                  <img src="../assets/img/theme/team-1-800x800.jpg"
+                    class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;">
+                  <div class="pt-4 text-center">
+
+                    <div class="mt-3">
+
+                        <button type="button" class="btn btn-primary">A member</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 mb-5 mb-lg-0">
+                <div class="px-4">
+                  <img src="../assets/img/theme/team-2-800x800.jpg"
+                    class="rounded-circle img-center img-fluid shadow shadow-lg--hover" style="width: 200px;">
+                  <div class="pt-4 text-center">
+                    <div class="mt-3">
+                      <button type="button" (click)="model.role = 'host'; step = 2" class="btn btn-warning">Not a member</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
         <div *ngIf="step == 2" class="card-body bg-transparent pb-5">
           <div class="text-center text-muted mb-4">
             <h2>Register an event</h2>
           </div>
-          
+
           <form role="form">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="First Name" type="text" [(ngModel)]="registration.givenName" name="givenName">
+                <input class="form-control" placeholder="First Name" type="text" [(ngModel)]="registration.givenName"
+                  name="givenName">
               </div>
             </div>
             <div class="form-group">
@@ -54,7 +81,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Last Name" type="text" [(ngModel)]="registration.familyName" name="familyName">
+                <input class="form-control" placeholder="Last Name" type="text" [(ngModel)]="registration.familyName"
+                  name="familyName">
               </div>
             </div>
             <div class="form-group">
@@ -62,7 +90,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input class="form-control datepicker" placeholder="Date of Birth" [(ngModel)]="dob" name="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"/>
+                <input class="form-control datepicker" placeholder="Date of Birth" [(ngModel)]="dob" name="dob"
+                  ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" />
               </div>
             </div>
             <div class="form-group">
@@ -70,18 +99,21 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <input class="form-control" placeholder="Phone Number" type="text" [(ngModel)]="registration.phoneNumber" name="phoneNumber">
+                <input class="form-control" placeholder="Phone Number" type="text"
+                  [(ngModel)]="registration.phoneNumber" name="phoneNumber">
               </div>
             </div>
             <div class="form-group">
               <div class="custom-control custom-control-alternative custom-checkbox">
-                <input class="custom-control-input" id="maleCheckbox" type="checkbox" [checked]="registration.gender == 'Male'" (change)="registration.gender = 'Male'">
+                <input class="custom-control-input" id="maleCheckbox" type="checkbox"
+                  [checked]="registration.gender == 'Male'" (change)="registration.gender = 'Male'">
                 <label class="custom-control-label" for="maleCheckbox">
                   <span class="text-muted">Male</span>
                 </label>
               </div>
               <div class="custom-control custom-control-alternative custom-checkbox">
-                <input class="custom-control-input" id="femaleCheckbox" name="gender" type="checkbox" [checked]="registration.gender == 'Female'" (change)="registration.gender = 'Female'">
+                <input class="custom-control-input" id="femaleCheckbox" name="gender" type="checkbox"
+                  [checked]="registration.gender == 'Female'" (change)="registration.gender = 'Female'">
                 <label class="custom-control-label" for="femaleCheckbox">
                   <span class="text-muted">Female</span>
                 </label>
@@ -92,7 +124,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email" [(ngModel)]="registration.email" name="email">
+                <input class="form-control" placeholder="Email" type="email" [(ngModel)]="registration.email"
+                  name="email">
               </div>
             </div>
             <!-- <div class="form-group">
@@ -118,10 +151,11 @@
               {{error}}
             </div>
             <div class="text-center">
-              <button (click)="registerEvent()" [disabled]="loading" type="button" class="btn btn-primary mt-4">Register Event</button>
+              <button (click)="registerEvent()" [disabled]="loading" type="button" class="btn btn-primary mt-4">Register
+                Event</button>
             </div>
           </form>
-        </div>            
+        </div>
       </div>
     </div>
   </div>

@@ -4,42 +4,7 @@ import { Component, OnInit, HostBinding } from "@angular/core";
 import { Member } from "src/app/models/Member";
 import { HttpParams } from "@angular/common/http";
 export const MEMBERS: Member[] = [
-  {
-    firstName: "Handsome",
-    lastName: "Bean",
-    company: "Mr. Bean solution Co., Ltd",
-    role: "Sales Manager",
-    email: "binh@sunrise.vn",
-    phone: "+84 369140916",
-    status: "connect"
-  } as Member,
-  {
-    firstName: "Peter Bean",
-    lastName: "the handsome",
-    company: "Magenta Consulting Services Pte., Ltd",
-    role: "Technical Lead",
-    email: "peter@magenta-wellness.com",
-    phone: "+84 834567247",
-    status: "pending"
-  } as Member,
-  {
-    firstName: "George Washington",
-    lastName: "- not so handsome yet legendary",
-    company: "The White House - United States of America",
-    role: "First President",
-    email: "george-washington@whitehouse.gov",
-    phone: "+84 369140916",
-    status: "re-connect"
-  } as Member,
-  {
-    firstName: "Handsome",
-    lastName: "Bean",
-    company: "Mr. Bean solution Co., Ltd",
-    role: "Sales Manager",
-    email: "binh@sunrise.vn",
-    phone: "+84 369140916",
-    status: "connect"
-  } as Member
+  
 ];
 
 @Component({
@@ -54,7 +19,6 @@ export class ClubMembersComponent implements OnInit {
   constructor(private service: PostService, private router: Router) {}
   
   ngOnInit() {
-<<<<<<< HEAD
     
     this.service.getDataAPI().subscribe(res => {
       console.log(res.json());
@@ -66,16 +30,7 @@ export class ClubMembersComponent implements OnInit {
   }
   routingINFO() {
     this.router.navigate([`/club-members/${this.id}/info`]);
-=======
-    this.service.getPosts()
-      .subscribe(response => {
-        console.log(response)
-      });
->>>>>>> 397a9a0d220762f8078cd646be1c604e6e4d5ab7
-  }
-
-  onConnect(){
-    this.router.navigate([`/club-members/${this.id}/connect`])
+   
   }
   
 }

@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row text-center">
       <div class="col col-md-12">
-        <h1 *ngFor="let member of members" class="display-1 text-white">Hello {{member.name}}</h1>
+        <h1 *ngFor="let member of members" class="display-3 text-white">Hello {{member.name}}</h1>
       </div>
     </div>
     <div class="row justify-content-center mt-6">
@@ -21,13 +21,13 @@
               </div>
             </div>
           </div>
-          <div class="card-header text-center border-0 pt-md-4 pb-0 pb-md-4">
+          <div class="card-header border-0 pt-md-4 pb-0 pb-md-4">
             <div class="d-flex justify-content-center mt-8 mb-0">
               <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a>
               <a href="javascript:void(0)" class="btn btn-sm btn-default">Message</a>
             </div>
           </div>
-          <div class="card-body pt-0 pt-md-4 ml-2">
+          <div class="card-body pt-md-2 ml-2">
 
             <div class="row">
               <div hidden class="col">
@@ -48,21 +48,21 @@
               </div>
             </div>
             <div *ngFor="let member of members" class="d-flex flex-column text-center ">
-              <h1 class="font-weight-bold">
+              <h1 class="font-weight-bold ml-2">
                 {{member.name}}<span class="font-weight-light">, 27</span>
               </h1>
-              <div class="h2 mt-4">
+              <div class="h3">
                 <i class="ni business_briefcase-24 mr-2"></i>{{member.jobTitle}}
               </div>
-              <div class="h2">
+              <div class="h3">
                 <i class="ni education_hat mr-2"></i>{{member.employerName}}
               </div>
-              <hr class="my-4" />
+              <hr class="my-2" />
               <p hidden>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
                 records
                 all of his own music.</p>
               <a hidden href="javascript:void(0)">Show more</a>
-              <label class="text-success">{{status}}</label>
+              <label class="text-success h3">{{status}}</label>
             </div>
           </div>
         </div>
