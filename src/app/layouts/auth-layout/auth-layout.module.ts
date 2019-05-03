@@ -7,11 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { QrScannerComponent } from '../../pages/qr-scanner/qr-scanner.component';
-import { QrCodeComponent } from '../../pages/qr-code/qr-code.component';
-import { QrStartComponent } from '../../pages/qr-start/qr-start.component';
-import { JobComponent } from '../../components/job/job.component';
 import { RegisterEventComponent } from '../../pages/register-event/register-event.component';
 
 @NgModule({
@@ -19,16 +14,11 @@ import { RegisterEventComponent } from '../../pages/register-event/register-even
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
-    NgbModule,
-    ZXingScannerModule.forRoot()
+    NgbModule
   ],
   declarations: [
     LoginComponent,
     RegisterComponent,
-    QrScannerComponent,
-    QrCodeComponent,
-    QrStartComponent,
-    JobComponent,
     RegisterEventComponent
   ]
 })

@@ -28,9 +28,8 @@ export class ClubMembersComponent implements OnInit {
       this.id = get["@id"];
     });
   }
-  routingINFO() {
+  onConnect() {
     this.router.navigate([`/club-members/${this.id}/info`]);
-   
   }
   
 }

@@ -19,4 +19,8 @@ export class MemberConnectComponent implements OnInit {
       this.members = get;
     });
   }
+  
+  send() {
+    alert('Sent!');
+  }
 }

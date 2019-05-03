@@ -1,4 +1,5 @@
-<div class="container pt-8 text-white">
+<div class="container pt-8">
+    <span class="mask bg-gradient-danger opacity-8"></span>
     <div class="row">
         <div class="col-12 col-md-6">
             <zxing-scanner #scanner [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['EAN_13', 'CODE_128', 'QR_CODE']" [tryHarder]="true"></zxing-scanner>
@@ -15,22 +16,22 @@
                 </section>
             </div>
             <ng-container *ngIf="hasPermission === undefined">
-                <h2 class="text-white">Waiting for permissions.</h2>
+                <h2 class="">Waiting for permissions.</h2>
                 <blockquote>
                     If your device does not has cameras, no permissions will be asked.
                 </blockquote>
             </ng-container>
             <ng-container *ngIf="hasPermission === false">
-                <h2 class="text-white">You denied the camera permission, we can't scan anything without it. 😪</h2>
+                <h2 class="">You denied the camera permission, we can't scan anything without it. 😪</h2>
             </ng-container>
             <ng-container *ngIf="hasDevices === undefined">
-                <h2 class="text-white">Couldn't check for devices.</h2>
+                <h2 class="">Couldn't check for devices.</h2>
                 <blockquote>
                     This may be caused by some security error.
                 </blockquote>
             </ng-container>
             <ng-container *ngIf="hasDevices === false">
-                <h2 class="text-white">No devices were found.</h2>
+                <h2 class="">No devices were found.</h2>
                 <blockquote>
                     I believe your device has no media devices attached to.
                 </blockquote>
