@@ -30,12 +30,14 @@ export class SendEmailComponent implements OnInit {
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res.json();
       this.member = getInfo;
+      console.log("send-mail",res.json())
     });
   }
   
   send() {
     this.loading = true;
     let memberId = this.member['@id'];
+    
     let id = memberId.substring(memberId.lastIndexOf('/') + 1);
     this.orgService.connectToMember(id, this.subject, this.body).subscribe(res => {
       this.loading = false;
