@@ -47,4 +47,7 @@ export class SendEmailComponent implements OnInit {
       this.loading = false;
     });
   }
+  toClubMem() {
+    this.router.navigate(["club-members"]);
+  }
 }
