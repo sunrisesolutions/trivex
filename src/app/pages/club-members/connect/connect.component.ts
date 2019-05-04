@@ -9,7 +9,11 @@ import { Router, ActivatedRoute } from "@angular/router";
   styleUrls: ["./connect.component.scss"]
 })
 export class ConnectComponent implements OnInit {
-  constructor(private service: PostService, private router: Router, private routes: ActivatedRoute) {}
+  constructor(
+    private service: PostService,
+    private router: Router,
+    private routes: ActivatedRoute
+  ) {}
   id;
   status;
   members;
@@ -22,26 +26,28 @@ export class ConnectComponent implements OnInit {
     //   this.tokenRes = true;
     // }
 
-    const id = +this.routes.snapshot.paramMap.get('id');
+    const id = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];
-      console.log("info user",res.json());
+      console.log("info user", res.json());
     });
     this.onConnect();
   }
   onConnect() {
     // const idTit = new HttpParams();
 
-    const id = +this.routes.snapshot.paramMap.get('id')
+    const id = +this.routes.snapshot.paramMap.get("id");
     // id.set("toMember", JSON.stringify(id));
-    let data = {'toMember': '/individual_members/'+id};
+    let data = { toMember: "/individual_members/" + id };
     this.service.uConnect(JSON.stringify(data)).subscribe(response => {
-      console.log('connect-member',response.json());
-      
+      console.log("connect-member", response.json());
     });
   }
-  toClubMem(){
-    this.router.navigate(['club-members']);
+  injectNumber(s) {
+    return s.substring(s.lastIndexOf("/") + 1);
+  }
+  toClubMem() {
+    this.router.navigate(["club-members"]);
   }
 }

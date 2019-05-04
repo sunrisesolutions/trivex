@@ -1,4 +1,5 @@
-<div class="header pb-8 pt-5 pt-md-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-5 pt-md-8 d-flex align-items-center"
+  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
@@ -13,16 +14,19 @@
         <div class="card card-profile shadow">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
-              <div class="card-profile-image">
+              <div class="card-profile-image" style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img [src]=member.profilePicture class="rounded-circle">
+                  <img [src]=member.profilePicture style="height: 135pt !important;width: 135pt;"
+                    class="rounded-circle">
                 </a>
               </div>
             </div>
           </div>
           <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
-            <div class="d-flex justify-content-center">
-              <div [hidden]="id == im_ID" href="javascript:void(0)" class="btn btn-sm btn-default">Message</div>
+            <div class="">
+              <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'">
+                <div [hidden]="id == im_ID" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
+              </a>
             </div>
           </div>
           <div class="card-body ml-2 text-center" style="margin-top: -25pt">

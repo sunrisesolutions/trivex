@@ -11,7 +11,11 @@ import { Router, ActivatedRoute } from "@angular/router";
   styleUrls: ["./memberid.component.scss"]
 })
 export class MemberidComponent implements OnInit {
-  constructor(private service: PostService, private router: Router,private routes: ActivatedRoute) {}
+  constructor(
+    private service: PostService,
+    private router: Router,
+    private routes: ActivatedRoute
+  ) {}
   id;
   im_ID;
   members;
@@ -22,18 +26,21 @@ export class MemberidComponent implements OnInit {
     if (this.cToken == localStorage.getItem("token")) {
       this.tokenRes = true;
     }
-    
-    const snapID = +this.routes.snapshot.paramMap.get('id');
+
+    const snapID = +this.routes.snapshot.paramMap.get("id");
     this.id = snapID;
-    this.im_ID = localStorage.getItem('im_id');
+    this.im_ID = localStorage.getItem("im_id");
     this.service.getRootID(snapID).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];
-      console.log("info user",res.json());
+      console.log("info user", res.json());
     });
   }
 
   toClubMem() {
     this.router.navigate(["club-members"]);
+  }
+  injectNumber(s) {
+    return s.substring(s.lastIndexOf("/") + 1);
   }
 }
