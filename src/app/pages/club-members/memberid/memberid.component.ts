@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class MemberidComponent implements OnInit {
   constructor(private service: PostService, private router: Router,private routes: ActivatedRoute) {}
   id;
+  im_ID;
   members;
   tokenRes = false;
   cToken;
@@ -22,8 +23,10 @@ export class MemberidComponent implements OnInit {
       this.tokenRes = true;
     }
     
-    const id = +this.routes.snapshot.paramMap.get('id');
-    this.service.getRootID(id).subscribe(res => {
+    const snapID = +this.routes.snapshot.paramMap.get('id');
+    this.id = snapID;
+    this.im_ID = localStorage.getItem('im_id');
+    this.service.getRootID(snapID).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];
       console.log("info user",res.json());

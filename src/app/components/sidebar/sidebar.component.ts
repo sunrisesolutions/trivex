@@ -17,7 +17,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/member-connect",
-    title: "Member Connections",
+    title: "Members I have met",
     icon: "ni-planet text-blue",
     class: ""
   }
@@ -34,14 +34,17 @@ export class SidebarComponent implements OnInit {
   public isCollapsed = true;
   uID;
   img;
+  members;
   constructor(private router: Router, private service: PostService) {}
 
   ngOnInit() {
     this.service.getDataAPI().subscribe(res => {
-      console.log("nav here", res.json());
-      let getImg = res.json()["hydra:member"]
-      this.img = 
-      this.uID = localStorage.getItem('im_id');
+      this.uID = localStorage.getItem("im_id");
+      this.service.getRootID(this.uID).subscribe(res => {
+        let getInfo = res.json().profilePicture;
+        this.members = getInfo;
+        console.log("info user", res.json());
+      });
     });
 
     this.menuItems = ROUTES;

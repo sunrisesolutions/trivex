@@ -1,4 +1,4 @@
-<div class="header pb-8 pt-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-5 pt-md-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div *ngFor="let member of members" class="row justify-content-center mt-6">
-      <div class="col-12 col-md-5 order-xl-2 mb-5 mb-xl-0">
+      <div class="col-12 col-lg-5 col-xl-5 col-md-8 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-profile shadow">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
@@ -20,40 +20,21 @@
               </div>
             </div>
           </div>
-          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-            <div class="d-flex justify-content-center mt-8 mb-0">
-              <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Email</a>
-              <div [hidden]="tokenRes" href="javascript:void(0)" class="btn btn-sm btn-default">Message</div>
+          <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
+            <div class="d-flex justify-content-center">
+              <div [hidden]="id == im_ID" href="javascript:void(0)" class="btn btn-sm btn-default">Message</div>
             </div>
           </div>
-          <div class="card-body pt-0 pt-md-4 ml-2">
-            <div class="row">
-              <div hidden class="col">
-                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                  <div>
-                    <span class="heading">22</span>
-                    <span class="description">Friends</span>
-                  </div>
-                  <div>
-                    <span class="heading">10</span>
-                    <span class="description">Photos</span>
-                  </div>
-                  <div>
-                    <span class="heading">89</span>
-                    <span class="description">Comments</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="card-body ml-2">
             <div class="d-flex flex-column text-center ">
               <h1 class="font-weight-bold">
                 {{member.personData.name}}<span class="font-weight-light">, 27</span>
               </h1>
-              <div class="h2 mt-4">
-                <i class="ni business_briefcase-24 mr-2"></i>{{member.personData.jobTitle}}
+              <div class="h2 mt-2">
+                {{member.personData.jobTitle}}
               </div>
               <div class="h2">
-                <i class="ni education_hat mr-2"></i>{{member.personData.employerName}}
+                {{member.personData.employerName}}
               </div>
               <hr class="my-4" />
             </div>
