@@ -8,10 +8,10 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-auto">
-                  <img class="icon bg-warning text-white rounded-circle shadow" [src]=member.profilePicture alt="">
+                  <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'"><img class="icon bg-warning text-white rounded-circle shadow" [src]=member.profilePicture alt=""></a>
                 </div>
                 <div class="col text-muted">
-                  <h2 class="h2 font-weight-bold">{{member.personData.name}}</h2>
+                  <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'"><h2 class="h2 font-weight-bold">{{member.personData.name}}</h2></a>
                   <span>{{member.personData.jobTitle}}</span><br>
                   <span>{{member.personData.employerName}}</span><br>
                 </div>
