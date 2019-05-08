@@ -3,7 +3,7 @@ import { Event } from "./Event";
 
 export class Registration {
     uuid?: string;
-    event?: Event;
+    event?: string;
     middleName: string;
     birthDate: string;
     givenName: string;

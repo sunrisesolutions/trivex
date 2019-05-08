@@ -17,6 +17,7 @@ import { JobComponent } from '../../components/job/job.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ConnectComponent } from '../../pages/club-members/connect/connect.component';
 import { SendEmailComponent } from '../../pages/club-members/send-email/send-email.component';
+import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SendEmailComponent } from '../../pages/club-members/send-email/send-ema
     JobComponent,
     MemberidComponent,
     ConnectComponent,
-    SendEmailComponent
+    SendEmailComponent,
+    DashboardComponent
   ]
 })
 

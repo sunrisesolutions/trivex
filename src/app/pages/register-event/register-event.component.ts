@@ -1,4 +1,5 @@
-import { Routes, Router } from "@angular/router";
+import { AuthLayoutRoutes } from './../../layouts/auth-layout/auth-layout.routing';
+import { Routes, Router, ActivatedRoute } from "@angular/router";
 import { Http } from "@angular/http";
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Attendee } from "../../models/Attendee";
@@ -39,7 +40,8 @@ export class RegisterEventComponent implements OnInit {
   constructor(
     private service: PostService,
     private attendeeService: AttendeeService,
-    private router: Router
+    private router: Router,
+    private routes: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -56,7 +58,7 @@ export class RegisterEventComponent implements OnInit {
       ).toISOString();
     }
     this.attendee = {
-      registration: this.registration
+      registration: this.registration,
     };
     this.attendeeService.postAttendee(this.attendee).subscribe(
       res => {
@@ -71,6 +73,7 @@ export class RegisterEventComponent implements OnInit {
     );
   }
   toLogin(){
-    this.router.navigate['/login'];
+    let id = +this.routes.snapshot.paramMap.get('id');
+    this.router.navigate([`event/${id}/login`])
   }
 }

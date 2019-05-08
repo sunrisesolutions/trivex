@@ -35,6 +35,7 @@ export class AuthService implements CanActivate {
       'Accept': 'application/ld+json'
     });
   }
+  
 
   postRegistration(registration: Registration): Observable<any> {
     return this.http.post(this.url, registration, {headers: AuthService.getHeaders()});

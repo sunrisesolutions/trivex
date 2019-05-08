@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { RegisterEventComponent } from '../../pages/register-event/register-event.component';
+import { EventLoginMember } from 'src/app/pages/register-event/login-member/login-member.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { RegisterEventComponent } from '../../pages/register-event/register-even
   declarations: [
     LoginComponent,
     RegisterComponent,
-    RegisterEventComponent
+    RegisterEventComponent,
+    EventLoginMember
   ]
 })
 export class AuthLayoutModule { }

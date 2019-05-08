@@ -1,4 +1,5 @@
-import { AdminLayoutRoutes } from './../../layouts/admin-layout/admin-layout.routing';
+import { AttendeeService } from "./../../services/attendee.service";
+import { AdminLayoutRoutes } from "./../../layouts/admin-layout/admin-layout.routing";
 import { Observable } from "rxjs";
 import { PostService } from "./../../services/post.service";
 import { Http } from "@angular/http";
@@ -19,14 +20,13 @@ import { decode } from "@angular/router/src/url_tree";
 import { toBase64String } from "@angular/compiler/src/output/source_map";
 import { SettokenService } from "src/app/services/settoken.service";
 import { error } from "@angular/compiler/src/util";
-import { Routes } from '@angular/router';
-
+import { Routes } from "@angular/router";
+import { delay, timeout } from "q";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"]
 })
-
 export class LoginComponent implements OnInit, OnDestroy {
   // value formdata
   orgCode;
@@ -41,8 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private service: PostService,
+    private attendeesService: AttendeeService,
     private http: Http,
-    private serviceToken: SettokenService,
+    private serviceToken: SettokenService
   ) {}
 
   ngOnInit() {
@@ -67,26 +68,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.service.postFormData(formData).subscribe(response => {
       let setToken = response.json().token;
+      let refreshToken = response.json().refresh_token;
+      let accessToken = response.json().im_access_token;
       let imID = response.json().im_id;
-      console.log("token", response);
+      console.log("token", response.json());
       localStorage.setItem("im_id", imID);
       localStorage.setItem("token", setToken);
+      localStorage.setItem("refresh_token", refreshToken);
+      localStorage.setItem("access_token", accessToken);
       let id = response.json().im_id;
-      console.log();
+      console.log(accessToken);
       // decoded
       let token = setToken;
       let decoded = jwt_decode(token);
-      console.log(decoded);
+      console.log(decoded.exp);
       //refresh
-      let date = ~~(Date.now() / 1000);
-      console.log(date);
-      formRef.append("refresh_token", response.json().refresh_token);
-      if (decoded.exp < date) {
-        this.service.refreshToken(formRef).subscribe(response => {
-          localStorage.setItem("token", response.json().token);
-          console.log("token_refreshed", response);
-        });
-      } 
+      
       this.router.navigate([`club-members/${id}/qr-code`]);
     });
   }

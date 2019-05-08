@@ -1,6 +1,7 @@
 import { PostService } from "./../../services/post.service";
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ROUTES } from "../sidebar/sidebar.component";
+import {ActivatedRoute} from "@angular/router";
 import {
   Location,
   LocationStrategy,
@@ -8,6 +9,7 @@ import {
 } from "@angular/common";
 import { Router } from "@angular/router";
 import * as jwt_decode from "jwt-decode";
+import { from } from "rxjs";
 
 @Component({
   selector: "app-navbar",
@@ -25,7 +27,8 @@ export class NavbarComponent implements OnInit {
     location: Location,
     private service: PostService,
     private element: ElementRef,
-    private router: Router
+    private router: Router,
+    private routes: ActivatedRoute
   ) {
     this.location = location;
   }
@@ -41,11 +44,11 @@ export class NavbarComponent implements OnInit {
   }
   toInfo() {
     let id = this.id;
-    this.router.navigate([`club-members/${id}/info`]);
+    this.router.navigate([`/club-members/${id}/info`]);
   }
   toQrCode() {
-    let id = this.id;
-    this.router.navigate([`club-members/${id}/qr-code`]);
+    let id = this.id
+    this.router.navigate([`/club-members/${id}/qr-code`]);
   }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
