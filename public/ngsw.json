@@ -7,6 +7,7 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
+<<<<<<< HEAD
         "/4.c87a114f30248f2ec44d.js",
         "/5.7c5da5f034ae8b80c345.js",
         "/favicon.ico",
@@ -14,6 +15,15 @@
         "/main.38e436d5700e4637e349.js",
         "/polyfills.59c2af097338049c864e.js",
         "/runtime.78eae3a65886080fc00a.js",
+=======
+        "/4.460f62ca636dc4476766.js",
+        "/5.7c5da5f034ae8b80c345.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.de5990e377ee16fd2302.js",
+        "/polyfills.fbc24503c3e0fbda4425.js",
+        "/runtime.8ee2ae56208e7766d9eb.js",
+>>>>>>> 4a312dfa4216f1d2b5ff3223f4a44f1e6ec6f8d3
         "/scripts.2db4cbc668a10a0c2a68.js",
         "/styles.226fd2733dac7bb461b2.css"
       ],
@@ -1565,7 +1575,11 @@
   ],
   "dataGroups": [],
   "hashTable": {
+<<<<<<< HEAD
     "/4.c87a114f30248f2ec44d.js": "dcbbcbffdbef25322f9a684f06f5de21bd74e504",
+=======
+    "/4.460f62ca636dc4476766.js": "79f764ec335169425782bfb64d783c4f890839b6",
+>>>>>>> 4a312dfa4216f1d2b5ff3223f4a44f1e6ec6f8d3
     "/5.7c5da5f034ae8b80c345.js": "65d342d1cec87bf16fdaa4b0ef1f5acbf09d4c66",
     "/assets/fonts/nucleo/nucleo-icons.eot": "b2dee001981e635c2a6709f97f707b7f799703c5",
     "/assets/fonts/nucleo/nucleo-icons.svg": "0bd4e40449c239d34bf4a1b0a770ae39140ff1f4",
@@ -3103,10 +3117,17 @@
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff": "31ecd290a72557cc64f9ab28ee5d7d0a417a36bc",
     "/assets/vendor/nucleo/fonts/nucleo-icons.woff2": "64baa3293e90631d5257d6056b089ba11510d0f4",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+<<<<<<< HEAD
     "/index.html": "e343f70ffb3d333f138d2dfdd42e9bf84baf13e6",
     "/main.38e436d5700e4637e349.js": "c0edca92a918c6ce0d6e24d50c524c5eaa2fe2ce",
     "/polyfills.59c2af097338049c864e.js": "355717d8468c0c8ed876bca5f71802d27bbe86c2",
     "/runtime.78eae3a65886080fc00a.js": "8a447bca1b57e899624751e6a57261aa6ee6a289",
+=======
+    "/index.html": "800a3b9c16d48ef6e1469eb5132bcfbe8d901a73",
+    "/main.de5990e377ee16fd2302.js": "371a4b92227293190029107290cbf3ee22710b1a",
+    "/polyfills.fbc24503c3e0fbda4425.js": "355717d8468c0c8ed876bca5f71802d27bbe86c2",
+    "/runtime.8ee2ae56208e7766d9eb.js": "7c03e7933bd3be2dea1c4af9f7575618acdc979e",
+>>>>>>> 4a312dfa4216f1d2b5ff3223f4a44f1e6ec6f8d3
     "/scripts.2db4cbc668a10a0c2a68.js": "4b0072d19cb9b358fa54464d992fb90355c1c655",
     "/styles.226fd2733dac7bb461b2.css": "334f201509414e55d6c4fbef187769a5ea0df292"
   },
