@@ -20,6 +20,12 @@ export const ROUTES: RouteInfo[] = [
     title: "Members I have met",
     icon: "ni-planet text-blue",
     class: ""
+  },
+  {
+    path: "/post-announcement",
+    title: "Post an announcement",
+    icon: "ni-bell-55 text-yellow",
+    class: ""
   }
 ];
 

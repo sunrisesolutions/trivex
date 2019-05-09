@@ -18,6 +18,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ConnectComponent } from '../../pages/club-members/connect/connect.component';
 import { SendEmailComponent } from '../../pages/club-members/send-email/send-email.component';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
+import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -40,7 +41,8 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
     MemberidComponent,
     ConnectComponent,
     SendEmailComponent,
-    DashboardComponent
+    DashboardComponent,
+    PostAnnouncementComponent
   ]
 })
 
