@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
 
     this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/dashboard/${snapAT}.png`;
 
+   
     if (snapAT == this.access_token) {
       localStorage.clear();
       this.router.navigate(['/login'])

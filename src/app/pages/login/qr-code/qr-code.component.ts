@@ -17,6 +17,6 @@ export class QrCodeComponent implements OnInit {
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/club-members/${id}/connect.png`
+    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/club-members/individual_members/${id}/connect.png`
   }
 }

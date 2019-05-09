@@ -17,6 +17,16 @@ import { from } from "rxjs";
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit {
+  // Demo
+  alert = [
+    {img: 'https://i.ytimg.com/vi/GQGMwptqNjo/maxresdefault.jpg',name: 'bean',title: 'Mr.bean is so fun'},
+    {img: 'https://i.ytimg.com/vi/GQGMwptqNjo/maxresdefault.jpg',name: 'spider-man',title: 'spider-man is so fun'},
+    {img: 'https://i.ytimg.com/vi/GQGMwptqNjo/maxresdefault.jpg',name: 'bat-man',title: 'Mr.bean is so fun'},
+    {img: 'https://i.ytimg.com/vi/GQGMwptqNjo/maxresdefault.jpg',name: 'suppser-man',title: 'Mr.bean is so fun'}
+
+  ]
+
+  // end
   public focus;
   public listTitles: any[];
   public location: Location;

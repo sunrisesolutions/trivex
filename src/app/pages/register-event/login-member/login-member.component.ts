@@ -107,7 +107,9 @@ export class EventLoginMember implements OnInit, OnDestroy {
         tokens = response.json().token;
         tokens.toString();
         // attendees
-        this.atten.getAtten(child, tokens).subscribe(res => {this.done = true});
+        this.atten.getAtten(child, tokens).subscribe(res => {
+          (this.done = true), console.log(res);
+        });
       });
     });
     // Login

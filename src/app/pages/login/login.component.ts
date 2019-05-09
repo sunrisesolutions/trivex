@@ -22,6 +22,7 @@ import { SettokenService } from "src/app/services/settoken.service";
 import { error } from "@angular/compiler/src/util";
 import { Routes } from "@angular/router";
 import { delay, timeout } from "q";
+import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -38,22 +39,38 @@ export class LoginComponent implements OnInit, OnDestroy {
   dob: NgbDate;
   posts: any[];
   invalidLogin: boolean;
+  returnUrl: string;
+  loading: boolean;
   constructor(
     private router: Router,
     private service: PostService,
     private attendeesService: AttendeeService,
     private http: Http,
-    private serviceToken: SettokenService
+    private serviceToken: SettokenService,
+    private route: ActivatedRoute
   ) {}
-
   ngOnInit() {
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
     //   this.id = get;
     // });
+    let id = localStorage.getItem('im_id');
+    let params = this.route.snapshot.queryParams;
+    if(params['redirectUrl']){
+      this.returnUrl = params['redirectUrl'];
+    }
+
+    if(this.returnUrl){
+      this.router.navigateByUrl(this.returnUrl)
+      .catch(() => this.router.navigate([`club-members/${id}/qr-code`]))
+    }else{
+      this.router.navigate([`club-members/${id}/qr-code`])
+    }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    
+  }
 
   @ViewChild("dobi") dobi: ElementRef;
   asd;
@@ -65,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", inputDob);
     const formRef = new FormData();
-
+    this.loading = true;
     this.service.postFormData(formData).subscribe(response => {
       let setToken = response.json().token;
       let refreshToken = response.json().refresh_token;
@@ -83,8 +100,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       let decoded = jwt_decode(token);
       console.log(decoded.exp);
       //refresh
-      
-      this.router.navigate([`club-members/${id}/qr-code`]);
+      this.router.navigateByUrl(this.returnUrl)
+    },error => {
+      this.loading = false;
     });
+    /* let id = localStorage.getItem('im_id');
+    this.router.navigate([`club-members/${id}/qr-code`]); */
   }
 }

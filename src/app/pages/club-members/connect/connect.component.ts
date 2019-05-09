@@ -28,6 +28,7 @@ export class ConnectComponent implements OnInit {
 
     const id = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(id).subscribe(res => {
+      console.log(res.json())
       let getInfo = res.json();
       this.members = [getInfo];
       console.log("info user", res.json());

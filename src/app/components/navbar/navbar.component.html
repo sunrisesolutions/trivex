@@ -17,6 +17,30 @@
     <!-- User -->
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <li class="nav-item" ngbDropdown placement="bottom-right">
+
+        <a class="nav-link nav-link-icon" role="button" ngbDropdownToggle>
+          <i class="ni ni-bell-55"></i>
+          <span class="ml-2 badge badge-light" style="color: white !important;">99</span>
+        </a>
+        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+          <ul *ngFor="let a of alert" class="d-inline">
+            <li style="margin-top: -15pt; margin-bottom: -15pt" class="d-flex flex-row align-content-center">
+              <div class="col flex-item">
+                <span class="avatar avatar-sm rounded-circle">
+                  <img alt="Image placeholder" [src]="a.img">
+                </span>
+              </div>
+              <div class="col flex-item">
+                <span class="font-weight-bold">{{a.name}}, </span>
+                <div class="">{{a.title}}</div>
+              </div>
+
+            </li>
+            <hr/>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item" ngbDropdown placement="bottom-right">
         <a *ngFor="let member of members" class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">

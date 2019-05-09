@@ -24,7 +24,7 @@ export class AdminLayoutComponent implements OnInit {
         let decoded = jwt_decode(token);
         let currentDate = Date.now();
         let tokenDate = decoded.exp * 1000;
-        // so sánh timestamp hiện tại của token và timestamp thời gian hiện tại
+     /*nếu tokendate trừ cho currentdate nhỏ hơn 600000 thì thực hiện refresh*/
         if (tokenDate - currentDate < 600000) {
           this.service.refreshToken(formRef).subscribe(res => {
             localStorage.setItem("token", res.json().token);
