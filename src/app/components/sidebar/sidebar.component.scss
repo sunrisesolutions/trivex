@@ -1,0 +1,19 @@
+.ic{
+    position: absolute;
+    top: 0pt;
+}
+.ni > .ni-bell:active{
+    color: blue !important;
+}
+.badge-danger{
+    background:red;
+    position: relative;
+    top: -9pt;
+    left: 10pt;
+    color: white;
+    border-radius: 20% !important;
+    font-size: 7pt;
+}
+.badge-danger:hover{
+    cursor: default;
+}

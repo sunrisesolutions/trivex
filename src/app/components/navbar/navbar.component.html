@@ -1,7 +1,7 @@
-<nav class="navbar navbar-top navbar-expand-md navbar-dark bg-gradient-danger " id="navbar-main">
+<nav class="navbar navbar-top navbar-expand-md navbar-dark bg-gradient-danger" id="navbar-main">
   <div class="container-fluid">
     <!-- Brand -->
-    <a style="margin-left: 180pt !important;" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+    <a style="margin-left: 180pt !important;" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block "
       routerLinkActive="active" [routerLink]="['/dashboard']">{{getTitle()}}</a>
     <!-- Form -->
     <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
@@ -18,8 +18,11 @@
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
-          <i class="ni ni-bell-55"></i>
-          <span class="badge" style="">10</span>
+          <div class="ic" style="font-size: 18pt;">
+            <i class="ni ni-bell-55"></i>
+          </div>
+          <div class="badge badge-danger">13</div>
+
         </a>
         <div role="button" ngbDropdownMenu
           class="dropdown-menu dropdown-menu-xl ml-md-5 dropdown-menu-right py-0 overflow-hidden">

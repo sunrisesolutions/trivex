@@ -1,3 +1,19 @@
 .navbar-top{
     position: fixed !important;
 }
+.ic{
+    position: absolute;
+    top: -1pt;
+}
+.badge-danger{
+    background:red;
+    position: relative;
+    top: -9pt;
+    left: 11pt;
+    padding-right: 4pt;
+    color: white;
+    border-radius: 20% !important;
+}
+.badge-danger:hover{
+    cursor: default;
+}
