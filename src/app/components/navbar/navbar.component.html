@@ -1,10 +1,10 @@
-<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+<nav class="navbar navbar-top navbar-expand-md navbar-dark bg-gradient-danger " id="navbar-main">
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" routerLinkActive="active"
+    <a style="margin-left: 180pt !important;" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" routerLinkActive="active"
       [routerLink]="['/dashboard']">{{getTitle()}}</a>
     <!-- Form -->
-    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
       <div class="form-group mb-0" [ngClass]="{ 'focused': focus === true }">
         <div class="input-group input-group-alternative">
           <div class="input-group-prepend">
@@ -17,27 +17,39 @@
     <!-- User -->
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <li class="nav-item" ngbDropdown placement="bottom-right">
-
-        <a class="nav-link nav-link-icon" role="button" ngbDropdownToggle>
+        <a class="nav-link" role="button" ngbDropdownToggle>
           <i class="ni ni-bell-55"></i>
-          <span class="ml-2 badge badge-light" style="color: white !important;">99</span>
         </a>
-        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
-          <ul *ngFor="let a of alert" class="d-inline">
-            <li style="margin-top: -15pt; margin-bottom: -15pt" class="d-flex flex-row align-content-center">
-              <div class="col flex-item">
-                <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" [src]="a.img">
-                </span>
+        <div role="button" ngbDropdownMenu
+          class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
+          <!-- Dropdown header -->
+          <div class="px-3 py-3">
+            <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">13</strong> notifications.</h6>
+          </div>
+          <!-- List group -->
+          <div *ngFor="let a of alert" class="list-group list-group-flush">
+            <a href="#!" class="list-group-item list-group-item-action">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <img alt="Image placeholder" [src]=a.img class="avatar rounded-circle">
+                </div>
+                <div class="col ml--2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h4 class="mb-0 text-sm">default Member</h4>
+                    </div>
+                    <div class="text-right text-muted">
+                      <small>2 hrs ago</small>
+                    </div>
+                  </div>
+                  <p class="text-sm mb-0">Let's meet at Starbucks at 11:30. Wdyt?</p>
+                </div>
               </div>
-              <div class="col flex-item">
-                <span class="font-weight-bold">{{a.name}}, </span>
-                <div class="">{{a.title}}</div>
-              </div>
-
-            </li>
-            <hr/>
-          </ul>
+            </a>
+          </div>
+          <!-- View all -->
+          <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown placement="bottom-right">

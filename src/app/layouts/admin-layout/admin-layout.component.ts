@@ -36,6 +36,6 @@ export class AdminLayoutComponent implements OnInit {
           tokenDate - currentDate
         );
       } 
-    }, 20000);
+    }, 2000);
   }
 }

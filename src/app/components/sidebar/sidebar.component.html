@@ -1,4 +1,4 @@
-<nav class="navbar navbar-vertical navbar-expand-md navbar-light bg-white" id="sidenav-main">
+<nav class="navbar fixed-top navbar-vertical navbar-expand-md navbar-light bg-white" id="sidenav-main">
   <div class="container-fluid">
     <!-- Toggler -->
     <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"
@@ -12,21 +12,46 @@
     <!-- User -->
     <ul class="nav align-items-center d-md-none">
       <li class="nav-item" ngbDropdown placement="bottom-right">
-        <a class="nav-link nav-link-icon" role="button" ngbDropdownToggle>
+        <a class="nav-link" role="button" ngbDropdownToggle>
           <i class="ni ni-bell-55"></i>
         </a>
-        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" href="javascript:void(0)">Action</a>
-          <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+        <div role="button" ngbDropdownMenu
+          class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
+          <!-- Dropdown header -->
+          <div class="px-3 py-3">
+            <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">13</strong> notifications.</h6>
+          </div>
+          <!-- List group -->
+          <div *ngFor="let a of alert" class="list-group list-group-flush">
+            <a href="#!" class="list-group-item list-group-item-action">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <!-- Avatar -->
+                  <img alt="Image placeholder" [src]=a.img class="avatar rounded-circle">
+                </div>
+                <div class="col ml--2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h4 class="mb-0 text-sm">default Member</h4>
+                    </div>
+                    <div class="text-right text-muted">
+                      <small>2 hrs ago</small>
+                    </div>
+                  </div>
+                  <p class="text-sm mb-0">Let's meet at Starbucks at 11:30. Wdyt?</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- View all -->
+          <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder"  [src]="members">
+              <img alt="Image placeholder" [src]="members">
             </span>
           </div>
         </a>
