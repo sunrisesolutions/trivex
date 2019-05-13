@@ -1,13 +1,14 @@
 import { PostService } from "src/app/services/post.service";
 import { Component, OnInit } from "@angular/core";
 import * as jwt_decode from "jwt-decode";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-admin-layout",
   templateUrl: "./admin-layout.component.html",
   styleUrls: ["./admin-layout.component.scss"]
 })
 export class AdminLayoutComponent implements OnInit {
-  constructor(private service: PostService) {}
+  constructor(private service: PostService,private router: Router) {}
 
   ngOnInit() {
      
@@ -29,6 +30,10 @@ export class AdminLayoutComponent implements OnInit {
           this.service.refreshToken(formRef).subscribe(res => {
             localStorage.setItem("token", res.json().token);
             console.log("refreshed", res.json());
+          },error=>{
+            if(error.status === 401){
+              this.router.navigate(['/login']);
+            }
           });
         }
         console.log(
