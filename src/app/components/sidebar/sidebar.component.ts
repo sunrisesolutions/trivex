@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
   uID;
   img;
   members;
-  constructor(private router: Router, private service: PostService) {}
+  constructor(private router: Router, private service: PostService) { }
   alert = [
     {
       img: "https://i.ytimg.com/vi/GQGMwptqNjo/maxresdefault.jpg",
@@ -95,7 +95,8 @@ export class SidebarComponent implements OnInit {
     });
   }
   toInfo() {
-    this.router.navigate([`club-members/${this.uID}/info`]);
+    this.router.navigate([`/club-members/${this.uID}/info`]);
+
   }
   toQrCode() {
     this.router.navigate([`club-members/${this.uID}/qr-code`]);

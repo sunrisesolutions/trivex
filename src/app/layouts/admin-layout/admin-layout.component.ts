@@ -13,7 +13,7 @@ export class AdminLayoutComponent implements OnInit {
   ngOnInit() {
      
     setInterval(() => {
-      if (localStorage.getItem('token') !== null) {
+      if (localStorage.getItem('token')) {
         // lấy token  
         let getToken = localStorage.getItem("token");
         let token = getToken;
@@ -26,8 +26,8 @@ export class AdminLayoutComponent implements OnInit {
         let currentDate = Date.now();
         let tokenDate = decoded.exp * 1000;
      /*nếu tokendate trừ cho currentdate nhỏ hơn 600000 thì thực hiện refresh*/
-        if (tokenDate - currentDate < 3500000) {
-          if(localStorage.getItem('refresh_token')){
+        if (tokenDate - currentDate < 600000) {
+          if(localStorage.getItem('refresh_token') !== null){
             this.service.refreshToken(formRef).subscribe(res => {
               localStorage.setItem("token", res.json().token);
               console.log("refreshed", res.json());
@@ -40,6 +40,7 @@ export class AdminLayoutComponent implements OnInit {
             localStorage.clear();
             this.router.navigate(['/login'])
           }
+          
         }
         console.log(
           "2 thoi gian tru cho nhau (sau): ",

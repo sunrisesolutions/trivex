@@ -1,4 +1,4 @@
-<div class="pb-8 pt-8 d-flex"
+<div class="py-7 d-flex"
   style="min-height: 1200px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
@@ -26,7 +26,7 @@
             <div class="d-flex justify-content-center mt-7 mt-xl-7 mt-md-7 mb-0">
               <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Email</a>
               <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'">
-                <div [hidden]="tokenRes" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
+                <div *ngIf="imToken == uuidRes" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
               </a>
             </div>
           </div>

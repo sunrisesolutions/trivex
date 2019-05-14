@@ -13,12 +13,14 @@ export class ConnectComponent implements OnInit {
     private service: PostService,
     private router: Router,
     private routes: ActivatedRoute
-  ) {}
+  ) { }
   id;
   status;
   members;
   tokenRes = false;
   cToken;
+  imToken;
+  uuidRes;
   ngOnInit() {
     // ======= MESSAGE =====
     // this.cToken = localStorage.getItem("token");
@@ -42,6 +44,8 @@ export class ConnectComponent implements OnInit {
     // id.set("toMember", JSON.stringify(id));
     let data = { toMember: "/individual_members/" + id };
     this.service.uConnect(JSON.stringify(data)).subscribe(response => {
+      this.imToken = localStorage.getItem('im_id');
+      this.uuidRes = response.json().toMember.uuid;
       console.log("connect-member", response.json());
     });
   }

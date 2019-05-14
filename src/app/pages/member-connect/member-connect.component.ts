@@ -12,6 +12,7 @@ export class MemberConnectComponent implements OnInit {
   members;
   im_ID;
   dec;
+  
   constructor(private service: PostService) {}
 
   injectNumber(s) {
@@ -20,6 +21,7 @@ export class MemberConnectComponent implements OnInit {
 
   ngOnInit() {
     this.service.getConnect().subscribe(res => {
+      
       let token = localStorage.getItem("token");
       let decoded = jwt_decode(token);
       this.dec = decoded.im;

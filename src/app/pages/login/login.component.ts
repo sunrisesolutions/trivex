@@ -56,15 +56,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     // });
     let id = localStorage.getItem('im_id');
     let params = this.route.snapshot.queryParams;
-    if(params['/redirectUrl']){
-      this.returnUrl = params['/redirectUrl'];
+    if(params['redirectUrl']){
+      this.returnUrl = params['redirectUrl'];
     }
 
     if(this.returnUrl){
       this.router.navigateByUrl(this.returnUrl)
-      .catch(() => this.router.navigate([`/club-members`]))
+      .catch(() => this.router.navigate([`club-members`]))
     }else{
-      this.router.navigate([`/club-members`])
+      this.router.navigate([`club-members`])
     }
   }
 
