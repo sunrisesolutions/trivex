@@ -56,15 +56,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     // });
     let id = localStorage.getItem('im_id');
     let params = this.route.snapshot.queryParams;
-    if(params['redirectUrl']){
-      this.returnUrl = params['redirectUrl'];
+    if(params['/redirectUrl']){
+      this.returnUrl = params['/redirectUrl'];
     }
 
     if(this.returnUrl){
       this.router.navigateByUrl(this.returnUrl)
-      .catch(() => this.router.navigate([`club-members/${id}/qr-code`]))
+      .catch(() => this.router.navigate([`/club-members`]))
     }else{
-      this.router.navigate([`club-members/${id}/qr-code`])
+      this.router.navigate([`/club-members`])
     }
   }
 
@@ -73,7 +73,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild("dobi") dobi: ElementRef;
-  asd;
   login() {
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
@@ -102,7 +101,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       //refresh
       this.router.navigateByUrl(this.returnUrl)
     },error => {
-      this.loading = false;
+      if(error.status === 401 || error.status === 500){
+        alert('Something went wrong!!!');
+        this.loading = false;
+      }      
     });
     /* let id = localStorage.getItem('im_id');
     this.router.navigate([`club-members/${id}/qr-code`]); */
