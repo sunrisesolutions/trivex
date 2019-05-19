@@ -16,23 +16,32 @@
           <div class="ic" style="font-size: 17pt;">
             <i class="ni ni-bell-55"></i>
           </div>
-          <div class="badge badge-danger">13</div>
+          <div class="badge badge-danger">{{countMess}}</div>
 
         </a>
         <div role="button" ngbDropdownMenu
           class="dropdown-menu dropdown-menu-lg ml-5 dropdown-menu-right py-0 overflow-hidden ">
           <!-- Dropdown header -->
           <div class="px-3 py-3">
-            <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">13</strong> notifications.</h6>
+            <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
+              notifications.</h6>
+            <label class="switch">
+              <input type="checkbox" (click)="statusControl()" [checked]="status">
+              <span class="slider round"></span>
+            </label>
+            <label class="text-sm text-muted label">Receive Notification</label>
           </div>
           <!-- List group -->
           <div style="height: 50vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch">
-            <div *ngFor="let a of alert" class="list-group list-group-flush">
+            <div *ngFor="let mess of messages" class="list-group list-group-flush">
               <a href="#!" class="list-group-item list-group-item-action">
                 <div class="row align-items-center">
                   <div class="col-3 ">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" [src]=a.img class="avatar rounded-circle">
+                    <div class="avatar avatar-md rounded-circle">
+                      <img alt="Image placeholder" style="object-fit: cover; width: 100%; height: 100%;"
+                        src="http://pawandfetch.com/wp-content/uploads/2018/08/3c5e3e835-1.jpg">
+                    </div>
                   </div>
                   <div class="col-9">
                     <div class="d-flex justify-content-md-between justify-content-between align-items-center">
@@ -40,10 +49,10 @@
                         <h4 class="mb-0 text-sm">default Member</h4>
                       </div>
                       <div class="text-right text-muted text-sm pb-1">
-                        <small>2 hrs ago</small>
+                        <small>{{mess.createdAt | date:'shortTime'}}</small>
                       </div>
                     </div>
-                    <p class="text-sm mb-0">Let's meet at Starbucks at 11:30. Wdyt?</p>
+                    <p class="text-sm mb-0">{{mess.subject}}</p>
                   </div>
                 </div>
               </a>

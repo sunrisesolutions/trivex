@@ -15,10 +15,12 @@ export class ConnectComponent implements OnInit {
     private routes: ActivatedRoute
   ) { }
   id;
+  idSnap;
   status;
   members;
   tokenRes = false;
   cToken;
+  imId;
   imToken;
   uuidRes;
   ngOnInit() {
@@ -27,6 +29,9 @@ export class ConnectComponent implements OnInit {
     // if (this.cToken == localStorage.getItem("token")) {
     //   this.tokenRes = true;
     // }
+    const snapID = this.routes.snapshot.paramMap.get("id");
+    this.idSnap = snapID;
+    this.imId = localStorage.getItem("im_id");
 
     const id = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(id).subscribe(res => {
@@ -46,7 +51,7 @@ export class ConnectComponent implements OnInit {
     this.service.uConnect(JSON.stringify(data)).subscribe(response => {
       this.imToken = localStorage.getItem('im_id');
       this.uuidRes = response.json().toMember.uuid;
-      console.log("connect-member", response.json());
+      console.log("connect-member", response.json(), this.imToken);
     });
   }
   injectNumber(s) {

@@ -38,7 +38,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image" style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img src="{{this.member.profilePicture}}" style="height: 135pt !important; width: 135pt;" class="rounded-circle">
+                  <img [src]="member.profilePicture" class="avatar">
                 </a>
               </div>
             </div>

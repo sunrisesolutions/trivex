@@ -18,9 +18,10 @@ export class PostService {
   private refUrl = "https://user.api.trivesg.com/token/refresh";
   private getUrl = "https://org.api.trivesg.com/individual_members";
   private getUrlConnect = "https://org.api.trivesg.com/connections";
+  private postMessage = "https://messaging.api.trivesg.com/messages";
   private urlAT_API =
     "https://user.api.trivesg.com/login/individual-member-access-token";
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   apiBase = environment.eventApiBase;
   route = "/attendees";
@@ -44,9 +45,22 @@ export class PostService {
     let header = new Headers();
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.urlAT_API, access_token, {headers: header});
+    return this.http.post(this.urlAT_API, access_token, { headers: header });
+  }
+
+  messagePost(message): Observable<any> {
+    let header = new Headers();
+    header.append("Accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.post(this.postMessage, message, { headers: header });
   }
   // GET REQUEST
+  getMessage() {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.get(this.postMessage, {headers:header})
+  }
   getRootID(id) {
     let header = new Headers();
     header.append("accept", "application/ld+json");

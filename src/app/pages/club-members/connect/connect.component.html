@@ -16,8 +16,8 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image " style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img [src]=member.profilePicture style="height: 135pt !important; width: 135pt !important;"
-                    class="rounded-circle">
+                  <img [src]=member.profilePicture
+                    class="avatar">
                 </a>
               </div>
             </div>
@@ -26,7 +26,7 @@
             <div class="d-flex justify-content-center mt-7 mt-xl-7 mt-md-7 mb-0">
               <a hidden href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Email</a>
               <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'">
-                <div *ngIf="imToken == uuidRes" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
+                <div [hidden]="idSnap == imId" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
               </a>
             </div>
           </div>

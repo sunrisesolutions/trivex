@@ -17,7 +17,7 @@ export class MemberidComponent implements OnInit {
     private routes: ActivatedRoute
   ) {}
   id;
-  im_ID;
+  imId;
   members;
   tokenRes = false;
   cToken;
@@ -29,7 +29,7 @@ export class MemberidComponent implements OnInit {
 
     const snapID = +this.routes.snapshot.paramMap.get("id");
     this.id = snapID;
-    this.im_ID = localStorage.getItem("im_id");
+    this.imId = localStorage.getItem("im_id");
     this.service.getRootID(snapID).subscribe(res => {
       let getInfo = res.json();
       this.members = [getInfo];

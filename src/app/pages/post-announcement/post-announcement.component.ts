@@ -22,8 +22,8 @@ export class PostAnnouncementComponent {
   ) {}
   member;
   loading = false;
-  subject = '';
-  body = '';
+  subject;
+  body;
   error = '';
   success = false;
   closeResult;
@@ -31,6 +31,16 @@ export class PostAnnouncementComponent {
   
   send() {
     this.success = true;
+    // REQUEST POST
+    let _message = {
+      "subject": this.subject,
+      "body": this.body,
+    }
+    this.service.messagePost(_message)
+      .subscribe(res=>{
+        console.log(res.json())
+      })
+    // Timeout
     setTimeout(() => {
       this.open(this.modal);
     }, 5000);

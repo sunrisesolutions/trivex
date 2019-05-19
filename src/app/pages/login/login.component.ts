@@ -22,7 +22,10 @@ import { SettokenService } from "src/app/services/settoken.service";
 import { error } from "@angular/compiler/src/util";
 import { Routes } from "@angular/router";
 import { delay, timeout } from "q";
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { PushNotificationService } from "src/app/services/post-notif.service";
+import { SwPush } from "@angular/service-worker";
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -47,8 +50,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private attendeesService: AttendeeService,
     private http: Http,
     private serviceToken: SettokenService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+
+  ) {
+
+  }
   ngOnInit() {
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
@@ -56,20 +62,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     // });
     let id = localStorage.getItem('im_id');
     let params = this.route.snapshot.queryParams;
-    if(params['redirectUrl']){
+    if (params['redirectUrl']) {
       this.returnUrl = params['redirectUrl'];
     }
 
-    if(this.returnUrl){
+    if (this.returnUrl) {
       this.router.navigateByUrl(this.returnUrl)
-      .catch(() => this.router.navigate([`club-members`]))
-    }else{
+        .catch(() => this.router.navigate([`club-members`]))
+    } else {
       this.router.navigate([`club-members`])
     }
   }
 
   ngOnDestroy() {
-    
+
   }
 
   @ViewChild("dobi") dobi: ElementRef;
@@ -100,11 +106,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.log(decoded.exp);
       //refresh
       this.router.navigateByUrl(this.returnUrl)
-    },error => {
-      if(error.status === 401 || error.status === 500){
+
+    }, error => {
+      if (error.status === 401 || error.status === 500) {
         alert('Something went wrong!!!');
         this.loading = false;
-      }      
+      }
     });
     /* let id = localStorage.getItem('im_id');
     this.router.navigate([`club-members/${id}/qr-code`]); */

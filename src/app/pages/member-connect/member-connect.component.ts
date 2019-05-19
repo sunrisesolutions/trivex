@@ -10,7 +10,7 @@ import * as jwt_decode from "jwt-decode";
 export class MemberConnectComponent implements OnInit {
   showForm = false;
   members;
-  im_ID;
+  imId;
   dec;
   
   constructor(private service: PostService) {}
