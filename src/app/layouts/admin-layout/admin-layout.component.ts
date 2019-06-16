@@ -1,13 +1,13 @@
-import { PostService } from "src/app/services/post.service";
-import { Component, OnInit } from "@angular/core";
-import * as jwt_decode from "jwt-decode";
-import { Router } from "@angular/router";
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit } from '@angular/core';
+import * as jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 
 @Component({
-  selector: "app-admin-layout",
-  templateUrl: "./admin-layout.component.html",
-  styleUrls: ["./admin-layout.component.scss"]
+  selector: 'app-admin-layout',
+  templateUrl: './admin-layout.component.html',
+  styleUrls: ['./admin-layout.component.scss']
 })
 
 export class AdminLayoutComponent implements OnInit {
@@ -15,20 +15,20 @@ export class AdminLayoutComponent implements OnInit {
 
   }
   ngOnInit() {
-    
+
     setInterval(() => {
       if (localStorage.getItem('token')) {
-        // lấy token  
-        let getToken = localStorage.getItem("token");
-        let token = getToken;
+        // lấy token
+        const getToken = localStorage.getItem('token');
+        const token = getToken;
         // lấy refresh token
-        let getRefToken = localStorage.getItem("refresh_token");
-        let formRef = new FormData();
-        formRef.append("refresh_token", getRefToken);
+        const getRefToken = localStorage.getItem('refresh_token');
+        const formRef = new FormData();
+        formRef.append('refresh_token', getRefToken);
         // decode token lấy timestamp
-        let decoded = jwt_decode(token);
-        let currentDate = Date.now();
-        let tokenDate = decoded.exp * 1000;
+        const decoded = jwt_decode(token);
+        const currentDate = Date.now();
+        const tokenDate = decoded.exp * 1000;
         if (tokenDate < currentDate) {
           localStorage.clear();
           this.router.navigate(['/login']);
@@ -37,8 +37,8 @@ export class AdminLayoutComponent implements OnInit {
         if (tokenDate - currentDate < 600000) {
           if (localStorage.getItem('refresh_token') !== null) {
             this.service.refreshToken(formRef).subscribe(res => {
-              localStorage.setItem("token", res.json().token);
-              console.log("refreshed", res.json());
+              localStorage.setItem('token', res.json().token);
+              console.log('refreshed', res.json());
             }, error => {
               if (error.status === 401) {
                 this.router.navigate(['/login']);
@@ -46,7 +46,7 @@ export class AdminLayoutComponent implements OnInit {
             });
           } else {
             localStorage.clear();
-            this.router.navigate(['/login'])
+            this.router.navigate(['/login']);
           }
 
         }

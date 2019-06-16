@@ -1,8 +1,8 @@
-import { PostService } from "src/app/services/post.service";
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { SwPush } from "@angular/service-worker";
-import { PushNotificationService } from "src/app/services/post-notif.service";
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
+import { PushNotificationService } from 'src/app/services/post-notif.service';
 
 declare interface RouteInfo {
   path: string;
@@ -12,31 +12,31 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   {
-    path: "/club-members",
-    title: "Club Members",
-    icon: "ni-bullet-list-67 text-red",
-    class: ""
+    path: '/club-members',
+    title: 'Club Members',
+    icon: 'ni-bullet-list-67 text-red',
+    class: ''
   },
   {
-    path: "/member-connect",
-    title: "Members I have met",
-    icon: "ni-planet text-blue",
-    class: ""
+    path: '/member-connect',
+    title: 'Members I have met',
+    icon: 'ni-planet text-blue',
+    class: ''
   },
   {
-    path: "/post-announcement",
-    title: "Post an announcement",
-    icon: "ni-bell-55 text-yellow",
-    class: ""
+    path: '/post-announcement',
+    title: 'Post an announcement',
+    icon: 'ni-bell-55 text-yellow',
+    class: ''
   }
 ];
 
-let VAPID_SERVER_KEY = "BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs";
+const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs';
 
 @Component({
-  selector: "app-sidebar",
-  templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.scss"]
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
   public menuItems: any[];
@@ -58,11 +58,11 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.service.getDataAPI().subscribe(res => {
-      this.uuid = localStorage.getItem("im_id");
+      this.uuid = localStorage.getItem('im_id');
       this.service.getRootID(this.uuid).subscribe(res => {
-        let getInfo = res.json().profilePicture;
+        const getInfo = res.json().profilePicture;
         this.members = getInfo;
-        console.log("info user", res.json());
+        console.log('info user', res.json());
       });
     });
 
@@ -81,19 +81,19 @@ export class SidebarComponent implements OnInit {
     // get messages
     this.service.getMessage()
       .subscribe(res => {
-        let messages = res.json()["hydra:member"]
+        const messages = res.json()['hydra:member'];
         this.messages = messages;
-        this.countMess = res.json()["hydra:member"].length;
-        console.log("Message INFO", this.messages)
-      })
+        this.countMess = res.json()['hydra:member'].length;
+        console.log('Message INFO', this.messages);
+      });
     // getMessages
     setInterval(() => {
       this.service.getMessage()
         .subscribe(res => {
-          let messages = res.json()["hydra:member"]
+          const messages = res.json()['hydra:member'];
           this.messages = messages;
-          this.countMess = res.json()["hydra:member"].length;
-        })
+          this.countMess = res.json()['hydra:member'].length;
+        });
     }, 5000);
   }
   toInfo() {
@@ -109,27 +109,27 @@ export class SidebarComponent implements OnInit {
   // notif
   pushNotif() {
 
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem('token')) {
       if (this.swPush.isEnabled) {
         this.swPush.requestSubscription({
           serverPublicKey: VAPID_SERVER_KEY,
         })
           .then(sub => {
-            let s = sub.toJSON();
-            let contain = {
-              "endpoint": s.endpoint,
-              "authToken": s.keys.auth,
-              "p256dhKey": s.keys.p256dh
-            }
+            const s = sub.toJSON();
+            const contain = {
+              'endpoint': s.endpoint,
+              'authToken': s.keys.auth,
+              'p256dhKey': s.keys.p256dh
+            };
             this.reqNotif.addPushSubscriber(contain).subscribe(res => {
               this.idDelete = res.json()['@id'];
-              this.publicKey = res.json().p256dhKey
+              this.publicKey = res.json().p256dhKey;
               localStorage.setItem('id_pushNotif', this.idDelete);
               localStorage.setItem('public_key', this.publicKey);
-              console.log("this", res.json())
+              console.log('this', res.json());
             });
           })
-          .catch(console.error)
+          .catch(console.error);
       }
     }
   }
@@ -147,23 +147,22 @@ export class SidebarComponent implements OnInit {
             localStorage.removeItem('id_pushNotif');
             localStorage.removeItem('public_key');
             console.log(res.json());
-          })
-      }
-      else if (localStorage.getItem('public_key')) {
+          });
+      } else if (localStorage.getItem('public_key')) {
         this.reqNotif.deleteNotifBySearchPublicKey()
           .subscribe(res => {
-            console.log(res.json())
-            let del = res.json()['hydra:member'];
-            for (let i in del) {
-              this.getId = res.json()['hydra:member'][`${i}`]['@id']
+            console.log(res.json());
+            const del = res.json()['hydra:member'];
+            for (const i in del) {
+              this.getId = res.json()['hydra:member'][`${i}`]['@id'];
             }
-            console.log(this.getId)
+            console.log(this.getId);
             this.reqNotif.deleteNotification(this.getId)
               .subscribe(res => {
                 console.log(res.json());
-              })
+              });
             localStorage.removeItem('public_key');
-          })
+          });
 
       }
     }
