@@ -7,10 +7,16 @@
     width: 100%;
     padding: 0.625rem 0.75rem;
     line-height: 1.5;
+    height: 15rem !important;
     margin: 0 !important;
     color: #8898aa;
     background-color: #fff !important;
     background-clip: padding-box;
     border: 1px solid #cad1d7;
     border-radius: 0 0 0.375rem 0.375rem;
+    z-index: 0 !important;
+
+}
+::ng-deep .angular-editor[_ngcontent-c6] .angular-editor-wrapper[_ngcontent-c6] .angular-editor-textarea[_ngcontent-c6]{
+  z-index: 0 !important;
 }

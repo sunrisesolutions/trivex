@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ClipboardModule } from 'ngx-clipboard';
-
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.component';
@@ -19,6 +18,10 @@ import { ConnectComponent } from '../../pages/club-members/connect/connect.compo
 import { SendEmailComponent } from '../../pages/club-members/send-email/send-email.component';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
+import {NotificationsComponent} from '../../pages/notifications/notifications.component'
+import { MessagesComponent } from '../../pages/messages/messages.component';
+import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.directive';
+
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -30,9 +33,10 @@ import { PostAnnouncementComponent } from '../../pages/post-announcement/post-an
     NgbModule,
     ClipboardModule,
     ZXingScannerModule.forRoot(),
-    AngularEditorModule
+    AngularEditorModule,
   ],
   declarations: [
+    InfiniteScrollerDirective,
     ClubMembersComponent,
     MemberConnectComponent,
     QrScannerComponent,
@@ -43,7 +47,10 @@ import { PostAnnouncementComponent } from '../../pages/post-announcement/post-an
     ConnectComponent,
     SendEmailComponent,
     DashboardComponent,
-    PostAnnouncementComponent
+    PostAnnouncementComponent,
+    NotificationsComponent,
+    MessagesComponent
+
   ]
 })
 

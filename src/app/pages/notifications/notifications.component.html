@@ -1,0 +1,22 @@
+<div *ngIf="messages" class="scroll header bg-gradient-danger py-7 pt-md-8 ">
+  <div routerLink="/club-members/notifications{{mess['@id']}}" *ngFor="let mess of messages.slice().reverse()" class="container mb-2 w-md-50">
+    <div class="card pl-4 pr-2 py-2">
+      <div class="row text-center text-md-left card-content">
+        <div class="col-12 col-md-2 d-flex justify-content-center">
+          <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+            src="http://pawandfetch.com/wp-content/uploads/2018/08/3c5e3e835-1.jpg">
+        </div>
+        <div class="col-12 col-md-7">
+          <h2 class="font-weight-bold">Bean</h2>
+          <p style="font-size:18px !important;" class="text-truncate">{{mess.subject}}</p>
+        </div>
+        <div class="col-12 col-md-3 d-flex justify-content-center align-items-end text-md-right">
+          <small class="">{{mess.createdAt | date:'short'}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

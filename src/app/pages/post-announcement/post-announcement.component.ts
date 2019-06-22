@@ -28,11 +28,12 @@ export class PostAnnouncementComponent {
   success = false;
   closeResult;
   @ViewChild("modal") modal: ElementRef;
-  
+
   send() {
     this.success = true;
     // REQUEST POST
     let _message = {
+      "published":true,
       "subject": this.subject,
       "body": this.body,
     }
@@ -43,9 +44,9 @@ export class PostAnnouncementComponent {
     // Timeout
     setTimeout(() => {
       this.open(this.modal);
-    }, 5000);
+    }, 200);
   }
-  
+
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

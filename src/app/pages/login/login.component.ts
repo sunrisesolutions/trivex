@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   @ViewChild("dobi") dobi: ElementRef;
   login() {
+    localStorage.clear();
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
     formData.append("org-code", this.orgCode);

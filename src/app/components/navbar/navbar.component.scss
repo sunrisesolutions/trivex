@@ -13,8 +13,7 @@
   border-radius: 100%;
 }
 .ic {
-  position: absolute;
-  top: -1pt;
+  top: -2pt;
 }
 .badge-danger {
   background: red;
@@ -28,7 +27,9 @@
 .badge-danger:hover {
   cursor: default;
 }
-
+.dropdown-item{
+  cursor: pointer !important;
+}
 .scroll {
   height: 65vh !important;
   overflow-y: auto;
@@ -40,7 +41,6 @@
 .label{
   position: absolute;
   top: 31pt;
-  bottom: 0pt;
   right: 0pt;
   left: 38pt;
 }
@@ -106,4 +106,11 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.unread{
+  background-color: #EDF2FA;
+}
+.read{
+  background-color: white;
 }

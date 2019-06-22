@@ -25,11 +25,11 @@ export class AuthService implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): boolean {
-    if (localStorage.getItem("token")) {
-      return true;
-    } else {
+    if (!localStorage.getItem("token")) {
       this.router.navigate(["/login"],{queryParams:{'redirectUrl':state.url}});
       return false;
+    } else {
+      return true;
     }
   }
 

@@ -6,17 +6,17 @@
   <div class="container">
     <div class="row text-center">
       <div class="col col-md-12">
-        <h1 *ngFor="let member of members" class="display-2 text-white">{{member.personData.name}}</h1>
+        <h1 *ngIf="members" class="display-2 text-white">{{members.personData.name}}</h1>
       </div>
     </div>
-    <div *ngFor="let member of members" class="row justify-content-center mt-6">
+    <div *ngIf="members" class="row justify-content-center mt-6">
       <div class="col-12 col-lg-5 col-xl-5 col-md-8 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-profile shadow">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image" style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img [src]=member.profilePicture
+                  <img [src]=members.profilePicture
                     class="avatar">
                 </a>
               </div>
@@ -24,7 +24,7 @@
           </div>
           <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
             <div class="">
-              <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'">
+              <a [routerLink]="'/club-members/' + injectNumber(members['@id']) + '/send-email'">
                 <div [hidden]="id == imId" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
               </a>
             </div>
@@ -32,13 +32,13 @@
           <div class="card-body ml-2 text-center" style="margin-top: -25pt">
             <div class="container">
               <h1 class="font-weight-bold">
-                {{member.personData.name}}<span class="font-weight-light">, 27</span>
+                {{members.personData.name}}<span class="font-weight-light">, 27</span>
               </h1>
               <div class="h2 mt-2">
-                {{member.personData.jobTitle}}
+                {{members.personData.jobTitle}}
               </div>
               <div class="h2">
-                {{member.personData.employerName}}
+                {{members.personData.employerName}}
               </div>
               <hr class="my-4" />
             </div>

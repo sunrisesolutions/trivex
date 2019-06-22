@@ -11,7 +11,7 @@ import * as jwt_decode from "jwt-decode";
   styleUrls: ["./club-members.component.scss"]
 })
 export class ClubMembersComponent implements OnInit {
-  members = [];
+  members;
   id;
   posts: any[];
   uHide = false;
@@ -26,8 +26,8 @@ export class ClubMembersComponent implements OnInit {
       this.dec = decoded.im;
       console.log(this.dec);
 
-      let getMem = res.json()["hydra:member"];
-      this.members = getMem;
+      this.members = res.json();
+      console.log('member array',this.members)
     });
   }
 
@@ -36,7 +36,7 @@ export class ClubMembersComponent implements OnInit {
   }
 }
 
-/* 
+/*
 const formRef = new FormData();
 let date = ~~(Date.now() / 1000);
       console.log(date);

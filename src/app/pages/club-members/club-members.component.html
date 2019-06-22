@@ -1,9 +1,9 @@
-<div style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
+<div *ngIf="members" style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
       <div class="row">
-        <div [hidden]="dec == member.uuid" *ngFor="let member of members" class="col-12">
+        <div [hidden]="dec == member.uuid" *ngFor="let member of members['hydra:member']" class="col-12">
           <div class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
@@ -25,10 +25,12 @@
         </div>
         <!-- <div class="col-12 mb-2">
           <div class="card card-stats my-4 mb-xl-0">
-            
+
           </div>
         </div> -->
       </div>
     </div>
   </div>
 </div>
+
+

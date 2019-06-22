@@ -6,9 +6,13 @@ import { Http, RequestOptions, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { post } from "selenium-webdriver/http";
 import { Body } from "@angular/http/src/body";
-import { HttpHeaders } from "@angular/common/http";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Data } from "@angular/router";
 import { Observable } from "rxjs";
+
+/* header */
+
+/* /.header */
 
 @Injectable({
   providedIn: "root"
@@ -16,11 +20,10 @@ import { Observable } from "rxjs";
 export class PostService {
   private url = "https://user.api.trivesg.com/login/nric-phone-birthdate";
   private refUrl = "https://user.api.trivesg.com/token/refresh";
-  private getUrl = "https://org.api.trivesg.com/individual_members";
+  private getUrl = "https://org.api.trivesg.com";
   private getUrlConnect = "https://org.api.trivesg.com/connections";
-  private postMessage = "https://messaging.api.trivesg.com/messages";
-  private urlAT_API =
-    "https://user.api.trivesg.com/login/individual-member-access-token";
+  private postMessage = "https://messaging.api.trivesg.com";
+  private urlAT_API = "https://user.api.trivesg.com/login/individual-member-access-token";
   constructor(private http: Http) { }
 
   apiBase = environment.eventApiBase;
@@ -29,15 +32,20 @@ export class PostService {
   // POST REQUEST
   uConnect(idPost) {
     let header = new Headers();
-    header.append("Content-Type", "application/json");
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.post(this.getUrlConnect, idPost, { headers: header });
   }
   postFormData(post) {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.post(this.url, post);
   }
   refreshToken(refresh) {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.post(this.refUrl, refresh);
   }
 
@@ -48,35 +56,65 @@ export class PostService {
     return this.http.post(this.urlAT_API, access_token, { headers: header });
   }
 
-  messagePost(message): Observable<any> {
-    let header = new Headers();
-    header.append("Accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.postMessage, message, { headers: header });
-  }
   // GET REQUEST
-  getMessage() {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.postMessage, {headers:header})
-  }
+
   getRootID(id) {
     let header = new Headers();
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrl + "/" + id, { headers: header });
+    return this.http.get(this.getUrl + "/individual_members/" + id, { headers: header });
   }
   getDataAPI() {
     let header = new Headers();
-    header.append("Accept", "application/ld+json");
+    header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrl, { headers: header });
+    return this.http.get(this.getUrl + "/individual_members", { headers: header });
   }
-  getConnect() {
+  getConnect(page: number = 1) {
     let header = new Headers();
-    header.append("Accept", "application/ld+json");
+    header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrlConnect, { headers: header });
+    return this.http.get(`${this.getUrlConnect}?page=${page}`, { headers: header });
   }
+
+
+  /* MESSAGES REQUEST*/
+  messagePost(message) {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.post(this.postMessage + '/messages', message, { headers: header });
+  }
+  getMessage() {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.get(this.postMessage + '/messages', { headers: header });
+  }
+  getSender(id): Observable<any> {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.get(`${this.getUrl}${id}`, { headers: header })
+  }
+  getDelivery(query): Observable<any> {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.get(this.postMessage + `/deliveries${query}`, { headers: header });
+  }
+
+  readDelivery(read, id) {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.put(`${this.postMessage}${id}`, read, { headers: header });
+  }
+  getMessageById(id) {
+    let header = new Headers();
+    header.append("accept", "application/ld+json");
+    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    return this.http.get(this.postMessage + `${id}`, { headers: header });
+  }
+  /* /.MESSAGES */
 }

@@ -1,7 +1,7 @@
 import { PostService } from "src/app/services/post.service";
 import { Component, OnInit } from "@angular/core";
+import 'rxjs-compat/add/operator/do';
 import * as jwt_decode from "jwt-decode";
-
 @Component({
   selector: "app-member-connect",
   templateUrl: "./member-connect.component.html",
@@ -9,27 +9,31 @@ import * as jwt_decode from "jwt-decode";
 })
 export class MemberConnectComponent implements OnInit {
   showForm = false;
-  members;
+  members: Array<any> = [];
   imId;
   dec;
-  
-  constructor(private service: PostService) {}
+  currentPage = 1;
+  scrollCallback;
+  constructor(private service: PostService) {
+    this.scrollCallback = this.getConnect.bind(this);
+  }
 
   injectNumber(s) {
     return s.substring(s.lastIndexOf('/') + 1);
   }
 
   ngOnInit() {
-    this.service.getConnect().subscribe(res => {
-      
-      let token = localStorage.getItem("token");
-      let decoded = jwt_decode(token);
-      this.dec = decoded.im;
-      console.log(decoded.im)
-
-      let get = res.json()["hydra:member"];
-      console.log(get);
-      this.members = get;
-    });
+    let token = localStorage.getItem("token");
+    let decoded = jwt_decode(token);
+    this.dec = decoded.im;
+    console.log(decoded.im)
+  }
+  getConnect() {
+    return this.service.getConnect(this.currentPage)
+      .do(res => {
+        this.currentPage++;
+        // JSON.stringify(news)
+        this.members = this.members.concat(res.json()['hydra:member'])
+      })
   }
 }

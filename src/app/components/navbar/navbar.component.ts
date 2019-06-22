@@ -1,18 +1,24 @@
 import { PostService } from "./../../services/post.service";
-import { Component, OnInit, ElementRef } from "@angular/core";
+import { Component, OnInit, ElementRef, Input, Directive, Output } from "@angular/core";
 import { ROUTES } from "../sidebar/sidebar.component";
 import { ActivatedRoute } from "@angular/router";
 import {
   Location,
   LocationStrategy,
-  PathLocationStrategy
+  PathLocationStrategy,
+  getLocaleTimeFormat
 } from "@angular/common";
 import { Router } from "@angular/router";
 import * as jwt_decode from "jwt-decode";
 import { from } from "rxjs";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { PushNotificationService } from "src/app/services/post-notif.service";
-
+import { NgbModal, NgbCarousel, ModalDismissReasons, NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { filter } from 'rxjs/operators';
+import { EventEmitter } from "selenium-webdriver";
+import { forEach } from "@angular/router/src/utils/collection";
+import { ArrayType } from "@angular/compiler";
+import { Delivery } from "src/app/models/Deliveries";
 // public_KEY
 
 let VAPID_SERVER_KEY = "BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs";
@@ -22,11 +28,11 @@ let VAPID_SERVER_KEY = "BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKj
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"]
+  styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
   // Demo
-
+  closeResult: string;
   // end
   public focus;
   public listTitles: any[];
@@ -35,29 +41,57 @@ export class NavbarComponent implements OnInit {
   getId;
   uuid;
   id;
-  messages;
+  deliveries: Delivery[];
+  deliveriesByID: Delivery;
+  messagesID = '';
   countMess;
   idDelete: any;
   publicKey: any;
   status = false;
+  queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
+  images = '';
   constructor(
     location: Location,
-    private service: PostService,
+    public service: PostService,
     private element: ElementRef,
     private router: Router,
     private routes: ActivatedRoute,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
+    private modalService: NgbModal
   ) {
     this.location = location;
+
   }
 
+  /* MODAL DIALOG */
+
+  open(content, id) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
+    this.service.getMessageById(id)
+      .subscribe(res => {
+        this.deliveriesByID = res.json();
+        this.service.getSender(res.json().message.sender)
+          .subscribe(response => {
+            this.deliveriesByID.profilePicture = response.json().profilePicture;
+            this.deliveriesByID.name = response.json().personData.name;
+            console.log(response.json())
+          })
+      })
+    let d = new Date();
+    let readed = {
+      "readAt": d.getTimezoneOffset(),
+    }
+    this.service.readDelivery(readed, id)
+      .subscribe(res => {
+      })
+  }
+  /* /.MODAL DIALOG */
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     this.id = localStorage.getItem("im_id");
     this.service.getRootID(this.id).subscribe(res => {
-      let getInfo = res.json();
-      this.members = [getInfo];
+      this.members = res.json();
       console.log("info user", res.json());
     });
 
@@ -68,29 +102,44 @@ export class NavbarComponent implements OnInit {
       this.status = false;
     }
     // =======
+    this.getDelivery();
 
-    this.service.getMessage()
-      .subscribe(res => {
-        let messages = res.json()["hydra:member"]
-        this.messages = messages;
-        this.countMess = res.json()["hydra:member"].length;
-        console.log("Message INFO", this.messages)
-      })
-    // getMessages
     setInterval(() => {
-      this.service.getMessage()
-        .subscribe(res => {
-          let messages = res.json()["hydra:member"]
-          this.messages = messages;
-          this.countMess = res.json()["hydra:member"].length;
-        })
-    }, 5000);
-  }
-  toInfo() {
-    let id = this.id;
-    this.router.navigate([`/club-members/${id}/info`])
+      if (localStorage.getItem('token')) {
+
+        this.getDelivery();
+      } else {
+        clearInterval();
+      }
+    }, 5000)
 
   }
+
+
+  /* /.SENDER */
+  getDelivery() {
+    this.service.getDelivery(this.queryDeliveriesREAD)
+      .subscribe(res => {
+        this.countMess = res.json()['hydra:totalItems'];
+      })
+    this.service.getDelivery('')
+      .subscribe((res) => {
+        this.deliveries = res.json()['hydra:member'];
+        for (const delivery of this.deliveries) {
+          this.service.getSender(delivery['message'].sender)
+            .subscribe(response => {
+              let profilePicture = response.json().profilePicture;
+              let name = response.json().personData.name;
+              delivery.name = name;
+              delivery.profilePicture = profilePicture;
+            });
+        }
+
+      });
+
+
+  }
+
   toQrCode() {
     let id = this.id
     this.router.navigate([`/club-members/${id}/qr-code`]);
@@ -106,40 +155,13 @@ export class NavbarComponent implements OnInit {
         return this.listTitles[item].title;
       }
     }
-    return "Dashboard";
+    return 'Dashboard';
   }
   logout() {
+    location.reload();
     localStorage.clear();
   }
 
-
-
-  pushNotif() {
-
-    if (localStorage.getItem("token")) {
-      if (this.swPush.isEnabled) {
-        this.swPush.requestSubscription({
-          serverPublicKey: VAPID_SERVER_KEY,
-        })
-          .then(sub => {
-            let s = sub.toJSON();
-            let contain = {
-              "endpoint": s.endpoint,
-              "authToken": s.keys.auth,
-              "p256dhKey": s.keys.p256dh
-            }
-            this.reqNotif.addPushSubscriber(contain).subscribe(res => {
-              this.idDelete = res.json()['@id'];
-              this.publicKey = res.json().p256dhKey
-              localStorage.setItem('id_pushNotif', this.idDelete);
-              localStorage.setItem('public_key', this.publicKey);
-              console.log("this", res.json())
-            });
-          })
-          .catch(console.error)
-      }
-    }
-  }
 
   statusControl() {
     this.status = !this.status;
@@ -173,6 +195,31 @@ export class NavbarComponent implements OnInit {
           })
 
       }
+    }
+  }
+
+  pushNotif() {
+
+    if (localStorage.getItem("token")) {
+      this.swPush.requestSubscription({
+        serverPublicKey: VAPID_SERVER_KEY,
+      })
+        .then(sub => {
+          let s = sub.toJSON();
+          let contain = {
+            "endpoint": s.endpoint,
+            "authToken": s.keys.auth,
+            "p256dhKey": s.keys.p256dh
+          }
+          this.reqNotif.addPushSubscriber(contain).subscribe(res => {
+            this.idDelete = res.json()['@id'];
+            this.publicKey = res.json().p256dhKey
+            localStorage.setItem('id_pushNotif', this.idDelete);
+            localStorage.setItem('public_key', this.publicKey);
+            console.log("this", res.json());
+          });
+        })
+        .catch(console.error)
     }
   }
 }

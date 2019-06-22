@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { PushNotificationService } from 'src/app/services/post-notif.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Delivery } from 'src/app/models/Deliveries';
 
 declare interface RouteInfo {
   path: string;
@@ -45,16 +47,40 @@ export class SidebarComponent implements OnInit {
   uuid;
   img;
   members;
-  messages;
   countMess;
   idDelete: any;
   publicKey: any;
   status = false;
   getId;
-  constructor(private router: Router, private service: PostService,
+  queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
+  deliveries: Delivery[];
+  deliveriesByID: Delivery;
+  messagesID = '';
+  constructor(private modalService: NgbModal, private router: Router, private service: PostService,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
   ) { }
+
+  open(content, id) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
+    this.service.getMessageById(id)
+      .subscribe(res => {
+        this.deliveriesByID = res.json();
+        this.service.getSender(res.json().message.sender)
+          .subscribe(response => {
+            this.deliveriesByID.profilePicture = response.json().profilePicture;
+            this.deliveriesByID.name = response.json().personData.name;
+            console.log(response.json())
+          })
+      })
+    let d = new Date();
+    let readed = {
+      "readAt": d.getTimezoneOffset(),
+    }
+    this.service.readDelivery(readed, id)
+      .subscribe(res => {
+      })
+  }
 
   ngOnInit() {
     this.service.getDataAPI().subscribe(res => {
@@ -78,23 +104,38 @@ export class SidebarComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.isCollapsed = true;
     });
-    // get messages
-    this.service.getMessage()
-      .subscribe(res => {
-        const messages = res.json()['hydra:member'];
-        this.messages = messages;
-        this.countMess = res.json()['hydra:member'].length;
-        console.log('Message INFO', this.messages);
-      });
-    // getMessages
+    this.getDelivery();
+
     setInterval(() => {
-      this.service.getMessage()
-        .subscribe(res => {
-          const messages = res.json()['hydra:member'];
-          this.messages = messages;
-          this.countMess = res.json()['hydra:member'].length;
-        });
+      if (localStorage.getItem('token')) {
+        this.getDelivery()
+      }else{
+        clearInterval();
+      }
     }, 5000);
+  }
+  getDelivery() {
+    this.service.getDelivery(this.queryDeliveriesREAD)
+      .subscribe(res => {
+        this.countMess = res.json()['hydra:totalItems'];
+      })
+    this.service.getDelivery('')
+      .subscribe((res) => {
+        this.deliveries = res.json()['hydra:member'];
+
+        for (const delivery of this.deliveries) {
+          this.service.getSender(delivery['message'].sender)
+            .subscribe(response => {
+              let profilePicture = response.json().profilePicture;
+              let name = response.json().personData.name;
+              delivery.name = name;
+              delivery.profilePicture = profilePicture;
+            });
+        }
+        return this.deliveries;
+
+      });
+
   }
   toInfo() {
     this.router.navigate([`/club-members/${this.uuid}/info`]);
@@ -104,6 +145,7 @@ export class SidebarComponent implements OnInit {
     this.router.navigate([`club-members/${this.uuid}/qr-code`]);
   }
   logout() {
+    location.reload();
     localStorage.clear();
   }
   // notif
