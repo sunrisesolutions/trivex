@@ -11,28 +11,36 @@ import * as jwt_decode from "jwt-decode";
   styleUrls: ["./club-members.component.scss"]
 })
 export class ClubMembersComponent implements OnInit {
-  members;
+  members: Array<any> = [];
   id;
   posts: any[];
   uHide = false;
   dec;
   uToken;
-  constructor(private service: PostService, private router: Router) {}
-
+  currentPage = 1;
+  scrollCallback;
+  constructor(private service: PostService, private router: Router) {
+    this.scrollCallback = this.getMembers.bind(this);
+  }
+  token;
+  decoded;
   ngOnInit() {
-    let token = localStorage.getItem("token");
-    let decoded = jwt_decode(token);
-    this.service.getDataAPI().subscribe(res => {
-      this.dec = decoded.im;
-      console.log(this.dec);
+    this.token = localStorage.getItem("token");
+    this.decoded = jwt_decode(this.token);
 
-      this.members = res.json();
-      console.log('member array',this.members)
-    });
   }
 
   injectNumber(s) {
     return s.substring(s.lastIndexOf("/") + 1);
+  }
+  getMembers() {
+    return this.service.getDataAPI(this.currentPage).do(res => {
+      this.currentPage++;
+      this.dec = this.decoded.im;
+      console.log(this.dec);
+
+      this.members = this.members.concat(res.json()['hydra:member']);
+    });
   }
 }
 

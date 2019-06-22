@@ -54,32 +54,23 @@ export class SidebarComponent implements OnInit {
   getId;
   queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
   deliveries: Delivery[];
-  deliveriesByID: Delivery;
+  delivery: Delivery;
   messagesID = '';
   constructor(private modalService: NgbModal, private router: Router, private service: PostService,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
-  ) { }
+  ) {
 
-  open(content, id) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
-    this.service.getMessageById(id)
-      .subscribe(res => {
-        this.deliveriesByID = res.json();
-        this.service.getSender(res.json().message.sender)
-          .subscribe(response => {
-            this.deliveriesByID.profilePicture = response.json().profilePicture;
-            this.deliveriesByID.name = response.json().personData.name;
-            console.log(response.json())
-          })
-      })
+  }
+
+  open(content, delivery) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title',centered:true, })
+    this.delivery = delivery;
     let d = new Date();
     let readed = {
       "readAt": d.getTimezoneOffset(),
     }
-    this.service.readDelivery(readed, id)
-      .subscribe(res => {
-      })
+    this.service.readDelivery(readed, delivery);
   }
 
   ngOnInit() {
@@ -105,34 +96,31 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
     });
     this.getDelivery();
-
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-        this.getDelivery()
-      }else{
-        clearInterval();
-      }
-    }, 5000);
   }
   getDelivery() {
-    this.service.getDelivery(this.queryDeliveriesREAD)
-      .subscribe(res => {
-        this.countMess = res.json()['hydra:totalItems'];
-      })
-    this.service.getDelivery('')
+    setInterval(() => {
+      if (localStorage.getItem('token')) {
+        this.service.getDelivery(this.queryDeliveriesREAD,1)
+          .subscribe(res => {
+            this.countMess = res.json()['hydra:totalItems'];
+          })
+      }
+    }, 5000)
+
+    this.service.getDelivery('',1)
       .subscribe((res) => {
         this.deliveries = res.json()['hydra:member'];
-
-        for (const delivery of this.deliveries) {
+        for (let delivery of this.deliveries) {
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
+              delivery.readed = delivery.readAt;
               let profilePicture = response.json().profilePicture;
               let name = response.json().personData.name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
         }
-        return this.deliveries;
+        console.log('deliveries', this.deliveries)
 
       });
 

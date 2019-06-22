@@ -19,7 +19,7 @@
       <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div [class.position-absolute]="countMess !==0" class="ic" style="font-size: 18pt;">
-            <i class="ni ni-bell-55"></i>
+            <i class="fas fa-envelope"></i>
           </div>
           <div [hidden]="countMess == 0" [innerHtml]="(countMess > 99) ? '99 +':countMess" style="font-size:9pt;" class="badge badge-danger font-weight-bold"></div>
 
@@ -45,7 +45,7 @@
           <!-- /.MODAL MESSAGE -->
           <div *ngIf="deliveries" class="scroll">
             <div *ngFor="let delivery of deliveries;let i = index" class="list-group list-group-flush">
-              <a (click)="open(content,delivery['@id']);" class="list-group-item list-group-item-action  {{(delivery.readAt == null)? 'unread':'readed'}} ">
+              <a (click)="open(content,delivery);" class="list-group-item list-group-item-action  {{(delivery.readed)? 'readed':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <div class="">
@@ -109,7 +109,7 @@
 
 
 <ng-template #content let-modal>
-  <div  *ngIf="deliveriesByID" class="">
+  <div *ngIf="delivery" class="">
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Messages</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -121,20 +121,20 @@
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
             <img style="width:100px;height:100px" alt="Image placeholder"
-              [src]="deliveriesByID.profilePicture" class="avatar-notif">
+              [src]="delivery.profilePicture" class="avatar-notif">
           </div>
         </div>
         <div class="card-body mt-4 text-center">
           <div class="container">
             <div class="h1">
-              {{deliveriesByID.name}}
+              {{delivery.name}}
             </div>
             <hr class="my-2">
             <div class="font-weight-bold">
-              {{deliveriesByID.message.subject}}
+              {{delivery.message.subject}}
             </div>
             <div class="font-weight-light">
-              {{deliveriesByID.message.body}}
+              {{delivery.message.body}}
             </div>
           </div>
         </div>

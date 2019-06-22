@@ -64,11 +64,11 @@ export class PostService {
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.get(this.getUrl + "/individual_members/" + id, { headers: header });
   }
-  getDataAPI() {
+  getDataAPI(page:number=1) {
     let header = new Headers();
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrl + "/individual_members", { headers: header });
+    return this.http.get(this.getUrl + `/individual_members?page=${page}`, { headers: header });
   }
   getConnect(page: number = 1) {
     let header = new Headers();
@@ -97,11 +97,11 @@ export class PostService {
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
     return this.http.get(`${this.getUrl}${id}`, { headers: header })
   }
-  getDelivery(query): Observable<any> {
+  getDelivery(query,page:number=1): Observable<any> {
     let header = new Headers();
     header.append("accept", "application/ld+json");
     header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.postMessage + `/deliveries${query}`, { headers: header });
+    return this.http.get(this.postMessage + `/deliveries${query}?page=${page}`, { headers: header });
   }
 
   readDelivery(read, id) {

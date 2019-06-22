@@ -101,3 +101,7 @@ input:checked + .slider:before {
 :host /deep/ .modal-dialog{
   background-color: red !important;
 }
+
+.dropdown-menu-lg{
+  width:100% !important;
+}

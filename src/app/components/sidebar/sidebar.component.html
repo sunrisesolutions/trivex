@@ -14,7 +14,7 @@
       <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div [class.position-absolute]="countMess !==0" class="ic" style="font-size: 18pt;">
-            <i class="ni ni-bell-55"></i>
+            <i class="fas fa-envelope"></i>
           </div>
           <div [hidden]="countMess == 0" [innerHTML]="(countMess > 99) ? '99 +':countMess" class="badge badge-danger"></div>
 
@@ -34,7 +34,7 @@
           <!-- List group -->
           <div *ngIf="deliveries" style="height: 50vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch">
             <div *ngFor="let delivery of deliveries" class="list-group list-group-flush">
-              <a (click)="open(content,delivery['@id'])" class="{{(delivery.readAt == null)? 'unread':'readed'}} list-group-item list-group-item-action">
+              <a (click)="open(content,delivery)" class="{{(delivery.readed)? 'unread':'readed'}} list-group-item list-group-item-action">
                 <div class="row align-items-center">
                   <div class="col-3 ">
                     <!-- Avatar -->
@@ -52,7 +52,7 @@
                         <small>{{delivery.createdAt | date:'short'}}</small>
                       </div>
                     </div>
-                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.subject}}</p>
+                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.message.subject}}</p>
                   </div>
                 </div>
               </a>
@@ -158,8 +158,8 @@
 </nav>
 
 
-<ng-template #content let-modal class="mt-5">
-  <div  *ngIf="deliveriesByID">
+<ng-template #content let-modal>
+  <div *ngIf="delivery">
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Messages</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -171,20 +171,20 @@
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
             <img style="width:100px;height:100px" alt="Image placeholder"
-              [src]="deliveriesByID.profilePicture" class="avatar-notif">
+              [src]="delivery.profilePicture" class="avatar-notif">
           </div>
         </div>
         <div class="card-body mt-4 text-center">
           <div class="container">
             <div class="h1">
-              {{deliveriesByID.name}}
+              {{delivery.name}}
             </div>
             <hr class="my-2">
             <div class="font-weight-bold">
-              {{deliveriesByID.message.subject}}
+              {{delivery.message.subject}}
             </div>
             <div class="font-weight-light">
-              {{deliveriesByID.message.body}}
+              {{delivery.message.body}}
             </div>
           </div>
         </div>

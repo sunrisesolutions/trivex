@@ -10,7 +10,7 @@ import {
 } from "@angular/common";
 import { Router } from "@angular/router";
 import * as jwt_decode from "jwt-decode";
-import { from } from "rxjs";
+import { from, Observable } from "rxjs";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { PushNotificationService } from "src/app/services/post-notif.service";
 import { NgbModal, NgbCarousel, ModalDismissReasons, NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
@@ -42,12 +42,13 @@ export class NavbarComponent implements OnInit {
   uuid;
   id;
   deliveries: Delivery[];
-  deliveriesByID: Delivery;
+  delivery: Delivery;
   messagesID = '';
   countMess;
   idDelete: any;
   publicKey: any;
   status = false;
+  statusMessage;
   queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
   images = '';
   constructor(
@@ -65,26 +66,14 @@ export class NavbarComponent implements OnInit {
   }
 
   /* MODAL DIALOG */
-
-  open(content, id) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
-    this.service.getMessageById(id)
-      .subscribe(res => {
-        this.deliveriesByID = res.json();
-        this.service.getSender(res.json().message.sender)
-          .subscribe(response => {
-            this.deliveriesByID.profilePicture = response.json().profilePicture;
-            this.deliveriesByID.name = response.json().personData.name;
-            console.log(response.json())
-          })
-      })
+  open(content, delivery) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size:'lg',centered:true })
+    this.delivery = delivery;
     let d = new Date();
     let readed = {
       "readAt": d.getTimezoneOffset(),
     }
-    this.service.readDelivery(readed, id)
-      .subscribe(res => {
-      })
+    this.service.readDelivery(readed, delivery);
   }
   /* /.MODAL DIALOG */
   ngOnInit() {
@@ -101,42 +90,39 @@ export class NavbarComponent implements OnInit {
     } else {
       this.status = false;
     }
-    // =======
     this.getDelivery();
-
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-
-        this.getDelivery();
-      } else {
-        clearInterval();
-      }
-    }, 5000)
-
+    // =======
   }
+
 
 
   /* /.SENDER */
   getDelivery() {
-    this.service.getDelivery(this.queryDeliveriesREAD)
-      .subscribe(res => {
-        this.countMess = res.json()['hydra:totalItems'];
-      })
-    this.service.getDelivery('')
+    setInterval(() => {
+      if (localStorage.getItem('token')) {
+        this.service.getDelivery(this.queryDeliveriesREAD,1)
+          .subscribe(res => {
+            this.countMess = res.json()['hydra:totalItems'];
+          })
+      }
+    }, 5000)
+
+    this.service.getDelivery('',1)
       .subscribe((res) => {
         this.deliveries = res.json()['hydra:member'];
-        for (const delivery of this.deliveries) {
+        for (let delivery of this.deliveries) {
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
+              delivery.readed = delivery.readAt;
               let profilePicture = response.json().profilePicture;
               let name = response.json().personData.name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
         }
+        console.log('deliveries', this.deliveries)
 
       });
-
 
   }
 
