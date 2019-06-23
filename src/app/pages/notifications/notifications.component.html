@@ -1,8 +1,8 @@
 <div id="infinite-scroller" appInfiniteScroller scrollPercent="50" immediateCallback="true"
   [scrollCallback]="scrollCallback" class="scroll header bg-gradient-danger py-7 pt-md-8 ">
   <div (click)="open(content,delivery)" *ngFor="let delivery of deliveries;let i = index"
-    class="container mb-2 w-md-50">
-    <div class="card pl-4 pr-1 py-3  {{(delivery.readed) ? 'readed':'unread'}}">
+    class="container mb-2 w-md-50 ">
+    <div class="card pl-4 pr-1 py-3 cursor {{(delivery.readed) ? 'readed':'unread'}}">
       <div class="row text-center text-md-left card-content">
         <div class="col-12 col-md-2 d-flex justify-content-center">
           <img alt="Image placeholder" class="rounded-circle mr-md-3"
