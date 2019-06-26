@@ -71,7 +71,6 @@ export class NavbarComponent implements OnInit {
 
   ) {
     this.location = location;
-    this.permission = this.isSupported() ? 'default' : 'denied'
   }
 
   /* MODAL DIALOG */
@@ -162,8 +161,7 @@ export class NavbarComponent implements OnInit {
   }
 
   statusControl(statusControl) {
-
-    console.log(this.status);
+    console.log('status push',this.status,statusControl);
     if (this.status === true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
@@ -171,6 +169,7 @@ export class NavbarComponent implements OnInit {
         .then(sub => {
           let s = sub.toJSON();
           let contentEncoding = PushManager.supportedContentEncodings[0];
+          console.log(s)
           let contain = {
             "endpoint": s.endpoint,
             "expirationTime": s.expirationTime,

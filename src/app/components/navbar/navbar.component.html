@@ -36,7 +36,7 @@
 
             <div *ngIf="isSupported()" class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
-                <input #statusControl1 [(ngModel)]="status" (ngModelChange)="statusControl(statusControl1)" name="checkbox"
+                <input #statusControlIpt [(ngModel)]="status" (ngModelChange)="statusControl(statusControlIpt)" name="checkbox"
                   type="checkbox">
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
