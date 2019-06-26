@@ -1,51 +1,42 @@
-import { ClubMembersComponent } from './pages/club-members/club-members.component';
-import { PostService } from './services/post.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthModule } from './modules/auth/auth.module';
+/**
+ * @license
+ * Copyright Akveo. All Rights Reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ */
+import { APP_BASE_HREF } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { CoreModule } from './@core/core.module';
+
 import { AppComponent } from './app.component';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { AppRoutingModule } from './app-routing.module';
+import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DeviceDetectorModule } from 'ngx-device-detector';
-import 'core-js/es6/string';
-import 'core-js/es6/array';
-import 'core-js/es6/map';
-
-
-import { AppRoutingModule } from './app.routing';
-import { ComponentsModule } from './components/components.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { PushNotificationService } from './services/post-notif.service';
-import { Location } from '@angular/common';
+import { NbTokenLocalStorage, NbTokenStorage } from '@nebular/auth';
 
 @NgModule({
+  declarations: [AppComponent],
   imports: [
+    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ComponentsModule,
-    NgbModule,
-    RouterModule,
     AppRoutingModule,
-    HttpModule,
-    FormsModule,
-    DeviceDetectorModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    AuthModule,
+
+    NgbModule.forRoot(),
+    ThemeModule.forRoot(),
+    CoreModule.forRoot(),
   ],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    AuthLayoutComponent,
-  ],
+  bootstrap: [AppComponent],
   providers: [
-    PostService,
-    Location,
-    PushNotificationService,
+    AuthGuardService,
+    { provide: APP_BASE_HREF, useValue: '/' },
   ],
-  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

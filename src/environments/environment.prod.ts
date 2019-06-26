@@ -1,7 +1,8 @@
+/**
+ * @license
+ * Copyright Akveo. All Rights Reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ */
 export const environment = {
   production: true,
-  apiBase: 'https://event.api.trivesg.com',
-  eventApiBase: 'https://event.api.trivesg.com',
-  orgApiBase: 'https://org.api.trivesg.com'
-
 };

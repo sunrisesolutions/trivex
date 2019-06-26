@@ -1,32 +1,33 @@
+/**
+ * @license
+ * Copyright Akveo. All Rights Reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ */
 import { Component, OnInit } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from './services/post-notif.service';
-import { Location } from '@angular/common';
-import { environment } from 'src/environments/environment.prod';
-
-const VAPID_SERVER_KEY = "BKNj-ROJiHb7ccxeZ4NjaGnyCa4EtLRXz2N0zNcWQZVm6fTJYTKdBqLJkmQD8tTITzPRP59TEdj7SxRVprkrYVA"
+import { AnalyticsService } from './@core/utils/analytics.service';
+import { NbMenuService } from '@nebular/theme';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'ngx-app',
+  template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  location: Location;
 
-  constructor(
-
-  ) {
-
-  }
-
-  ngOnInit() {
-    if (environment.production) {
-      if (!location.protocol.startsWith("https")) {
-        window.location.href = location.href.replace('http', 'https');
-      }
+  onContecxtItemSelection(title) {
+    if(title = 'Log out'){
+      localStorage.clear();
+      return this.router.navigateByUrl('/auth/login');
     }
   }
+  constructor(private analytics: AnalyticsService,private router:Router, private menuService: NbMenuService) {
+    this.menuService.onItemClick()
+      .subscribe((event) => {
+        this.onContecxtItemSelection(event.item.title);
+      });
+  }
 
-
+  ngOnInit(): void {
+    this.analytics.trackPageViews();
+  }
 }

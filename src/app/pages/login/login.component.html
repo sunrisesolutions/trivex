@@ -1,101 +1,103 @@
-<div class="header bg-gradient-danger py-5 py-lg-5">
-  <div class="container">
-    <div class="header-body text-center mb-7">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">TRIVESG</h1>
-        </div>
-      </div>
-    </div>
+<h1 id="title" class="title">Login</h1>
+<p class="sub-title">Hello! Log in with your user.</p>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title"><b>Oh snap!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title"><b>Hooray!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
+
+  <div class="form-control-group">
+    <label class="label" for="input-email">User name:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.username"
+           #username="ngModel"
+           name="username"
+           id="input-email"
+           placeholder="User name"
+           autofocus
+           >
+    <ng-container *ngIf="username.invalid && username.touched">
+      <p class="error-message" *ngIf="username.errors?.required">
+        User name is required!
+      </p>
+      <p class="error-message" *ngIf="username.errors?.pattern">
+        User name should be the real one!
+      </p>
+    </ng-container>
   </div>
-  <div class="separator separator-bottom separator-skew zindex-100">
-    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-    </svg>
+
+  <div class="form-control-group">
+    <label class="label" for="input-password">Password:</label>
+    <input nbInput
+           fullWidth
+           [(ngModel)]="user.password"
+           #password="ngModel"
+           name="password"
+           type="password"
+           id="input-password"
+           placeholder="Password"
+           [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+           [required]="getConfigValue('forms.validation.password.required')"
+           [minlength]="getConfigValue('forms.validation.password.minLength')"
+           [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+           [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+    <ng-container *ngIf="password.invalid && password.touched ">
+      <p class="error-message" *ngIf="password.errors?.required">
+        Password is required!
+      </p>
+      <p class="error-message" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+        Password should contains
+        from {{ getConfigValue('forms.validation.password.minLength') }}
+        to {{ getConfigValue('forms.validation.password.maxLength') }}
+        characters
+      </p>
+    </ng-container>
   </div>
-</div>
-<!-- Page content -->
-<div class="container mt--8 pb-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-7">
-      <div class="card bg-secondary shadow border-0">
-        <div class="card-header bg-transparent">
-          <a class="navbar-brand text-center" routerLinkActive="active" [routerLink]="['/dashboard']">
-            <img style="width: 80%; margin-left: 10pt;" src="assets/img/brand/logo.png" />
-          </a>
-          <div class="text-center text-muted mb-4">
-            <h2>Sign in with credentials</h2>
-          </div>
-          <form (keyup.enter)="login()" role="form">
-            <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
-            <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-badge"></i></span>
-                </div>
-                <input [(ngModel)]="orgCode" name="orgCode" class="form-control p-2" placeholder="Organisation Code"
-                  type="email">
 
-              </div>
-            </div>
-
-            <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-badge"></i></span>
-                </div>
-                <input [(ngModel)]="idNumber" name="idNumber" class="p-2 form-control" placeholder="NRIC/ID Number"
-                  type="password">
-
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
-                </div>
-                <input [(ngModel)]="phone" name="phone" class="p-2 form-control" placeholder="Phone Number"
-                  type="text">
-
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                </div>
-                <input #dobi class="form-control p-2 datepicker" placeholder="Date of Birth" name="dob"
-                  [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text" [startDate]="{year: 1990, month: 1, day: 1}" [minDate]="{year: 1970, month: 1, day: 1}" />
-
-              </div>
-
-            </div>
-          </form>
-        </div>
-        <div class="card-body">
-          <form role="form">
-            <div class="custom-control custom-control-alternative custom-checkbox">
-              <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-              <label class="custom-control-label" for=" customCheckLogin">
-                <span class="text-muted">Remember me</span>
-              </label>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4"  (click)="login()">Sign in</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-6">
-          <a href="javascript:void(0)" class="text-light"><small>Forgot password?</small></a>
-        </div>
-        <div class="col-6 text-right">
-          <a [routerLink]="['/register']" class="text-light"><small>Create new account</small></a>
-        </div>
-      </div>
-    </div>
+  <div class="form-control-group accept-group">
+    <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
+    <a class="forgot-password" routerLink="../request-password">Forgot Password?</a>
   </div>
-</div>
+
+  <button nbButton
+          fullWidth
+          status="success"
+          [disabled]="submitted || !form.valid"
+          [class.btn-pulse]="submitted">
+    Log In
+  </button>
+</form>
+
+<section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
+  or enter with:
+  <div class="socials">
+    <ng-container *ngFor="let socialLink of socialLinks">
+      <a *ngIf="socialLink.link"
+         [routerLink]="socialLink.link"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+      <a *ngIf="socialLink.url"
+         [attr.href]="socialLink.url"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+    </ng-container>
+  </div>
+</section>
+
+<section class="another-action" aria-label="Register">
+  Don't have an account? <a class="text-link" routerLink="../register">Register</a>
+</section>
