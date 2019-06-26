@@ -168,7 +168,6 @@ export class NavbarComponent implements OnInit {
         serverPublicKey: VAPID_SERVER_KEY,
       })
         .then(sub => {
-          console.log('002')
           let s = sub.toJSON();
           let contentEncoding = PushManager.supportedContentEncodings[0];
           console.log(s)
@@ -181,7 +180,6 @@ export class NavbarComponent implements OnInit {
 
           }
           this.reqNotif.addPushSubscriber(contain).subscribe(res => {
-            console.log('003')
             this.idDelete = res['@id'];
             this.publicKey = res.p256dhKey
             localStorage.setItem('id_pushNotif', this.idDelete);
@@ -198,7 +196,6 @@ export class NavbarComponent implements OnInit {
           statusControl.checked = false;
         })
     } else if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
-      console.log('101')
       if (localStorage.getItem('id_pushNotif')) {
         this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
           .subscribe(res => {
@@ -210,7 +207,6 @@ export class NavbarComponent implements OnInit {
           })
       }
       else if (localStorage.getItem('public_key')) {
-        console.log('201')
         this.reqNotif.deleteNotifBySearchPublicKey()
           .subscribe(res => {
             this.reqNotif.deleteNotification(this.getId)
@@ -223,7 +219,6 @@ export class NavbarComponent implements OnInit {
           })
 
       }
-      console.log('end')
     }
   }
 }
