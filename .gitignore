@@ -3,8 +3,6 @@
 .vscode
 .idea
 
-public/deploy.php
-
 # compiled output
 /dist
 /tmp
