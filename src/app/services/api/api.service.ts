@@ -16,7 +16,7 @@ export class ApiService {
 
 
   userInfo(id) {
-    httpOptions = {
+    let httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
