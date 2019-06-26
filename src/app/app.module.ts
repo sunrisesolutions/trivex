@@ -21,6 +21,7 @@ import { ComponentsModule } from './components/components.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PushNotificationService } from './services/post-notif.service';
+import { Location } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { PushNotificationService } from './services/post-notif.service';
   ],
   providers: [
     PostService,
+    Location,
     PushNotificationService,
   ],
   bootstrap: [AppComponent]

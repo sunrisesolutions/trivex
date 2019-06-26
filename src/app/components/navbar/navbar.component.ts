@@ -118,7 +118,10 @@ export class NavbarComponent implements OnInit {
         }, 2000)
       }
     }, 2000)
-
+    this.swPush.notificationClicks
+    .subscribe(res => {
+      console.log('notification',res);
+    })
 
   }
 
@@ -168,7 +171,6 @@ export class NavbarComponent implements OnInit {
         .then(sub => {
           let s = sub.toJSON();
           let contentEncoding = PushManager.supportedContentEncodings[0];
-          console.log(contentEncoding)
           let contain = {
             "endpoint": s.endpoint,
             "expirationTime": s.expirationTime,
@@ -184,10 +186,7 @@ export class NavbarComponent implements OnInit {
             localStorage.setItem('public_key', this.publicKey);
             console.log("this", res);
           });
-          this.swPush.notificationClicks
-            .subscribe(res => {
-              console.log(res);
-            })
+
 
         })
         .catch(err => {
