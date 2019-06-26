@@ -41,9 +41,9 @@ export class MemberidComponent implements OnInit {
     this.id = snapID;
     this.imId = localStorage.getItem("im_id");
     this.service.getRootID(snapID).subscribe(res => {
-      let getInfo = res.json();
+      let getInfo = res;
       this.members = getInfo;
-      console.log("info user", res.json());
+      console.log("info user", res);
     });
   }
   toClubMem() {

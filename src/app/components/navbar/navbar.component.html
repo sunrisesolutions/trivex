@@ -1,8 +1,9 @@
 <nav class="navbar navbar-top navbar-expand-md navbar-dark bg-gradient-danger" id="navbar-main">
   <div class="container-fluid">
     <!-- Brand -->
-    <a style="margin-left: 180pt !important;" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block "
-      routerLinkActive="active" [routerLink]="['/dashboard']">{{getTitle()}}</a>
+    <a style="margin-left: 180pt !important; cursor:pointer"
+      class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block " routerLinkActive="active"
+      (click)="toQrCode()">My Qr-Code</a>
     <!-- Form -->
     <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
       <div class="form-group mb-0" [ngClass]="{ 'focused': focus === true }">
@@ -16,12 +17,13 @@
     </form>
     <!-- User -->
     <ul class="navbar-nav align-items-center d-none d-md-flex">
-      <li class="nav-item" ngbDropdown placement="bottom-right">
-        <a class="nav-link" role="button" ngbDropdownToggle>
+      <li class="nav-item" ngbDropdown [autoClose]="false" placement="bottom-right">
+        <a id="dropdownConfig" class="nav-link" role="button" ngbDropdownToggle>
           <div [class.position-absolute]="countMess !==0" class="ic" style="font-size: 18pt;">
             <i class="fas fa-envelope"></i>
           </div>
-          <div [hidden]="countMess == 0" [innerHtml]="(countMess > 99) ? '99 +':countMess" style="font-size:9pt;" class="badge badge-danger font-weight-bold"></div>
+          <div [hidden]="countMess == 0" [innerHtml]="(countMess > 99) ? '99 +':countMess" style="font-size:9pt;"
+            class="badge badge-danger font-weight-bold"></div>
 
         </a>
         <div role="button" ngbDropdownMenu
@@ -31,11 +33,15 @@
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
               notifications unread.</h6>
 
-            <label class="switch">
-              <input type="checkbox" (click)="statusControl()" [checked]="status">
-              <span class="slider round"></span>
-            </label>
-            <label class="label">Receive Notification</label>
+            <div class="group-toggle d-flex align-items-center">
+              <label class="custom-toggle">
+                <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
+                  type="checkbox">
+                <span class="custom-toggle-slider rounded-circle"></span>
+              </label>
+
+              <label class="label ml-2">Receive Notification</label>
+            </div>
           </div>
 
           <!-- List group -->
@@ -45,12 +51,12 @@
           <!-- /.MODAL MESSAGE -->
           <div *ngIf="deliveries" class="scroll">
             <div *ngFor="let delivery of deliveries;let i = index" class="list-group list-group-flush">
-              <a (click)="open(content,delivery);" class="list-group-item list-group-item-action  {{(delivery.readed)? 'readed':'unread'}} ">
+              <a (click)="open(content,delivery);"
+                class="list-group-item list-group-item-action  {{(delivery.readAt)? 'read':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <div class="">
-                      <img alt="Image placeholder"
-                        [src]="delivery.profilePicture" class="avatar-notif">
+                      <img role="img" [src]="delivery.profilePicture" class="avatar-notif">
                     </div>
                   </div>
                   <div class="col ml-2 ml-md-0 ">
@@ -112,7 +118,7 @@
   <div *ngIf="delivery" class="">
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Messages</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -120,8 +126,8 @@
       <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px" alt="Image placeholder"
-              [src]="delivery.profilePicture" class="avatar-notif">
+            <img style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
+              class="avatar-notif">
           </div>
         </div>
         <div class="card-body mt-4 text-center">

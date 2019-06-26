@@ -1,7 +1,9 @@
+import { Http } from '@angular/http';
 import { PostService } from 'src/app/services/post.service';
 import { Component, OnInit } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
 
 
 @Component({
@@ -11,8 +13,8 @@ import { Router } from '@angular/router';
 })
 
 export class AdminLayoutComponent implements OnInit {
-  constructor(private service: PostService, private router: Router) {
 
+  constructor(private service: PostService, private router: Router) {
   }
   ngOnInit() {
     this.AccessToken();
@@ -35,14 +37,14 @@ export class AdminLayoutComponent implements OnInit {
     if (tokenDate < currentDate) {
       localStorage.clear();
       this.router.navigate(['/login']);
-    }else if (localStorage.getItem('token')) {
+    } else if (localStorage.getItem('token')) {
 
       /*nếu tokendate trừ cho currentdate nhỏ hơn 600000 thì thực hiện refresh*/
       if (tokenDate - currentDate < 600000) {
         if (localStorage.getItem('refresh_token') !== null) {
           this.service.refreshToken(formRef).subscribe(res => {
-            localStorage.setItem('token', res.json().token);
-            console.log('refreshed', res.json());
+            localStorage.setItem('token', res['token']);
+            console.log('refreshed', res);
           }, error => {
             if (error.status === 401) {
               this.router.navigate(['/login']);
@@ -60,4 +62,6 @@ export class AdminLayoutComponent implements OnInit {
       ); */
     }
   }
+
+  /* /.Device detector */
 }

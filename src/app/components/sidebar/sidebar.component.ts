@@ -5,6 +5,9 @@ import { SwPush } from '@angular/service-worker';
 import { PushNotificationService } from 'src/app/services/post-notif.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Delivery } from 'src/app/models/Deliveries';
+import { Route } from '@angular/compiler/src/core';
+import { Location } from '@angular/common';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 declare interface RouteInfo {
   path: string;
@@ -12,9 +15,10 @@ declare interface RouteInfo {
   icon: string;
   class: string;
 }
+
 export const ROUTES: RouteInfo[] = [
   {
-    path: '/club-members',
+    path: `/club-members`,
     title: 'Club Members',
     icon: 'ni-bullet-list-67 text-red',
     class: ''
@@ -29,7 +33,8 @@ export const ROUTES: RouteInfo[] = [
     path: '/post-announcement',
     title: 'Post an announcement',
     icon: 'ni-bell-55 text-yellow',
-    class: ''
+    class: '',
+
   }
 ];
 
@@ -52,42 +57,47 @@ export class SidebarComponent implements OnInit {
   publicKey: any;
   status = false;
   getId;
-  queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
+  fakeCountMess;
+  queryDeliveriesREAD = '?readAt%5Bexists%5D=false&';
   deliveries: Delivery[];
   delivery: Delivery;
   messagesID = '';
+  deviceInfo = null;
   constructor(private modalService: NgbModal, private router: Router, private service: PostService,
+    private _location: Location,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
+    private deviceService: DeviceDetectorService
   ) {
 
   }
 
   open(content, delivery) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title',centered:true, })
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, })
     this.delivery = delivery;
     let d = new Date();
-    let readed = {
+    let pramramsRead = {
       "readAt": d.getTimezoneOffset(),
     }
-    this.service.readDelivery(readed, delivery);
+    delivery.readAt = pramramsRead.readAt;
+    this.service.readDelivery(pramramsRead, delivery['@id'])
+      .subscribe(res => {
+      });
   }
 
   ngOnInit() {
     this.service.getDataAPI().subscribe(res => {
       this.uuid = localStorage.getItem('im_id');
       this.service.getRootID(this.uuid).subscribe(res => {
-        const getInfo = res.json().profilePicture;
+        const getInfo = res['profilePicture'];
         this.members = getInfo;
-        console.log('info user', res.json());
+        console.log('info user', res);
       });
     });
 
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
       this.status = true;
-    } else {
-      this.status = false;
     }
     // =============
 
@@ -96,26 +106,49 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
     });
     this.getDelivery();
+    // =======
+    setInterval(() => {
+      if (localStorage.getItem('token')) {
+        this.service.getDelivery(this.queryDeliveriesREAD, 1)
+          .subscribe(res => {
+            this.countMess = res['hydra:totalItems'];
+            if (this.fakeCountMess < this.countMess) {
+              return this.getDelivery();
+            }
+          })
+        setTimeout(() => {
+          this.fakeCountMess = this.countMess;
+        }, 2000)
+      }
+    }, 2000)
+    this.epicFunction();
   }
+
+  /* Device detector */
+  epicFunction() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+  }
+  /* /.Device detector */
+
+
   getDelivery() {
     setInterval(() => {
       if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD,1)
+        this.service.getDelivery(this.queryDeliveriesREAD, 1)
           .subscribe(res => {
-            this.countMess = res.json()['hydra:totalItems'];
+            this.countMess = res['hydra:totalItems'];
           })
       }
     }, 5000)
 
-    this.service.getDelivery('',1)
+    this.service.getDelivery('', 1)
       .subscribe((res) => {
-        this.deliveries = res.json()['hydra:member'];
+        this.deliveries = res['hydra:member'];
         for (let delivery of this.deliveries) {
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
-              delivery.readed = delivery.readAt;
-              let profilePicture = response.json().profilePicture;
-              let name = response.json().personData.name;
+              let profilePicture = response['profilePicture'];
+              let name = response['personData'].name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
@@ -165,36 +198,61 @@ export class SidebarComponent implements OnInit {
   }
 
   statusControl() {
-    this.status = !this.status;
     console.log(this.status);
-    if (this.status == true) {
-      this.pushNotif();
-    }
-    if (this.status == false) {
-      if (localStorage.getItem('id_pushNotif')) {
-        this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
-          .subscribe(res => {
-            localStorage.removeItem('id_pushNotif');
-            localStorage.removeItem('public_key');
-            console.log(res.json());
+    if (this.status === true) {
+      this.swPush.requestSubscription({
+        serverPublicKey: VAPID_SERVER_KEY,
+      })
+        .then(sub => {
+          let s = sub.toJSON();
+          let contentEncoding = PushManager.supportedContentEncodings[0];
+          console.log(contentEncoding)
+          let contain = {
+            "endpoint": s.endpoint,
+            "expirationTime": s.expirationTime,
+            "authToken": s.keys.auth,
+            "p256dhKey": s.keys.p256dh,
+            "contentEncoding": contentEncoding
+
+          }
+          this.reqNotif.addPushSubscriber(contain).subscribe(res => {
+            this.idDelete = res['@id'];
+            this.publicKey = res.p256dhKey
+            localStorage.setItem('id_pushNotif', this.idDelete);
+            localStorage.setItem('public_key', this.publicKey);
+            console.log("this", res);
           });
-      } else if (localStorage.getItem('public_key')) {
-        this.reqNotif.deleteNotifBySearchPublicKey()
-          .subscribe(res => {
-            console.log(res.json());
-            const del = res.json()['hydra:member'];
-            for (const i in del) {
-              this.getId = res.json()['hydra:member'][`${i}`]['@id'];
-            }
-            console.log(this.getId);
-            this.reqNotif.deleteNotification(this.getId)
-              .subscribe(res => {
-                console.log(res.json());
-              });
-            localStorage.removeItem('public_key');
-          });
+        })
+        .catch(res => {
+          console.error(res);
+          setTimeout(() => {
+            alert('There is some problem in subscribing your device for push notification.')
+            return this.status = false;
+          }, 300)
+        })
+    } setTimeout(() => {
+      if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
+        if (localStorage.getItem('id_pushNotif')) {
+          this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
+            .subscribe(res => {
+              localStorage.removeItem('id_pushNotif');
+              localStorage.removeItem('public_key');
+              console.log(res);
+            })
+        }
+        else if (localStorage.getItem('public_key')) {
+          this.reqNotif.deleteNotifBySearchPublicKey()
+            .subscribe(res => {
+              this.reqNotif.deleteNotification(this.getId)
+                .subscribe(res => {
+                  console.log(res);
+                  localStorage.removeItem('public_key');
+                })
+            })
+        }
 
       }
-    }
+    }, 500)
+
   }
 }

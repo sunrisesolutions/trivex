@@ -35,10 +35,10 @@ export class ConnectComponent implements OnInit {
 
     const id = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(id).subscribe(res => {
-      console.log(res.json())
-      let getInfo = res.json();
+      console.log(res)
+      let getInfo = res;
       this.members = [getInfo];
-      console.log("info user", res.json());
+      console.log("info user", res);
     });
     this.onConnect();
   }
@@ -50,8 +50,8 @@ export class ConnectComponent implements OnInit {
     let data = { toMember: "/individual_members/" + id };
     this.service.uConnect(JSON.stringify(data)).subscribe(response => {
       this.imToken = localStorage.getItem('im_id');
-      this.uuidRes = response.json().toMember.uuid;
-      console.log("connect-member", response.json(), this.imToken);
+      this.uuidRes = response['toMember'].uuid;
+      console.log("connect-member", response, this.imToken);
     });
   }
   injectNumber(s) {

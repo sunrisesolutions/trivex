@@ -1,4 +1,4 @@
-import { Router } from "@angular/router";
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { PostService } from "./../../services/post.service";
 import { Component, OnInit, HostBinding } from "@angular/core";
 import { Member } from "src/app/models/Member";
@@ -19,8 +19,9 @@ export class ClubMembersComponent implements OnInit {
   uToken;
   currentPage = 1;
   scrollCallback;
-  constructor(private service: PostService, private router: Router) {
+  constructor(private service: PostService, private router: Router,private routes: ActivatedRoute) {
     this.scrollCallback = this.getMembers.bind(this);
+
   }
   token;
   decoded;
@@ -39,15 +40,7 @@ export class ClubMembersComponent implements OnInit {
       this.dec = this.decoded.im;
       console.log(this.dec);
 
-      this.members = this.members.concat(res.json()['hydra:member']);
+      this.members = this.members.concat(res['hydra:member']);
     });
   }
 }
-
-/*
-const formRef = new FormData();
-let date = ~~(Date.now() / 1000);
-      console.log(date);
-      let ref = response.json().refresh_token;
-      formRef.append("refresh_token", ref);
-      console.log(ref); */

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { PostService } from "src/app/services/post.service";
 import { Component, OnInit } from "@angular/core";
 import 'rxjs-compat/add/operator/do';
@@ -14,8 +15,9 @@ export class MemberConnectComponent implements OnInit {
   dec;
   currentPage = 1;
   scrollCallback;
-  constructor(private service: PostService) {
+  constructor(private service: PostService,private routes: ActivatedRoute) {
     this.scrollCallback = this.getConnect.bind(this);
+
   }
 
   injectNumber(s) {
@@ -33,7 +35,7 @@ export class MemberConnectComponent implements OnInit {
       .do(res => {
         this.currentPage++;
         // JSON.stringify(news)
-        this.members = this.members.concat(res.json()['hydra:member'])
+        this.members = this.members.concat(res['hydra:member'])
       })
   }
 }

@@ -1,20 +1,23 @@
 <div id="infinite-scroller" appInfiniteScroller scrollPercent="50" immediateCallback="true"
   [scrollCallback]="scrollCallback" class="scroll header bg-gradient-danger py-7 pt-md-8 ">
   <div (click)="open(content,delivery)" *ngFor="let delivery of deliveries;let i = index"
-    class="container mb-2 w-md-50 ">
-    <div class="card pl-4 pr-1 py-3 cursor {{(delivery.readed) ? 'readed':'unread'}}">
-      <div class="row text-center text-md-left card-content">
-        <div class="col-12 col-md-2 d-flex justify-content-center">
-          <img alt="Image placeholder" class="rounded-circle mr-md-3"
-            style="object-fit: cover; width: 80px; height: 80px;" [src]="delivery.profilePicture">
+    class="container mb-3 w-md-50">
+    <div class="card py-3 cursor {{(delivery.readAt) ? 'readed':'unread'}}">
+      <div class="card-content container">
+        <div class="row">
+          <div class="col-12 col-md-2">
+            <img alt="Image placeholder" class="rounded-circle mr-md-3"
+              style="object-fit: cover; width: 80px; height: 80px;" [src]="delivery.profilePicture">
+          </div>
+          <div class="col-12 col-md-5">
+            <h2 class="font-weight-bold">{{delivery.name}}</h2>
+            <p style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}</p>
+          </div>
+          <div class="col-12 col-md-5 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+            <small class="">{{delivery.message.createdAt | date:'short'}}</small>
+          </div>
         </div>
-        <div class="col-12 col-md-7">
-          <h2 class="font-weight-bold">{{delivery.name}}</h2>
-          <p style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}</p>
-        </div>
-        <div class="col-12 col-md-3 d-flex justify-content-center align-items-end text-md-right">
-          <small class="">{{delivery.message.createdAt | date:'short'}}</small>
-        </div>
+
       </div>
     </div>
   </div>
@@ -33,8 +36,8 @@
       <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
-              class="avatar-notif rounded-circle">
+            <img style="width:100px;height:100px;object-fit: cover" alt="Image placeholder"
+              [src]="delivery.profilePicture" class="avatar-notif rounded-circle">
           </div>
         </div>
         <div class="card-body mt-4 text-center">

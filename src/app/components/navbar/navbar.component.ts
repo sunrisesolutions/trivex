@@ -1,5 +1,5 @@
 import { PostService } from "./../../services/post.service";
-import { Component, OnInit, ElementRef, Input, Directive, Output } from "@angular/core";
+import { Component, OnInit, ElementRef, Input, Directive, Output, getPlatform } from "@angular/core";
 import { ROUTES } from "../sidebar/sidebar.component";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -13,15 +13,16 @@ import * as jwt_decode from "jwt-decode";
 import { from, Observable } from "rxjs";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { PushNotificationService } from "src/app/services/post-notif.service";
-import { NgbModal, NgbCarousel, ModalDismissReasons, NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbCarousel, ModalDismissReasons, NgbCarouselConfig, NgbCarouselModule, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
 import { EventEmitter } from "selenium-webdriver";
 import { forEach } from "@angular/router/src/utils/collection";
 import { ArrayType } from "@angular/compiler";
 import { Delivery } from "src/app/models/Deliveries";
+import { DeviceDetectorService } from "ngx-device-detector";
 // public_KEY
 
-let VAPID_SERVER_KEY = "BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs";
+let VAPID_SERVER_KEY = "BEGr4msl7QLSMGFJn7hX9MvyM6HmekhdUpCeiDq5EREbQj7jEgUV7rTYDV-rCj3E5FieUSg1OsUhBkCy4IPvorQ";
 
 // ===========
 
@@ -45,12 +46,15 @@ export class NavbarComponent implements OnInit {
   delivery: Delivery;
   messagesID = '';
   countMess;
+  fakeCountMess;
   idDelete: any;
   publicKey: any;
   status = false;
+  modalSHOW = false;
   statusMessage;
-  queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
+  queryDeliveriesREAD = '?readAt[exists]=false&';
   images = '';
+  deviceInfo = null;
   constructor(
     location: Location,
     public service: PostService,
@@ -59,63 +63,78 @@ export class NavbarComponent implements OnInit {
     private routes: ActivatedRoute,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private config: NgbDropdownConfig,
+    private deviceService: DeviceDetectorService,
   ) {
     this.location = location;
 
   }
 
   /* MODAL DIALOG */
+
   open(content, delivery) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size:'lg',centered:true })
+    this.modalSHOW = true;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
     this.delivery = delivery;
     let d = new Date();
-    let readed = {
+    let pramramsRead = {
       "readAt": d.getTimezoneOffset(),
     }
-    this.service.readDelivery(readed, delivery);
+    delivery.readAt = pramramsRead.readAt;
+    this.service.readDelivery(pramramsRead, delivery['@id'])
+      .subscribe(res => {
+      });
   }
   /* /.MODAL DIALOG */
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     this.id = localStorage.getItem("im_id");
     this.service.getRootID(this.id).subscribe(res => {
-      this.members = res.json();
-      console.log("info user", res.json());
+      this.members = res;
+      console.log("info user", res);
     });
 
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
       this.status = true;
-    } else {
-      this.status = false;
     }
     this.getDelivery();
     // =======
+    setInterval(() => {
+      if (localStorage.getItem('token')) {
+        this.service.getDelivery(this.queryDeliveriesREAD, 1)
+          .subscribe(res => {
+            this.countMess = res['hydra:totalItems'];
+            if (this.fakeCountMess < this.countMess) {
+              return this.getDelivery();
+            }
+          })
+        setTimeout(() => {
+          this.fakeCountMess = this.countMess;
+        }, 2000)
+      }
+    }, 2000)
+
+
+    /* Device detector */
+
+    /* /.Device detector */
   }
 
+  /* Device detector */
 
 
   /* /.SENDER */
   getDelivery() {
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD,1)
-          .subscribe(res => {
-            this.countMess = res.json()['hydra:totalItems'];
-          })
-      }
-    }, 5000)
-
-    this.service.getDelivery('',1)
+    this.service.getDelivery('', 1)
       .subscribe((res) => {
-        this.deliveries = res.json()['hydra:member'];
+        this.deliveries = res['hydra:member'];
         for (let delivery of this.deliveries) {
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
-              delivery.readed = delivery.readAt;
-              let profilePicture = response.json().profilePicture;
-              let name = response.json().personData.name;
+              let profilePicture = response['profilePicture'];
+              let name = response['personData'].name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
@@ -131,18 +150,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([`/club-members/${id}/qr-code`]);
 
   }
-  getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === "#") {
-      titlee = titlee.slice(2);
-    }
-    for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return 'Dashboard';
-  }
+
   logout() {
     location.reload();
     localStorage.clear();
@@ -150,62 +158,61 @@ export class NavbarComponent implements OnInit {
 
 
   statusControl() {
-    this.status = !this.status;
     console.log(this.status);
-    if (this.status == true) {
-      this.pushNotif();
-    }
-    if (this.status == false) {
-      if (localStorage.getItem('id_pushNotif')) {
-        this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
-          .subscribe(res => {
-            localStorage.removeItem('id_pushNotif');
-            localStorage.removeItem('public_key');
-            console.log(res.json());
-          })
-      }
-      else if (localStorage.getItem('public_key')) {
-        this.reqNotif.deleteNotifBySearchPublicKey()
-          .subscribe(res => {
-            console.log(res.json())
-            let del = res.json()['hydra:member'];
-            for (let i in del) {
-              this.getId = res.json()['hydra:member'][`${i}`]['@id']
-            }
-            console.log(this.getId)
-            this.reqNotif.deleteNotification(this.getId)
-              .subscribe(res => {
-                console.log(res.json());
-              })
-            localStorage.removeItem('public_key');
-          })
-
-      }
-    }
-  }
-
-  pushNotif() {
-
-    if (localStorage.getItem("token")) {
+    if (this.status === true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
       })
         .then(sub => {
           let s = sub.toJSON();
+          let contentEncoding = PushManager.supportedContentEncodings[0];
+          console.log(contentEncoding)
           let contain = {
             "endpoint": s.endpoint,
+            "expirationTime": s.expirationTime,
             "authToken": s.keys.auth,
-            "p256dhKey": s.keys.p256dh
+            "p256dhKey": s.keys.p256dh,
+            "contentEncoding": contentEncoding
+
           }
           this.reqNotif.addPushSubscriber(contain).subscribe(res => {
-            this.idDelete = res.json()['@id'];
-            this.publicKey = res.json().p256dhKey
+            this.idDelete = res['@id'];
+            this.publicKey = res.p256dhKey
             localStorage.setItem('id_pushNotif', this.idDelete);
             localStorage.setItem('public_key', this.publicKey);
-            console.log("this", res.json());
+            console.log("this", res);
           });
         })
-        .catch(console.error)
-    }
+        .catch(err => {
+          console.error(err);
+          setTimeout(() => {
+            alert('There is some problem in subscribing your device for push notification.')
+            return this.status = false;
+          }, 300)
+        })
+    } setTimeout(() => {
+      if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
+        if (localStorage.getItem('id_pushNotif')) {
+          this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
+            .subscribe(res => {
+              localStorage.removeItem('id_pushNotif');
+              localStorage.removeItem('public_key');
+              console.log(res);
+            })
+        }
+        else if (localStorage.getItem('public_key')) {
+          this.reqNotif.deleteNotifBySearchPublicKey()
+            .subscribe(res => {
+              this.reqNotif.deleteNotification(this.getId)
+                .subscribe(res => {
+                  console.log(res);
+                  localStorage.removeItem('public_key');
+                })
+            })
+        }
+
+      }
+    }, 500)
+
   }
 }

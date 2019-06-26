@@ -16,11 +16,13 @@ import { DashboardComponent } from 'src/app/pages/dashboard/dashboard.component'
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
 import { MessagesComponent } from 'src/app/pages/messages/messages.component';
+import { queryRefresh } from '@angular/core/src/render3';
 
 export const AdminLayoutRoutes: Routes = [
   {
     path: 'club-members',
     component: ClubMembersComponent,
+
   },
   { path: 'member-connect', component: MemberConnectComponent },
   { path: 'club-members/:id/info', component: MemberidComponent },
@@ -36,14 +38,3 @@ export const AdminLayoutRoutes: Routes = [
   { path: "dashboard/:access", component: DashboardComponent },
   { path: "post-announcement", component: PostAnnouncementComponent }
 ];
-@NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    RouterModule.forRoot(AdminLayoutRoutes,{onSameUrlNavigation:'reload'})
-  ],
-  exports: [
-    RouterModule
-  ],
-})
-export class Admin { }

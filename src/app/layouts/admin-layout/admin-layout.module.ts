@@ -1,3 +1,4 @@
+import { NavbarComponent } from './../../components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';

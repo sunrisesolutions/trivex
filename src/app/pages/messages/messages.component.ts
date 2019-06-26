@@ -14,7 +14,7 @@ export class MessagesComponent implements OnInit {
       this.id = +this.route.snapshot.paramMap.get("id");
       this.test = this.service.getMessageById(this.id)
         .subscribe(res => {
-          console.log('MESSAGES-ID', res.json())
+          console.log('MESSAGES-ID', res)
         })
     })
   }
@@ -24,7 +24,7 @@ export class MessagesComponent implements OnInit {
     this.id = +this.route.snapshot.paramMap.get("id");
     this.test = this.service.getMessageById(this.id)
       .subscribe(res => {
-        console.log('MESSAGES-ID', res.json())
+        console.log('MESSAGES-ID', res)
       })
   }
 }

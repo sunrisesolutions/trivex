@@ -86,7 +86,7 @@ export class EventLoginMember implements OnInit, OnDestroy {
     // getinfo
     const snapID = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(snapID).subscribe(res => {
-      let obj = res.json().personData;
+      let obj = res['personData'];
       let registration = {
         event: `events/${snapID}`,
         middleName: "sadsadsa",
@@ -103,8 +103,8 @@ export class EventLoginMember implements OnInit, OnDestroy {
       };
       this.service.postFormData(formData).subscribe(response => {
         // settoken
-        console.log(response.json());
-        tokens = response.json().token;
+        console.log(response);
+        tokens = response['token'];
         tokens.toString();
         // attendees
         this.atten.getAtten(child, tokens).subscribe(res => {

@@ -90,16 +90,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     const formRef = new FormData();
     this.loading = true;
     this.service.postFormData(formData).subscribe(response => {
-      let setToken = response.json().token;
-      let refreshToken = response.json().refresh_token;
-      let accessToken = response.json().im_access_token;
-      let imID = response.json().im_id;
-      console.log("token", response.json());
+      let setToken = response['token'];
+      let refreshToken = response['refresh_token'];
+      let accessToken = response['im_access_token'];
+      let imID = response['im_id'];
+      console.log("token", response);
       localStorage.setItem("im_id", imID);
       localStorage.setItem("token", setToken);
       localStorage.setItem("refresh_token", refreshToken);
       localStorage.setItem("access_token", accessToken);
-      let id = response.json().im_id;
+      let id = response['im_id'];
       console.log(accessToken);
       // decoded
       let token = setToken;

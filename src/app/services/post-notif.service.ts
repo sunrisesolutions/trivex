@@ -1,12 +1,10 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 /* HEADER */
-let header = new Headers();
-header.append("Content-Type", "application/json");
-header.append("accept", "application/ld+json");
-header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+
 /* /.HEADER */
 
 const url = "https://messaging.api.trivesg.com/notif_subscriptions";
@@ -17,14 +15,35 @@ const urlDel = "https://messaging.api.trivesg.com";
   providedIn: 'root'
 })
 export class PushNotificationService {
-  constructor(private http: Http) { }
-  addPushSubscriber(sub) {
-    return this.http.post(url, sub, { headers: header })
+  /* Header */
+
+  /* /.HEADER */
+  constructor(private http: HttpClient) { }
+  addPushSubscriber(sub): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.post(url, sub, httpOptions)
   }
-  deleteNotification(idDel) {
-    return this.http.delete(`${urlDel}${idDel}`, { headers: header })
+  deleteNotification(idDel): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.delete(`${urlDel}${idDel}`,httpOptions)
   }
-  deleteNotifBySearchPublicKey() {
-    return this.http.get(url + `?p256dhKey=${localStorage.getItem('public_key')}`, { headers: header });
+  deleteNotifBySearchPublicKey(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(url + `?p256dhKey=${localStorage.getItem('public_key')}`, httpOptions);
   }
 }

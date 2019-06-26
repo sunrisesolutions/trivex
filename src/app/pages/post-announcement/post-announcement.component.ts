@@ -4,8 +4,9 @@ import * as jwt_decode from "jwt-decode";
 import { getRootComponents } from "@angular/core/src/render3/discovery_utils";
 import { HttpParams } from "@angular/common/http";
 import { OrganisationService } from "../../services/organisation.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, RouterEvent, NavigationEnd } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: 'app-post-announcement',
@@ -19,7 +20,8 @@ export class PostAnnouncementComponent {
     private router: Router,
     private routes: ActivatedRoute,
     private modalService: NgbModal
-  ) {}
+  ) {
+  }
   member;
   loading = false;
   subject;
@@ -39,12 +41,9 @@ export class PostAnnouncementComponent {
     }
     this.service.messagePost(_message)
       .subscribe(res=>{
-        console.log(res.json())
+        console.log(res)
       })
     // Timeout
-    setTimeout(() => {
-      this.open(this.modal);
-    }, 200);
   }
 
   open(content) {

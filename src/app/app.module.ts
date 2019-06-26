@@ -5,11 +5,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import {HttpModule} from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import 'core-js/es6/string';
+import 'core-js/es6/array';
+import 'core-js/es6/map';
+
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -20,7 +25,6 @@ import { PushNotificationService } from './services/post-notif.service';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    FormsModule,
     HttpClientModule,
     ComponentsModule,
     NgbModule,
@@ -28,6 +32,7 @@ import { PushNotificationService } from './services/post-notif.service';
     AppRoutingModule,
     HttpModule,
     FormsModule,
+    DeviceDetectorModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   declarations: [

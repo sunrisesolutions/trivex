@@ -28,9 +28,9 @@ export class SendEmailComponent implements OnInit {
   ngOnInit() {
     const id = +this.routes.snapshot.paramMap.get('id');
     this.service.getRootID(id).subscribe(res => {
-      let getInfo = res.json();
+      let getInfo = res;
       this.member = getInfo;
-      console.log("send-mail",res.json())
+      console.log("send-mail",res)
     });
   }
 

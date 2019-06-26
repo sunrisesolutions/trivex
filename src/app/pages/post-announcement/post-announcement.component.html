@@ -9,7 +9,10 @@
         <div *ngIf="error" class="alert alert-danger">
           {{error}}
         </div>
-        <label *ngIf="success" class="h3 text-white">You have successfully posted the announcement.</label>
+        <div *ngIf="success" class="h3 text-white">
+            <p for="">You have successfully posted the announcement.</p>
+            <button (click)="success=false" class="btn btn-info">Post another announcement</button>
+        </div>
         <form *ngIf="!success">
           <hr class="my-4"/>
           <div class="row">
@@ -25,9 +28,8 @@
             <angular-editor class="" name="body" [(ngModel)]="body"></angular-editor>
           </div>
           <div class="row text-white">
-            <div class="col-6"></div>
-            <div class="col-6 text-right">
-              <button class="btn btn-info " (click)="send()" [disabled]="loading">Send</button>
+            <div class="col-12 text-right">
+              <button class="btn btn-info" (click)="send()" [disabled]="loading">Send</button>
             </div>
           </div>
         </form>
@@ -35,18 +37,3 @@
     </div>
   </div>
 </div>
-<ng-template #modal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Announcement</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <h3>{{subject}}</h3>
-    <div [innerHTML]="body"></div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('OK')">OK</button>
-  </div>
-</ng-template>

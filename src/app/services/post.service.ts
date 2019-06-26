@@ -24,97 +24,137 @@ export class PostService {
   private getUrlConnect = "https://org.api.trivesg.com/connections";
   private postMessage = "https://messaging.api.trivesg.com";
   private urlAT_API = "https://user.api.trivesg.com/login/individual-member-access-token";
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   apiBase = environment.eventApiBase;
   route = "/attendees";
   private urls = `${this.apiBase}${this.route}`;
   // POST REQUEST
-  uConnect(idPost) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.getUrlConnect, idPost, { headers: header });
+  uConnect(idPost): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+
+    return this.http.post(this.getUrlConnect, idPost, httpOptions);
   }
-  postFormData(post) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.url, post);
+  postFormData(post): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.post(this.url, post, httpOptions);
   }
-  refreshToken(refresh) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
+  refreshToken(refresh): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
     return this.http.post(this.refUrl, refresh);
   }
 
-  loginByAccessToken(access_token): Observable<any> {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.urlAT_API, access_token, { headers: header });
+  loginByAccessToken(access_token): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.post(this.urlAT_API, access_token, httpOptions);
   }
 
   // GET REQUEST
 
-  getRootID(id) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrl + "/individual_members/" + id, { headers: header });
+  getRootID(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.getUrl + "/individual_members/" + id, httpOptions);
   }
-  getDataAPI(page:number=1) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.getUrl + `/individual_members?page=${page}`, { headers: header });
+  getDataAPI(page: number = 1): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.getUrl + `/individual_members?page=${page}`, httpOptions);
   }
-  getConnect(page: number = 1) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(`${this.getUrlConnect}?page=${page}`, { headers: header });
+  getConnect(page: number = 1): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(`${this.getUrlConnect}?page=${page}`, httpOptions);
   }
 
 
   /* MESSAGES REQUEST*/
-  messagePost(message) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.post(this.postMessage + '/messages', message, { headers: header });
+  messagePost(message): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.post(this.postMessage + '/messages', message, httpOptions);
   }
-  getMessage() {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.postMessage + '/messages', { headers: header });
+  getMessage(): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.postMessage + '/messages', httpOptions);
   }
-  getSender(id): Observable<any> {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(`${this.getUrl}${id}`, { headers: header })
+  getSender(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(`${this.getUrl}${id}`, httpOptions)
   }
-  getDelivery(query,page:number=1): Observable<any> {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.postMessage + `/deliveries${query}?page=${page}`, { headers: header });
+  getDelivery(query, page: number = 1): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.postMessage + `/deliveries${query}?page=${page}`, httpOptions);
   }
 
-  readDelivery(read, id) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.put(`${this.postMessage}${id}`, read, { headers: header });
+  readDelivery(read, id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.put(`${this.postMessage}${id}`, read, httpOptions);
   }
-  getMessageById(id) {
-    let header = new Headers();
-    header.append("accept", "application/ld+json");
-    header.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    return this.http.get(this.postMessage + `${id}`, { headers: header });
+  getMessageById(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.postMessage + `${id}`, httpOptions);
   }
   /* /.MESSAGES */
 }

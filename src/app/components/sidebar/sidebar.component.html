@@ -11,12 +11,13 @@
     </a>
     <!-- User -->
     <ul class="nav align-items-center d-md-none">
-      <li class="nav-item" ngbDropdown placement="bottom-right">
-        <a class="nav-link" role="button" ngbDropdownToggle>
+      <li class="nav-item" ngbDropdown  [autoClose]="false" placement="bottom-right">
+        <a class="nav-link" role="button"  ngbDropdownToggle>
           <div [class.position-absolute]="countMess !==0" class="ic" style="font-size: 18pt;">
             <i class="fas fa-envelope"></i>
           </div>
-          <div [hidden]="countMess == 0" [innerHTML]="(countMess > 99) ? '99 +':countMess" class="badge badge-danger"></div>
+          <div [hidden]="countMess == 0" [innerHTML]="(countMess > 99) ? '99 +':countMess" class="badge badge-danger">
+          </div>
 
         </a>
         <div role="button" ngbDropdownMenu
@@ -25,16 +26,22 @@
           <div class="px-3 py-3">
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
               notifications unread.</h6>
-            <label class="switch">
-              <input type="checkbox" (click)="statusControl()" [checked]="status">
-              <span class="slider round"></span>
-            </label>
-            <label class="text-sm text-muted label">Receive Notification</label>
+            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center">
+              <label class="custom-toggle">
+                <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
+                  type="checkbox">
+                <span class="custom-toggle-slider rounded-circle"></span>
+              </label>
+              <label class="label ml-2">Receive Notification</label>
+
+            </div>
           </div>
           <!-- List group -->
-          <div *ngIf="deliveries" style="height: 50vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch">
+          <div *ngIf="deliveries"
+            style="height: 45vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch">
             <div *ngFor="let delivery of deliveries" class="list-group list-group-flush">
-              <a (click)="open(content,delivery)" class="{{(delivery.readed)? 'unread':'readed'}} list-group-item list-group-item-action">
+              <a (click)="open(content,delivery)"
+                class="{{(delivery.readAt)? 'unread':'readed'}} list-group-item list-group-item-action">
                 <div class="row align-items-center">
                   <div class="col-3 ">
                     <!-- Avatar -->
@@ -59,7 +66,8 @@
             </div>
           </div>
           <!-- View all -->
-          <a routerLink="/club-members/notifications" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
+          <a routerLink="/club-members/notifications"
+            class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown placement="bottom-right">
@@ -125,7 +133,7 @@
       <!-- Navigation -->
       <ul class="navbar-nav">
         <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-          <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+          <a routerLinkActive="active" [routerLink]="menuItem.path" class="nav-link">
             <i class="ni {{menuItem.icon}}"></i>
             {{menuItem.title}}
           </a>
@@ -134,25 +142,7 @@
       <!-- Divider -->
       <hr class="my-3">
       <!-- Heading -->
-      <h6 hidden class="navbar-heading text-muted">Documentation</h6>
-      <!-- Navigation -->
-      <ul hidden class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial">
-            <i class="ni ni-spaceship"></i> Getting started
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/colors">
-            <i class="ni ni-palette"></i> Foundation
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/alerts">
-            <i class="ni ni-ui-04"></i> Components
-          </a>
-        </li>
-      </ul>
+      <!--  -->
     </div>
   </div>
 </nav>
@@ -170,8 +160,8 @@
       <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px" alt="Image placeholder"
-              [src]="delivery.profilePicture" class="avatar-notif">
+            <img style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
+              class="avatar-notif">
           </div>
         </div>
         <div class="card-body mt-4 text-center">

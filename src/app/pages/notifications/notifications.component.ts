@@ -34,13 +34,12 @@ export class NotificationsComponent implements OnInit {
     return this.service.getDelivery('',this.currentPage)
       .do(res => {
         this.currentPage++;
-        this.deliveries = this.deliveries.concat(res.json()['hydra:member']);
+        this.deliveries = this.deliveries.concat(res['hydra:member']);
         for (let delivery of this.deliveries) {
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
-              delivery.readed = delivery.readAt;
-              let profilePicture = response.json().profilePicture;
-              let name = response.json().personData.name;
+              let profilePicture = response['profilePicture'];
+              let name = response['personData'].name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
@@ -53,9 +52,12 @@ export class NotificationsComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' })
     this.delivery = delivery;
     let d = new Date();
-    let readed = {
+    let pramramsRead = {
       "readAt": d.getTimezoneOffset(),
     }
-    this.service.readDelivery(readed, delivery);
+    delivery.readAt = pramramsRead.readAt;
+    this.service.readDelivery(pramramsRead, delivery['@id'])
+      .subscribe(res=>{
+      });
   }
 }
