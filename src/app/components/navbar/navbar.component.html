@@ -34,7 +34,7 @@
                class="text-primary">{{countMess}}</strong>
             notifications unread.</h6>
 
-            <div class="group-toggle d-flex align-items-center">
+            <div *ngIf="isSupported()" class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
                 <input #statusControl1 [(ngModel)]="status" (ngModelChange)="statusControl(statusControl1)" name="checkbox"
                   type="checkbox">

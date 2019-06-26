@@ -22,7 +22,7 @@ import { Delivery } from "src/app/models/Deliveries";
 import { DeviceDetectorService } from "ngx-device-detector";
 // public_KEY
 
-let VAPID_SERVER_KEY = "BEGr4msl7QLSMGFJn7hX9MvyM6HmekhdUpCeiDq5EREbQj7jEgUV7rTYDV-rCj3E5FieUSg1OsUhBkCy4IPvorQ";
+let VAPID_SERVER_KEY = "BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc";
 
 // ===========
 
@@ -56,6 +56,7 @@ export class NavbarComponent implements OnInit {
   queryDeliveriesREAD = '?readAt[exists]=false&';
   images = '';
   deviceInfo = null;
+  public permission: NotificationPermission;
   constructor(
     location: Location,
     public service: PostService,
@@ -67,9 +68,10 @@ export class NavbarComponent implements OnInit {
     private modalService: NgbModal,
     private config: NgbDropdownConfig,
     private deviceService: DeviceDetectorService,
+
   ) {
     this.location = location;
-
+    this.permission = this.isSupported() ? 'default' : 'denied'
   }
 
   /* MODAL DIALOG */
@@ -118,15 +120,10 @@ export class NavbarComponent implements OnInit {
     }, 2000)
 
 
-    /* Device detector */
-
-    /* /.Device detector */
   }
 
-  /* Device detector */
 
 
-  /* /.SENDER */
   getDelivery() {
     this.service.getDelivery('', 1)
       .subscribe((res) => {
@@ -157,9 +154,12 @@ export class NavbarComponent implements OnInit {
     localStorage.clear();
   }
 
-
+  public isSupported(): boolean {
+    return 'Notification' in window;
+  }
 
   statusControl(statusControl) {
+
     console.log(this.status);
     if (this.status === true) {
       this.swPush.requestSubscription({
@@ -184,8 +184,11 @@ export class NavbarComponent implements OnInit {
             localStorage.setItem('public_key', this.publicKey);
             console.log("this", res);
           });
+          this.swPush.notificationClicks
+            .subscribe(res => {
+              console.log(res);
+            })
 
-          console.log('notificationClicks',this.swPush.notificationClicks)
         })
         .catch(err => {
           console.error(err);
