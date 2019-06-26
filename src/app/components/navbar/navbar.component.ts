@@ -163,7 +163,6 @@ export class NavbarComponent implements OnInit {
   statusControl(statusControl) {
     console.log('status push',this.status,statusControl);
     if (this.status === true) {
-      console.log('001')
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
       })
