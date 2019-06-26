@@ -50,6 +50,7 @@ export class NavbarComponent implements OnInit {
   idDelete: any;
   publicKey: any;
   status = false;
+  statusChangeSuccessful = true;
   modalSHOW = false;
   statusMessage;
   queryDeliveriesREAD = '?readAt[exists]=false&';
@@ -157,7 +158,8 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  statusControl() {
+
+  statusControl(statusControl) {
     console.log(this.status);
     if (this.status === true) {
       this.swPush.requestSubscription({
@@ -182,37 +184,40 @@ export class NavbarComponent implements OnInit {
             localStorage.setItem('public_key', this.publicKey);
             console.log("this", res);
           });
+
+          console.log('notificationClicks',this.swPush.notificationClicks)
         })
         .catch(err => {
           console.error(err);
-          setTimeout(() => {
-            alert('There is some problem in subscribing your device for push notification.')
-            return this.status = false;
-          }, 300)
+          this.statusChangeSuccessful = false;
+          alert('There is some problem in subscribing your device for push notification.')
+          statusControl.checked = false;
         })
-    } setTimeout(() => {
-      if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
-        if (localStorage.getItem('id_pushNotif')) {
-          this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
-            .subscribe(res => {
-              localStorage.removeItem('id_pushNotif');
-              localStorage.removeItem('public_key');
-              console.log(res);
-            })
-        }
-        else if (localStorage.getItem('public_key')) {
-          this.reqNotif.deleteNotifBySearchPublicKey()
-            .subscribe(res => {
-              this.reqNotif.deleteNotification(this.getId)
-                .subscribe(res => {
-                  console.log(res);
-                  localStorage.removeItem('public_key');
-                })
-            })
-        }
+    } else if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
+      if (localStorage.getItem('id_pushNotif')) {
+        this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
+          .subscribe(res => {
+            localStorage.removeItem('id_pushNotif');
+            localStorage.removeItem('public_key');
+            console.log(res);
+            this.swPush.unsubscribe();
+
+          })
+      }
+      else if (localStorage.getItem('public_key')) {
+        this.reqNotif.deleteNotifBySearchPublicKey()
+          .subscribe(res => {
+            this.reqNotif.deleteNotification(this.getId)
+              .subscribe(res => {
+                console.log(res);
+                localStorage.removeItem('public_key');
+              })
+            this.swPush.unsubscribe();
+
+          })
 
       }
-    }, 500)
 
+    }
   }
 }

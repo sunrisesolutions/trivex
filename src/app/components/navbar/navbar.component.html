@@ -30,18 +30,21 @@
           class="dropdown-menu dropdown-menu-xl ml-md-5 dropdown-menu-right py-0 overflow-hidden">
           <!-- Dropdown header -->
           <div class="px-3 py-3">
-            <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
-              notifications unread.</h6>
+            <h6 class="text-sm text-muted m-0 mb-2">You have <strong
+               class="text-primary">{{countMess}}</strong>
+            notifications unread.</h6>
 
             <div class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
-                <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
+                <input #statusControl1 [(ngModel)]="status" (ngModelChange)="statusControl(statusControl1)" name="checkbox"
                   type="checkbox">
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
 
               <label class="label ml-2">Receive Notification</label>
             </div>
+
+
           </div>
 
           <!-- List group -->
