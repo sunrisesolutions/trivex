@@ -71,6 +71,13 @@ export class NavbarComponent implements OnInit {
 
   ) {
     this.location = location;
+
+
+    /* Notification Click */
+    swPush.notificationClicks
+      .subscribe(res=>{
+        console.log(res);
+      })
   }
 
   /* MODAL DIALOG */
@@ -188,6 +195,7 @@ export class NavbarComponent implements OnInit {
           this.status = false;
           statusInput.checked = false;
         })
+
     } else if ((statusInput.checked === false && localStorage.getItem("pulish_key")) || (statusInput.checked === false && localStorage.getItem("id_pushNotif"))) {
       if (localStorage.getItem('id_pushNotif')) {
         /* DeleteNotification to api */
