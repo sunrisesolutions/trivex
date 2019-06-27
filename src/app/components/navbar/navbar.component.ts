@@ -22,7 +22,7 @@ import { Delivery } from "src/app/models/Deliveries";
 import { DeviceDetectorService } from "ngx-device-detector";
 // public_KEY
 
-let VAPID_SERVER_KEY = "BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc";
+const VAPID_SERVER_KEY = "BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc";
 
 // ===========
 
@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit {
 
     /* Notification Click */
     swPush.notificationClicks
-      .subscribe(res=>{
+      .subscribe(res => {
         console.log(res);
       })
   }
@@ -90,7 +90,8 @@ export class NavbarComponent implements OnInit {
       "readAt": d.getTimezoneOffset(),
     }
     delivery.readAt = pramramsRead.readAt;
-    this.service.readDelivery(pramramsRead, delivery['@id'])
+    this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
+    });
   }
   /* /.MODAL DIALOG */
   ngOnInit() {

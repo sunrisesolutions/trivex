@@ -1,1 +1,1 @@
-ng build --prod && rm -r public && cp -r dist/* public/
+ng build --prod && rm -r public && mkdir public && cp -r dist/* public/
