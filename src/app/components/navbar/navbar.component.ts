@@ -113,6 +113,7 @@ export class NavbarComponent implements OnInit {
         this.service.getDelivery(this.queryDeliveriesREAD, 1)
           .subscribe(res => {
             this.countMess = res['hydra:totalItems'];
+            console.log('unread',res)
             if (this.fakeCountMess < this.countMess) {
               return this.getDelivery();
             }
