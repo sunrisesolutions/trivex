@@ -156,9 +156,9 @@ export class NavbarComponent implements OnInit {
     return 'Notification' in window;
   }
 
-  statusControl(statusControl) {
-    console.log('status push', this.status, statusControl);
-    if (this.status === true) {
+  statusControl(statusInput) {
+    console.log('status push', this.status, statusInput);
+    if (statusInput.checked == true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
       })
@@ -185,19 +185,18 @@ export class NavbarComponent implements OnInit {
 
         })
         .catch(err => {
-          console.error(err);
-          // this.statusChangeSuccessful = false;
-          alert('There is some problem in subscribing your device for push notification.')
+          console.error('error', err);
+          alert('There is some problem in subscribing your device for push notification.');
           this.status = false;
-          statusControl.checked = false;
+          statusInput.checked = false;
         })
-    } else if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
+    } else if ((statusInput.checked === false && localStorage.getItem("pulish_key")) || (statusInput.checked === false && localStorage.getItem("id_pushNotif"))) {
       if (localStorage.getItem('id_pushNotif')) {
         this.swPush.unsubscribe()
           .then(res => {
             console.log(res);
           });
-          /* DeleteNotification to api */
+        /* DeleteNotification to api */
         this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
           .subscribe(res => {
             localStorage.removeItem('id_pushNotif');
@@ -209,7 +208,7 @@ export class NavbarComponent implements OnInit {
       }
       else if (localStorage.getItem('public_key')) {
         this.swPush.unsubscribe()
-          .then(res=>{
+          .then(res => {
             console.log(res);
           });
         this.reqNotif.deleteNotifBySearchPublicKey()
