@@ -84,8 +84,6 @@ export class NavbarComponent implements OnInit {
     }
     delivery.readAt = pramramsRead.readAt;
     this.service.readDelivery(pramramsRead, delivery['@id'])
-      .subscribe(res => {
-      });
   }
   /* /.MODAL DIALOG */
   ngOnInit() {
@@ -157,7 +155,7 @@ export class NavbarComponent implements OnInit {
   }
 
   statusControl(statusInput) {
-    console.log('status push', this.status, statusInput);
+    console.log('status push', this.status, statusInput.checked);
     if (statusInput.checked == true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
@@ -195,31 +193,29 @@ export class NavbarComponent implements OnInit {
         this.swPush.unsubscribe()
           .then(res => {
             console.log(res);
+            /* DeleteNotification to api */
+            this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
+              .subscribe(res => {
+                localStorage.removeItem('id_pushNotif');
+                localStorage.removeItem('public_key');
+              })
           });
-        /* DeleteNotification to api */
-        this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
-          .subscribe(res => {
-            localStorage.removeItem('id_pushNotif');
-            localStorage.removeItem('public_key');
-            console.log(res);
 
-
-          })
       }
       else if (localStorage.getItem('public_key')) {
         this.swPush.unsubscribe()
           .then(res => {
             console.log(res);
-          });
-        this.reqNotif.deleteNotifBySearchPublicKey()
-          .subscribe(res => {
-            this.reqNotif.deleteNotification(this.getId)
+            this.reqNotif.deleteNotifBySearchPublicKey()
               .subscribe(res => {
-                console.log(res);
-                localStorage.removeItem('public_key');
-              })
+                this.reqNotif.deleteNotification(this.getId)
+                  .subscribe(res => {
+                    localStorage.removeItem('public_key');
+                  })
 
-          })
+              })
+          });
+
 
       }
     }
