@@ -20,7 +20,7 @@ import { SendEmailComponent } from '../../pages/club-members/send-email/send-ema
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
 import {NotificationsComponent} from '../../pages/notifications/notifications.component'
-import { MessagesComponent } from '../../pages/messages/messages.component';
+import { MessagesComponent } from '../../pages/notifications/message/messages.component';
 import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.directive';
 
 // import { ToastrModule } from 'ngx-toastr';

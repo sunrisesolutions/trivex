@@ -154,7 +154,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.postMessage + `${id}`, httpOptions);
+    return this.http.get(this.postMessage + `/deliveries/${id}`, httpOptions);
   }
   /* /.MESSAGES */
 }

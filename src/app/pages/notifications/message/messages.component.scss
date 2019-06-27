@@ -1,0 +1,22 @@
+
+@media only screen and(min-width: 1064px){
+  .w-desktop{
+    width: 50%;
+  }
+  .header{
+    padding-top: 270px !important;
+  }
+}
+@media only screen and(min-width: 768px){
+  .w-desktop{
+    width: 80% !important;
+  }
+}
+@media only screen and(max-width: 768px){
+  .header{
+    padding-top: 150px !important;
+  }
+  .w-mobile{
+    width: 100% !important;
+  }
+}

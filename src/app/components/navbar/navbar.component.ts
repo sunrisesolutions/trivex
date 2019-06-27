@@ -76,7 +76,6 @@ export class NavbarComponent implements OnInit {
   /* MODAL DIALOG */
 
   open(content, delivery) {
-    this.modalSHOW = true;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
     this.delivery = delivery;
     let d = new Date();
@@ -117,10 +116,7 @@ export class NavbarComponent implements OnInit {
         }, 2000)
       }
     }, 2000)
-    this.swPush.notificationClicks
-    .subscribe(res => {
-      console.log('notification',res);
-    })
+
 
   }
 
@@ -161,7 +157,7 @@ export class NavbarComponent implements OnInit {
   }
 
   statusControl(statusControl) {
-    console.log('status push',this.status,statusControl);
+    console.log('status push', this.status, statusControl);
     if (this.status === true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
@@ -196,16 +192,25 @@ export class NavbarComponent implements OnInit {
         })
     } else if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
       if (localStorage.getItem('id_pushNotif')) {
+        this.swPush.unsubscribe()
+          .then(res => {
+            console.log(res);
+          });
+          /* DeleteNotification to api */
         this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
           .subscribe(res => {
             localStorage.removeItem('id_pushNotif');
             localStorage.removeItem('public_key');
             console.log(res);
-            this.swPush.unsubscribe();
+
 
           })
       }
       else if (localStorage.getItem('public_key')) {
+        this.swPush.unsubscribe()
+          .then(res=>{
+            console.log(res);
+          });
         this.reqNotif.deleteNotifBySearchPublicKey()
           .subscribe(res => {
             this.reqNotif.deleteNotification(this.getId)
@@ -213,7 +218,6 @@ export class NavbarComponent implements OnInit {
                 console.log(res);
                 localStorage.removeItem('public_key');
               })
-            this.swPush.unsubscribe();
 
           })
 

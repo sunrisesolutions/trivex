@@ -15,7 +15,7 @@ import { SendEmailComponent } from '../../pages/club-members/send-email/send-ema
 import { DashboardComponent } from 'src/app/pages/dashboard/dashboard.component';
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
-import { MessagesComponent } from 'src/app/pages/messages/messages.component';
+import { MessagesComponent } from 'src/app/pages/notifications/message/messages.component';
 import { queryRefresh } from '@angular/core/src/render3';
 
 export const AdminLayoutRoutes: Routes = [
@@ -28,7 +28,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
-  { path: 'club-members/notifications/:messages/:id',component: MessagesComponent},
+  { path: 'club-members/notifications/message/:id',component: MessagesComponent},
   { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
   { path: 'club-members/:id/qr-code', component: QrCodeComponent },
   { path: 'club-members/:id/send-email', component: SendEmailComponent },
