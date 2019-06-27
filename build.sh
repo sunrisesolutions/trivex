@@ -1,1 +1,1 @@
-ng build --prod && sudo rm -r public/ && cp -r dist/* public
+ng build --prod && rm -r public && cp -r dist/* public/

@@ -117,7 +117,7 @@ export class NavbarComponent implements OnInit {
       }
     }, 2000)
 
-
+    this.isSupported();
   }
 
 
@@ -186,8 +186,9 @@ export class NavbarComponent implements OnInit {
         })
         .catch(err => {
           console.error(err);
-          this.statusChangeSuccessful = false;
+          // this.statusChangeSuccessful = false;
           alert('There is some problem in subscribing your device for push notification.')
+          this.status = false;
           statusControl.checked = false;
         })
     } else if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
