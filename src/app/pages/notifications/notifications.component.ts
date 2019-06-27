@@ -36,6 +36,8 @@ export class NotificationsComponent implements OnInit {
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
         for (let delivery of this.deliveries) {
+          delivery.name = 'Waiting...'
+          delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
               let profilePicture = response['profilePicture'];
@@ -49,15 +51,18 @@ export class NotificationsComponent implements OnInit {
 
   }
   open(content, delivery) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' })
-    this.delivery = delivery;
+    delivery['idSender']=delivery['message'].sender;
+    delivery['idSender']=delivery['idSender'].match(/\d+/g).map(Number);
+    if (content) {
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      this.delivery = delivery;
+    }
     let d = new Date();
     let pramramsRead = {
       "readAt": d.getTimezoneOffset(),
     }
     delivery.readAt = pramramsRead.readAt;
-    this.service.readDelivery(pramramsRead, delivery['@id'])
-      .subscribe(res=>{
-      });
+    this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
+    });
   }
 }

@@ -5,7 +5,22 @@
 }
 @media only screen and(min-width: 768px){
   .w-md-50{
-    width: 70% !important;
+    width: 100% !important;
+  }
+
+  .pl-mobile-custom{
+    padding-left: 20px !important;
+  }
+
+}
+@media only screen and(min-width: 964px){
+  .pl-mobile-custom{
+    padding-left: 5px !important;
+  }
+}
+@media only screen and(min-width: 1064px){
+  .w-md-50{
+    width: 80% !important;
   }
 }
 .unread{

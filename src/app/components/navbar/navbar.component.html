@@ -1,4 +1,7 @@
 <nav class="navbar navbar-top navbar-expand-md navbar-dark bg-gradient-danger" id="navbar-main">
+
+
+  <!-- content goes here (optional) -->
   <div class="container-fluid">
     <!-- Brand -->
     <a style="margin-left: 180pt !important; cursor:pointer"
@@ -30,14 +33,13 @@
           class="dropdown-menu dropdown-menu-xl ml-md-5 dropdown-menu-right py-0 overflow-hidden">
           <!-- Dropdown header -->
           <div class="px-3 py-3">
-            <h6 class="text-sm text-muted m-0 mb-2">You have <strong
-               class="text-primary">{{countMess}}</strong>
-            notifications unread.</h6>
+            <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
+              notifications unread.</h6>
 
             <div *ngIf="isSupported()" class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
-                <input #statusControlIpt [(ngModel)]="status" (ngModelChange)="statusControl(statusControlIpt)" name="checkbox"
-                  type="checkbox">
+                <input #statusControlIpt [(ngModel)]="status" (ngModelChange)="statusControl(statusControlIpt)"
+                  name="checkbox" type="checkbox">
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
 
@@ -53,8 +55,57 @@
 
           <!-- /.MODAL MESSAGE -->
           <div *ngIf="deliveries" class="scroll">
-            <div *ngFor="let delivery of deliveries;let i = index" class="list-group list-group-flush">
-              <a (click)="open(content,delivery);"
+            <div *ngFor="let delivery of deliveries;let i = index;let c = count" [attr.data-index]="i"
+              class="list-group list-group-flush">
+              <ng-template #content let-modal>
+                <div *ngIf="delivery" class="">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">{{delivery.message.createdAt | date:'short'}}</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body mt-3 mt-md-2">
+                    <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
+                      <div class="d-flex justify-content-center">
+                        <div class="card-profile-image" style="top:-20pt">
+                          <img (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery.idSender}}/info" style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
+                            class="avatar-notif">
+                        </div>
+                      </div>
+                      <div class="card-body mt-4 text-center">
+                        <div class="container">
+                          <div class="h1">
+                            {{delivery.name}}
+                          </div>
+                          <hr class="my-2">
+                          <div class="font-weight-bold">
+                            {{delivery.message.subject}}
+                          </div>
+                          <div class="font-weight-light">
+                            {{delivery.message.body}}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-start border">
+                    <div style="color: white !important" class="container">
+                      <div class="row">
+                        <div class="col-12 col-md-6">
+                          <a (click)="delivery=deliveries[i=i-1];open('',delivery)" *ngIf="i !== 0" class="btn btn-info w-100">Prev</a>
+                        </div>
+                        <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
+                          <a (click)="delivery=deliveries[i=i+1];open('',delivery)" *ngIf="c-1 > i " class="btn btn-danger w-100">Next</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+
+              <a (click)="open(content,delivery,i);"
                 class="list-group-item list-group-item-action  {{(delivery.readAt)? 'read':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
@@ -89,7 +140,7 @@
               <img alt="Image placeholder" [src]=members.profilePicture>
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span style="cursor: default" class="mb-0 text-sm  font-weight-bold">{{members.personData.name}}</span>
+              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{members.personData.name}}</span>
             </div>
           </div>
         </a>
@@ -115,40 +166,3 @@
     </ul>
   </div>
 </nav>
-
-
-<ng-template #content let-modal>
-  <div *ngIf="delivery" class="">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Messages</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body mt-2">
-      <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
-        <div class="d-flex justify-content-center">
-          <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
-              class="avatar-notif">
-          </div>
-        </div>
-        <div class="card-body mt-4 text-center">
-          <div class="container">
-            <div class="h1">
-              {{delivery.name}}
-            </div>
-            <hr class="my-2">
-            <div class="font-weight-bold">
-              {{delivery.message.subject}}
-            </div>
-            <div class="font-weight-light">
-              {{delivery.message.body}}
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</ng-template>

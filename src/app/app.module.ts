@@ -15,7 +15,6 @@ import 'core-js/es6/string';
 import 'core-js/es6/array';
 import 'core-js/es6/map';
 
-
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ServiceWorkerModule } from '@angular/service-worker';

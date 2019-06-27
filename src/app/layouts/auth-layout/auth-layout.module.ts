@@ -15,7 +15,8 @@ import { EventLoginMember } from 'src/app/pages/register-event/login-member/logi
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
-    NgbModule
+    NgbModule,
+
   ],
   declarations: [
     LoginComponent,

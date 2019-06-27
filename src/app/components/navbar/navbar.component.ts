@@ -81,10 +81,16 @@ export class NavbarComponent implements OnInit {
   }
 
   /* MODAL DIALOG */
-
+  read(){
+    console.log('read');
+  }
   open(content, delivery) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
-    this.delivery = delivery;
+    delivery['idSender']=delivery['message'].sender;
+    delivery['idSender']=delivery['idSender'].match(/\d+/g).map(Number);
+    if (content) {
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      this.delivery = delivery;
+    }
     let d = new Date();
     let pramramsRead = {
       "readAt": d.getTimezoneOffset(),
@@ -113,7 +119,6 @@ export class NavbarComponent implements OnInit {
         this.service.getDelivery(this.queryDeliveriesREAD, 1)
           .subscribe(res => {
             this.countMess = res['hydra:totalItems'];
-            console.log('unread',res)
             if (this.fakeCountMess < this.countMess) {
               return this.getDelivery();
             }
@@ -134,12 +139,13 @@ export class NavbarComponent implements OnInit {
       .subscribe((res) => {
         this.deliveries = res['hydra:member'];
         for (let delivery of this.deliveries) {
+          delivery.name = 'Waiting...';
+          delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
           this.service.getSender(delivery['message'].sender)
             .subscribe(response => {
-              let profilePicture = response['profilePicture'];
               let name = response['personData'].name;
               delivery.name = name;
-              delivery.profilePicture = profilePicture;
+              delivery.profilePicture = response['profilePicture'];
             });
         }
         console.log('deliveries', this.deliveries)

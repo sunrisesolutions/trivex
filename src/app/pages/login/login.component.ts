@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   id;
   toQr;
   //
+  remStatus: boolean = false;
   dob: NgbDate;
   posts: any[];
   invalidLogin: boolean;
@@ -80,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   @ViewChild("dobi") dobi: ElementRef;
   login() {
-    localStorage.clear();
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
     formData.append("org-code", this.orgCode);
@@ -107,7 +107,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.log(decoded.exp);
       //refresh
       this.router.navigateByUrl(this.returnUrl)
-
+      if(this.remStatus === true){
+        localStorage.setItem("remember", refreshToken);
+      }
     }, error => {
       if (error.status === 401 || error.status === 500) {
         alert('Something went wrong!!!');
@@ -117,4 +119,5 @@ export class LoginComponent implements OnInit, OnDestroy {
     /* let id = localStorage.getItem('im_id');
     this.router.navigate([`club-members/${id}/qr-code`]); */
   }
+
 }

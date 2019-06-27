@@ -17,10 +17,10 @@ export class AdminLayoutComponent implements OnInit {
   constructor(private service: PostService, private router: Router) {
   }
   ngOnInit() {
-    this.AccessToken();
     setInterval(() => {
       this.AccessToken();
     }, 2000);
+
   }
   AccessToken() {
     // lấy token

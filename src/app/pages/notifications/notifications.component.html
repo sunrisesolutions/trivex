@@ -1,19 +1,75 @@
 <div id="infinite-scroller" appInfiniteScroller scrollPercent="50" immediateCallback="true"
   [scrollCallback]="scrollCallback" class="scroll header bg-gradient-danger py-7 pt-md-8 ">
-  <div (click)="open(content,delivery)" *ngFor="let delivery of deliveries;let i = index"
+
+
+
+  <div (click)="open(content,delivery)" *ngFor="let delivery of deliveries;let i = index;let c = count"
     class="container mb-3 w-md-50">
+    <!-- Modal Deliveries -->
+    <ng-template #content let-modal>
+      <div *ngIf="delivery" class="mt-2">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">{{delivery.message.createdAt | date:'short'}}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mt-3 mt-md-2">
+          <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
+            <div class="d-flex justify-content-center">
+              <div class="card-profile-image" style="top:-20pt">
+                <img  (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery.idSender}}/info"
+                  style="cursor: pointer;width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
+                  class="avatar-notif">
+              </div>
+            </div>
+            <div class="card-body mt-4 text-center">
+              <div class="container">
+                <div class="h1">
+                  {{delivery.name}}
+                </div>
+                <hr class="my-2">
+                <div class="font-weight-bold">
+                  {{delivery.message.subject}}
+                </div>
+                <div class="font-weight-light">
+                  {{delivery.message.body}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer justify-content-start border">
+          <div style="color: white !important" class="container">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <a (click)="delivery=deliveries[i=i-1];open('',delivery)" *ngIf="i !== 0"
+                  class="btn btn-info w-100">Prev</a>
+              </div>
+              <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
+                <a (click)="delivery=deliveries[i=i+1];open('',delivery)" *ngIf="c-1 > i "
+                  class="btn btn-danger w-100">Next</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <!-- /.Modal Deliveries -->
     <div class="card py-3 cursor {{(delivery.readAt) ? 'readed':'unread'}}">
       <div class="card-content container">
         <div class="row">
-          <div class="col-12 col-md-2">
-            <img alt="Image placeholder" class="rounded-circle mr-md-3"
-              style="object-fit: cover; width: 80px; height: 80px;" [src]="delivery.profilePicture">
+          <div class="col-12 d-flex justify-content-center col-md-2">
+            <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+              [src]="delivery.profilePicture">
           </div>
-          <div class="col-12 col-md-5">
+          <div class="col-12 col-md-8 pl-mobile-custom">
             <h2 class="font-weight-bold">{{delivery.name}}</h2>
             <p style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}</p>
           </div>
-          <div class="col-12 col-md-5 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+          <div
+            class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
             <small class="">{{delivery.message.createdAt | date:'short'}}</small>
           </div>
         </div>
@@ -22,40 +78,3 @@
     </div>
   </div>
 </div>
-
-
-<ng-template #content let-modal>
-  <div class="">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Messages</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body mt-2">
-      <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
-        <div class="d-flex justify-content-center">
-          <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px;object-fit: cover" alt="Image placeholder"
-              [src]="delivery.profilePicture" class="avatar-notif rounded-circle">
-          </div>
-        </div>
-        <div class="card-body mt-4 text-center">
-          <div class="container">
-            <div class="h1">
-              {{delivery.name}}
-            </div>
-            <hr class="my-2">
-            <div class="font-weight-bold">
-              {{delivery.message.subject}}
-            </div>
-            <div class="font-weight-light">
-              {{delivery.message.body}}
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</ng-template>

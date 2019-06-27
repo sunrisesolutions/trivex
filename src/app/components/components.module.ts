@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     RouterModule,
     FormsModule,
-    NgbModule
+    NgbModule,
   ],
   declarations: [
     FooterComponent,

@@ -32,7 +32,7 @@ import { Routes, ActivatedRoute } from "@angular/router";
   templateUrl: "./login-member.component.html",
   styleUrls: ["./login-member.component.scss"]
 })
-export class EventLoginMember implements OnInit, OnDestroy {
+export class EventLoginMember implements OnInit{
   // value formdata
   orgCode;
   phone;
@@ -59,16 +59,17 @@ export class EventLoginMember implements OnInit, OnDestroy {
     private serviceToken: SettokenService,
     private routes: ActivatedRoute,
     private atten: AttendeeService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
     //   this.id = get;
     // });
-  }
 
-  ngOnDestroy() {}
+  }
 
   @ViewChild("dobi") dobi: ElementRef;
   asd;

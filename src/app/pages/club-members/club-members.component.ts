@@ -41,6 +41,7 @@ export class ClubMembersComponent implements OnInit {
       console.log(this.dec);
 
       this.members = this.members.concat(res['hydra:member']);
+
     });
   }
 }
