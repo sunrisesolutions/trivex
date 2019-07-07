@@ -19,7 +19,7 @@
             <div class="d-flex justify-content-center">
               <div class="card-profile-image" style="top:-20pt">
                 <img  (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery.idSender}}/info"
-                  style="cursor: pointer;width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
+                  style="cursor: pointer;width:100px;height:100px;object-fit: cover" alt="Image placeholder" [src]="delivery.profilePicture"
                   class="avatar-notif">
               </div>
             </div>

@@ -73,8 +73,7 @@ export class SidebarComponent implements OnInit {
   }
 
   open(content, delivery) {
-    delivery['idSender']=delivery['message'].sender;
-    delivery['idSender']=delivery['idSender'].match(/\d+/g).map(Number);
+    delivery['idSender']=delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
       this.delivery = delivery;
