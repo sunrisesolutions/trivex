@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   idNumber;
   id;
   toQr;
-  sub;
+  sub = null;
   //
   remStatus: boolean = false;
   dob: NgbDate;
@@ -78,7 +78,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   getSubdomain() {
-    var full = window.location.hostname
+    var host = window.location.hostname;
+    var parts = host.split('.trivesg');
+    this.sub = parts;
+    /* if (parts.length > 2) {
+      this.sub = parts[0];
+    } */
+    /* var full = window.location.hostname
     var parts = full.split('.')
     var _sub = parts[0]
     var domain = parts[1]
@@ -86,7 +92,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     console.log(_sub)
     if(_sub){
       this.sub = _sub;
-      }
+      } */
+    return console.log(parts);
   }
 
   ngOnDestroy() {
