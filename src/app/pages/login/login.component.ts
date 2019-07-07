@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getSubdomain() {
     var host = window.location.hostname;
-    var parts = host.split('.trivesg');
+    var parts = host.split('.trivesg') && host.split('.localhost');
     this.sub = parts[0];
     /* if (parts.length > 2) {
       this.sub = parts[0];
