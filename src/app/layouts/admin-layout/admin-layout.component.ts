@@ -35,12 +35,13 @@ export class AdminLayoutComponent implements OnInit {
     const currentDate = Date.now();
     const tokenDate = decoded.exp * 1000;
     if (tokenDate < currentDate) {
+      localStorage.removeItem('token');
       this.router.navigate(['/login']);
     } else if (localStorage.getItem('token')) {
 
       /*nếu tokendate trừ cho currentdate nhỏ hơn 600000 thì thực hiện refresh*/
       if (tokenDate - currentDate < 600000) {
-        if (localStorage.getItem('refresh_token') !== null) {
+        if (localStorage.getItem('refresh_token')) {
           this.service.refreshToken(formRef).subscribe(res => {
             localStorage.setItem('token', res['token']);
             console.log('refreshed', res);

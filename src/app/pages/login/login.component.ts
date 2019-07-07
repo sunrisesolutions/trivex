@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
-    formData.append("org-code", (this.sub !== 'trivesg.com') ? this.sub : this.orgCode);
+    formData.append("org-code", (this.sub !== 'trivesg.com') ? ((this.sub !== 'localhost') ? this.sub : this.orgCode) : this.orgCode);
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", inputDob);

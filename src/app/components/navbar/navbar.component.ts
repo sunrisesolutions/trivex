@@ -81,11 +81,11 @@ export class NavbarComponent implements OnInit {
   }
 
   /* MODAL DIALOG */
-  read(){
+  read() {
     console.log('read');
   }
   open(content, delivery) {
-    delivery['idSender']=delivery['message'].senderId;
+    delivery['idSender'] = delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
       this.delivery = delivery;
@@ -237,4 +237,6 @@ export class NavbarComponent implements OnInit {
       }
     }
   }
+
+
 }
