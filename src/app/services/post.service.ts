@@ -126,7 +126,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.getUrl}${id}`, httpOptions)
+    return this.http.get(`${this.getUrl}/individual_members/${id}`, httpOptions)
   }
   getDelivery(query, page: number = 1): Observable<Object> {
     const httpOptions = {

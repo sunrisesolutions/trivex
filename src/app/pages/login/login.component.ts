@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   idNumber;
   id;
   toQr;
+  sub;
   //
   remStatus: boolean = false;
   dob: NgbDate;
@@ -57,6 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit() {
+    this.getSubdomain();
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
     //   this.id = get;
@@ -75,6 +77,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  getSubdomain() {
+    var full = window.location.hostname
+    var parts = full.split('.')
+    var _sub = parts[0]
+    var domain = parts[1]
+    var type = parts[2]
+    console.log(_sub)
+    if(_sub){
+      this.sub = _sub;
+      }
+  }
+
   ngOnDestroy() {
 
   }
@@ -83,7 +97,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
-    formData.append("org-code", this.orgCode);
+    formData.append("org-code", (this.sub) ? this.sub : this.orgCode);
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", inputDob);
@@ -107,7 +121,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.log(decoded.exp);
       //refresh
       this.router.navigateByUrl(this.returnUrl)
-      if(this.remStatus === true){
+      if (this.remStatus === true) {
         localStorage.setItem("remember", refreshToken);
       }
     }, error => {

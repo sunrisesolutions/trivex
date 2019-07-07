@@ -35,7 +35,6 @@ export class AdminLayoutComponent implements OnInit {
     const currentDate = Date.now();
     const tokenDate = decoded.exp * 1000;
     if (tokenDate < currentDate) {
-      localStorage.clear();
       this.router.navigate(['/login']);
     } else if (localStorage.getItem('token')) {
 
@@ -51,7 +50,6 @@ export class AdminLayoutComponent implements OnInit {
             }
           });
         } else {
-          localStorage.clear();
           this.router.navigate(['/login']);
         }
 

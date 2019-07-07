@@ -141,7 +141,7 @@ export class NavbarComponent implements OnInit {
         for (let delivery of this.deliveries) {
           delivery.name = 'Waiting...';
           delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
-          this.service.getSender(delivery['message'].sender)
+          this.service.getSender(delivery['message'].senderId)
             .subscribe(response => {
               let name = response['personData'].name;
               delivery.name = name;

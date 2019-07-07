@@ -10,7 +10,7 @@ import * as jwt_decode from "jwt-decode";
 })
 export class MemberConnectComponent implements OnInit {
   showForm = false;
-  members: Array<any> = [];
+  members: Array<any>[] = [];
   imId;
   dec;
   currentPage = 1;
@@ -34,8 +34,16 @@ export class MemberConnectComponent implements OnInit {
     return this.service.getConnect(this.currentPage)
       .do(res => {
         this.currentPage++;
+        console.log('fixed',res)
         // JSON.stringify(news)
         this.members = this.members.concat(res['hydra:member'])
       })
   }
+  /* test() {
+    return this.service.getConnect(this.currentPage)
+      .subscribe(res => {
+        // JSON.stringify(news)
+        this.members = this.members.concat(res['hydra:member'])
+      })
+  } */
 }

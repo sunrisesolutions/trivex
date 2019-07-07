@@ -28,7 +28,7 @@
           </div>
           <form (keyup.enter)="login()" role="form">
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
-            <div class="form-group mb-3">
+            <div *ngIf="sub == 'trivesgs'"  class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
