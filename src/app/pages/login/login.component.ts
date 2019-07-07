@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getSubdomain() {
     var host = window.location.hostname;
-    var parts = host.split('.trivesg.com');
+    var parts = host.split('.trivesg');
     this.sub = parts;
     /* if (parts.length > 2) {
       this.sub = parts[0];
@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(_sub){
       this.sub = _sub;
       } */
-    return console.log(parts);
+    return console.log(parts[0]);
   }
 
   ngOnDestroy() {
