@@ -31,7 +31,7 @@ import { SwPush } from "@angular/service-worker";
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   // value formdata
   orgCode;
   phone;
@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   id;
   toQr;
   sub = null;
+  orgLogo = 'https://i.ya-webdesign.com/images/peach-svg-animated-6.gif';
   //
   remStatus: boolean = false;
   dob: NgbDate;
@@ -75,29 +76,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate([`club-members`])
     }
+
+    this.getLogoOrganisation();
   }
 
   getSubdomain() {
     var host = window.location.hostname;
     var parts = host.split('.trivesg');
     this.sub = parts[0];
-    /* if (parts.length > 2) {
-      this.sub = parts[0];
-    } */
-    /* var full = window.location.hostname
-    var parts = full.split('.')
-    var _sub = parts[0]
-    var domain = parts[1]
-    var type = parts[2]
-    console.log(_sub)
-    if(_sub){
-      this.sub = _sub;
-      } */
+
     return console.log(parts[0]);
-  }
-
-  ngOnDestroy() {
-
   }
 
   @ViewChild("dobi") dobi: ElementRef;
@@ -115,17 +103,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       let refreshToken = response['refresh_token'];
       let accessToken = response['im_access_token'];
       let imID = response['im_id'];
-      console.log("token", response);
+      // console.log("token", response);
       localStorage.setItem("im_id", imID);
       localStorage.setItem("token", setToken);
       localStorage.setItem("refresh_token", refreshToken);
       localStorage.setItem("access_token", accessToken);
       let id = response['im_id'];
-      console.log(accessToken);
+      // console.log(accessToken);
       // decoded
       let token = setToken;
       let decoded = jwt_decode(token);
-      console.log(decoded.exp);
+      // console.log(decoded.exp);
       //refresh
       this.router.navigateByUrl(this.returnUrl)
       if (this.remStatus === true) {
@@ -141,4 +129,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.router.navigate([`club-members/${id}/qr-code`]); */
   }
 
+
+
+  /* LOGIN BY SUBDOMAIN */
+  getLogoOrganisation() {
+    if (this.sub && this.sub !== 'localhost' && this.sub !== 'trivesg') {
+      this.service.getLogoFilter(this.sub)
+        .subscribe(res => {
+          // console.log('logo', res)
+          this.orgLogo = res['logoReadUrl'];
+        });
+    }
+  }
+  /* /.LOGIN BY SUBDOMAIN */
 }

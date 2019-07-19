@@ -157,4 +157,19 @@ export class PostService {
     return this.http.get(this.postMessage + `/deliveries/${id}`, httpOptions);
   }
   /* /.MESSAGES */
+  /* Organisation API */
+  subdomainFilter(subdomain) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    let subApi = "https://org.api.trivesg.com"
+    return this.http.get(`https://org.api.trivesg.com?sudomain=${subdomain}`, httpOptions);
+  }
+  getLogoFilter(subdomain) {
+    return this.http.get(`https://org.api.trivesg.com/organisation/logourl/${subdomain}`);
+  }
+  /* /.Organisation API */
 }

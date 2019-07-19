@@ -64,4 +64,6 @@ export class NotificationsComponent implements OnInit {
     this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
     });
   }
+
+
 }
