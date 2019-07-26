@@ -9,6 +9,7 @@ import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { RegisterEventComponent } from '../../pages/register-event/register-event.component';
 import { EventLoginMember } from 'src/app/pages/register-event/login-member/login-member.component';
+import { LoginAcccessTokenComponent } from 'src/app/pages/login-acccess-token/login-acccess-token.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { EventLoginMember } from 'src/app/pages/register-event/login-member/logi
   declarations: [
     LoginComponent,
     RegisterComponent,
+    LoginAcccessTokenComponent,
     RegisterEventComponent,
     EventLoginMember
   ]

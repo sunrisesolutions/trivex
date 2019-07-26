@@ -1,9 +1,11 @@
 import { Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { PostService } from "./../../services/post.service";
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from "@angular/core";
 import { Member } from "src/app/models/Member";
-import { HttpParams } from "@angular/common/http";
+import { HttpParams, HttpClient } from "@angular/common/http";
 import * as jwt_decode from "jwt-decode";
+import { NavbarComponent } from "src/app/components/navbar/navbar.component";
+
 
 @Component({
   selector: "app-club-members",
@@ -11,6 +13,11 @@ import * as jwt_decode from "jwt-decode";
   styleUrls: ["./club-members.component.scss"]
 })
 export class ClubMembersComponent implements OnInit {
+  /* Params text search */
+  textSearch = null;
+  loadingSearch = false;
+  /* Params text search */
+
   members: Array<any> = [];
   id;
   posts: any[];
@@ -19,29 +26,63 @@ export class ClubMembersComponent implements OnInit {
   uToken;
   currentPage = 1;
   scrollCallback;
-  constructor(private service: PostService, private router: Router,private routes: ActivatedRoute) {
+  constructor(private service: PostService, private router: Router, private routes: ActivatedRoute, public httpClient: HttpClient) {
     this.scrollCallback = this.getMembers.bind(this);
-
   }
   token;
   decoded;
+
   ngOnInit() {
     this.token = localStorage.getItem("token");
     this.decoded = jwt_decode(this.token);
-
   }
 
   injectNumber(s) {
     return s.substring(s.lastIndexOf("/") + 1);
   }
   getMembers() {
-    return this.service.getDataAPI(this.currentPage).do(res => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const textSearch = urlParams.get('name');
+    if (textSearch) {
+      this.loadingSearch = false;
+      return this.service.getDataAPI(`?fulltextString=${textSearch}`)
+        .subscribe(res => {
+          this.members = res['hydra:member'];
+          this.loadingSearch = true;
+          for (const member of this.members) {
+            this.httpClient.get(member['profilePicture'])
+              .subscribe(res => {
+
+              }, err => {
+                if (err.status === 404) {
+                  member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+                }
+              })
+          }
+        })
+    }
+    return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
+      this.loadingSearch = true;
       this.currentPage++;
       this.dec = this.decoded.im;
-      console.log(this.dec);
-
       this.members = this.members.concat(res['hydra:member']);
+      console.log(this.members);
+
+      for (const member of this.members) {
+        this.httpClient.get(member['profilePicture'])
+          .subscribe(res => {
+
+          }, err => {
+            if (err.status === 404) {
+              member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+            }
+          })
+      }
 
     });
+
+
   }
 }
+
+

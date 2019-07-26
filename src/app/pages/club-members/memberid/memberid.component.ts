@@ -4,7 +4,7 @@ import * as jwt_decode from "jwt-decode";
 import { getRootComponents } from "@angular/core/src/render3/discovery_utils";
 import { HttpParams } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: "info",
   templateUrl: "./memberid.component.html",
@@ -14,7 +14,8 @@ export class MemberidComponent implements OnInit {
   constructor(
     private service: PostService,
     private router: Router,
-    private routes: ActivatedRoute
+    private routes: ActivatedRoute,
+    public http: HttpClient
   ) {
     this.routes.params.subscribe(val => {
       this.getRootId();
@@ -22,9 +23,14 @@ export class MemberidComponent implements OnInit {
   }
   id;
   imId;
-  members;
+  members: Object = {
+    personData:{
+      name: ''
+    }
+  }
   tokenRes = false;
   cToken;
+  member;
   ngOnInit() {
     this.getRootId();
 
@@ -35,15 +41,24 @@ export class MemberidComponent implements OnInit {
 
 
   }
-  getRootId(){
+  getRootId() {
     let snapID;
     snapID = +this.routes.snapshot.paramMap.get("id");
     this.id = snapID;
     this.imId = localStorage.getItem("im_id");
+    this.members['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif';
     this.service.getRootID(snapID).subscribe(res => {
-      let getInfo = res;
-      this.members = getInfo;
-      console.log("info user", res);
+      this.members = res;
+
+      this.members['@id'] = this.members['@id'].match(/\d+/g).map(Number);
+      console.log(this.members);
+      this.http.get(this.members['profilePicture'])
+        .subscribe(res => {
+        }, error => {
+          if (error.status === 404) {
+            this.members['profilePicture'] = 'https://i.gifer.com/B0eS.gif'
+          }
+        })
     });
   }
   toClubMem() {

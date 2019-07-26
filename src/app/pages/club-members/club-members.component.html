@@ -1,8 +1,20 @@
 <div style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
+ <!--  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
+    <div class="form-group mb-0">
+      <div class="input-group input-group-alternative">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+        </div>
+        <input [(ngModel)]="textSearch"  (input)="getMembers(textSearch)" name="search" class="form-control"
+          placeholder="Search" type="text">
+      </div>
+    </div>
+  </form> -->
+  <img [class.d-flex]="loadingSearch===false" src="https://i.gifer.com/embedded/download/ZKZg.gif" class="container d-none align-items-center  loading" alt="">
   <div class="container-fluid">
-    <div class="header-body">
+    <div [hidden]="loadingSearch===false" class="header-body">
       <!-- Card stats -->
-      <div id="infinite-scroller" appInfiniteScroller scrollPercent="50" immediateCallback="true"
+      <div id="infinite-scroller" appInfiniteScroller scrollPercent="10" immediateCallback="true"
         [scrollCallback]="scrollCallback" class="row">
         <div [hidden]="dec == member.uuid" *ngFor="let member of members" class="col-12">
           <div class="card card-stats mb-2">
@@ -35,4 +47,5 @@
       </div>
     </div>
   </div>
+
 </div>

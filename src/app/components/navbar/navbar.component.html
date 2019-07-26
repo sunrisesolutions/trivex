@@ -14,7 +14,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
           </div>
-          <input class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
+          <input (input)="testSearchMethod(search)" [(ngModel)]="search" name="search" class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
         </div>
       </div>
     </form>
@@ -58,9 +58,9 @@
             <div *ngFor="let delivery of deliveries;let i = index;let c = count" [attr.data-index]="i"
               class="list-group list-group-flush">
               <ng-template #content let-modal>
-                <div *ngIf="delivery" class="">
+                <div *ngIf="delivery2" class="">
                   <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">{{delivery.message.createdAt | date:'short'}}</h4>
+                    <h4 class="modal-title" id="modal-basic-title">{{delivery2.message.createdAt | date:'short'}}</h4>
                     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -69,35 +69,40 @@
                     <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
                       <div class="d-flex justify-content-center">
                         <div class="card-profile-image" style="top:-20pt">
-                          <img (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery.idSender}}/info" style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
-                            class="avatar-notif">
+                          <img (click)="modal.dismiss('go to info sender')"
+                            routerLink="/club-members/{{delivery2.idSender}}/info" style="width:100px;height:100px"
+                            alt="Image placeholder" [src]="delivery2.profilePicture" class="avatar-notif">
                         </div>
                       </div>
                       <div class="card-body mt-4 text-center">
                         <div class="container">
                           <div class="h1">
-                            {{delivery.name}}
+                            {{delivery2.name}}
                           </div>
                           <hr class="my-2">
                           <div class="font-weight-bold">
-                            {{delivery.message.subject}}
+                            {{delivery2.message.subject}}
                           </div>
                           <div class="font-weight-light">
-                            {{delivery.message.body}}
+                            {{delivery2.message.body}}
                           </div>
                         </div>
                       </div>
-
+                      <ngx-select-dropdown id="test" insideKeyPress="true" name="select" [config]="config"
+                        [options]="listMessageOptions">
+                      </ngx-select-dropdown>
                     </div>
                   </div>
                   <div class="modal-footer justify-content-start border">
                     <div style="color: white !important" class="container">
                       <div class="row">
                         <div class="col-12 col-md-6">
-                          <a (click)="delivery=deliveries[i=i-1];open('',delivery)" *ngIf="i !== 0" class="btn btn-info w-100">Prev</a>
+                          <a (click)="delivery2=deliveries[i=i-1];open('',delivery2)" *ngIf="i !== 0"
+                            class="btn btn-info w-100">Prev</a>
                         </div>
                         <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
-                          <a (click)="delivery=deliveries[i=i+1];open('',delivery)" *ngIf="c-1 > i " class="btn btn-danger w-100">Next</a>
+                          <a (click)="delivery2=deliveries[i=i+1];open('',delivery2)" *ngIf="c-1 > i "
+                            class="btn btn-danger w-100">Next</a>
                         </div>
                       </div>
                     </div>
@@ -105,7 +110,7 @@
                 </div>
               </ng-template>
 
-              <a (click)="open(content,delivery,i);"
+              <a (click)="open(content,delivery,i);delivery2=delivery"
                 class="list-group-item list-group-item-action  {{(delivery.readAt)? 'read':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
@@ -133,14 +138,14 @@
             class="dropdown-item text-center text-primary font-weight-bold">View all</a>
         </div>
       </li>
-      <li *ngIf="members" class="nav-item" ngbDropdown placement="bottom-right">
+      <li *ngFor="let member of members" class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
-            <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" [src]=members.profilePicture>
+            <span class="custom-avatar">
+              <img class="avatar-user" alt="" [src]="member.profilePicture">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{members.personData.name}}</span>
+              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{member.personData.name}}</span>
             </div>
           </div>
         </a>
@@ -148,7 +153,7 @@
           <div class=" dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome!</h6>
           </div>
-          <a routerLinkActive="active" routerLink="/club-members/{{id}}/info" class="dropdown-item">
+          <a routerLinkActive="active" (click)="toInfo()" class="dropdown-item">
             <i class="text-dark fas fa-user" aria-hidden="true"></i>
             <span class="text-dark">My profile</span>
           </a>
@@ -166,3 +171,4 @@
     </ul>
   </div>
 </nav>
+

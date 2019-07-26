@@ -22,7 +22,6 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: 'club-members',
     component: ClubMembersComponent,
-
   },
   { path: 'member-connect', component: MemberConnectComponent },
   { path: 'club-members/:id/info', component: MemberidComponent },

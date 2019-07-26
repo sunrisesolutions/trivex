@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { Delivery } from 'src/app/models/Deliveries';
 import { Route } from '@angular/compiler/src/core';
 import { Location } from '@angular/common';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import * as jwt_decode from 'jwt-decode';
 
 declare interface RouteInfo {
   path: string;
@@ -46,6 +48,26 @@ const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HB
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  /* SELECT Options*/
+  listMessageOptions = [
+    { name: 'message-option-1' },
+    { name: 'message-option-2' },
+    { name: 'message-option-3' },
+    { name: 'message-option-4' },
+  ];
+  config = {
+    displayKey: 'name',
+    search: true,
+    height: 'auto',
+    placeholder: 'Select your option',
+    // customComparator: ()=>{},
+    // limitTo: options.length, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
+    moreText: 'more',
+    noResultsFound: 'No results found!',
+    searchPlaceholder: 'Search',
+    searchOnKey: 'name',
+  }
+  /* /.SELECT Options */
   public menuItems: any[];
   public exampleMenuItems: any[];
   public isCollapsed = true;
@@ -60,10 +82,15 @@ export class SidebarComponent implements OnInit {
   fakeCountMess;
   queryDeliveriesREAD = '?readAt%5Bexists%5D=false&';
   deliveries: Delivery[];
-  delivery: Delivery;
+  delivery2: Delivery;
   messagesID = '';
   deviceInfo = null;
-  constructor(private modalService: NgbModal, private router: Router, private service: PostService,
+  member = [];
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    private service: PostService,
+    public httpClient: HttpClient,
     private _location: Location,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
@@ -73,15 +100,15 @@ export class SidebarComponent implements OnInit {
   }
 
   open(content, delivery) {
-    delivery['idSender']=delivery['message'].senderId;
+    delivery['idSender'] = delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
-      this.delivery = delivery;
+      // this.delivery = delivery;
     }
-    let d = new Date();
-    let pramramsRead = {
+    const d = new Date();
+    const pramramsRead = {
       "readAt": d.getTimezoneOffset(),
-    }
+    };
     delivery.readAt = pramramsRead.readAt;
     this.service.readDelivery(pramramsRead, delivery['@id'])
       .subscribe(res => {
@@ -89,15 +116,25 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getDataAPI().subscribe(res => {
-      this.uuid = localStorage.getItem('im_id');
-      this.service.getRootID(this.uuid).subscribe(res => {
-        const getInfo = res['profilePicture'];
-        this.members = getInfo;
-        console.log('info user', res);
-      });
-    });
+    /* this.service.getDataAPI().subscribe(res => {
 
+    }); */
+    const decoded = jwt_decode(localStorage.getItem('token'));
+
+    this.service.getUserByuuid(decoded.im)
+      .subscribe(res => {
+        this.members = res['hydra:member'];
+        for (let member of this.members) {
+          this.httpClient.get(member['profilePicture'])
+            .subscribe(res => {
+
+            }, error => {
+              if (error.status === 404) {
+                member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+              }
+            });
+        }
+      })
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
       this.status = true;
@@ -129,7 +166,7 @@ export class SidebarComponent implements OnInit {
 
   /* Device detector */
   epicFunction() {
-    this.deviceInfo = this.deviceService.getDeviceInfo();
+    return this.deviceInfo = this.deviceService.getDeviceInfo();
   }
   /* /.Device detector */
 
@@ -147,28 +184,27 @@ export class SidebarComponent implements OnInit {
     this.service.getDelivery('', 1)
       .subscribe((res) => {
         this.deliveries = res['hydra:member'];
-        for (let delivery of this.deliveries) {
+        for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
           delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
           this.service.getSender(delivery['message'].senderId)
             .subscribe(response => {
-              let profilePicture = response['profilePicture'];
-              let name = response['personData'].name;
+              const profilePicture = response['profilePicture'];
+              const name = response['personData'].name;
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
         }
-        console.log('deliveries', this.deliveries)
 
       });
 
   }
   toInfo() {
-    this.router.navigate([`/club-members/${this.uuid}/info`]);
+    this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/info`]);
 
   }
   toQrCode() {
-    this.router.navigate([`club-members/${this.uuid}/qr-code`]);
+    this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/qr-code`]);
   }
   logout() {
     location.reload();
@@ -194,7 +230,6 @@ export class SidebarComponent implements OnInit {
               this.publicKey = res.json().p256dhKey;
               localStorage.setItem('id_pushNotif', this.idDelete);
               localStorage.setItem('public_key', this.publicKey);
-              console.log('this', res.json());
             });
           })
           .catch(console.error);
@@ -203,7 +238,6 @@ export class SidebarComponent implements OnInit {
   }
 
   statusControl() {
-    console.log(this.status);
     if (this.status === true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
@@ -211,7 +245,6 @@ export class SidebarComponent implements OnInit {
         .then(sub => {
           let s = sub.toJSON();
           let contentEncoding = PushManager.supportedContentEncodings[0];
-          console.log(contentEncoding)
           let contain = {
             "endpoint": s.endpoint,
             "expirationTime": s.expirationTime,
@@ -225,7 +258,6 @@ export class SidebarComponent implements OnInit {
             this.publicKey = res.p256dhKey
             localStorage.setItem('id_pushNotif', this.idDelete);
             localStorage.setItem('public_key', this.publicKey);
-            console.log("this", res);
           });
         })
         .catch(res => {
@@ -242,7 +274,6 @@ export class SidebarComponent implements OnInit {
             .subscribe(res => {
               localStorage.removeItem('id_pushNotif');
               localStorage.removeItem('public_key');
-              console.log(res);
             })
         }
         else if (localStorage.getItem('public_key')) {
@@ -250,7 +281,6 @@ export class SidebarComponent implements OnInit {
             .subscribe(res => {
               this.reqNotif.deleteNotification(this.getId)
                 .subscribe(res => {
-                  console.log(res);
                   localStorage.removeItem('public_key');
                 })
             })

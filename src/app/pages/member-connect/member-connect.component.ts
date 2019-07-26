@@ -15,6 +15,7 @@ export class MemberConnectComponent implements OnInit {
   dec;
   currentPage = 1;
   scrollCallback;
+
   constructor(private service: PostService,private routes: ActivatedRoute) {
     this.scrollCallback = this.getConnect.bind(this);
 

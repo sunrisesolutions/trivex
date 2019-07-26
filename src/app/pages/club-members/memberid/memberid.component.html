@@ -4,11 +4,6 @@
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
   <div class="container">
-    <div class="row text-center">
-      <div class="col col-md-12">
-        <h1 *ngIf="members" class="display-2 text-white">{{members.personData.name}}</h1>
-      </div>
-    </div>
     <div *ngIf="members" class="row justify-content-center mt-6">
       <div class="col-12 col-lg-5 col-xl-5 col-md-8 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-profile shadow">
@@ -16,7 +11,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image" style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img [src]=members.profilePicture
+                  <img [src]="members.profilePicture"
                     class="avatar">
                 </a>
               </div>
@@ -24,7 +19,7 @@
           </div>
           <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
             <div class="">
-              <a [routerLink]="'/club-members/' + injectNumber(members['@id']) + '/send-email'">
+              <a routerLink="/club-members/{{members['@id']}}/send-email">
                 <div [hidden]="id == imId" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
               </a>
             </div>

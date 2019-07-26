@@ -1,6 +1,5 @@
-import { NavbarComponent } from './../../components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http'; import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -19,10 +18,10 @@ import { ConnectComponent } from '../../pages/club-members/connect/connect.compo
 import { SendEmailComponent } from '../../pages/club-members/send-email/send-email.component';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
-import {NotificationsComponent} from '../../pages/notifications/notifications.component'
+import { NotificationsComponent } from '../../pages/notifications/notifications.component'
 import { MessagesComponent } from '../../pages/notifications/message/messages.component';
 import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.directive';
-
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -33,6 +32,7 @@ import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.di
     HttpClientModule,
     NgbModule,
     ClipboardModule,
+    SelectDropDownModule,
     ZXingScannerModule.forRoot(),
     AngularEditorModule,
   ],
@@ -52,7 +52,7 @@ import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.di
     NotificationsComponent,
     MessagesComponent
 
-  ]
+  ],
 })
 
-export class AdminLayoutModule {}
+export class AdminLayoutModule { }

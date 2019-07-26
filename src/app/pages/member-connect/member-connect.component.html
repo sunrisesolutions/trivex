@@ -12,11 +12,11 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-auto">
-                  <a [routerLink]="'/club-members/' + injectNumber(member.toMember['@id']) + '/info'"><img class="icon bg-warning text-white rounded-circle shadow" [src]=member.toMember.profilePicture
+                  <a routerLink="/club-members/id/info"><img class="icon bg-warning text-white rounded-circle shadow" [src]=member.toMember.profilePicture
                     alt=""></a>
                 </div>
                 <div class="col text-muted">
-                  <a [routerLink]="'/club-members/' + injectNumber(member.toMember['@id']) + '/info'"><h2 class="h2 font-weight-bold">{{member.toMember.personData.name}}</h2></a>
+                  <a routerLink="/club-members/id/info"><h2 class="h2 font-weight-bold">{{member.toMember.personData.name}}</h2></a>
                   <span>{{member.toMember.personData.jobTitle}}</span><br>
                   <span>{{member.toMember.personData.employerName}}</span><br>
                   <span>{{member.createdAt | date: 'medium'}}</span><br>
@@ -24,7 +24,7 @@
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">
-                <a [routerLink]="'/club-members/' + injectNumber(member.toMember['@id']) + '/send-email'"
+                <a routerLink="/club-members/send-email"
                   class="text-uppercase btn btn-primary text-white mr-2"><i class="ni ni-send"></i>EMAIL</a>
               </p>
 

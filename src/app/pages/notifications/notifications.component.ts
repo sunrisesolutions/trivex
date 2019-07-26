@@ -10,11 +10,29 @@ import 'rxjs-compat/add/operator/do';
 })
 export class NotificationsComponent implements OnInit {
   id;
+  listMessageOptions = [
+    { name: 'message-option-1' },
+    { name: 'message-option-2' },
+    { name: 'message-option-3' },
+    { name: 'message-option-4' },
+  ];
+  config = {
+    displayKey: 'name',
+    search: true,
+    height: 'auto',
+    placeholder: 'Select your option',
+    // customComparator: ()=>{},
+    // limitTo: options.length, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
+    moreText: 'more',
+    noResultsFound: 'No results found!',
+    searchPlaceholder: 'Search',
+    searchOnKey: 'name',
+  }
   messages;
   showForm = false;
   members: Array<any> = [];
   deliveries: Array<Delivery> = [];
-  delivery: Delivery;
+  delivery2: Delivery;
   messagesID = '';
   currentPage = 1;
   scrollCallback;
@@ -31,10 +49,11 @@ export class NotificationsComponent implements OnInit {
 
 
   getDelivery() {
-    return this.service.getDelivery('',this.currentPage)
+    return this.service.getDelivery('', this.currentPage)
       .do(res => {
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
+        console.log(res)
         for (let delivery of this.deliveries) {
           delivery.name = 'Waiting...'
           delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
@@ -51,10 +70,10 @@ export class NotificationsComponent implements OnInit {
 
   }
   open(content, delivery) {
-    delivery['idSender']=delivery['message'].senderId;
+    delivery['idSender'] = delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
-      this.delivery = delivery;
+      // this.delivery = delivery;
     }
     let d = new Date();
     let pramramsRead = {

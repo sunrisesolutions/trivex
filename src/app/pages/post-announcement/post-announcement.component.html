@@ -1,4 +1,5 @@
-<div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center"
+  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
@@ -10,18 +11,29 @@
           {{error}}
         </div>
         <div *ngIf="success" class="h3 text-white">
-            <p for="">You have successfully posted the announcement.</p>
-            <button (click)="success=false" class="btn btn-info">Post another announcement</button>
+          <p for="">You have successfully posted the announcement.</p>
+          <button (click)="success=false;this.subject='';this.body=''" class="btn btn-info">Post another announcement</button>
         </div>
         <form *ngIf="!success">
-          <hr class="my-4"/>
+          <hr class="my-4" />
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
                 <label class="form-control-label text-white" for="subject">Subject</label>
-                <input [(ngModel)]="subject" name="subject" id="subject" class="form-control form-control-alternative" placeholder="An invitation letter from Club" type="text">
+                <input [(ngModel)]="subject" name="subject" id="subject" class="form-control form-control-alternative"
+                  placeholder="An invitation letter from Club" type="text">
               </div>
             </div>
+          </div>
+          <div class="form-group">
+            <label class="text-white form-control-label">Predefined Options</label>
+            <ngx-select-dropdown (change)="getId($event)" insideKeyPress="true" [(ngModel)]="dataModel" name="select" [config]="config" [options]="listOptions"></ngx-select-dropdown>
+            <!-- <select class="form-control cursor-pointer" name="listOptions">
+              <option selected>Select your option</option>
+              <a *ngFor="let list of listOption">
+                {{list.name}}
+              </a>
+            </select> -->
           </div>
           <div class="form-group">
             <label class="text-white form-control-label">Message</label>
@@ -29,7 +41,7 @@
           </div>
           <div class="row text-white">
             <div class="col-12 text-right">
-              <button class="btn btn-info" (click)="send()" [disabled]="loading">Send</button>
+              <button class="btn btn-info" (click)="send(idOptionSet)" [disabled]="loading">Send</button>
             </div>
           </div>
         </form>

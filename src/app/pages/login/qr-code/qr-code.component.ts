@@ -10,13 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 export class QrCodeComponent implements OnInit {
   id;
   qrLink;
-  
+
   constructor(private service: PostService,
     private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/club-members/individual_members/${id}/connect.png`
+    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://trivesg.com/club-members/individual_members/${id}/connect.png`
   }
 }

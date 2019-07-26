@@ -21,6 +21,13 @@
   cursor: default;
 }
 
+.avatar-user {
+  object-fit: cover !important;
+  height: 35pt !important;
+  width: 35pt !important;
+  cursor: pointer !important;
+  border-radius: 100%;
+}
 
 .unread {
   background-color: #edf2fa;
@@ -29,10 +36,23 @@
   background-color: white;
 }
 
-:host /deep/ .modal-dialog{
+:host /deep/ .modal-dialog {
   background-color: red !important;
 }
 
-.dropdown-menu-lg{
-  width:100% !important;
+.dropdown-menu-lg {
+  width: 100% !important;
+}
+
+ngx-select-dropdown {
+  /deep/ .selected-items li{
+    display: flex !important;
+    align-items: center;
+    /deep/ .nsdicon-close{
+      margin-right: 10px !important;
+    }
+  }
+  margin-bottom: 10px !important;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
 }

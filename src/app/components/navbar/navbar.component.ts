@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { PostService } from "./../../services/post.service";
 import { Component, OnInit, ElementRef, Input, Directive, Output, getPlatform } from "@angular/core";
 import { ROUTES } from "../sidebar/sidebar.component";
@@ -25,13 +26,34 @@ import { DeviceDetectorService } from "ngx-device-detector";
 const VAPID_SERVER_KEY = "BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc";
 
 // ===========
-
+export var text;
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
+  /* Test Search */
+  search: string = '';
+  /* /.Test Search */
+  listMessageOptions = [
+    { name: 'message-option-1' },
+    { name: 'message-option-2' },
+    { name: 'message-option-3' },
+    { name: 'message-option-4' },
+  ];
+  config = {
+    displayKey: 'name',
+    search: true,
+    height: 'auto',
+    placeholder: 'Select your option',
+    // customComparator: ()=>{},
+    // limitTo: options.length, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
+    moreText: 'more',
+    noResultsFound: 'No results found!',
+    searchPlaceholder: 'Search',
+    searchOnKey: 'name',
+  }
   // Demo
   closeResult: string;
   // end
@@ -43,8 +65,8 @@ export class NavbarComponent implements OnInit {
   uuid;
   id;
   deliveries: Delivery[];
-  delivery: Delivery;
-  messagesID = '';
+  delivery2: Delivery;
+  messagesID = [''];
   countMess;
   fakeCountMess;
   idDelete: any;
@@ -56,6 +78,7 @@ export class NavbarComponent implements OnInit {
   queryDeliveriesREAD = '?readAt[exists]=false&';
   images = '';
   deviceInfo = null;
+  profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif';
   public permission: NotificationPermission;
   constructor(
     location: Location,
@@ -66,29 +89,30 @@ export class NavbarComponent implements OnInit {
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
     private modalService: NgbModal,
-    private config: NgbDropdownConfig,
     private deviceService: DeviceDetectorService,
+    public httpClient: HttpClient
 
   ) {
     this.location = location;
+
 
 
     /* Notification Click */
     swPush.notificationClicks
       .subscribe(res => {
         console.log(res);
-      })
+      });
   }
 
   /* MODAL DIALOG */
-  read() {
+  /* read() {
     console.log('read');
-  }
+  } */
   open(content, delivery) {
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
-      this.delivery = delivery;
+      // this.delivery = delivery;
     }
     let d = new Date();
     let pramramsRead = {
@@ -100,13 +124,30 @@ export class NavbarComponent implements OnInit {
   }
   /* /.MODAL DIALOG */
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
-    this.id = localStorage.getItem("im_id");
-    this.service.getRootID(this.id).subscribe(res => {
-      this.members = res;
-      console.log("info user", res);
-    });
+    // this.listTitles = ROUTES.filter(listTitle => listTitle);
+    /*  this.id = localStorage.getItem('im_id');
+     this.id = this.id.match(/\d+/g).map(Number); */
+    const decoded = jwt_decode(localStorage.getItem('token'));
+    console.log('decoded', decoded)
+    this.service.getUserByuuid(decoded.im)
+      .subscribe(res => {
+        this.members = res['hydra:member'];
+        for (const member of this.members) {
+          this.httpClient.get(member['profilePicture'])
+            .subscribe(res => {
 
+            }, error => {
+              if (error.status === 404) {
+                member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+              }
+            });
+        }
+      })
+    /*  this.service.getRootID(localStorage.getItem('im_id').match(/\d+/g).map(Number)).subscribe(res => {
+       this.members = res;
+       console.log('info user', res);
+     }); */
+    // this.id = localStorage.getItem('im_id').match(/\d+/g).map(Number);
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
       this.status = true;
@@ -136,13 +177,14 @@ export class NavbarComponent implements OnInit {
   getDelivery() {
     this.service.getDelivery('', 1)
       .subscribe((res) => {
+        console.log('deliveries', res)
         this.deliveries = res['hydra:member'];
-        for (let delivery of this.deliveries) {
+        for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
           delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
           this.service.getSender(delivery['message'].senderId)
             .subscribe(response => {
-              let name = response['personData'].name;
+              const name = response['personData'].name;
               delivery.name = name;
               delivery.profilePicture = response['profilePicture'];
             });
@@ -154,14 +196,15 @@ export class NavbarComponent implements OnInit {
   }
 
   toQrCode() {
-    let id = this.id
-    this.router.navigate([`/club-members/${id}/qr-code`]);
+    this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/qr-code`]);
 
   }
-
+  toInfo() {
+    return this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/info`]);
+  }
   logout() {
-    location.reload();
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   public isSupported(): boolean {
@@ -170,7 +213,7 @@ export class NavbarComponent implements OnInit {
 
   statusControl(statusInput) {
     console.log('status push', this.status, statusInput.checked);
-    if (statusInput.checked == true) {
+    if (statusInput.checked === true) {
       this.swPush.requestSubscription({
         serverPublicKey: VAPID_SERVER_KEY,
       })
@@ -238,5 +281,12 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  testSearchMethod(eventText) {
+    this.router.navigate(['/club-members'], { queryParams: { name: eventText } });
+    // console.log(text);
+  }
 
+  injectNumber(s) {
+    return s = s.match(/\d+/g).map(Number);
+  }
 }

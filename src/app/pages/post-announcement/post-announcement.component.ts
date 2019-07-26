@@ -13,7 +13,42 @@ import { filter } from "rxjs/operators";
   templateUrl: './post-announcement.component.html',
   styleUrls: ['./post-announcement.component.scss']
 })
-export class PostAnnouncementComponent {
+export class PostAnnouncementComponent implements OnInit {
+  idOptionSet;
+  dropdownOptions = [
+    'option-1',
+    'option-2',
+    'option-3',
+    'option-4',
+    'option-5'
+  ]
+  config = {
+    displayKey: 'name',
+    search: true,
+    height: 'auto',
+    placeholder: 'Select your option',
+    // customComparator: ()=>{},
+    // limitTo: options.length, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
+    moreText: 'more',
+    noResultsFound: 'No results found!',
+    searchPlaceholder: 'Search',
+    searchOnKey: 'name',
+  }
+  test;
+  member;
+  loading = false;
+  subject;
+  listOptions: Array<any>[] = [];
+  selected = 'Select your option';
+  listSelect = [
+    { name: 'option-1' },
+    { name: 'option-2' },
+  ]
+  body;
+  error = '';
+  success = false;
+  closeResult;
+  @ViewChild("modal") modal: ElementRef;
   constructor(
     private service: PostService,
     private orgService: OrganisationService,
@@ -22,32 +57,49 @@ export class PostAnnouncementComponent {
     private modalService: NgbModal
   ) {
   }
-  member;
-  loading = false;
-  subject;
-  body;
-  error = '';
-  success = false;
-  closeResult;
-  @ViewChild("modal") modal: ElementRef;
 
-  send() {
-    this.success = true;
+  ngOnInit() {
+    this.getOptionSets();
+  }
+
+  getOptionSets() {
+    this.service.optionSetsGet('')
+      .subscribe(res => {
+        this.listOptions = res['hydra:member'];
+        console.log(this.listOptions);
+      });
+  }
+
+  send(idOptionSet) {
     // REQUEST POST
+    console.log(idOptionSet);
     let _message = {
-      "published":true,
+      "published": true,
       "subject": this.subject,
       "body": this.body,
+      "optionSet": (idOptionSet) ? idOptionSet : null
     }
     this.service.messagePost(_message)
-      .subscribe(res=>{
+      .subscribe(res => {
+        this.success = true;
         console.log(res)
+      }, error => {
+        if (error.status === 400) {
+          alert(error.error['hydra:description']);
+        }
+        if (error.status === 404) {
+          alert(error.error['hydra:description']);
+        }
+        if (error.status === 500) {
+          alert(error.error['hydra:description']);
+        }
+        this.success = false;
       })
     // Timeout
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -60,7 +112,16 @@ export class PostAnnouncementComponent {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
+    }
+  }
+
+  getId(event) {
+    console.log(event);
+    if (event.value) {
+      this.idOptionSet = event.value['@id'];
+    } else {
+      this.idOptionSet = null;
     }
   }
 }

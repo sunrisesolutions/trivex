@@ -3,13 +3,13 @@
 
 
 
-  <div (click)="open(content,delivery)" *ngFor="let delivery of deliveries;let i = index;let c = count"
-    class="container mb-3 w-md-50">
+  <div (click)="open(content,delivery);delivery2=delivery"
+    *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
     <!-- Modal Deliveries -->
-    <ng-template #content let-modal>
-      <div *ngIf="delivery" class="mt-2">
+    <ng-template  #content let-modal>
+      <div *ngIf="delivery2" class="mt-2">
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">{{delivery.message.createdAt | date:'short'}}</h4>
+          <h4 class="modal-title" id="modal-basic-title">{{delivery2.message.createdAt | date:'short'}}</h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(modalSHOW=false);">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -18,38 +18,39 @@
           <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
             <div class="d-flex justify-content-center">
               <div class="card-profile-image" style="top:-20pt">
-                <img (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery.idSender}}/info"
+                <img (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery2.idSender}}/info"
                   style="cursor: pointer;width:100px;height:100px;object-fit: cover" alt="Image placeholder"
-                  [src]="delivery.profilePicture" class="avatar-notif">
+                  [src]="delivery2.profilePicture" class="avatar-notif">
               </div>
             </div>
             <div class="card-body mt-4 text-center">
               <div class="container">
                 <div class="h1">
-                  {{delivery.name}}
+                  {{delivery2.name}}
                 </div>
                 <hr class="my-2">
                 <div class="font-weight-bold">
-                  {{delivery.message.subject}}
+                  {{delivery2.message.subject}}
                 </div>
                 <div class="font-weight-light">
-                  {{delivery.message.body}}
+                  {{delivery2.message.body}}
                 </div>
               </div>
             </div>
-
+            <ngx-select-dropdown id="test" insideKeyPress="true" name="select" [config]="config" [options]="listMessageOptions">
+            </ngx-select-dropdown>
           </div>
         </div>
         <div class="modal-footer justify-content-start border">
           <div style="color: white !important" class="container">
             <div class="row">
               <div class="col-12 col-md-6">
-                 <a (click)="delivery=deliveries[i=i-1];open('',delivery)" *ngIf="i !== 0"
+                <a (click)="delivery2=deliveries[i=i-1];open('',delivery2)" *ngIf="i !== 0"
                   class="btn btn-info w-100">Prev</a>
 
               </div>
               <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
-                <a (click)="delivery=deliveries[i=i+1];open('',delivery)" *ngIf="c-1 > i "
+                <a (click)="delivery2=deliveries[i=i+1];open('',delivery2)" *ngIf="c-1 > i "
                   class="btn btn-danger w-100">Next</a>
 
               </div>

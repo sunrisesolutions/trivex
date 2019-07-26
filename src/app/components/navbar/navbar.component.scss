@@ -7,9 +7,16 @@
 }
 .avatar-notif {
   object-fit: cover;
-  object-position: top;
+  // object-position: top;
   height: 35pt;
   width: 35pt;
+  cursor: pointer !important;
+  border-radius: 100%;
+}
+.avatar-user {
+  object-fit: cover !important;
+  height: 35pt !important;
+  width: 35pt !important;
   cursor: pointer !important;
   border-radius: 100%;
 }
@@ -28,7 +35,7 @@
 .badge-danger:hover {
   cursor: default;
 }
-.dropdown-item{
+.dropdown-item {
   cursor: pointer !important;
 }
 .scroll {
@@ -37,13 +44,28 @@
   overflow-x: hidden;
 }
 
-.unread{
+.unread {
   background-color: white;
-
 }
-.read{
-  background-color: #EDF2FA;
+.read {
+  background-color: #edf2fa;
 }
-.label{
+.label {
   font-size: 18px;
+}
+
+ngx-select-dropdown {
+  /deep/ .selected-items li{
+    display: flex !important;
+    align-items: center;
+    /deep/ .nsdicon-close{
+      margin-right: 10px !important;
+    }
+  }
+  margin-bottom: 10px !important;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+.dropdown-menu{
+  top: 45px !important;
 }
