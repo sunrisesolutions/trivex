@@ -1,16 +1,17 @@
 <div style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
- <!--  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
+  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
     <div class="form-group mb-0">
       <div class="input-group input-group-alternative">
         <div class="input-group-prepend">
           <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        <input [(ngModel)]="textSearch"  (input)="getMembers(textSearch)" name="search" class="form-control"
+        <input [(ngModel)]="textSearch" (input)="getMembers(textSearch)" name="search" class="form-control"
           placeholder="Search" type="text">
       </div>
     </div>
-  </form> -->
-  <img [class.d-flex]="loadingSearch===false" src="https://i.gifer.com/embedded/download/ZKZg.gif" class="container d-none align-items-center  loading" alt="">
+  </form>
+  <img [class.d-flex]="loadingSearch===false" src="https://i.gifer.com/embedded/download/ZKZg.gif"
+    class="container d-none align-items-center  loading" alt="">
   <div class="container-fluid">
     <div [hidden]="loadingSearch===false" class="header-body">
       <!-- Card stats -->
@@ -46,6 +47,41 @@
         </div> -->
       </div>
     </div>
+    <!-- mobile search -->
+
+    <!-- /.mobile search -->
+
   </div>
 
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Search Members</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group mb-0">
+      <div class="input-group input-group-alternative">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+        </div>
+        <input autofocus [(ngModel)]="textSearch" (focus)="textSearch=''"  (input)="getMembers(textSearch)" name="search" class="form-control"
+          placeholder="Search" type="text">
+      </div>
+    </div>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark">search</button>
+  </div> -->
+</ng-template>
+
+
+<div class="mobile-search-btn d-md-none">
+  <a data-toggle="modal" (click)="open(content)" >
+    <i class="fas fa-search fa-2x">
+
+    </i>
+  </a>
 </div>

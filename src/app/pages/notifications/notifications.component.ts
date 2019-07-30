@@ -64,6 +64,17 @@ export class NotificationsComponent implements OnInit {
               delivery.name = name;
               delivery.profilePicture = profilePicture;
             });
+          if (delivery['message']['optionSet']) {
+            this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
+              .subscribe(res => {
+                this.listMessageOptions = res['hydra:member']
+                delivery['arrayOptions'] = res['hydra:member'];
+                for (let option of this.listMessageOptions) {
+                  option['selectedOptionMessage'] = false;
+                }
+              })
+
+          }
         }
         console.log('deliveries', this.deliveries)
       });
@@ -84,5 +95,31 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-
+  putApproval(options, infoDelivery) {
+    let ar = [];
+    for (let option of options) {
+      if (option['selectedOptionMessage']) {
+        ar.push(option['uuid'])
+      }
+    }
+    let idDelivery = infoDelivery['@id'];
+    let bodyMessageOption = {
+      "selectedOptions": ar
+    }
+    this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
+      .subscribe(res => {
+        console.log(res)
+        alert('Successfully.!!!')
+      }, error => {
+        if (error.status === 400) {
+          alert(error.error['hydra:description'])
+        }
+        if (error.status === 404) {
+          alert(error.error['hydra:description'])
+        }
+        if (error.status === 500) {
+          alert(error.error['hydra:description'])
+        }
+      })
+  }
 }

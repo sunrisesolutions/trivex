@@ -5,6 +5,8 @@ import { Member } from "src/app/models/Member";
 import { HttpParams, HttpClient } from "@angular/common/http";
 import * as jwt_decode from "jwt-decode";
 import { NavbarComponent } from "src/app/components/navbar/navbar.component";
+import { SearchService } from "src/app/services/search.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -26,7 +28,7 @@ export class ClubMembersComponent implements OnInit {
   uToken;
   currentPage = 1;
   scrollCallback;
-  constructor(private service: PostService, private router: Router, private routes: ActivatedRoute, public httpClient: HttpClient) {
+  constructor(public modalService: NgbModal, public receiveTextSearch: SearchService, private service: PostService, private router: Router, private routes: ActivatedRoute, public httpClient: HttpClient) {
     this.scrollCallback = this.getMembers.bind(this);
   }
   token;
@@ -40,10 +42,8 @@ export class ClubMembersComponent implements OnInit {
   injectNumber(s) {
     return s.substring(s.lastIndexOf("/") + 1);
   }
-  getMembers() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const textSearch = urlParams.get('name');
-    if (textSearch) {
+  getMembers(textSearch: String = null) {
+    if (textSearch !== null) {
       this.loadingSearch = false;
       return this.service.getDataAPI(`?fulltextString=${textSearch}`)
         .subscribe(res => {
@@ -60,29 +60,39 @@ export class ClubMembersComponent implements OnInit {
               })
           }
         })
+    }else {
+      return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
+        this.loadingSearch = true;
+        this.currentPage++;
+        this.dec = this.decoded.im;
+        this.members = this.members.concat(res['hydra:member']);
+        console.log(this.members);
+
+        for (const member of this.members) {
+          this.httpClient.get(member['profilePicture'])
+            .subscribe(res => {
+
+            }, err => {
+              if (err.status === 404) {
+                member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+              }
+            })
+        }
+
+      });
     }
-    return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
-      this.loadingSearch = true;
-      this.currentPage++;
-      this.dec = this.decoded.im;
-      this.members = this.members.concat(res['hydra:member']);
-      console.log(this.members);
 
-      for (const member of this.members) {
-        this.httpClient.get(member['profilePicture'])
-          .subscribe(res => {
-
-          }, err => {
-            if (err.status === 404) {
-              member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
-            }
-          })
-      }
-
-    });
 
 
   }
+  test(event){
+    console.log(event);
+  }
+  open(content) {
+    if (content) {
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      // this.delivery = delivery;
+    }
+  }
+
 }
-
-

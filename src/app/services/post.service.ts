@@ -163,6 +163,17 @@ export class PostService {
     };
     return this.http.put(`${this.postMessage}${id}`, read, httpOptions);
   }
+
+  putDelivery(read, id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.put(`${this.postMessage}${id}`, read, httpOptions);
+  }
+
   getMessageById(id): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({

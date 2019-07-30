@@ -1,5 +1,6 @@
 import { ClubMembersComponent } from './pages/club-members/club-members.component';
 import { PostService } from './services/post.service';
+import { SearchService } from './services/search.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -42,6 +43,7 @@ import { Location } from '@angular/common';
   ],
   providers: [
     PostService,
+    SearchService,
     Location,
     PushNotificationService,
   ],

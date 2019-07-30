@@ -2,22 +2,23 @@
 
 
   <!-- content goes here (optional) -->
-  <div class="container-fluid">
+  <div class="container-fluid flex-lg-row flex-md-row-reverse">
     <!-- Brand -->
     <a style="margin-left: 180pt !important; cursor:pointer"
       class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block " routerLinkActive="active"
       (click)="toQrCode()">My Qr-Code</a>
     <!-- Form -->
-    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
+    <!--  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
       <div class="form-group mb-0" [ngClass]="{ 'focused': focus === true }">
         <div class="input-group input-group-alternative">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
           </div>
-          <input (input)="testSearchMethod(search)" [(ngModel)]="search" name="search" class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
+          <input [(ngModel)]="textSearch.fulltextString" name="search" class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
         </div>
       </div>
-    </form>
+
+    </form> -->
     <!-- User -->
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <li class="nav-item" ngbDropdown autoClose="outside" placement="bottom-right">
@@ -69,9 +70,9 @@
                     <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
                       <div class="d-flex justify-content-center">
                         <div class="card-profile-image" style="top:-20pt">
-                          <img (click)="modal.dismiss('go to info sender')"
-                            routerLink="/club-members/{{delivery2.idSender}}/info" style="width:100px;height:100px"
-                            alt="Image placeholder" [src]="delivery2.profilePicture" class="avatar-notif">
+                          <img (click)="modal.dismiss('go to info sender')" routerLink="/club-members/{{delivery2.idSender}}/info"
+                            style="width:100px;height:100px" alt="Image placeholder" [src]="delivery2.profilePicture"
+                            class="avatar-notif">
                         </div>
                       </div>
                       <div class="card-body mt-4 text-center">
@@ -86,15 +87,37 @@
                           <div class="font-weight-light">
                             {{delivery2.message.body}}
                           </div>
+                          <hr class="my-2">
+                          <div class="container">
+                            <div class="row">
+                              <div 
+                              [title]="list.name"
+                                (click)="list['selectedOptionMessage']=!list['selectedOptionMessage']"
+                                [ngClass]="{'btn-primary text-light':list['selectedOptionMessage']===true}"
+                                *ngFor="let list of delivery2['arrayOptions']"
+                                class="col-12 col-md-12 col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn text-dark border">
+                                <span class=" text-truncate">
+                                  {{list.name}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <ngx-select-dropdown id="test" insideKeyPress="true" name="select" [config]="config"
-                        [options]="listMessageOptions">
-                      </ngx-select-dropdown>
+          
+                    </div>
+          
+                  </div>
+                  <div class="container d-flex justify-content-center">
+                    <div class="form-group">
+                      <a (click)="putApproval(delivery2['arrayOptions'], delivery2)" class="btn btn-danger text-light">
+                        Send
+                      </a>
                     </div>
                   </div>
                   <div class="modal-footer justify-content-start border">
-                    <div style="color: white !important" class="container">
+          
+                    <div class="container text-light">
                       <div class="row">
                         <div class="col-12 col-md-6">
                           <a (click)="delivery2=deliveries[i=i-1];open('',delivery2)" *ngIf="i !== 0"
@@ -110,7 +133,7 @@
                 </div>
               </ng-template>
 
-              <a (click)="open(content,delivery,i);delivery2=delivery"
+              <a (click)="open(content,delivery);delivery2=delivery"
                 class="list-group-item list-group-item-action  {{(delivery.readAt)? 'read':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
@@ -171,4 +194,3 @@
     </ul>
   </div>
 </nav>
-

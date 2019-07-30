@@ -21,10 +21,11 @@ import { forEach } from "@angular/router/src/utils/collection";
 import { ArrayType } from "@angular/compiler";
 import { Delivery } from "src/app/models/Deliveries";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { SearchService } from 'src/app/services/search.service';
 // public_KEY
 
 const VAPID_SERVER_KEY = "BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc";
-
+let listOption;
 // ===========
 export var text;
 @Component({
@@ -32,28 +33,17 @@ export var text;
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
 })
+
+
+
 export class NavbarComponent implements OnInit {
   /* Test Search */
-  search: string = '';
   /* /.Test Search */
-  listMessageOptions = [
-    { name: 'message-option-1' },
-    { name: 'message-option-2' },
-    { name: 'message-option-3' },
-    { name: 'message-option-4' },
-  ];
-  config = {
-    displayKey: 'name',
-    search: true,
-    height: 'auto',
-    placeholder: 'Select your option',
-    // customComparator: ()=>{},
-    // limitTo: options.length, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
-    moreText: 'more',
-    noResultsFound: 'No results found!',
-    searchPlaceholder: 'Search',
-    searchOnKey: 'name',
-  }
+  selectedMessageOption: boolean = false;
+  selectedMessageOptionName;
+  deliveryData;
+  listMessageOptions;
+  ;
   // Demo
   closeResult: string;
   // end
@@ -68,6 +58,7 @@ export class NavbarComponent implements OnInit {
   delivery2: Delivery;
   messagesID = [''];
   countMess;
+  optionSet;
   fakeCountMess;
   idDelete: any;
   publicKey: any;
@@ -82,6 +73,7 @@ export class NavbarComponent implements OnInit {
   public permission: NotificationPermission;
   constructor(
     location: Location,
+    public textSearch: SearchService,
     public service: PostService,
     private element: ElementRef,
     private router: Router,
@@ -188,6 +180,18 @@ export class NavbarComponent implements OnInit {
               delivery.name = name;
               delivery.profilePicture = response['profilePicture'];
             });
+          if (delivery['message']['optionSet']) {
+            this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
+              .subscribe(res => {
+                this.listMessageOptions = res['hydra:member']
+                delivery['arrayOptions'] = res['hydra:member'];
+                for (let option of this.listMessageOptions) {
+                  option['selectedOptionMessage'] = false;
+                }
+              })
+
+          }
+
         }
         console.log('deliveries', this.deliveries)
 
@@ -288,5 +292,36 @@ export class NavbarComponent implements OnInit {
 
   injectNumber(s) {
     return s = s.match(/\d+/g).map(Number);
+  }
+
+  putApproval(options, infoDelivery) {
+    let ar = [];
+    for (let option of options) {
+      if (option['selectedOptionMessage']) {
+        ar.push(option['uuid'])
+      }
+    }
+    let idDelivery = infoDelivery['@id'];
+    let bodyMessageOption = {
+      "selectedOptions": ar
+    }
+    this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
+      .subscribe(res => {
+        console.log(res)
+        alert('Successfully.!!!')
+      }, error=>{
+        if(error.status === 400)
+        {
+          alert(error.error['hydra:description'])
+        }
+        if(error.status === 404)
+        {
+          alert(error.error['hydra:description'])
+        }
+        if(error.status === 500)
+        {
+          alert(error.error['hydra:description'])
+        }
+      })
   }
 }

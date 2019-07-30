@@ -14,9 +14,22 @@
   right: 200px;
 }
 
+@media only screen and (max-width: 768px){
+  .mobile-search-btn{
+    display: inline-block !important;
+    position: fixed !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    i.fas{
+      color: rgba(90, 141, 235, 0.822);
+      text-shadow: 0px 0px 5px rgb(90, 140, 235)
+    }
+  }
+}
+
 @media only screen and (max-width: 960px){
   .navbar-search{
-    right: 100px !important;
+    right: 120px !important;
   }
 }
 
