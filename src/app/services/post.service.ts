@@ -17,12 +17,12 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class PostService {
-  private url = "https://user.api.trivesg.com/login/nric-phone-birthdate";
-  private refUrl = "https://user.api.trivesg.com/token/refresh";
-  private getUrl = "https://org.api.trivesg.com";
-  private getUrlConnect = "https://org.api.trivesg.com/connections";
-  private postMessage = "https://messaging.api.trivesg.com";
-  private urlAT_API = "https://user.api.trivesg.com/login/individual-member-access-token";
+  private loginAPI = "https://user.api.trivesg.com/login/nric-phone-birthdate";
+  private refreshAPI = "https://user.api.trivesg.com/token/refresh";
+  private orgAPI = "https://org.api.trivesg.com";
+  private orgConnectionsAPI = "https://org.api.trivesg.com/connections";
+  private messageAPI = "https://messaging.api.trivesg.com";
+  private userAPI = "https://user.api.trivesg.com/login/individual-member-access-token";
   constructor(private http: HttpClient) { }
 
   apiBase = environment.eventApiBase;
@@ -37,7 +37,7 @@ export class PostService {
       })
     };
 
-    return this.http.post(this.getUrlConnect, idPost, httpOptions);
+    return this.http.post(this.orgConnectionsAPI, idPost, httpOptions);
   }
   postFormData(post): Observable<Object> {
     const httpOptions = {
@@ -46,7 +46,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(this.url, post, httpOptions);
+    return this.http.post(this.loginAPI, post, httpOptions);
   }
   loginAccessToken(post): Observable<Object> {
     /* const httpOptions = {
@@ -64,7 +64,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(this.refUrl, refresh);
+    return this.http.post(this.refreshAPI, refresh);
   }
 
   loginByAccessToken(access_token): Observable<Object> {
@@ -74,7 +74,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(this.urlAT_API, access_token, httpOptions);
+    return this.http.post(this.userAPI, access_token, httpOptions);
   }
 
   // GET REQUEST
@@ -85,7 +85,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.getUrl}/individual_members?uuid=${uuid}`, httpOptions);
+    return this.http.get(`${this.orgAPI}/individual_members?uuid=${uuid}`, httpOptions);
   }
   getRootID(id): Observable<Object> {
     const httpOptions = {
@@ -94,7 +94,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.getUrl + "/individual_members/" + id, httpOptions);
+    return this.http.get(this.orgAPI + "/individual_members/" + id, httpOptions);
   }
   getDataAPI(page): Observable<Object> {
     const httpOptions = {
@@ -103,16 +103,16 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.getUrl + `/individual_members${page}`, httpOptions);
+    return this.http.get(this.orgAPI + `/individual_members${page}`, httpOptions);
   }
-  getConnect(page: number = 1): Observable<Object> {
+  getConnect(idRoot): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.getUrlConnect}?page=${page}`, httpOptions);
+    return this.http.get(`${this.orgAPI}${idRoot}`, httpOptions);
   }
 
 
@@ -124,7 +124,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(this.postMessage + '/messages', message, httpOptions);
+    return this.http.post(this.messageAPI + '/messages', message, httpOptions);
   }
   getMessage(): Observable<Object> {
     const httpOptions = {
@@ -133,7 +133,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.postMessage + '/messages', httpOptions);
+    return this.http.get(this.messageAPI + '/messages', httpOptions);
   }
   getSender(id): Observable<Object> {
     const httpOptions = {
@@ -142,7 +142,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.getUrl}/individual_members/${id}`, httpOptions)
+    return this.http.get(`${this.orgAPI}/individual_members${id}`, httpOptions)
   }
   getDelivery(query, page: number = 1): Observable<Object> {
     const httpOptions = {
@@ -151,7 +151,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.postMessage + `/deliveries${query}?page=${page}`, httpOptions);
+    return this.http.get(this.messageAPI + `/deliveries${query}?page=${page}`, httpOptions);
   }
 
   readDelivery(read, id): Observable<Object> {
@@ -161,7 +161,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.put(`${this.postMessage}${id}`, read, httpOptions);
+    return this.http.put(`${this.messageAPI}${id}`, read, httpOptions);
   }
 
   putDelivery(read, id): Observable<Object> {
@@ -171,7 +171,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.put(`${this.postMessage}${id}`, read, httpOptions);
+    return this.http.put(`${this.messageAPI}${id}`, read, httpOptions);
   }
 
   getMessageById(id): Observable<Object> {
@@ -181,7 +181,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.postMessage + `/deliveries/${id}`, httpOptions);
+    return this.http.get(this.messageAPI + `/deliveries/${id}`, httpOptions);
   }
   /* /.MESSAGES */
   /*  OptionSets API */
@@ -192,7 +192,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.postMessage}/option_sets${id}`, httpOptions);
+    return this.http.get(`${this.messageAPI}/option_sets${id}`, httpOptions);
   }
   optionSetsPost(body) {
     const httpOptions = {
@@ -201,7 +201,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(`${this.postMessage}/option_sets`, body, httpOptions);
+    return this.http.post(`${this.messageAPI}/option_sets`, body, httpOptions);
   }
   optionSetsPut(body, id) {
     const httpOptions = {
@@ -210,7 +210,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.put(`${this.postMessage}/option_sets/${id}`, body, httpOptions);
+    return this.http.put(`${this.messageAPI}/option_sets/${id}`, body, httpOptions);
   }
   optionSetsDelete(id) {
     const httpOptions = {
@@ -219,7 +219,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.delete(`${this.postMessage}${id}`, httpOptions);
+    return this.http.delete(`${this.messageAPI}${id}`, httpOptions);
   }
   /* Message Option API */
   messageOptionsPost(body) {
@@ -229,7 +229,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.post(`${this.postMessage}/message_options`, body, httpOptions);
+    return this.http.post(`${this.messageAPI}/message_options`, body, httpOptions);
   }
   messageOptionsPut(body, id) {
     const httpOptions = {
@@ -238,7 +238,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.put(`${this.postMessage}/message_options/${id}`, body, httpOptions);
+    return this.http.put(`${this.messageAPI}/message_options/${id}`, body, httpOptions);
   }
   messageOptionsDelete(id) {
     const httpOptions = {
@@ -247,7 +247,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.delete(`${this.postMessage}/message_options/${id}`, httpOptions);
+    return this.http.delete(`${this.messageAPI}/message_options/${id}`, httpOptions);
   }
   messageOptionsGet(page) {
     const httpOptions = {
@@ -256,7 +256,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.postMessage}/message_option${page}`, httpOptions);
+    return this.http.get(`${this.messageAPI}/message_option${page}`, httpOptions);
   }
   /* Organisation API */
   subdomainFilter(subdomain) {
@@ -273,4 +273,81 @@ export class PostService {
     return this.http.get(`https://org.api.trivesg.com/organisation/logourl/${subdomain}`);
   }
   /* /.Organisation API */
+  /* EVENTS API */
+  eventGet(route): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.get(`${this.apiBase}${route}`, httpOptions);
+  }
+  eventPost(body): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.post(`${this.apiBase}/events`, body, httpOptions);
+  }
+  eventPut(body, id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.put(`${this.apiBase}${id}`, body, httpOptions);
+  }
+  eventDelete(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.delete(`${this.apiBase}${id}`, httpOptions);
+
+  }
+  /* /.EVENTS API */
+  /* Free on Message API */
+  freeOnMessageGet(): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.get(`${this.messageAPI}/free_on_messages`, httpOptions);
+  }
+  freeOnMessagePost(body): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.post(`${this.messageAPI}/free_on_messages`,body, httpOptions);
+  }
+  freeOnMessagePut(body, id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.put(`${this.messageAPI}/free_on_messages/${id}`,body, httpOptions);
+  }
+  freeOnMessageDelete(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.delete(`${this.messageAPI}/free_on_messages/${id}`, httpOptions);
+  }
+  /* .,Free on Message API */
 }

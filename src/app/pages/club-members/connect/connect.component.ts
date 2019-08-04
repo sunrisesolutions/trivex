@@ -48,12 +48,12 @@ export class ConnectComponent implements OnInit {
     const id = +this.routes.snapshot.paramMap.get("id");
     // id.set("toMember", JSON.stringify(id));
     let data = {
-      toMember: `/individual_members/${id}`
+      'toMember': `/individual_members/${id}`
     };
-    this.service.uConnect(JSON.stringify(data)).subscribe(response => {
-      this.imToken = localStorage.getItem('im_id');
+    this.service.uConnect(data).subscribe(response => {
+      /* this.imToken = localStorage.getItem('im_id');
       this.uuidRes = response['toMember'].uuid;
-      console.log("connect-member", response, this.imToken);
+      console.log("connect-member", response, this.imToken); */
     });
   }
   injectNumber(s) {

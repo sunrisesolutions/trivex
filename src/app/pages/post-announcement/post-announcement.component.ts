@@ -72,7 +72,6 @@ export class PostAnnouncementComponent implements OnInit {
 
   send(idOptionSet) {
     // REQUEST POST
-    console.log(idOptionSet);
     let _message = {
       "published": true,
       "subject": this.subject,
@@ -85,13 +84,16 @@ export class PostAnnouncementComponent implements OnInit {
         console.log(res)
       }, error => {
         if (error.status === 400) {
-          alert(error.error['hydra:description']);
+          this.error = error.error['hydra:description']
+          // alert(error.error['hydra:description']);
         }
         if (error.status === 404) {
-          alert(error.error['hydra:description']);
+          this.error = error.error['hydra:description']
+          // alert(error.error['hydra:description']);
         }
         if (error.status === 500) {
-          alert(error.error['hydra:description']);
+          this.error = error.error['hydra:description']
+          // alert(error.error['hydra:description']);
         }
         this.success = false;
       })

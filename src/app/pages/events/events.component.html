@@ -1,0 +1,30 @@
+<div style="cursor: default;" class="header bg-gradient-danger py-7 pt-md-8">
+  <div class="container-fluid">
+    <div class="card">
+      <h4 class="mx-2 mt-2 text-dark mb-0">Started At: <span>{{event?.startedAt | date}}</span></h4>
+      <h4 class="mx-2 mt-2 text-dark">Timezone: <span>{{event?.timezone}}</span></h4>
+      <div class="card-header">
+        <h1 class="text-center text-dark display-2">{{event?.name | uppercase}}</h1>
+        <h1 class="text-center text-dark">{{event?.title}}</h1>
+      </div>
+      <div class="card-body text-center">
+        <button [routerLink]="'/event/'+ idEvent(event?.id) +'/registration'" class="text-center btn btn-danger">
+          Join now
+        </button>
+      </div>
+      <div class="card-footer">
+        <h4 class="mx-2 text-dark">Status:
+          <span
+            [ngClass]="{'text-success': event?.enabled, 'text-danger': event?.deleted}">
+            {{(event?.enabled) ? 'active' : (event?.deleted) ? 'deleted': null}}</span>
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+  appInfiniteScroller scrollPercent="70" immediateCallback="true"
+        [scrollCallback]="scrollCallback"
+ -->

@@ -20,7 +20,7 @@ export class RegisterEventComponent implements OnInit {
     role: ""
   };
   registration: Registration = {
-    event: null,
+    event: `/events/${this.routes.snapshot.params.id}`,
     middleName: "",
     birthDate: "",
     givenName: "",

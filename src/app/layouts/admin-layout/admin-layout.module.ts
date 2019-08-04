@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTimepicker, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClubMembersComponent } from 'src/app/pages/club-members/club-members.component';
 import { MemberConnectComponent } from 'src/app/pages/member-connect/member-connect.component';
 import { MemberidComponent } from 'src/app/pages/club-members/memberid/memberid.component';
@@ -22,6 +22,9 @@ import { NotificationsComponent } from '../../pages/notifications/notifications.
 import { MessagesComponent } from '../../pages/notifications/message/messages.component';
 import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.directive';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
+import { EventsComponent } from 'src/app/pages/events/events.component';
+import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -31,8 +34,10 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    NgbTimepickerModule,
     ClipboardModule,
     SelectDropDownModule,
+    AmazingTimePickerModule,
     ZXingScannerModule.forRoot(),
     AngularEditorModule,
   ],
@@ -44,14 +49,15 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     QrCodeComponent,
     QrStartComponent,
     JobComponent,
+    EventsComponent,
     MemberidComponent,
     ConnectComponent,
     SendEmailComponent,
     DashboardComponent,
     PostAnnouncementComponent,
     NotificationsComponent,
-    MessagesComponent
-
+    FreeOnMessageComponent,
+    MessagesComponent,
   ],
 })
 

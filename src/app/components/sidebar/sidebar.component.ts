@@ -37,6 +37,12 @@ export const ROUTES: RouteInfo[] = [
     icon: 'ni-bell-55 text-yellow',
     class: '',
 
+  },
+  {
+    path: '/free-on-message',
+    title: 'Free On Message',
+    icon: 'ni-email-83 text-black',
+    class: ''
   }
 ];
 
@@ -186,14 +192,29 @@ export class SidebarComponent implements OnInit {
         this.deliveries = res['hydra:member'];
         for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery.profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
-          this.service.getSender(delivery['message'].senderId)
-            .subscribe(response => {
-              const profilePicture = response['profilePicture'];
-              const name = response['personData'].name;
-              delivery.name = name;
-              delivery.profilePicture = profilePicture;
-            });
+          delivery['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
+          if (delivery['message'].senderUuid !== undefined) {
+            this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
+              .subscribe(response => {
+                let data = response['hydra:member'];
+                if (data[0]) {
+                  delivery['name'] = data[0]['personData'].name;
+                  // console.log('data', data)
+                  let profilePicture = data[0]['profilePicture'];
+
+                  delivery['profilePicture'] = profilePicture;
+
+                  this.httpClient.get(delivery['profilePicture'])
+                    .subscribe(res => {
+
+                    }, err => {
+                      if (err.status === 404) {
+                        delivery.profilePicture = 'https://i.gifer.com/B0eS.gif';
+                      }
+                    })
+                }
+              });
+          }
           if (delivery['message']['optionSet']) {
             this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
               .subscribe(res => {

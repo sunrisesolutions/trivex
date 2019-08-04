@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   returnUrl: string;
   loading: boolean;
+  error = '';
   constructor(
     private router: Router,
     private service: PostService,
@@ -96,7 +97,7 @@ export class LoginComponent implements OnInit {
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", inputDob);
-    const formRef = new FormData();
+    // const formRef = new FormData();
     this.loading = true;
     this.service.postFormData(formData).subscribe(response => {
       let setToken = response['token'];
@@ -133,11 +134,26 @@ export class LoginComponent implements OnInit {
 
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
-    if (this.sub && this.sub !== 'localhost' && this.sub !== 'trivesg') {
+    if (this.sub !== 'trivesg.com') {
       this.service.getLogoFilter(this.sub)
         .subscribe(res => {
           // console.log('logo', res)
           this.orgLogo = res['logoReadUrl'];
+          this.http.get(this.orgLogo)
+            .subscribe(res=>{
+
+            },err=>{
+              if(err.status === 404){
+                this.orgLogo = '/assets/img-process/Not-found-img.jpg';
+              }
+            })
+        },error =>{
+          if(error.status === 404){
+            this.error = 'Organisation not found' 
+          }
+          if(error.status === 500){
+            this.error = error.error['hydra:description'];
+          }
         });
     }
   }

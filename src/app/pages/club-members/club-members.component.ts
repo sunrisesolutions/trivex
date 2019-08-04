@@ -8,7 +8,6 @@ import { NavbarComponent } from "src/app/components/navbar/navbar.component";
 import { SearchService } from "src/app/services/search.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-
 @Component({
   selector: "app-club-members",
   templateUrl: "./club-members.component.html",
@@ -55,7 +54,7 @@ export class ClubMembersComponent implements OnInit {
 
               }, err => {
                 if (err.status === 404) {
-                  member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+                  member['profilePicture'] = 'notFoundImage';
                 }
               })
           }
@@ -74,7 +73,7 @@ export class ClubMembersComponent implements OnInit {
 
             }, err => {
               if (err.status === 404) {
-                member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+                member['profilePicture'] = 'notFoundImage';
               }
             })
         }

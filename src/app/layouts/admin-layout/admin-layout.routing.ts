@@ -17,13 +17,20 @@ import { PostAnnouncementComponent } from '../../pages/post-announcement/post-an
 import { NotificationsComponent } from 'src/app/pages/notifications/notifications.component';
 import { MessagesComponent } from 'src/app/pages/notifications/message/messages.component';
 import { queryRefresh } from '@angular/core/src/render3';
+import { EventsComponent } from 'src/app/pages/events/events.component';
+import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
     path: 'club-members',
     component: ClubMembersComponent,
   },
+  {
+    path: 'free-on-message',
+    component: FreeOnMessageComponent
+  },
   { path: 'member-connect', component: MemberConnectComponent },
+  { path: 'event/:id', component: EventsComponent },
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },

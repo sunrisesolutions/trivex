@@ -2,29 +2,29 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div id="infinite-scroller"
-      appInfiniteScroller
-      scrollPercent="80"
-      immediateCallback="true"
-      [scrollCallback]="scrollCallback" class="row">
+      <div id="infinite-scroller" class="row">
         <div *ngFor="let member of members" class="col-12">
-          <div [hidden]="dec == member.toMember.uuid" class="card card-stats mb-2">
+          <div [hidden]="dec !== member.memberCallback?.uuid" class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
                 <div class="col-auto">
-                  <a routerLink="/club-members/id/info"><img class="icon bg-warning text-white rounded-circle shadow" [src]=member.toMember.profilePicture
-                    alt=""></a>
+                  <a [routerLink]="'/club-members/' + injectNumber(member['memberCallback']?.id) + '/info'">
+                    <img class="icon bg-warning text-white rounded-circle shadow"
+                      src="{{member['memberCallback']?.profilePicture}}" alt="">
+                  </a>
                 </div>
                 <div class="col text-muted">
-                  <a routerLink="/club-members/id/info"><h2 class="h2 font-weight-bold">{{member.toMember.personData.name}}</h2></a>
-                  <span>{{member.toMember.personData.jobTitle}}</span><br>
-                  <span>{{member.toMember.personData.employerName}}</span><br>
-                  <span>{{member.createdAt | date: 'medium'}}</span><br>
+                  <a [routerLink]="'/club-members/' + injectNumber(member['memberCallback']?.id) + '/info'">
+                    <h2 class="h2 font-weight-bold">{{member['memberCallback']?.personData.name}}</h2>
+                  </a>
+                  <span>{{member['memberCallback']?.personData.jobTitle}}</span><br>
+                  <span>{{member['memberCallback']?.personData.employerName}}</span><br>
+                  <span>{{member['memberCallback']?.createdAt | date: 'medium'}}</span><br>
 
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">
-                <a routerLink="/club-members/send-email"
+                <a [routerLink]="'/club-members/' + injectNumber(member['memberCallback']?.id) + '/send-email'"
                   class="text-uppercase btn btn-primary text-white mr-2"><i class="ni ni-send"></i>EMAIL</a>
               </p>
 
@@ -38,3 +38,9 @@
     </div>
   </div>
 </div>
+
+
+<!-- 
+  appInfiniteScroller scrollPercent="70" immediateCallback="true"
+        [scrollCallback]="scrollCallback"
+ -->

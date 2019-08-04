@@ -3,7 +3,7 @@
     <div class="header-body text-center mb-7">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">TRIVESG</h1>
+          <h1 class="text-white display-3">TRIVESG</h1>
         </div>
       </div>
     </div>
@@ -14,14 +14,15 @@
     </svg>
   </div>
 </div>
+<h1 class="text-white text-center display-1" *ngIf="error">{{error | uppercase}}</h1>
 <!-- Page content -->
-<div class="container mt--8 pb-5">
+<div *ngIf="!error" class="container mt--8 pb-5">
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
       <div class="card bg-secondary shadow border-0">
         <div class="card-header bg-transparent">
           <a class="d-flex justify-content-center" routerLinkActive="active" [routerLink]="['/dashboard']">
-            <img class="logo-org" [src]="(sub === 'trivesg') ? 'assets/img/brand/logo.png': orgLogo" />
+            <img class="logo-org" [src]="(sub === 'trivesg.com') ? 'assets/img/brand/logo.png': orgLogo" />
           </a>
           <div class="text-center text-muted mb-4">
             <h2>Sign in with credentials</h2>
