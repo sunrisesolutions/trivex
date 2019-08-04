@@ -9,6 +9,7 @@ import { PostService } from 'src/app/services/post.service';
 
 export class FreeOnMessageComponent implements OnInit {
   error = '';
+  abcd;
   success = false;
   loading = false;
   required = false;
