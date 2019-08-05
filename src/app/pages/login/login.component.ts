@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
 
   getSubdomain() {
     var host = window.location.hostname;
-    var parts = host.split('.trivesg.com');
+    var parts = host.split('.trivesg');
     this.sub = parts[0];
 
     return console.log(parts[0]);
@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
 
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
-    if (this.sub !== 'trivesg.com') {
+    if (this.sub !== 'trivesg') {
       this.service.getLogoFilter(this.sub)
         .subscribe(res => {
           // console.log('logo', res)

@@ -14,7 +14,7 @@
     </svg>
   </div>
 </div>
-<h1 class="text-white text-center display-1" *ngIf="error">{{error | uppercase}}</h1>
+<h1 class="text-white text-center display-5 display-md-1" *ngIf="error">{{error | uppercase}}</h1>
 <!-- Page content -->
 <div *ngIf="!error" class="container mt--8 pb-5">
   <div class="row justify-content-center">
@@ -22,7 +22,7 @@
       <div class="card bg-secondary shadow border-0">
         <div class="card-header bg-transparent">
           <a class="d-flex justify-content-center" routerLinkActive="active" [routerLink]="['/dashboard']">
-            <img class="logo-org" [src]="(sub === 'trivesg.com') ? 'assets/img/brand/logo.png': orgLogo" />
+            <img width="250px" height="auto" class="logo-org" [src]="(sub === 'trivesg.com') ? 'assets/img/brand/logo.png': orgLogo" />
           </a>
           <div class="text-center text-muted mb-4">
             <h2>Sign in with credentials</h2>
@@ -68,7 +68,7 @@
                 </div>
                 <input #dobi class="form-control p-2 datepicker" placeholder="Date of Birth" name="dob"
                   [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" type="text"
-                  [startDate]="{year: 1990, month: 1, day: 1}" [minDate]="{year: 1970, month: 1, day: 1}" />
+                   />
 
               </div>
 

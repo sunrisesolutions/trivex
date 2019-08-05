@@ -23,10 +23,12 @@ export class AppComponent implements OnInit {
   ) {
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('token');
+    console.log(accessToken)
     if (accessToken) {
       if (accessToken === '') {
         this.router.navigate(['/login']);
       } else {
+        localStorage.clear();
         this.accessTokenLogin(accessToken);
 
       }
@@ -42,6 +44,8 @@ export class AppComponent implements OnInit {
   }
   accessTokenLogin(accessToken) {
     const formData = new FormData();
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirectUrl');
     formData.append('access-token', accessToken);
     this.service.loginAccessToken(formData).subscribe(response => {
       const setToken = response['token'];
@@ -63,7 +67,9 @@ export class AppComponent implements OnInit {
           let imId = res['hydra:member'][0]['@id'];
           localStorage.setItem('im_id', imId);
         })
-      this.router.navigate([`/club-members`], { queryParams: { token: accessToken } });
+      if (redirectUrl) {
+        this.router.navigate([`${redirectUrl}`], { queryParams: { token: accessToken } });
+      }
       // console.log(decoded.exp);
       //refresh
 
