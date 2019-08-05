@@ -54,7 +54,7 @@ export class ClubMembersComponent implements OnInit {
 
               }, err => {
                 if (err.status === 404) {
-                  member['profilePicture'] = 'notFoundImage';
+                  member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
                 }
               })
           }
@@ -73,7 +73,7 @@ export class ClubMembersComponent implements OnInit {
 
             }, err => {
               if (err.status === 404) {
-                member['profilePicture'] = 'notFoundImage';
+                member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
               }
             })
         }

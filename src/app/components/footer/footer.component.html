@@ -1,3 +1,20 @@
-<a class="position-fixed" style="right: 10px; bottom: 10px;" routerLink="/post-announcement">
-  <i class="ni ni-bell-55 display-3 text-yellow"></i>
-</a>
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a routerLink="/post-announcement" class="nav-link">
+            <i class="ni ni-bell-55 display-4"></i>
+          </a>
+        </li>
+      </ul>
+      <div class="col-xl-6">
+        <div class="copyright text-center text-xl-left text-muted">
+          &copy; {{ test | date: "yyyy" }} <a
+            class="font-weight-bold ml-1">Creative by Magenta</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>

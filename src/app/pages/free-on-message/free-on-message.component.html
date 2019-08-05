@@ -13,14 +13,14 @@
           <p for="">You have successfully posted.</p>
           <button (click)="success=false;form=template" class="btn btn-info">Back</button>
         </div>
-        <form (change)="error=false" *ngIf="!success">
+        <form  (change)="error=false; checkDay(check)" *ngIf="!success">
           <hr class="my-4" />
           <div class="container p-4 rounded bg-white">
             <div class="row">
               <div class="col-12 col-md-6">
-                <!-- FROM AT -->
+                <!-- FROM TIME -->
                 <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">From At</label>
+                  <label class="text-dark font-weight-bold" for="">From Time</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-time-alarm"></i></span>
@@ -30,9 +30,9 @@
 
                   </div>
                 </div>
-                <!-- TO AT -->
+                <!-- TO TIME -->
                 <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">To At</label>
+                  <label class="text-dark font-weight-bold" for="">To Time</label>
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-time-alarm"></i></span>
@@ -42,6 +42,8 @@
 
                   </div>
                 </div>
+              </div>
+              <div class="col-12 col-md-6">
                 <!-- FROM DAY -->
                 <div class="form-group">
                   <label class="text-dark font-weight-bold" for="">From Day</label>
@@ -49,43 +51,14 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <input autocomplete="off" pattern="/^-?\d+\.?\d*$/"
-                      (input)="(form.fromDay > 31) ? dirty=true:dirty=false"
-                      oninput="if(this.value > 31){ return this.value=31} else if(this.value == 00){return this.value=1};if(this.value.length==2) return false;"
-                      class="form-control p-2 datepicker" placeholder="exp: 1" name="from-day"
-                      [(ngModel)]="form.fromDay" type="number" />
-
-                  </div>
-                </div>
-
-
-              </div>
-              <div class="col-12 col-md-6">
-                <!-- EffectiveFrom -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">Effective From {{required}}</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-
-
-                    <input class="form-control p-2 datepicker" placeholder="Effective From" name="effective-from"
-                      [(ngModel)]="form.effectiveFrom" ngbDatepicker #effectiveFrom="ngbDatepicker"
-                      (click)="effectiveFrom.toggle()" type="text" />
-
-                  </div>
-                </div>
-                <!-- Expire On -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">Expire On</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <input #dobi class="form-control p-2 datepicker" placeholder="Expire On" name="expire-on"
-                      [(ngModel)]="form.expireOn" ngbDatepicker #expireOn="ngbDatepicker" (click)="expireOn.toggle()"
-                      type="text" />
+                    <select [(ngModel)]="check.fromDay" class="form-control" name="from-day" id="fromDay">
+                      <option value="0" disabled selected>Select your option</option>
+                      <option *ngFor="let day of labelDay" [ngValue]="day.number">
+                        <span>
+                          {{day.value}}
+                        </span>
+                      </option>
+                    </select>
 
                   </div>
                 </div>
@@ -96,20 +69,56 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
-                    <input autocomplete="off" pattern="/^-?\d+\.?\d*$/" #toDay="ngModel"
-                      (input)="(form.toDay > 31) ? dirty=true:dirty=false"
-                      oninput="if(this.value > 31){ return this.value=31} else if(this.value < 1){return this.value=null};if(this.value.length==2) return false;"
-                      class="form-control p-2" placeholder="exp: 31" name="to-day" [(ngModel)]="form.toDay"
-                      type="number" />
+                    <select [(ngModel)]="check.toDay" class="form-control" name="to-day" id="toDay">
+                      <option value="0" disabled selected>Select your option</option>
+                      <option *ngFor="let day of labelDay" [ngValue]="day.number">
+                        <span>
+                          {{day.value}}
+                        </span>
+                      </option>
+                    </select>
                   </div>
                 </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <!-- EffectiveFrom -->
+                <div class="form-group">
+                  <label class="text-dark font-weight-bold" for="">Effective From</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+
+
+                    <input class="form-control p-2 datepicker" name="effective-from"
+                      [(ngModel)]="form.effectiveFrom" ngbDatepicker #effectiveFrom="ngbDatepicker"
+                      (click)="effectiveFrom.toggle();checkDay(check)" type="text" />
+                  </div>
+                </div>
+                <!-- Expire On -->
+                <div class="form-group">
+                  <label class="text-dark font-weight-bold" for="">Expire On</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <input #dobi class="form-control p-2 datepicker" name="expire-on"
+                      [(ngModel)]="form.expireOn" ngbDatepicker #expireOn="ngbDatepicker" (click)="expireOn.toggle()"
+                      type="text" />
+
+                  </div>
+                </div>
+
               </div>
             </div>
             <div class="row">
               <!-- Text -->
               <div class="col-12">
                 <div class="form-group">
-                  <label for="" class="text-dark font-weight-bold">Text</label>
+                  <label for="" class="text-dark font-weight-bold">Note</label>
                   <input [(ngModel)]="form.text" name="text" type="text" class="form-control" placeholder="Text">
                 </div>
               </div>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { getLocaleDateTimeFormat } from '@angular/common';
 
 @Component({
   selector: 'app-free-on-message',
@@ -13,24 +15,77 @@ export class FreeOnMessageComponent implements OnInit {
   success = false;
   loading = false;
   required = false;
-  dirty = false;
+  fromDay = 0;
+  toDay = 0;
+  dirty;
+  date = {
+    year: 0,
+    month: 0,
+    day: 0
+  }
+  check = {
+    fromDay: 0,
+    toDay: 0,
+    effectiveFrom: this.date,
+    expireOn: this.date
+  }
+  labelDay = [
+    {
+      number: 1,
+      value: 'Sunday',
+    }, {
+      number: 2,
+      value: 'Monday',
+    }, {
+      number: 3,
+      value: 'Tuesday',
+    }, {
+      number: 4,
+      value: 'Wednesday',
+    }, {
+      number: 5,
+      value: 'Thursday',
+    }, {
+      number: 6,
+      value: 'Friday',
+    }, {
+      number: 7,
+      value: 'Saturday'
+    }
+  ]
   template = {
     fromAt: '',
     toAt: '',
-    fromDay: '',
-    toDay: '',
+    fromDay: 0,
+    toDay: 0,
     text: '',
-    effectiveFrom: Date,
-    expireOn: Date
+    effectiveFrom: this.date = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()+1,
+      day: new Date().getDate()+1
+    },
+    expireOn: this.date = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()+4,
+      day: new Date().getDate()
+    }
   }
   form = {
     fromAt: '',
     toAt: '',
-    fromDay: '',
-    toDay: '',
+    fromDay: 0,
+    toDay: 0,
     text: '',
-    effectiveFrom: Date,
-    expireOn: Date
+    effectiveFrom: this.date = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()+1,
+      day: new Date().getDate()+1
+    },
+    expireOn: this.date = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()+4,
+      day: new Date().getDate()
+    }
   }
 
   constructor(
@@ -41,10 +96,35 @@ export class FreeOnMessageComponent implements OnInit {
 
   }
 
+  checkDay(formCheck) {
+    if (formCheck.fromDay && formCheck.toDay) {
+      this.form.fromDay = formCheck.fromDay;
+      this.form.toDay = formCheck.toDay;
+      if (this.form.fromDay == this.form.toDay) {
+        this.check.fromDay = 0;
+        this.check.toDay = 0;
+        this.form.fromDay = this.check.fromDay;
+        this.form.toDay = this.check.toDay;
+        alert(`From day not same To day`);
+        console.log(this.form.fromDay, this.form.toDay)
+      }
+      if (this.form.fromDay < this.form.toDay) {
+        console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
+        return true;
+      }
+      if (this.form.fromDay > this.form.toDay) {
+        this.form.toDay = this.form.toDay + 7
+        console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
+        return true;
+      }
+
+    }
+  }
+
   send(form) {
     this.loading = true;
-    form.effectiveFrom = `${form.effectiveFrom.day}-${form.effectiveFrom.month}-${form.effectiveFrom.year}`
     form.expireOn = `${form.expireOn.day}-${form.expireOn.month}-${form.expireOn.year}`
+    form.effectiveFrom = `${form.effectiveFrom.day}-${form.effectiveFrom.month}-${form.effectiveFrom.year}`
     let freeOnMessageBody = {
       fromHour: Number(form.fromAt.slice(0, 2)),
       toHour: Number(form.toAt.slice(0, 2)),
@@ -57,16 +137,15 @@ export class FreeOnMessageComponent implements OnInit {
       expireOn: form.expireOn
 
     }
-    console.log(freeOnMessageBody)
-    this.apiService.freeOnMessagePost(freeOnMessageBody)
-      .subscribe(res => {
-        this.loading = false;
-        this.success = true;
-        this.error = '';
-        console.log(res);
-      }, error => {
-        this.loading = false;
-        this.error = error.error['hydra:description'];
-      })
+     this.apiService.freeOnMessagePost(freeOnMessageBody)
+       .subscribe(res => {
+         this.loading = false;
+         this.success = true;
+         this.error = '';
+         console.log(res);
+       }, error => {
+         this.loading = false;
+         this.error = error.error['hydra:description'];
+       })
   }
 }
