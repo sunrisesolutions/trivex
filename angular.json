@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "trivesg": {
+    "argon-dashboard-angular": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trivesg:build"
+            "browserTarget": "argon-dashboard-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "trivesg:build:production"
+              "browserTarget": "argon-dashboard-angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "trivesg:build"
+            "browserTarget": "argon-dashboard-angular:build"
           }
         },
         "test": {
@@ -108,7 +108,7 @@
         }
       }
     },
-    "trivesg-e2e": {
+    "argon-dashboard-angular-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -116,11 +116,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "trivesg:serve"
+            "devServerTarget": "argon-dashboard-angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "trivesg:serve:production"
+              "devServerTarget": "argon-dashboard-angular:serve:production"
             }
           }
         },
@@ -136,7 +136,7 @@
       }
     }
   },
-  "defaultProject": "trivesg",
+  "defaultProject": "argon-dashboard-angular",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"
