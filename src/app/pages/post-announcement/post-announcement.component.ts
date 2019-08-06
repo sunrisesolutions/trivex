@@ -7,6 +7,7 @@ import { OrganisationService } from "../../services/organisation.service";
 import { Router, ActivatedRoute, RouterEvent, NavigationEnd } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { filter } from "rxjs/operators";
+import { CheckRoleService } from "src/app/services/check-role.service";
 
 @Component({
   selector: 'app-post-announcement',
@@ -54,12 +55,31 @@ export class PostAnnouncementComponent implements OnInit {
     private orgService: OrganisationService,
     private router: Router,
     private routes: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public roleChecker: CheckRoleService
   ) {
+    
   }
 
   ngOnInit() {
     this.getOptionSets();
+    
+  }
+
+  roleChecking(): boolean{
+    if(this.roleChecker.ROLE_MSG_ADMIN){
+      return true;
+    }else if(this.roleChecker.ROLE_MSG_USER){
+      return true;
+    }else if(this.roleChecker.ROLE_ORG_ADMIN){
+      return true;
+    }else {
+      this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+      setTimeout(()=>{
+        this.router.navigate(['/club-members'])
+      }, 3000)
+      return false;
+    }
   }
 
   getOptionSets() {

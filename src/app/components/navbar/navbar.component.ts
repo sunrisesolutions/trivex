@@ -120,7 +120,6 @@ export class NavbarComponent implements OnInit {
     /*  this.id = localStorage.getItem('im_id');
      this.id = this.id.match(/\d+/g).map(Number); */
     const decoded = jwt_decode(localStorage.getItem('token'));
-    console.log('decoded', decoded)
     this.service.getUserByuuid(decoded.im)
       .subscribe(res => {
         this.members = res['hydra:member'];

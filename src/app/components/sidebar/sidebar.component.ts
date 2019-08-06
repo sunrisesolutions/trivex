@@ -10,6 +10,7 @@ import { Route } from '@angular/compiler/src/core';
 import { Location } from '@angular/common';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
+import { CheckRoleService } from 'src/app/services/check-role.service';
 
 declare interface RouteInfo {
   path: string;
@@ -17,7 +18,6 @@ declare interface RouteInfo {
   icon: string;
   class: string;
 }
-
 export const ROUTES: RouteInfo[] = [
   {
     path: `/club-members`,
@@ -32,20 +32,12 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: '/post-announcement',
-    title: 'Post an announcement',
-    icon: 'ni-bell-55 text-yellow',
-    class: '',
-
-  },
-  {
     path: '/free-on-message',
     title: 'Free On Message',
     icon: 'ni-email-83 text-black',
     class: ''
   }
 ];
-
 const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs';
 
 @Component({
@@ -55,6 +47,7 @@ const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HB
 })
 export class SidebarComponent implements OnInit {
   /* SELECT Options*/
+  routes = ROUTES;
   listMessageOptions = [
     { name: 'message-option-1' },
     { name: 'message-option-2' },
@@ -89,6 +82,13 @@ export class SidebarComponent implements OnInit {
   queryDeliveriesREAD = '?readAt%5Bexists%5D=false&';
   deliveries: Delivery[];
   delivery2: Delivery;
+  haveRole = {
+    path: '/post-announcement',
+    title: 'Post an announcement',
+    icon: 'ni-bell-55 text-yellow',
+    class: '',
+
+  };
   messagesID = '';
   deviceInfo = null;
   member = [];
@@ -100,9 +100,21 @@ export class SidebarComponent implements OnInit {
     private _location: Location,
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    public roleChecker: CheckRoleService
   ) {
+  }
 
+  checkingRole(): boolean {
+    if (this.roleChecker.ROLE_MSG_ADMIN) {
+      return true;
+    } else if (this.roleChecker.ROLE_MSG_USER) {
+      return true;
+    } else if (this.roleChecker.ROLE_ORG_ADMIN) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   open(content, delivery) {
@@ -136,7 +148,7 @@ export class SidebarComponent implements OnInit {
 
             }, error => {
               if (error.status === 404) {
-                member['profilePicture'] = 'https://i.gifer.com/B0eS.gif';
+                member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
               }
             });
         }
@@ -146,8 +158,9 @@ export class SidebarComponent implements OnInit {
       this.status = true;
     }
     // =============
-
-    this.menuItems = ROUTES;
+    if(this.checkingRole()===true){
+      return this.routes.push(this.haveRole)
+    }
     this.router.events.subscribe(event => {
       this.isCollapsed = true;
     });

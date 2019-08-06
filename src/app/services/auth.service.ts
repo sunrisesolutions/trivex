@@ -49,9 +49,6 @@ export class AuthService implements CanActivate {
       }
     }
   }
-  getRole() {
-
-  }
   constructor(private router: Router, private http: HttpClient, snap: ActivatedRoute) { }
 
   public static getHeaders() {
