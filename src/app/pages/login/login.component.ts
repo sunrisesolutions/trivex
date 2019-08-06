@@ -145,7 +145,7 @@ export class LoginComponent implements OnInit {
           let paramsDataManifest = {
             logo: this.orgLogo,
             name: this.sub,
-            host: window.location.host
+            host: this.route.url
           }
 
           this.createManifestUrl(paramsDataManifest)
@@ -175,13 +175,14 @@ export class LoginComponent implements OnInit {
     var myDynamicManifest = {
       "name": data['name'].toUpperCase(),
       "short_name": data['name'].toLowerCase(),
+      "display": 'fullscreen',
       "description": null,
       "start_url": data['host'],
       "background_color": "#000000",
       "theme_color": "#0f4a73",
       "icons": [{
         "src": data['logo'],
-        "sizes": "140x140",
+        "sizes": 'any',
         "type": "image/*"
       }]
     }
