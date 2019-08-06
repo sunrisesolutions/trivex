@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
 
   }
   ngOnInit() {
+
     this.getSubdomain();
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
@@ -79,6 +80,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.getLogoOrganisation();
+
   }
 
   getSubdomain() {
@@ -139,19 +141,39 @@ export class LoginComponent implements OnInit {
         .subscribe(res => {
           // console.log('logo', res)
           this.orgLogo = res['logoReadUrl'];
-          this.http.get(this.orgLogo)
-            .subscribe(res=>{
+          /* Dynamic Manifest */
 
-            },err=>{
-              if(err.status === 404){
+          var myDynamicManifest = {
+            "name": this.sub.toUpperCase(),
+            "short_name": this.http.get(this.orgLogo).subscribe(res => { }, error => { (error.status === 404) ? '/assets/img-process/Not-found-img.jpg' : this.orgLogo }),
+            "description": null,
+            "start_url": window.location.pathname,
+            "background_color": "#000000",
+            "theme_color": "#0f4a73",
+            "icons": [{
+              "src": this.orgLogo,
+              "sizes": "256x256",
+              "type": "image/*"
+            }]
+          }
+          const stringManifest = JSON.stringify(myDynamicManifest);
+          const blob = new Blob([stringManifest], { type: 'application/json' });
+          const manifestURL = URL.createObjectURL(blob);
+          document.querySelector('#org-manifest').setAttribute('href', manifestURL)
+          /* check server image */
+          this.http.get(this.orgLogo)
+            .subscribe(res => {
+
+            }, err => {
+              if (err.status === 404) {
                 this.orgLogo = '/assets/img-process/Not-found-img.jpg';
               }
             })
-        },error =>{
-          if(error.status === 404){
-            this.error = 'Organisation not found' 
+        }, error => {
+          if (error.status === 404) {
+            this.error = 'Organisation not found'
           }
-          if(error.status === 500){
+          if (error.status === 500) {
             this.error = error.error['hydra:description'];
           }
         });

@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+  
+    /* Convert Http to Https */
     if (environment.production) {
       if (!location.protocol.startsWith("https")) {
         window.location.href = location.href.replace('http', 'https');
@@ -69,8 +71,8 @@ export class AppComponent implements OnInit {
         })
       if (redirectUrl) {
         this.router.navigate([`${redirectUrl}`], { queryParams: { token: accessToken } });
-      }else{
-        this.router.navigate(['/club-members'], { queryParams: {token: accessToken} })
+      } else {
+        this.router.navigate(['/club-members'], { queryParams: { token: accessToken } })
       }
       // console.log(decoded.exp);
       //refresh
