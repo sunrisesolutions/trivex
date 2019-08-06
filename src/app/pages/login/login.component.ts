@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
       "name": data['name'].toUpperCase(),
       "short_name": data['name'].toLowerCase(),
       "display": 'fullscreen',
-      "start_url": data['host'],
+      "start_url":  'https://' + data['host'],
       "background_color": "#000000",
       "theme_color": "#0f4a73",
       "icons": [{
