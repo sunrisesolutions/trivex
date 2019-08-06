@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   ) {
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('token');
-    console.log(accessToken)
     if (accessToken) {
       if (accessToken === '') {
         this.router.navigate(['/login']);
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit {
       const decoded = jwt_decode(token);
       this.service.getUserByuuid(decoded.im)
         .subscribe(res => {
-          console.log(res);
+          // console.log(res);
           let imId = res['hydra:member'][0]['@id'];
           localStorage.setItem('im_id', imId);
         })

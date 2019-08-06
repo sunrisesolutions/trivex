@@ -142,31 +142,22 @@ export class LoginComponent implements OnInit {
           // console.log('logo', res)
           this.orgLogo = res['logoReadUrl'];
           /* Dynamic Manifest */
+          let paramsDataManifest = {
+            logo: this.orgLogo,
+            name: this.sub,
 
-          var myDynamicManifest = {
-            "name": this.sub.toUpperCase(),
-            "short_name": this.http.get(this.orgLogo).subscribe(res => { }, error => { (error.status === 404) ? '/assets/img-process/Not-found-img.jpg' : this.orgLogo }),
-            "description": null,
-            "start_url": window.location.pathname,
-            "background_color": "#000000",
-            "theme_color": "#0f4a73",
-            "icons": [{
-              "src": this.orgLogo,
-              "sizes": "256x256",
-              "type": "image/*"
-            }]
           }
-          const stringManifest = JSON.stringify(myDynamicManifest);
-          const blob = new Blob([stringManifest], { type: 'application/json' });
-          const manifestURL = URL.createObjectURL(blob);
-          document.querySelector('#org-manifest').setAttribute('href', manifestURL)
+
+          this.createManifestUrl(paramsDataManifest)
           /* check server image */
           this.http.get(this.orgLogo)
             .subscribe(res => {
-
+              
             }, err => {
               if (err.status === 404) {
                 this.orgLogo = '/assets/img-process/Not-found-img.jpg';
+                paramsDataManifest.logo = this.orgLogo;
+                this.createManifestUrl(paramsDataManifest)
               }
             })
         }, error => {
@@ -178,6 +169,26 @@ export class LoginComponent implements OnInit {
           }
         });
     }
+
+  }
+  createManifestUrl(data) {
+    var myDynamicManifest = {
+      "name": data['name'].toUpperCase(),
+      "short_name": data['name'].toLowerCase(),
+      "description": null,
+      "start_url": window.location.host,
+      "background_color": "#000000",
+      "theme_color": "#0f4a73",
+      "icons": [{
+        "src": data['logo'],
+        "sizes": "256x256",
+        "type": "image/*"
+      }]
+    }
+    const stringManifest = JSON.stringify(myDynamicManifest);
+    const blob = new Blob([stringManifest], { type: 'application/json' });
+    const manifestURL = URL.createObjectURL(blob);
+    document.querySelector('#org-manifest').setAttribute('href', manifestURL)
   }
   /* /.LOGIN BY SUBDOMAIN */
 }
