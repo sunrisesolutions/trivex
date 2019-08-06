@@ -1,7 +1,8 @@
 <div style="cursor: default;" class="header bg-gradient-danger py-7 pt-md-8">
   <div class="container-fluid">
     <div class="card">
-      <h4 class="mx-2 mt-2 text-dark mb-0">Started At: <span>{{event?.startedAt | date}}</span></h4>
+      <h4 class="mx-2 mt-2 text-dark mb-0">Started Time: <span>{{event?.startedAt | date}}</span></h4>
+      <h4 class="mx-2 mt-2 text-dark mb-0">Ended Time: <span>{{event?.endedAt | date}}</span></h4>
       <h4 class="mx-2 mt-2 text-dark">Timezone: <span>{{event?.timezone}}</span></h4>
       <div class="card-header">
         <h1 class="text-center text-dark display-2">{{event?.name | uppercase}}</h1>

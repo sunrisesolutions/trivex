@@ -134,6 +134,9 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.checkingRole){
+      return this.routes.push(this.haveRole)
+    }
     /* this.service.getDataAPI().subscribe(res => {
 
     }); */
@@ -158,9 +161,7 @@ export class SidebarComponent implements OnInit {
       this.status = true;
     }
     // =============
-    if(this.checkingRole()===true){
-      return this.routes.push(this.haveRole)
-    }
+    
     this.router.events.subscribe(event => {
       this.isCollapsed = true;
     });
