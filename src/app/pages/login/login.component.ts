@@ -145,7 +145,7 @@ export class LoginComponent implements OnInit {
           let paramsDataManifest = {
             logo: this.orgLogo,
             name: this.sub,
-            host: this.route.url
+            host: document.location.host
           }
 
           this.createManifestUrl(paramsDataManifest)
@@ -176,7 +176,6 @@ export class LoginComponent implements OnInit {
       "name": data['name'].toUpperCase(),
       "short_name": data['name'].toLowerCase(),
       "display": 'fullscreen',
-      "description": null,
       "start_url": data['host'],
       "background_color": "#000000",
       "theme_color": "#0f4a73",
