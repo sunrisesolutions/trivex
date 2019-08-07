@@ -43,9 +43,9 @@ export class MemberidComponent implements OnInit {
   }
   getRootId() {
     let snapID;
-    snapID = +this.routes.snapshot.paramMap.get("id");
+    snapID = this.routes.snapshot.params.id;
     this.id = snapID;
-    this.imId = localStorage.getItem("im_id");
+    this.imId = localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
     this.members['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif';
     this.service.getRootID(snapID).subscribe(res => {
       this.members = res;

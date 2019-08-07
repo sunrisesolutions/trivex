@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpParams } from "@angular/common/http";
+import { HttpParams, HttpClient } from "@angular/common/http";
 import { PostService } from "src/app/services/post.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
@@ -12,7 +12,8 @@ export class ConnectComponent implements OnInit {
   constructor(
     private service: PostService,
     private router: Router,
-    private routes: ActivatedRoute
+    private routes: ActivatedRoute,
+    public http: HttpClient
   ) { }
   id;
   idSnap;
@@ -31,14 +32,21 @@ export class ConnectComponent implements OnInit {
     // }
     const snapID = this.routes.snapshot.paramMap.get("id");
     this.idSnap = snapID;
-    this.imId = localStorage.getItem("im_id");
+    this.imId = localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
 
     const id = +this.routes.snapshot.paramMap.get("id");
     this.service.getRootID(id).subscribe(res => {
       console.log(res)
       let getInfo = res;
-      this.members = [getInfo];
+      this.members = getInfo;
+      this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
       console.log("info user", res);
+      this.http.get(this.members.profilePicture)
+        .subscribe(res => { }, error => {
+          if (error.status === 404) {
+            this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+          }
+        })
     });
     this.onConnect();
   }
@@ -51,15 +59,17 @@ export class ConnectComponent implements OnInit {
       'toMember': `/individual_members/${id}`
     };
     this.service.uConnect(data).subscribe(response => {
-      /* this.imToken = localStorage.getItem('im_id');
+      this.imToken = localStorage.getItem('im_id');
       this.uuidRes = response['toMember'].uuid;
-      console.log("connect-member", response, this.imToken); */
+      console.log("connect-member", response, this.imToken);
     });
   }
   injectNumber(s) {
-    return s.substring(s.lastIndexOf("/") + 1);
+    if (s) {
+     return s.match(/\d+/g).map(Number);
+    }
   }
   toClubMem() {
-    this.router.navigate(["club-members"]);
+    this.router.navigate(["/club-members"]);
   }
 }

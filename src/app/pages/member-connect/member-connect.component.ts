@@ -15,19 +15,20 @@ import { HttpClient } from '@angular/common/http';
 
 export class MemberConnectComponent implements OnInit {
   showForm = false;
-  members = [];
+  loadingSearch = false;
+  members: Array<any>[]=[];
   imId;
+  textSearch = '';
   dec;
   currentPage = 1;
   scrollCallback;
 
   constructor(private service: PostService, private routes: ActivatedRoute, public httpClient: HttpClient) {
-    // this.scrollCallback = this.getConnect.bind(this);
 
   }
 
   injectNumber(s) {
-    if(s){
+    if (s) {
       return s.match(/\d+/g).map(Number);
     }
   }
@@ -37,12 +38,13 @@ export class MemberConnectComponent implements OnInit {
     let decoded = jwt_decode(token);
     this.dec = decoded;
     // console.log('dec',decoded.im)
-    this.getConnect()
+    this.getConnect;
   }
-  getConnect() {
-    return this.service.getConnect(`${localStorage.getItem('im_id')}/to_connections`)
+  getConnect(search) {
+    this.service.getConnect(`${localStorage.getItem('im_id')}/to_connections`)
       .subscribe(res => {
-        this.members = this.members.concat(res['hydra:member']);
+        this.members = res['hydra:member'];
+        console.log(this.members)
         for (let data of this.members) {
           this.service.getConnect(data['toMember'])
             .subscribe(res => {
@@ -53,12 +55,12 @@ export class MemberConnectComponent implements OnInit {
 
                 }, err => {
                   if (err.status === 404) {
-                    data['memberCallback'].profilePicture = 'src/assets/img-process/Not-found-img.gif';
+                    data['memberCallback'].profilePicture = '/assets/img-process/Not-found-img.gif';
                   }
                 })
             })
         }
-        console.log('this', this.members);
+
       })
   }
   /* test() {

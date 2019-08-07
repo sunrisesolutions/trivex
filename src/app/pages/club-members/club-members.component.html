@@ -67,7 +67,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        <input autofocus [(ngModel)]="textSearch" (focus)="textSearch=''"  (input)="getMembers(textSearch)" name="search" class="form-control"
+        <input [(ngModel)]="textSearch" (input)="getMembers(textSearch)" name="search" class="form-control"
           placeholder="Search" type="text">
       </div>
     </div>

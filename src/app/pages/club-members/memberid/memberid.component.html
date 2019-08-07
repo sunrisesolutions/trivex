@@ -17,10 +17,10 @@
               </div>
             </div>
           </div>
-          <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
-            <div class="">
+          <div  class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
+            <div [ngClass]="{'d-none': id===imId}" class="">
               <a routerLink="/club-members/{{members['@id']}}/send-email">
-                <div [hidden]="id == imId" href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
+                <div  href="javascript:void(0)" class="btn btn-sm btn-default">Send Email</div>
               </a>
             </div>
           </div>
