@@ -12,7 +12,7 @@ export const AuthLayoutRoutes: Routes = [
   { path: "login", component: LoginComponent },
   // { path: 'login/access-token?token', component: LoginAcccessTokenComponent },
   { path: "register", component: RegisterComponent },
-  { path: "event/:id/registration", component: RegisterEventComponent },
-  { path: "event/:id/login", component: EventLoginMember }
+  { path: "events/:id/registration", component: RegisterEventComponent },
+  { path: "events/:id/login", component: EventLoginMember }
 ];
 

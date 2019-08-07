@@ -30,7 +30,7 @@ export const AdminLayoutRoutes: Routes = [
     component: FreeOnMessageComponent
   },
   { path: 'member-connect', component: MemberConnectComponent },
-  { path: 'event/:id', component: EventsComponent },
+  { path: 'events/:id', component: EventsComponent },
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
