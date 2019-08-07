@@ -134,7 +134,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.checkingRole){
+    if(this.checkingRole()){
       return this.routes.push(this.haveRole)
     }
     /* this.service.getDataAPI().subscribe(res => {
