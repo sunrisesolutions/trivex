@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { PostService } from "./../../services/post.service";
 import { Component, OnInit, ElementRef, Input, Directive, Output, getPlatform } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
 import { ActivatedRoute } from "@angular/router";
 import {
   Location,

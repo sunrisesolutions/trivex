@@ -18,26 +18,7 @@ declare interface RouteInfo {
   icon: string;
   class: string;
 }
-export const ROUTES: RouteInfo[] = [
-  {
-    path: `/club-members`,
-    title: 'Club Members',
-    icon: 'ni-bullet-list-67 text-red',
-    class: ''
-  },
-  {
-    path: '/member-connect',
-    title: 'Members I have met',
-    icon: 'ni-planet text-blue',
-    class: ''
-  },
-  {
-    path: '/free-on-message',
-    title: 'Free On Message',
-    icon: 'ni-email-83 text-black',
-    class: ''
-  }
-];
+
 const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs';
 
 @Component({
@@ -47,13 +28,27 @@ const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HB
 })
 export class SidebarComponent implements OnInit {
   /* SELECT Options*/
-  routes = ROUTES;
-  listMessageOptions = [
-    { name: 'message-option-1' },
-    { name: 'message-option-2' },
-    { name: 'message-option-3' },
-    { name: 'message-option-4' },
+  routes: RouteInfo[] = [
+    {
+      path: `/club-members`,
+      title: 'Club Members',
+      icon: 'ni-bullet-list-67 text-red',
+      class: ''
+    },
+    {
+      path: '/member-connect',
+      title: 'Members I have met',
+      icon: 'ni-planet text-blue',
+      class: ''
+    },
+    {
+      path: '/free-on-message',
+      title: 'Free On Message',
+      icon: 'ni-email-83 text-black',
+      class: ''
+    }
   ];
+  listMessageOptions = [];
   config = {
     displayKey: 'name',
     search: true,
@@ -103,7 +98,68 @@ export class SidebarComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     public roleChecker: CheckRoleService
   ) {
+    if (this.checkingRole) {
+      this.routes.push(this.haveRole)
+    }
   }
+
+  ngOnInit() {
+
+    /* this.service.getDataAPI().subscribe(res => {
+
+    }); */
+
+    // change status
+    if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
+      this.status = true;
+    }
+    // =============
+    this.router.events.subscribe(event => {
+      this.isCollapsed = true;
+    });
+    this.getDelivery();
+    // =======
+    setInterval(() => {
+      if (localStorage.getItem('token')) {
+        this.service.getDelivery(this.queryDeliveriesREAD, 1)
+          .subscribe(res => {
+            this.countMess = res['hydra:totalItems'];
+            if (this.fakeCountMess < this.countMess) {
+              return this.getDelivery();
+            }
+          })
+        setTimeout(() => {
+          this.fakeCountMess = this.countMess;
+        }, 2000)
+      }
+    }, 2000)
+    this.getInfoUser()
+  }
+  getInfoUser() {
+    const decoded = jwt_decode(localStorage.getItem('token'));
+    this.service.getUserByuuid(decoded.im)
+      .subscribe(res => {
+        this.members = res['hydra:member'];
+        for (let member of this.members) {
+          this.httpClient.get(member['profilePicture'])
+            .subscribe(res => {
+
+            }, error => {
+              if (error.status === 404) {
+                member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+              }
+            });
+        }
+      })
+  }
+  /* Device detector */
+  atIos(): boolean {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    if (this.deviceInfo === 'iOS') {
+      return true;
+    }
+  }
+  /* /.Device detector */
 
   checkingRole(): boolean {
     if (this.roleChecker.ROLE_MSG_ADMIN) {
@@ -132,63 +188,6 @@ export class SidebarComponent implements OnInit {
       .subscribe(res => {
       });
   }
-
-  ngOnInit() {
-    if(this.checkingRole()){
-      return this.routes.push(this.haveRole)
-    }
-    /* this.service.getDataAPI().subscribe(res => {
-
-    }); */
-    const decoded = jwt_decode(localStorage.getItem('token'));
-
-    this.service.getUserByuuid(decoded.im)
-      .subscribe(res => {
-        this.members = res['hydra:member'];
-        for (let member of this.members) {
-          this.httpClient.get(member['profilePicture'])
-            .subscribe(res => {
-
-            }, error => {
-              if (error.status === 404) {
-                member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-              }
-            });
-        }
-      })
-    // change status
-    if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
-      this.status = true;
-    }
-    // =============
-    
-    this.router.events.subscribe(event => {
-      this.isCollapsed = true;
-    });
-    this.getDelivery();
-    // =======
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD, 1)
-          .subscribe(res => {
-            this.countMess = res['hydra:totalItems'];
-            if (this.fakeCountMess < this.countMess) {
-              return this.getDelivery();
-            }
-          })
-        setTimeout(() => {
-          this.fakeCountMess = this.countMess;
-        }, 2000)
-      }
-    }, 2000)
-    this.epicFunction();
-  }
-
-  /* Device detector */
-  epicFunction() {
-    return this.deviceInfo = this.deviceService.getDeviceInfo();
-  }
-  /* /.Device detector */
 
 
   getDelivery() {
