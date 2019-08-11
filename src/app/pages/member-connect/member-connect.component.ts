@@ -6,25 +6,26 @@ import * as jwt_decode from "jwt-decode";
 import { Observable } from 'rxjs';
 import { Delivery } from 'src/app/models/Deliveries';
 import { HttpClient } from '@angular/common/http';
+import { SearchService } from 'src/app/services/search.service';
+import 'rxjs/add/operator/do';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: "app-member-connect",
   templateUrl: "./member-connect.component.html",
   styleUrls: ["./member-connect.component.scss"]
 })
 
-
 export class MemberConnectComponent implements OnInit {
   showForm = false;
   loadingSearch = false;
-  members: Array<any>[]=[];
+  members: Array<any> = [];
   imId;
   textSearch = '';
   dec;
   currentPage = 1;
   scrollCallback;
-
-  constructor(private service: PostService, private routes: ActivatedRoute, public httpClient: HttpClient) {
-
+  constructor(private service: PostService,public modalService: NgbModal, private routes: ActivatedRoute, public httpClient: HttpClient) {
+    this.scrollCallback = this.getConnect.bind(this);
   }
 
   injectNumber(s) {
@@ -37,32 +38,21 @@ export class MemberConnectComponent implements OnInit {
     let token = localStorage.getItem("token");
     let decoded = jwt_decode(token);
     this.dec = decoded;
-    // console.log('dec',decoded.im)
-    this.getConnect;
+    // console.log('dec',decoded.im);
+    // this.scrollCallback = this.getConnect.bind(this);
   }
-  getConnect(search) {
-    this.service.getConnect(`${localStorage.getItem('im_id')}/to_connections`)
-      .subscribe(res => {
-        this.members = res['hydra:member'];
-        console.log(this.members)
-        for (let data of this.members) {
-          this.service.getConnect(data['toMember'])
-            .subscribe(res => {
-              data['memberCallback'] = res;
-              data['memberCallback']['id'] = data['memberCallback']['@id'];
-              this.httpClient.get(data['memberCallback'].profilePicture)
-                .subscribe(res => {
 
-                }, err => {
-                  if (err.status === 404) {
-                    data['memberCallback'].profilePicture = '/assets/img-process/Not-found-img.gif';
-                  }
-                })
-            })
-        }
-
-      })
+  getConnect(textSearch: String = '') {
+    return this.service.getConnect(`${localStorage.getItem('im_id')}/to_connections?page=${this.currentPage}`)
+      .do(this.processData)
   }
+  processData = (data) => {
+    this.loadingSearch = true;
+    this.currentPage++;
+    // JSON.stringify(news)
+    this.members = this.members.concat(data['hydra:member']);
+    console.log(this.members)
+  };
   /* test() {
     return this.service.getConnect(this.currentPage)
       .subscribe(res => {
@@ -70,6 +60,12 @@ export class MemberConnectComponent implements OnInit {
         this.members = this.members.concat(res['hydra:member'])
       })
   } */
+  open(content) {
+    if (content) {
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      // this.delivery = delivery;
+    }
+  }
 }
 
 export class Member {

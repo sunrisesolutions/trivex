@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { PushNotificationService } from './services/post-notif.service';
 import { CheckRoleService } from './services/check-role.service';
 import { Location } from '@angular/common';
+import { InfiniteScrollerDirective } from './services/infinite-scroller.directive';
 
 @NgModule({
   imports: [

@@ -105,14 +105,14 @@ export class PostService {
     };
     return this.http.get(this.orgAPI + `/individual_members${page}`, httpOptions);
   }
-  getConnect(idRoot): Observable<Object> {
+  getConnect(query): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.orgAPI}${idRoot}`, httpOptions);
+    return this.http.get(`${this.orgAPI}${query}`, httpOptions);
   }
 
 

@@ -67,7 +67,7 @@ export class SidebarComponent implements OnInit {
   public isCollapsed = true;
   uuid;
   img;
-  members;
+  member;
   countMess;
   idDelete: any;
   publicKey: any;
@@ -86,7 +86,6 @@ export class SidebarComponent implements OnInit {
   };
   messagesID = '';
   deviceInfo = null;
-  member = [];
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -98,17 +97,11 @@ export class SidebarComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     public roleChecker: CheckRoleService
   ) {
-    if (this.checkingRole) {
-      this.routes.push(this.haveRole)
-    }
+
   }
 
   ngOnInit() {
-
-    /* this.service.getDataAPI().subscribe(res => {
-
-    }); */
-
+    this.deviceInfo = this.deviceService.getDeviceInfo();
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
       this.status = true;
@@ -134,31 +127,26 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000)
     this.getInfoUser()
+    if (this.checkingRole()) {
+      this.routes.push(this.haveRole)
+    }
   }
   getInfoUser() {
     const decoded = jwt_decode(localStorage.getItem('token'));
     this.service.getUserByuuid(decoded.im)
       .subscribe(res => {
-        this.members = res['hydra:member'];
-        for (let member of this.members) {
-          this.httpClient.get(member['profilePicture'])
-            .subscribe(res => {
+        this.member = res['hydra:member'][0];
+        this.httpClient.get(this.member['profilePicture'])
+          .subscribe(res => {
 
-            }, error => {
-              if (error.status === 404) {
-                member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-              }
-            });
-        }
+          }, error => {
+            if (error.status === 404) {
+              this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+            }
+          });
       })
   }
-  /* Device detector */
-  atIos(): boolean {
-    this.deviceInfo = this.deviceService.getDeviceInfo();
-    if (this.deviceInfo === 'iOS') {
-      return true;
-    }
-  }
+
   /* /.Device detector */
 
   checkingRole(): boolean {

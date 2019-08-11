@@ -62,7 +62,7 @@ export class InfiniteScrollerDirective implements AfterViewInit {
 
   private registerScrollEvent() {
     this.scrollEvent$ = fromEvent(window, 'scroll');
-    console.log(this.bodyElement);
+    // console.log(this.bodyElement);
 
   }
 
@@ -94,6 +94,7 @@ export class InfiniteScrollerDirective implements AfterViewInit {
   }
 
   private isUserScrollingDown = (positions) => {
+    // console.log('isUserScrollingDown');
     return positions[0].sT > positions[1].sT;
   }
 
