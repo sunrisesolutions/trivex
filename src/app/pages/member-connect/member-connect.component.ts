@@ -20,11 +20,11 @@ export class MemberConnectComponent implements OnInit {
   loadingSearch = false;
   members: Array<any> = [];
   imId;
-  textSearch = '';
+  textSearch = null;
   dec;
   currentPage = 1;
   scrollCallback;
-  constructor(private service: PostService,public modalService: NgbModal, private routes: ActivatedRoute, public httpClient: HttpClient) {
+  constructor(private service: PostService, public modalService: NgbModal, private routes: ActivatedRoute, public httpClient: HttpClient) {
     this.scrollCallback = this.getConnect.bind(this);
   }
 
@@ -42,24 +42,60 @@ export class MemberConnectComponent implements OnInit {
     // this.scrollCallback = this.getConnect.bind(this);
   }
 
-  getConnect(textSearch: String = '') {
-    return this.service.getConnect(`${localStorage.getItem('im_id')}/to_connections?page=${this.currentPage}`)
-      .do(this.processData)
+
+  getConnect(textSearch: String = null) {
+    let endpoint = `/connections?page=${this.currentPage}`;
+    if (textSearch !== null) {
+      this.loadingSearch = false;
+      endpoint = `/connections?fulltextString=${textSearch}`
+      return this.service.getConnect(endpoint)
+        .subscribe(res => {
+          this.loadingSearch = true;
+          if (res['hydra:member']) {
+            this.members = res['hydra:member'];
+            for (let data of this.members) {
+              if (data['fromMember'] === data['toMember']) {
+                data['data'] = null;
+                data['route'] = null;
+              }
+              else if (data['fromMember'] === localStorage.getItem('im_id')) {
+                data['data'] = data['personData']['to'];
+                data['route'] = data['toMember'];
+              }
+              else if (data['toMember'] === localStorage.getItem('im_id')) {
+                data['data'] = data['personData']['from'];
+                data['route'] = data['fromMember']
+              }
+            }
+          }
+        })
+    } else {
+      return this.service.getConnect(endpoint)
+        .do(this.processData)
+    }
+
   }
   processData = (data) => {
     this.loadingSearch = true;
     this.currentPage++;
     // JSON.stringify(news)
     this.members = this.members.concat(data['hydra:member']);
+    for (let data of this.members) {
+      if (data['fromMember'] === data['toMember']) {
+        data['data'] = null;
+        data['route'] = null;
+      }
+      else if (data['fromMember'] === localStorage.getItem('im_id')) {
+        data['data'] = data['personData']['to'];
+        data['route'] = data['toMember'];
+      }
+      else if (data['toMember'] === localStorage.getItem('im_id')) {
+        data['data'] = data['personData']['from'];
+        data['route'] = data['fromMember']
+      }
+    }
     console.log(this.members)
   };
-  /* test() {
-    return this.service.getConnect(this.currentPage)
-      .subscribe(res => {
-        // JSON.stringify(news)
-        this.members = this.members.concat(res['hydra:member'])
-      })
-  } */
   open(content) {
     if (content) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
