@@ -14,8 +14,10 @@
     </svg>
   </div>
 </div>
+<h1 class="text-white text-center display-5 display-md-1" *ngIf="error">{{error | uppercase}}</h1>
+
 <!-- Page content -->
-<div class="container mt--8 pb-5">
+<div *ngIf="!error" class="container mt--8 pb-5">
   <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7">
       <div *ngIf="done" class="card bg-secondary shadow border-0">

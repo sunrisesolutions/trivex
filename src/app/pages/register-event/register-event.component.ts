@@ -15,7 +15,6 @@ import { PostService } from "src/app/services/post.service";
 })
 export class RegisterEventComponent implements OnInit {
   dob: NgbDate;
-
   model = {
     role: ""
   };
@@ -42,10 +41,10 @@ export class RegisterEventComponent implements OnInit {
     private attendeeService: AttendeeService,
     private router: Router,
     private routes: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
-    
+    this.checkEvent();
   }
 
   registerEvent() {
@@ -72,8 +71,33 @@ export class RegisterEventComponent implements OnInit {
       }
     );
   }
-  toLogin(){
+
+  checkEvent() {
+    let id = +this.routes.snapshot.params.id;
+    this.service.eventGet(`/events/${id}`)
+      .subscribe(res => {
+      }, error => {
+        if (error.status === 404) {
+          this.error = 'Event not found.!!!';
+          this.done = false;
+        }
+        if (error.status === 401) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        if (error.status === 400) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        if (error.status === 500) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        // this.router.navigate(['/club-members']);
+      })
+  }
+  toLogin() {
     let id = +this.routes.snapshot.paramMap.get('id');
-    this.router.navigate([`event/${id}/login`])
+    this.router.navigate([`events/${id}/login`])
   }
 }

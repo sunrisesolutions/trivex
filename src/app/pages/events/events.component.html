@@ -1,5 +1,8 @@
+
 <div style="cursor: default;" class="header bg-gradient-danger py-7 pt-md-8">
-  <div class="container-fluid">
+<h1 class="text-white text-center display-5 display-md-1" *ngIf="getEventError">{{getEventError | uppercase}}</h1>
+
+  <div *ngIf="!getEventError" class="container-fluid">
     <div class="card">
       <h4 class="mx-2 mt-2 text-dark mb-0">Started Time: <span>{{event?.startedAt | date}}</span></h4>
       <h4 class="mx-2 mt-2 text-dark mb-0">Ended Time: <span>{{event?.endedAt | date}}</span></h4>

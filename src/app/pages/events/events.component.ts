@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-events',
@@ -10,9 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 export class EventsComponent implements OnInit {
   loading = false;
   event;
+  getEventError = '';
   constructor(
     public apiService: PostService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private router: Router
+
   ) { }
 
   ngOnInit() {
@@ -27,6 +30,20 @@ export class EventsComponent implements OnInit {
         this.event = res;
         this.event['id'] = res['@id']
         console.log(res)
+      }, error => {
+        if (error.status === 404) {
+          this.getEventError = 'Event not found.!!!';
+        }
+        if (error.status === 401) {
+          this.getEventError = error.error.message;
+        }
+        if (error.status === 400) {
+          this.getEventError = error.error.message;
+        }
+        if (error.status === 500) {
+          this.getEventError = error.error.message;
+        }
+        // this.router.navigate(['/club-members']);
       })
   }
 

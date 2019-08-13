@@ -32,7 +32,7 @@ import { Routes, ActivatedRoute } from "@angular/router";
   templateUrl: "./login-member.component.html",
   styleUrls: ["./login-member.component.scss"]
 })
-export class EventLoginMember implements OnInit{
+export class EventLoginMember implements OnInit {
   // value formdata
   orgCode;
   phone;
@@ -46,7 +46,7 @@ export class EventLoginMember implements OnInit{
   invalidLogin: boolean;
   done = false;
   // event login
-
+  error = '';
   //
   list;
   attendee: Attendee;
@@ -68,7 +68,7 @@ export class EventLoginMember implements OnInit{
     //   let get = res.json()["hydra:member"]["0"]["@id"];
     //   this.id = get;
     // });
-
+    this.checkEvent();
   }
 
   @ViewChild("dobi") dobi: ElementRef;
@@ -114,5 +114,29 @@ export class EventLoginMember implements OnInit{
       });
     });
     // Login
+  }
+  checkEvent() {
+    let id = +this.routes.snapshot.params.id;
+    this.service.eventGet(`/events/${id}`)
+      .subscribe(res => {
+      }, error => {
+        if (error.status === 404) {
+          this.error = 'Event not found.!!!';
+          this.done = false;
+        }
+        if (error.status === 401) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        if (error.status === 400) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        if (error.status === 500) {
+          this.error = error.error.message;
+          this.done = false;
+        }
+        // this.router.navigate(['/club-members']);
+      })
   }
 }
