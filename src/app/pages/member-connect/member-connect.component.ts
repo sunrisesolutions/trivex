@@ -35,8 +35,8 @@ export class MemberConnectComponent implements OnInit {
   }
 
   ngOnInit() {
-    let token = localStorage.getItem("token");
-    let decoded = jwt_decode(token);
+    const token = localStorage.getItem("token");
+    const decoded = jwt_decode(token);
     this.dec = decoded;
     // console.log('dec',decoded.im);
     // this.scrollCallback = this.getConnect.bind(this);
@@ -53,16 +53,14 @@ export class MemberConnectComponent implements OnInit {
           this.loadingSearch = true;
           if (res['hydra:member']) {
             this.members = res['hydra:member'];
-            for (let data of this.members) {
+            for (const data of this.members) {
               if (data['fromMember'] === data['toMember']) {
                 data['data'] = null;
                 data['route'] = null;
-              }
-              else if (data['fromMember'] === localStorage.getItem('im_id')) {
+              } else if (data['fromMember'] === localStorage.getItem('im_id')) {
                 data['data'] = data['personData']['to'];
                 data['route'] = data['toMember'];
-              }
-              else if (data['toMember'] === localStorage.getItem('im_id')) {
+              } else if (data['toMember'] === localStorage.getItem('im_id')) {
                 data['data'] = data['personData']['from'];
                 data['route'] = data['fromMember']
               }

@@ -9,7 +9,7 @@
         <h1 class="text-center text-dark">{{event?.title}}</h1>
       </div>
       <div class="card-body text-center">
-        <button [routerLink]="'/events/'+ idEvent(event?.id) +'/registration'" class="text-center btn btn-danger">
+        <button [routerLink]="'/events/'+ idEvent() +'/registration'" class="text-center btn btn-danger">
           Join now
         </button>
       </div>

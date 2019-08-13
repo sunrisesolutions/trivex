@@ -10,6 +10,7 @@ import { RegisterComponent } from '../../pages/register/register.component';
 import { RegisterEventComponent } from '../../pages/register-event/register-event.component';
 import { EventLoginMember } from 'src/app/pages/register-event/login-member/login-member.component';
 import { LoginAcccessTokenComponent } from 'src/app/pages/login-acccess-token/login-acccess-token.component';
+import { EventsComponent } from 'src/app/pages/events/events.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { LoginAcccessTokenComponent } from 'src/app/pages/login-acccess-token/lo
 
   ],
   declarations: [
+    EventsComponent,
     LoginComponent,
     RegisterComponent,
     LoginAcccessTokenComponent,

@@ -30,9 +30,8 @@ export class EventsComponent implements OnInit {
       })
   }
 
-  idEvent(s) {
-    if (s) {
-      return s.match(/\d+/g).map(Number);
-    }
+  idEvent() {
+    let id = +this.route.snapshot.params.id;
+    return id;
   }
 }

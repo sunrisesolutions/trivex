@@ -50,7 +50,6 @@ import { BrowserModule } from '@angular/platform-browser';
     QrCodeComponent,
     QrStartComponent,
     JobComponent,
-    EventsComponent,
     MemberidComponent,
     ConnectComponent,
     SendEmailComponent,
