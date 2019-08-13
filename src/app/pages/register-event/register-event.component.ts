@@ -35,6 +35,7 @@ export class RegisterEventComponent implements OnInit {
   done = false;
   loading = false;
   error = "";
+  events;
   id;
   constructor(
     private service: PostService,
@@ -44,7 +45,7 @@ export class RegisterEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.checkEvent();
+    this.getEvents();
   }
 
   registerEvent() {
@@ -72,26 +73,25 @@ export class RegisterEventComponent implements OnInit {
     );
   }
 
-  checkEvent() {
+  getEvents() {
     let id = +this.routes.snapshot.params.id;
     this.service.eventGet(`/events/${id}`)
       .subscribe(res => {
+        this.loading = true;
+        this.events = res;
+        this.events['id'] = res['@id']
       }, error => {
         if (error.status === 404) {
           this.error = 'Event not found.!!!';
-          this.done = false;
         }
         if (error.status === 401) {
           this.error = error.error.message;
-          this.done = false;
         }
         if (error.status === 400) {
           this.error = error.error.message;
-          this.done = false;
         }
         if (error.status === 500) {
           this.error = error.error.message;
-          this.done = false;
         }
         // this.router.navigate(['/club-members']);
       })

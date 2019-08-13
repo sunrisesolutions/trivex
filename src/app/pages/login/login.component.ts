@@ -155,17 +155,18 @@ export class LoginComponent implements OnInit {
               
             }, err => {
               if (err.status === 404) {
-                this.orgLogo = '/assets/img-process/Not-found-img.jpg';
+                this.orgLogo = '/assets/img-process/Not-found-img.gif';
                 paramsDataManifest.logo = this.orgLogo;
                 this.createManifestUrl(paramsDataManifest)
               }
             })
         }, error => {
           if (error.status === 404) {
-            this.error = 'Organisation not found'
+            this.orgLogo = './assets/img-process/Not-found-img.gif';
+            // this.error = 'Organisation not found'
           }
           if (error.status === 500) {
-            this.error = error.error['hydra:description'];
+            this.error = error.error.message;
           }
         });
     }

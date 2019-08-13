@@ -1,14 +1,14 @@
 
 <div style="cursor: default;" class="header bg-gradient-danger py-7 pt-md-8">
-<h1 class="text-white text-center display-5 display-md-1" *ngIf="getEventError">{{getEventError | uppercase}}</h1>
+  <h1 class="text-white text-center display-5 display-md-1" *ngIf="getEventError">{{getEventError | uppercase}}</h1>
 
-  <div *ngIf="!getEventError" class="container-fluid">
+  <div *ngIf="!getEventError" class="container w-50">
     <div class="card">
+      <h1 class="text-center text-dark display-2">{{event?.name | uppercase}}</h1>
       <h4 class="mx-2 mt-2 text-dark mb-0">Started Time: <span>{{event?.startedAt | date}}</span></h4>
       <h4 class="mx-2 mt-2 text-dark mb-0">Ended Time: <span>{{event?.endedAt | date}}</span></h4>
       <h4 class="mx-2 mt-2 text-dark">Timezone: <span>{{event?.timezone}}</span></h4>
       <div class="card-header">
-        <h1 class="text-center text-dark display-2">{{event?.name | uppercase}}</h1>
         <h1 class="text-center text-dark">{{event?.title}}</h1>
       </div>
       <div class="card-body text-center">
