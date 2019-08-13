@@ -13,7 +13,7 @@ import {
   ElementRef
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbDate, NgbCalendar } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDate, NgbCalendar, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import * as jwt_decode from "jwt-decode";
 import { getLocaleDateTimeFormat } from "@angular/common";
 import { decode } from "@angular/router/src/url_tree";
@@ -37,6 +37,11 @@ export class LoginComponent implements OnInit {
   phone;
   idNumber;
   id;
+  date = {
+    year: 0,
+    month: 0,
+    day: 0
+  };
   toQr;
   sub = null;
   orgLogo = 'https://i.ya-webdesign.com/images/peach-svg-animated-6.gif';
@@ -48,6 +53,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   loading: boolean;
   error = '';
+  notEnoughOld = '';
   constructor(
     private router: Router,
     private service: PostService,
@@ -57,7 +63,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
 
   ) {
-
+    this.date.year = new Date().getFullYear() - 1970;
   }
   ngOnInit() {
 
@@ -132,7 +138,12 @@ export class LoginComponent implements OnInit {
     this.router.navigate([`club-members/${id}/qr-code`]); */
   }
 
-
+  checkTime(dob){
+    console.log(dob)
+    if(this.date.year - dob.year < 18){
+     this.notEnoughOld = 'You are not 18 years old'; 
+    }
+  }
 
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
