@@ -110,14 +110,15 @@
                 <input
                   #dobi
                   class="form-control p-2 datepicker"
-                  (change)="checkTime(dob)"
                   placeholder="Date of Birth"
                   name="dob"
                   [(ngModel)]="dob"
                   ngbDatepicker
                   #d="ngbDatepicker"
-                  [maxDate]="{ year: 2000, month: 01, day: 01 }"
-                  [startDate]="{ year: 1990, month: 1 }"
+                  (focus)="notEnoughOld=''"
+                  [maxDate]="{ year: date.year-18, month: 12, day: 31 }"
+                  [minDate]="{ year: date.year-50, month: 01, day: 01 }"
+                  [startDate]="{ year: date.year-18, month: 01 }"
                   (click)="d.toggle()"
                   type="text"
                 />
@@ -147,7 +148,7 @@
               <button
                 type="submit"
                 class="btn btn-primary my-4"
-                (click)="login()"
+                (click)="checkTime(dob)"
               >
                 Sign in
               </button>

@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
 
   ) {
-    this.date.year = new Date().getFullYear() - 1970;
+    this.date.year = new Date().getFullYear();
   }
   ngOnInit() {
 
@@ -138,10 +138,11 @@ export class LoginComponent implements OnInit {
     this.router.navigate([`club-members/${id}/qr-code`]); */
   }
 
-  checkTime(dob){
-    console.log(dob)
-    if(this.date.year - dob.year < 18){
-     this.notEnoughOld = 'You are not 18 years old'; 
+  checkTime(dob) {
+    if (this.date.year - dob.year < 18) {
+      this.notEnoughOld = 'You are not 18 years old';
+    } else {
+      this.login();
     }
   }
 
@@ -163,7 +164,7 @@ export class LoginComponent implements OnInit {
           /* check server image */
           this.http.get(this.orgLogo)
             .subscribe(res => {
-              
+
             }, err => {
               if (err.status === 404) {
                 this.orgLogo = '/assets/img-process/Not-found-img.gif';
@@ -188,7 +189,7 @@ export class LoginComponent implements OnInit {
       "name": data['name'].toUpperCase(),
       "short_name": data['name'].toLowerCase(),
       "display": 'fullscreen',
-      "start_url":  'https://' + data['host'],
+      "start_url": 'https://' + data['host'],
       "background_color": "#000000",
       "theme_color": "#0f4a73",
       "icons": [{
