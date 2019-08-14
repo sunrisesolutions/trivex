@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit {
 
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
-    if (this.sub !== 'trivesg.com') {
+    if (this.sub !== 'trivesg.com' || this.sub !== 'trivesg') {
       this.service.getLogoFilter(this.sub)
         .subscribe(res => {
           // console.log('logo', res)
