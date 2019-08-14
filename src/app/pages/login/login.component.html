@@ -40,7 +40,7 @@
               height="auto"
               class="logo-org"
               [src]="
-                sub === 'trivesg.com' ? 'assets/img/brand/logo.png' : orgLogo
+                sub === 'trivesg.com' || 'trivesg' ? 'assets/img/brand/logo.png' : orgLogo
               "
             />
           </a>
@@ -49,7 +49,7 @@
           </div>
           <form (keyup.enter)="login()" role="form">
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
-            <div *ngIf="sub === 'trivesg.com'" class="form-group mb-3">
+            <div *ngIf="sub === 'trivesg.com' || sub === 'trivesg'" class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"
@@ -125,7 +125,7 @@
               </div>
             </div>
           </form>
-          <div *ngIf="notEnoughOld" class="text-center ">{{ notEnoughOld }}</div>
+          <div *ngIf="notEnoughOld" class="text-center bg-danger rounded text-white">{{ notEnoughOld }}</div>
         </div>
         <div class="card-body">
           <form role="form">
@@ -145,7 +145,7 @@
               </label>
             </div>
             <div class="text-center">
-              <button
+              <button [ngClass]="{'disabled': loading}"
                 type="submit"
                 class="btn btn-primary my-4"
                 (click)="checkTime(dob)"

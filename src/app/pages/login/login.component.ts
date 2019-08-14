@@ -99,12 +99,13 @@ export class LoginComponent implements OnInit {
 
   @ViewChild("dobi") dobi: ElementRef;
   login() {
-    const inputDob = this.dobi.nativeElement.value;
+    // const inputDob = new Date(`${this.dob.day}-${this.dob.month}-${this.dob.year}`).toLocaleDateString();
     const formData = new FormData();
-    formData.append("org-code", (this.sub !== 'trivesg.com') ? this.sub : this.orgCode);
+    formData.append("org-code", (this.sub !== 'trivesg.com' || this.sub !== 'trivesg') ? this.sub : this.orgCode);
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
-    formData.append("birth-date", inputDob);
+    formData.append("birth-date", this.dobi.nativeElement.value);
+
     // const formRef = new FormData();
     this.loading = true;
     this.service.postFormData(formData).subscribe(response => {
@@ -140,7 +141,7 @@ export class LoginComponent implements OnInit {
 
   checkTime(dob) {
     if (this.date.year - dob.year < 18) {
-      this.notEnoughOld = 'You are not 18 years old';
+      this.notEnoughOld = 'You must be over 18 years old';
     } else {
       this.login();
     }
