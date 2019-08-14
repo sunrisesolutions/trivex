@@ -201,6 +201,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+ngx-drag-to-select
+MIT
+
 ngx-select-dropdown
 MIT
 MIT License

@@ -82,10 +82,10 @@
                           </div>
                           <hr class="my-2">
                           <div class="font-weight-bold">
-                            {{delivery2.message.subject}}
+                            {{delivery2?.message?.subject}}
                           </div>
                           <div class="font-weight-light">
-                            {{delivery2.message.body}}
+                            {{delivery2?.message?.body}}
                           </div>
                           <hr class="my-2">
                           <div class="container">
@@ -134,7 +134,7 @@
               </ng-template>
 
               <a (click)="open(content,delivery);delivery2=delivery"
-                class="list-group-item list-group-item-action  {{(delivery.readAt)? 'read':'unread'}} ">
+                class="list-group-item list-group-item-action  {{(delivery?.readAt)? 'read':'unread'}} ">
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <div class="">
@@ -147,10 +147,10 @@
                         <h4 class="mb-0 text-sm">{{delivery.name}}</h4>
                       </div>
                       <div class="text-right text-muted">
-                        <small>{{delivery.message.createdAt | date:'short'}}</small>
+                        <small>{{delivery?.message.createdAt | date:'short'}}</small>
                       </div>
                     </div>
-                    <p class="text-sm mb-0 text-truncate" style="max-width: 220px;">{{delivery.message.subject}}</p>
+                    <p class="text-sm mb-0 text-truncate" style="max-width: 220px;">{{delivery?.message.subject}}</p>
                   </div>
                 </div>
               </a>
@@ -161,14 +161,14 @@
             class="dropdown-item text-center text-primary font-weight-bold">View all</a>
         </div>
       </li>
-      <li *ngFor="let member of members" class="nav-item" ngbDropdown placement="bottom-right">
+      <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="custom-avatar">
-              <img class="avatar-user" alt="" [src]="member.profilePicture">
+              <img class="avatar-user" alt="" [src]="(members) ? members.profilePicture : '/assets/img-process/Not-found-img.gif'">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{member.personData.name}}</span>
+              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{(members) ? members.personData.name : ''}}</span>
             </div>
           </div>
         </a>

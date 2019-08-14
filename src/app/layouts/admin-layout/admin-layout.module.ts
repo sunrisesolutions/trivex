@@ -26,6 +26,7 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { DragToSelectModule } from 'ngx-drag-to-select';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { BrowserModule } from '@angular/platform-browser';
     AmazingTimePickerModule,
     ZXingScannerModule.forRoot(),
     AngularEditorModule,
+    DragToSelectModule.forRoot()
   ],
   declarations: [
     InfiniteScrollerDirective,

@@ -1,133 +1,23 @@
-<div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center"
-  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div
+  class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center"
+  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;"
+>
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div class="container w-100 w-md-75 mt-8 mt-md-auto">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">
-        <h1 class="display-3 display-md-2 text-white">Free On Message</h1>
-        <div *ngIf="error" class="alert alert-danger">
-          {{error}}
-        </div>
-        <div *ngIf="success" class="h3 text-white">
-          <p for="">You have successfully posted.</p>
-          <button (click)="success=false;form=template" class="btn btn-info">Back</button>
-        </div>
-        <form  (change)="error=false; checkDay(check)" *ngIf="!success">
-          <hr class="my-4" />
-          <div class="container p-4 rounded bg-white">
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <!-- FROM TIME -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">From Time</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-time-alarm"></i></span>
-                    </div>
-                    <input class="form-control p-2" autocomplete="off" [(ngModel)]="form.fromAt" name="fromAt"
-                      atp-time-picker placeholder="Time picker" />
-
-                  </div>
-                </div>
-                <!-- TO TIME -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">To Time</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-time-alarm"></i></span>
-                    </div>
-                    <input class="form-control p-2" autocomplete="off" [(ngModel)]="form.toAt" name="toAt"
-                      atp-time-picker placeholder="Time picker" />
-
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <!-- FROM DAY -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">From Day</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select [(ngModel)]="check.fromDay" class="form-control" name="from-day" id="fromDay">
-                      <option value="0" disabled selected>Select your option</option>
-                      <option *ngFor="let day of labelDay" [ngValue]="day.number">
-                        <span>
-                          {{day.value}}
-                        </span>
-                      </option>
-                    </select>
-
-                  </div>
-                </div>
-                <!-- TO DAY -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">To Day</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <select [(ngModel)]="check.toDay" class="form-control" name="to-day" id="toDay">
-                      <option value="0" disabled selected>Select your option</option>
-                      <option *ngFor="let day of labelDay" [ngValue]="day.number">
-                        <span>
-                          {{day.value}}
-                        </span>
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <!-- EffectiveFrom -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">Effective From</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-
-
-                    <input class="form-control p-2 datepicker" name="effective-from"
-                      [(ngModel)]="form.effectiveFrom" ngbDatepicker #effectiveFrom="ngbDatepicker"
-                      (click)="effectiveFrom.toggle();checkDay(check)" type="text" />
-                  </div>
-                </div>
-                <!-- Expire On -->
-                <div class="form-group">
-                  <label class="text-dark font-weight-bold" for="">Expire On</label>
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                    </div>
-                    <input #dobi class="form-control p-2 datepicker" name="expire-on"
-                      [(ngModel)]="form.expireOn" ngbDatepicker #expireOn="ngbDatepicker" (click)="expireOn.toggle()"
-                      type="text" />
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="row">
-              <!-- Text -->
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="" class="text-dark font-weight-bold">Note</label>
-                  <input [(ngModel)]="form.text" name="text" type="text" class="form-control" placeholder="Text">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 text-right mt-4">
-            <button class="btn btn-info" (click)="send(form)" [disabled]="loading || dirty">Send</button>
-          </div>
-        </form>
+        <dts-select-container
+          #container="dts-select-container"
+          [(selectedItems)]="optionDragModule.selectedItems"
+          (select)="dragMethod($event)"
+        >
+          <ul>
+            <li [dtsSelectItem]="document" *ngFor="let document of documents">
+              {{ document.name }}
+            </li>
+          </ul>
+        </dts-select-container>
       </div>
     </div>
   </div>

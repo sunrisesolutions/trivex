@@ -16,6 +16,21 @@ export class FreeOnMessageComponent implements OnInit {
   loading = false;
   required = false;
   fromDay = 0;
+  optionDragModule = {
+    selectOnDrag: true,
+    selectSingleMode: false,
+    selectWithShortcut: false,
+    selectedItems: false,
+  }
+  documents = [
+    {
+      name: 'Option-1'
+    }, {
+      name: 'Option-2'
+    }, {
+      name: 'Option-3'
+    },
+  ]
   toDay = 0;
   dirty;
   date = {
@@ -147,5 +162,8 @@ export class FreeOnMessageComponent implements OnInit {
          this.loading = false;
          this.error = error.error['hydra:description'];
        })
+  }
+  dragMethod(event){
+    console.log(event);
   }
 }

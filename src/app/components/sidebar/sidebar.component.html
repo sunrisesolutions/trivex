@@ -151,7 +151,7 @@
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="custom-avatar rounded-circle">
-              <img class="avatar-user border" alt="" [src]="member?.profilePicture">
+              <img class="avatar-user border" alt="" [src]="(member) ? member.profilePicture : '/assets/img-process/Not-found-img.gif'">
             </span>
           </div>
         </a>

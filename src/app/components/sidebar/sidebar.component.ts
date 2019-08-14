@@ -136,14 +136,16 @@ export class SidebarComponent implements OnInit {
     this.service.getUserByuuid(decoded.im)
       .subscribe(res => {
         this.member = res['hydra:member'][0];
-        this.httpClient.get(this.member['profilePicture'])
-          .subscribe(res => {
+        if (this.member) {
+          this.httpClient.get(this.member['profilePicture'])
+            .subscribe(res => {
 
-          }, error => {
-            if (error.status === 404) {
-              this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-            }
-          });
+            }, error => {
+              if (error.status === 404) {
+                this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+              }
+            });
+        }
       })
   }
 
