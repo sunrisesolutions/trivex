@@ -53,14 +53,18 @@ export class MemberConnectComponent implements OnInit {
           this.loadingSearch = true;
           if (res['hydra:member']) {
             this.members = res['hydra:member'];
+            let imId = localStorage.getItem('im_id');
+            if(imId.indexOf('individual_members') === -1){
+              imId = '/individual_members/' + imId;
+            } ;
             for (const data of this.members) {
               if (data['fromMember'] === data['toMember']) {
                 data['data'] = null;
                 data['route'] = null;
-              } else if (data['fromMember'] === localStorage.getItem('im_id')) {
+              } else if (data['fromMember'] === imId) {
                 data['data'] = data['personData']['to'];
                 data['route'] = data['toMember'];
-              } else if (data['toMember'] === localStorage.getItem('im_id')) {
+              } else if (data['toMember'] === imId) {
                 data['data'] = data['personData']['from'];
                 data['route'] = data['fromMember']
               }
