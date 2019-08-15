@@ -16,35 +16,20 @@ export class FreeOnMessageComponent implements OnInit {
   loading = false;
   required = false;
   fromDay = 0;
-  optionDragModule = {
-    selectOnDrag: true,
-    selectSingleMode: false,
-    selectWithShortcut: false,
-    selectedItems: false,
-  }
-  documents = [
+  selectedItems: boolean = true;
+  optionDragModule = [
     {
-      name: 'Option-1'
+      name: 'select on drag',
+      status: true
     }, {
-      name: 'Option-2'
+      name: 'select single mode',
+      status: false
     }, {
-      name: 'Option-3'
-    },
+      name: 'select with shortcut',
+      status: false
+    }
   ]
-  toDay = 0;
-  dirty;
-  date = {
-    year: 0,
-    month: 0,
-    day: 0
-  }
-  check = {
-    fromDay: 0,
-    toDay: 0,
-    effectiveFrom: this.date,
-    expireOn: this.date
-  }
-  labelDay = [
+  documents = [
     {
       number: 1,
       value: 'Sunday',
@@ -68,6 +53,19 @@ export class FreeOnMessageComponent implements OnInit {
       value: 'Saturday'
     }
   ]
+  toDay = 0;
+  dirty;
+  date = {
+    year: 0,
+    month: 0,
+    day: 0
+  }
+  check = {
+    fromDay: 0,
+    toDay: 0,
+    effectiveFrom: this.date,
+    expireOn: this.date
+  }
   template = {
     fromAt: '',
     toAt: '',

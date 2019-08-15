@@ -4,20 +4,51 @@
 >
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
-  <div class="container w-100 w-md-75 mt-8 mt-md-auto">
+  <div class="container w-100 mt-8 mt-md-0">
     <div class="row d-flex flex-row align-items-center justify-content-between">
-      <div class="col-12">
-        <dts-select-container
-          #container="dts-select-container"
-          [(selectedItems)]="optionDragModule.selectedItems"
-          (select)="dragMethod($event)"
-        >
-          <ul>
-            <li [dtsSelectItem]="document" *ngFor="let document of documents">
-              {{ document.name }}
-            </li>
-          </ul>
-        </dts-select-container>
+      <div class="col-12 col-md-4">
+        <div class="container">
+          <div class="card">
+            <div class="card-body container">
+              <div class="row">
+                <div class="col-12 flex-center">
+                  <h2 class="text-center">Free Days</h2>
+                  <select class="form-control" name="" id="">
+                    <option [selected]="option.status" *ngFor="let option of optionDragModule" value="">
+                      <a>{{ option.name }}</a>
+                    </option>
+                  </select>
+                  <hr class="my-2" />
+                  <dts-select-container
+                    #container="dts-select-container"
+                    [(selectedItems)]="selectedItems"
+                    [selectOnDrag]="optionDragModule[0].status"
+                    [selectMode]="optionDragModule[1].status"
+                    [selectWithShortcut]="optionDragModule[2].status"
+                    (select)="dragMethod($event)"
+                  >
+                    <ul class="container d-flex flex-column">
+                      <li
+                        class="btn mb-2 w-100 border"
+                        [dtsSelectItem]="document"
+                        *ngFor="let document of documents"
+                      >
+                        {{ document.value }}
+                      </li>
+                    </ul>
+                  </dts-select-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="container">
+          <div class="card">
+            <div class="card-body container"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
