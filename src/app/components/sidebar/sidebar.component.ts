@@ -137,14 +137,18 @@ export class SidebarComponent implements OnInit {
       .subscribe(res => {
         this.member = res['hydra:member'][0];
         if (this.member) {
-          this.httpClient.get(this.member['profilePicture'])
-            .subscribe(res => {
+          if (res['hydra:member'][0]['profilePicture']) {
+            this.httpClient.get(this.member['profilePicture'])
+              .subscribe(res => {
 
-            }, error => {
-              if (error.status === 404) {
-                this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-              }
-            });
+              }, error => {
+                if (error.status === 404) {
+                  this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                }
+              });
+          } else {
+            this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+          }
         }
       })
   }

@@ -41,12 +41,17 @@ export class ConnectComponent implements OnInit {
       this.members = getInfo;
       this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
       console.log("info user", res);
-      this.http.get(this.members.profilePicture)
-        .subscribe(res => { }, error => {
-          if (error.status === 404) {
-            this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
-          }
-        })
+      if (this.members.profilePicture) {
+        this.http.get(this.members.profilePicture)
+          .subscribe(res => { }, error => {
+            if (error.status === 404) {
+              this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+            }
+          })
+      } else {
+        this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+
+      }
     });
     this.onConnect();
   }
@@ -66,7 +71,7 @@ export class ConnectComponent implements OnInit {
   }
   injectNumber(s) {
     if (s) {
-     return s.match(/\d+/g).map(Number);
+      return s.match(/\d+/g).map(Number);
     }
   }
   toClubMem() {

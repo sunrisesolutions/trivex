@@ -58,8 +58,8 @@ export class MemberConnectComponent implements OnInit {
             this.members = res['hydra:member'];
             for (let data of this.members) {
               data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-              data['fromMember'] = this.injectNumber(data['fromMember']);
-              data['toMember'] = this.injectNumber(data['toMember'])
+              data['fromMember'] = this.injectNumber(data['fromMember']['@id']);
+              data['toMember'] = this.injectNumber(data['toMember']['@id'])
               if (data['fromMember'][0] === data['toMember'][0]) {
                 data['data'] = null;
                 data['route'] = null;
@@ -68,15 +68,17 @@ export class MemberConnectComponent implements OnInit {
 
                 this.service.getRootID(data['toMember'])
                   .subscribe(res => {
-                    data['profilePicture'] = res['profilePicture'];
-                    this.httpClient.get(data['profilePicture'])
-                      .subscribe(res => {
+                    data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
+                    if (res['profilePicture']) {
+                      this.httpClient.get(res['profilePicture'])
+                        .subscribe(res => {
 
-                      }, err => {
-                        if (err.status === 404) {
-                          data['profilePicture'] = 'assets/img-process/Not-found-img.gif'
-                        }
-                      })
+                        }, err => {
+                          if (err.status === 404) {
+                            data['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+                          }
+                        })
+                    }
                   })
                 data['route'] = `/individual_members/${data['toMember']}`;
               } else if (data['toMember'][0] === im_id[0]) {
@@ -100,8 +102,8 @@ export class MemberConnectComponent implements OnInit {
     this.members = this.members.concat(data['hydra:member']);
     for (let data of this.members) {
       data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-      data['fromMember'] = this.injectNumber(data['fromMember']);
-      data['toMember'] = this.injectNumber(data['toMember'])
+      data['fromMember'] = this.injectNumber(data['fromMember']['@id']);
+      data['toMember'] = this.injectNumber(data['toMember']['@id'])
       if (data['fromMember'][0] === data['toMember'][0]) {
         data['data'] = null;
         data['route'] = null;
@@ -110,15 +112,17 @@ export class MemberConnectComponent implements OnInit {
 
         this.service.getRootID(data['toMember'])
           .subscribe(res => {
-            data['profilePicture'] = res['profilePicture'];
-            this.httpClient.get(data['profilePicture'])
-              .subscribe(res => {
+            data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
+            if (res['profilePicture']) {
+              this.httpClient.get(res['profilePicture'])
+                .subscribe(res => {
 
-              }, err => {
-                if (err.status === 404) {
-                  data['profilePicture'] = 'assets/img-process/Not-found-img.gif'
-                }
-              })
+                }, err => {
+                  if (err.status === 404) {
+                    data['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+                  }
+                })
+            }
           })
         data['route'] = `/individual_members/${data['toMember']}`;
       } else if (data['toMember'][0] === im_id[0]) {

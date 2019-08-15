@@ -50,17 +50,21 @@ export class ClubMembersComponent implements OnInit {
           this.members = res['hydra:member'];
           this.loadingSearch = true;
           for (const member of this.members) {
-            this.httpClient.get(member['profilePicture'])
-              .subscribe(res => {
+            if (member['profilePicture']) {
+              this.httpClient.get(member['profilePicture'])
+                .subscribe(res => {
 
-              }, err => {
-                if (err.status === 404) {
-                  member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
-                }
-              })
+                }, err => {
+                  if (err.status === 404) {
+                    member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+                  }
+                })
+            } else {
+              member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+            }
           }
         })
-    }else {
+    } else {
       return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
         this.loadingSearch = true;
         this.currentPage++;
@@ -69,14 +73,18 @@ export class ClubMembersComponent implements OnInit {
         console.log(this.members);
 
         for (const member of this.members) {
-          this.httpClient.get(member['profilePicture'])
-            .subscribe(res => {
+          if (member['profilePicture']) {
+            this.httpClient.get(member['profilePicture'])
+              .subscribe(res => {
 
-            }, err => {
-              if (err.status === 404) {
-                member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
-              }
-            })
+              }, err => {
+                if (err.status === 404) {
+                  member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+                }
+              })
+          } else {
+            member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+          }
         }
 
       });
@@ -85,7 +93,7 @@ export class ClubMembersComponent implements OnInit {
 
 
   }
-  test(event){
+  test(event) {
     console.log(event);
   }
   open(content) {

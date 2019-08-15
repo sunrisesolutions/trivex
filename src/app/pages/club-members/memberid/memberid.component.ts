@@ -24,7 +24,7 @@ export class MemberidComponent implements OnInit {
   id;
   imId;
   members: Object = {
-    personData:{
+    personData: {
       name: ''
     }
   }
@@ -52,13 +52,17 @@ export class MemberidComponent implements OnInit {
 
       this.members['@id'] = this.members['@id'].match(/\d+/g).map(Number);
       console.log(this.members);
-      this.http.get(this.members['profilePicture'])
-        .subscribe(res => {
-        }, error => {
-          if (error.status === 404) {
-            this.members['profilePicture'] = 'https://i.gifer.com/B0eS.gif'
-          }
-        })
+      if (this.members['profilePicture']) {
+        this.http.get(this.members['profilePicture'])
+          .subscribe(res => {
+          }, error => {
+            if (error.status === 404) {
+              this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+            }
+          })
+      } else {
+        this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+      }
     });
   }
   toClubMem() {
