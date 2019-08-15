@@ -93,8 +93,6 @@ export class LoginComponent implements OnInit {
     var host = window.location.hostname;
     var parts = host.split('.trivesg.com');
     this.sub = parts[0];
-
-    return console.log(parts[0]);
   }
 
   @ViewChild("dobi") dobi: ElementRef;

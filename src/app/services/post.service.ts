@@ -259,6 +259,15 @@ export class PostService {
     return this.http.get(`${this.messageAPI}/message_option${page}`, httpOptions);
   }
   /* Organisation API */
+  G_OrgByUuid(uuid){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(`${this.orgAPI}/organisations?uuid=${uuid}`,httpOptions);
+  }
   subdomainFilter(subdomain) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -266,8 +275,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    let subApi = "https://org.api.trivesg.com"
-    return this.http.get(`https://org.api.trivesg.com?sudomain=${subdomain}`, httpOptions);
+    return this.http.get(`https://org.api.trivesg.com?subdomain=${subdomain}`, httpOptions);
   }
   getLogoFilter(subdomain) {
     return this.http.get(`https://org.api.trivesg.com/organisation/logourl/${subdomain}`);

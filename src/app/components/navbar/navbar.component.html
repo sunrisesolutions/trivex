@@ -108,14 +108,14 @@
                     </div>
           
                   </div>
-                  <div class="container d-flex justify-content-center">
+                  <div *ngIf="delivery2['arrayOptions']" class="container d-flex justify-content-center">
                     <div class="form-group">
                       <a (click)="putApproval(delivery2['arrayOptions'], delivery2)" class="btn btn-danger text-light">
                         Send
                       </a>
                     </div>
                   </div>
-                  <div class="modal-footer justify-content-start border">
+                  <div *ngIf="i>1" class="modal-footer justify-content-start border">
           
                     <div class="container text-light">
                       <div class="row">
