@@ -18,6 +18,13 @@ export class RegisterEventComponent implements OnInit {
   model = {
     role: ""
   };
+  orgCode;
+  phone;
+  idNumber;
+  id;
+  toQr;
+  //
+  tokens;
   registration: Registration = {
     event: `/events/${this.routes.snapshot.params.id}`,
     middleName: "",
@@ -29,6 +36,7 @@ export class RegisterEventComponent implements OnInit {
     phoneNumber: "",
     accessToken: "token"
   };
+  invalidLogin: boolean = false;
   attendee: Attendee;
 
   step = 1;
@@ -36,7 +44,6 @@ export class RegisterEventComponent implements OnInit {
   loading = false;
   error = "";
   events;
-  id;
   constructor(
     private service: PostService,
     private attendeeService: AttendeeService,
@@ -74,12 +81,13 @@ export class RegisterEventComponent implements OnInit {
   }
 
   getEvents() {
+    this.loading = true;
     let id = +this.routes.snapshot.params.id;
     this.service.eventGet(`/events/${id}`)
       .subscribe(res => {
-        this.loading = true;
+        this.loading = false;
         this.events = res;
-        this.events['id'] = res['@id']
+        this.events['id'] = res['@id'];
       }, error => {
         if (error.status === 404) {
           this.error = 'Event not found.!!!';
@@ -96,8 +104,48 @@ export class RegisterEventComponent implements OnInit {
         // this.router.navigate(['/club-members']);
       })
   }
-  toLogin() {
-    let id = +this.routes.snapshot.paramMap.get('id');
-    this.router.navigate([`events/${id}/login`])
+  @ViewChild("dobi") dobi: ElementRef;
+  asd;
+  login() {
+    let tokens;
+
+    const inputDob = this.dobi.nativeElement.value;
+    const formData = new FormData();
+    formData.append("org-code", this.orgCode);
+    formData.append("phone", this.phone);
+    formData.append("id-number", this.idNumber);
+    formData.append("birth-date", inputDob);
+    const formRef = new FormData();
+
+    // getinfo
+    const snapID = +this.routes.snapshot.paramMap.get("id");
+    this.service.getRootID(snapID).subscribe(res => {
+      let obj = res['personData'];
+      let registration = {
+        event: `events/${snapID}`,
+        middleName: "sadsadsa",
+        birthDate: "2019-05-06",
+        givenName: `${obj.name}`,
+        familyName: `${obj.employerName}`,
+        gender: `${obj.jobTitle}`,
+        email: "",
+        phoneNumber: "sadsadsadsad",
+        accessToken: "token"
+      };
+      let child: Attendee = {
+        registration: registration
+      };
+      this.service.postFormData(formData).subscribe(response => {
+        // settoken
+        console.log(response);
+        tokens = response['token'];
+        tokens.toString();
+        // attendees
+        this.attendeeService.getAtten(child, tokens).subscribe(res => {
+          (this.done = true), console.log(res);
+        });
+      });
+    });
+    // Login
   }
 }

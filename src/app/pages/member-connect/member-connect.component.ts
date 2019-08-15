@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from "src/app/services/post.service";
 import { Component, OnInit } from "@angular/core";
-import 'rxjs-compat/add/operator/do';
+// import 'rxjs-compat/add/operator/do';
 import * as jwt_decode from "jwt-decode";
 import { Observable } from 'rxjs';
 import { Delivery } from 'src/app/models/Deliveries';
@@ -58,12 +58,12 @@ export class MemberConnectComponent implements OnInit {
             this.members = res['hydra:member'];
             for (let data of this.members) {
               data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-              data['fromMember'] = this.injectNumber(data['fromMember']['@id']);
-              data['toMember'] = this.injectNumber(data['toMember']['@id'])
-              if (data['fromMember'][0] === data['toMember'][0]) {
+              data['fromId'] = this.injectNumber(data['fromMember']['@id']);
+              data['toId'] = this.injectNumber(data['toMember']['@id']);
+              if (data['fromId'][0] === data['toId'][0]) {
                 data['data'] = null;
                 data['route'] = null;
-              } else if (data['fromMember'][0] === im_id[0]) {
+              } else if (data['fromId'][0] === im_id[0]) {
                 data['data'] = data['personData']['to'];
 
                 this.service.getRootID(data['toMember'])
@@ -81,9 +81,9 @@ export class MemberConnectComponent implements OnInit {
                     }
                   })
                 data['route'] = `/individual_members/${data['toMember']}`;
-              } else if (data['toMember'][0] === im_id[0]) {
+              } else if (data['toId'][0] === im_id[0]) {
                 data['data'] = data['personData']['from'];
-                data['route'] = `/individual_members/${data['fromMember']}`;
+                data['route'] = `/individual_members/${data['fromId'][0]}`;
               }
             }
           }
@@ -94,23 +94,26 @@ export class MemberConnectComponent implements OnInit {
     }
 
   }
-  processData = (data) => {
+  processData = (mainData) => {
     this.loadingSearch = true;
     this.currentPage++;
-    var im_id = this.injectNumber(localStorage.getItem('im_id'));
+    var im_id = this.injectNumber(`${localStorage.getItem('im_id')}`);
+    console.log(im_id)
     // JSON.stringify(news)
-    this.members = this.members.concat(data['hydra:member']);
+    this.members = this.members.concat(mainData['hydra:member']);
     for (let data of this.members) {
       data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-      data['fromMember'] = this.injectNumber(data['fromMember']['@id']);
-      data['toMember'] = this.injectNumber(data['toMember']['@id'])
-      if (data['fromMember'][0] === data['toMember'][0]) {
+      data['fromMember']['id'] = data['fromMember']['@id'];
+      data['toMember']['id'] = data['toMember']['@id'];
+      data['fromId'] = data['fromMember']['id'].match(/\d+/g).map(Number);
+      data['toId'] = data['toMember']['id'].match(/\d+/g).map(Number);
+      if (data['fromId'][0] === data['toId'][0]) {
         data['data'] = null;
         data['route'] = null;
-      } else if (data['fromMember'][0] === im_id[0]) {
+      } if (data['fromId'][0] === im_id[0]) {
         data['data'] = data['personData']['to'];
 
-        this.service.getRootID(data['toMember'])
+        this.service.getRootID(data['toId'][0])
           .subscribe(res => {
             data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
             if (res['profilePicture']) {
@@ -124,11 +127,11 @@ export class MemberConnectComponent implements OnInit {
                 })
             }
           })
-        data['route'] = `/individual_members/${data['toMember']}`;
-      } else if (data['toMember'][0] === im_id[0]) {
-        data['data'] = data['personData']['from'];
-        data['route'] = `/individual_members/${data['fromMember']}`;
-      }
+        data['route'] = `/individual_members/${data['toId'][0]}`;
+      }// else if (data['toId'][0] === im_id[0]) {
+      //   data['data'] = data['personData']['from'];
+      //   data['route'] = `/individual_members/${data['toId'][0]}`;
+      // }
     }
     console.log(this.members)
   };

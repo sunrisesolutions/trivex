@@ -111,6 +111,7 @@ export class NavbarComponent implements OnInit {
     }
     delivery.readAt = pramramsRead.readAt;
     this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
+      console.log(res)
     });
   }
   /* /.MODAL DIALOG */

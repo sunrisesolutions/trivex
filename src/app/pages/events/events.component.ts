@@ -23,12 +23,13 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents() {
+    this.loading=true;
     let id = +this.route.snapshot.params.id;
     this.apiService.eventGet(`/events/${id}`)
       .subscribe(res => {
-        this.loading = true;
+        this.loading = false;
         this.event = res;
-        this.event['id'] = res['@id']
+        this.event['id'] = res['@id'];
         console.log(res)
       }, error => {
         if (error.status === 404) {
