@@ -7,7 +7,7 @@ import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 import { Registration } from "../../models/Registration";
 import { AttendeeService } from "../../services/attendee.service";
 import { PostService } from "src/app/services/post.service";
-
+import * as jwt_decode from 'jwt-decode';
 @Component({
   selector: "app-register-event",
   templateUrl: "./register-event.component.html",
@@ -18,7 +18,13 @@ export class RegisterEventComponent implements OnInit {
   model = {
     role: ""
   };
+  notEnoughYearOld = '';
   orgCode;
+  date = {
+    year: 0,
+    month: 0,
+    day: 0
+  };
   phone;
   idNumber;
   id;
@@ -52,6 +58,7 @@ export class RegisterEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.date.year = new Date().getFullYear();
     this.getEvents();
   }
 
@@ -78,6 +85,18 @@ export class RegisterEventComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  checkAge(dob) {
+    this.loading=true;
+    if (this.date.year - dob.year < 18) {
+      this.notEnoughYearOld = 'You must be over 18 years old';
+      this.loading=false;
+    } if (this.date.year - dob.year >= 18 && this.step === 3) {
+      this.login();
+    } if (this.date.year - dob.year >= 18 && this.step === 2){
+      this.registerEvent();
+    }
   }
 
   getEvents() {
@@ -119,33 +138,61 @@ export class RegisterEventComponent implements OnInit {
 
     // getinfo
     const snapID = +this.routes.snapshot.paramMap.get("id");
-    this.service.getRootID(snapID).subscribe(res => {
-      let obj = res['personData'];
-      let registration = {
-        event: `events/${snapID}`,
-        middleName: "sadsadsa",
-        birthDate: "2019-05-06",
-        givenName: `${obj.name}`,
-        familyName: `${obj.employerName}`,
-        gender: `${obj.jobTitle}`,
-        email: "",
-        phoneNumber: "sadsadsadsad",
-        accessToken: "token"
-      };
-      let child: Attendee = {
-        registration: registration
-      };
-      this.service.postFormData(formData).subscribe(response => {
-        // settoken
-        console.log(response);
-        tokens = response['token'];
-        tokens.toString();
-        // attendees
-        this.attendeeService.getAtten(child, tokens).subscribe(res => {
-          (this.done = true), console.log(res);
+    this.service.postFormData(formData)
+      .subscribe(res => {
+        let decoded = jwt_decode(res['token']);
+        tokens = res['token'];
+        this.service.getUserByuuid(decoded.im)
+          .subscribe(res => {
+            let obj = res['hydra:member'][0];
+            let registration = {
+              event: `events/${snapID}`,
+              birthDate: `${obj.personData.dob}`,
+              middleName: null,
+              givenName: `${obj.personData.name}`,
+              familyName: `${obj.personData.employerName}`,
+              gender: `${obj.personData.jobTitle}`,
+              email: `${obj.personData.email}`,
+              phoneNumber: `${obj.personData.phone}`,
+              accessToken: "token",
+              memberUuid: `${obj.uuid}`
+            };
+            let child: Attendee = {
+              registration: registration
+            };
+            this.attendeeService.getAtten(child, tokens).subscribe(res => {
+              (this.done = true), console.log(res);
+            });
+          })
+      })
+    /*   this.service.getRootID(localStorage.getItem('im_')).subscribe(res => {
+        let obj = res['personData'];
+        let registration = {
+          event: `events/${snapID}`,
+          middleName: "sadsadsa",
+          birthDate: `${obj['birth-date']}`,
+          givenName: `${obj.name}`,
+          familyName: `${obj.employerName}`,
+          gender: `${obj.jobTitle}`,
+          email: "",
+          phoneNumber: "sadsadsadsad",
+          accessToken: "token"
+        };
+        let child: Attendee = {
+          registration: registration
+        };
+        
+        this.service.postFormData(formData).subscribe(response => {
+          // settoken
+          console.log(response);
+          tokens = response['token'];
+          tokens.toString();
+          // attendees
+          this.attendeeService.getAtten(child, tokens).subscribe(res => {
+            (this.done = true), console.log(res);
+          });
         });
-      });
-    });
+      }); */
     // Login
   }
 }

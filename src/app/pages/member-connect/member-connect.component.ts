@@ -31,7 +31,7 @@ export class MemberConnectComponent implements OnInit {
 
   injectNumber(s) {
     if (s) {
-      s = s.toString();
+      s = `${s}`;
       return s.match(/\d+/g).map(Number);
     }
   }
@@ -97,7 +97,8 @@ export class MemberConnectComponent implements OnInit {
   processData = (mainData) => {
     this.loadingSearch = true;
     this.currentPage++;
-    var im_id = this.injectNumber(`${localStorage.getItem('im_id')}`);
+    var im_id = `${localStorage.getItem('im_id')}`';
+    im_id = im_id.match(/\d+/g).map(Number);
     console.log(im_id)
     // JSON.stringify(news)
     this.members = this.members.concat(mainData['hydra:member']);
