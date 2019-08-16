@@ -47,7 +47,7 @@ export class MemberConnectComponent implements OnInit {
 
   getConnect(textSearch: String = null) {
     let endpoint = `/connections?page=${this.currentPage}`;
-    var im_id = this.injectNumber(localStorage.getItem('im_id'));
+    var im_id = localStorage.getItem('im_id')
     if (textSearch !== null) {
       this.loadingSearch = false;
       endpoint = `/connections?fulltextString=${textSearch}`
@@ -97,9 +97,7 @@ export class MemberConnectComponent implements OnInit {
   processData = (mainData) => {
     this.loadingSearch = true;
     this.currentPage++;
-    var im_id = `${localStorage.getItem('im_id')}`';
-    im_id = im_id.match(/\d+/g).map(Number);
-    console.log(im_id)
+    var im_id = `${localStorage.getItem('im_id')}`;
     // JSON.stringify(news)
     this.members = this.members.concat(mainData['hydra:member']);
     for (let data of this.members) {

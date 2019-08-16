@@ -37,7 +37,7 @@
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
               notifications unread.</h6>
 
-            <div *ngIf="isSupported()" class="group-toggle d-flex align-items-center">
+            <div *ngIf="isSupported()" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
                 <input #statusControlIpt [(ngModel)]="status" (ngModelChange)="statusControl(statusControlIpt)"
                   name="checkbox" type="checkbox">

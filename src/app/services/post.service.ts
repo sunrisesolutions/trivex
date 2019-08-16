@@ -78,6 +78,15 @@ export class PostService {
   }
 
   // GET REQUEST
+  getUserByuuidCustomToken(uuid,token): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${token}`
+      })
+    };
+    return this.http.get(`${this.orgAPI}/individual_members?uuid=${uuid}`, httpOptions);
+  }
   getUserByuuid(uuid): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({

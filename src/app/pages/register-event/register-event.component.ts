@@ -88,13 +88,13 @@ export class RegisterEventComponent implements OnInit {
   }
 
   checkAge(dob) {
-    this.loading=true;
+    this.loading = true;
     if (this.date.year - dob.year < 18) {
       this.notEnoughYearOld = 'You must be over 18 years old';
-      this.loading=false;
+      this.loading = false;
     } if (this.date.year - dob.year >= 18 && this.step === 3) {
       this.login();
-    } if (this.date.year - dob.year >= 18 && this.step === 2){
+    } if (this.date.year - dob.year >= 18 && this.step === 2) {
       this.registerEvent();
     }
   }
@@ -124,7 +124,6 @@ export class RegisterEventComponent implements OnInit {
       })
   }
   @ViewChild("dobi") dobi: ElementRef;
-  asd;
   login() {
     let tokens;
 
@@ -142,28 +141,28 @@ export class RegisterEventComponent implements OnInit {
       .subscribe(res => {
         let decoded = jwt_decode(res['token']);
         tokens = res['token'];
-        this.service.getUserByuuid(decoded.im)
+        this.service.getUserByuuidCustomToken(decoded.im, res['token'])
           .subscribe(res => {
-            let obj = res['hydra:member'][0];
-            let registration = {
-              event: `events/${snapID}`,
-              birthDate: `${obj.personData.dob}`,
-              middleName: null,
-              givenName: `${obj.personData.name}`,
-              familyName: `${obj.personData.employerName}`,
-              gender: `${obj.personData.jobTitle}`,
-              email: `${obj.personData.email}`,
-              phoneNumber: `${obj.personData.phone}`,
-              accessToken: "token",
-              memberUuid: `${obj.uuid}`
-            };
-            let child: Attendee = {
-              registration: registration
-            };
-            this.attendeeService.getAtten(child, tokens).subscribe(res => {
-              (this.done = true), console.log(res);
-            });
-          })
+          let obj = res['hydra:member'][0];
+          let registration = {
+            event: `events/${snapID}`,
+            birthDate: `${obj.personData.dob}`,
+            middleName: null,
+            givenName: `${obj.personData.name}`,
+            familyName: `${obj.personData.employerName}`,
+            gender: `${obj.personData.jobTitle}`,
+            email: `${obj.personData.email}`,
+            phoneNumber: `${obj.personData.phone}`,
+            accessToken: "token",
+            memberUuid: `${obj.uuid}`
+          };
+          let child: Attendee = {
+            registration: registration
+          };
+          this.attendeeService.getAtten(child, tokens).subscribe(res => {
+            (this.done = true), console.log(res);
+          });
+        })
       })
     /*   this.service.getRootID(localStorage.getItem('im_')).subscribe(res => {
         let obj = res['personData'];

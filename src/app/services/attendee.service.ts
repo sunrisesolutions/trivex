@@ -16,9 +16,7 @@ export class AttendeeService {
 
   constructor(private http: HttpClient) {}
   postAttendee(attendee: Attendee): Observable<any> {
-    return this.http.post(this.url, attendee, {
-      headers: AuthService.getHeaders()
-    });
+    return this.http.post(this.url, attendee);
   }
 
   public static getHeaders(token) {

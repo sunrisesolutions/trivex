@@ -26,7 +26,7 @@
           <div class="px-3 py-3">
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
               notifications unread.</h6>
-            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center">
+            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
                 <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
                   type="checkbox">
