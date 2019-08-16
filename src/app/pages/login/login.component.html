@@ -39,9 +39,7 @@
               width="250px"
               height="auto"
               class="logo-org"
-              [src]="
-                sub === 'trivesg.com' || sub === 'trivesg' ? 'assets/img/brand/logo.png' : orgLogo
-              "
+              [src]="(showOrg) ? 'assets/img/brand/logo.png' : orgLogo"
             />
           </a>
           <div class="text-center text-muted mb-4">
@@ -49,7 +47,7 @@
           </div>
           <form (keyup.enter)="login()" role="form">
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
-            <div *ngIf="sub === 'trivesg.com' || sub === 'trivesg'" class="form-group mb-3">
+            <div *ngIf="showOrg" class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"

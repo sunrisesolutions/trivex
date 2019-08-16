@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   error = '';
   notEnoughOld = '';
+  showOrg: boolean = false;
   constructor(
     private router: Router,
     private service: PostService,
@@ -91,15 +92,26 @@ export class LoginComponent implements OnInit {
 
   getSubdomain() {
     var host = window.location.hostname;
-    var parts = host.split('.trivesg.com');
+    var parts = host.split('.');
     this.sub = parts[0];
+    console.log(parts)
+    if (parts.length > 2) {
+      if (parts[0] === 'www') {
+        this.showOrg = true;
+      } else {
+        this.sub = parts[0];
+        this.showOrg = false;
+      }
+    } else if (parts.length < 2) {
+      this.showOrg = true;
+    }
   }
 
   @ViewChild("dobi") dobi: ElementRef;
   login() {
     // const inputDob = new Date(`${this.dob.day}-${this.dob.month}-${this.dob.year}`).toLocaleDateString();
     const formData = new FormData();
-    formData.append("org-code", (this.sub === 'trivesg' || this.sub === 'trivesg.com')? this.orgCode : this.sub);
+    formData.append("org-code", (this.showOrg) ? this.orgCode : this.sub);
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", this.dobi.nativeElement.value);
