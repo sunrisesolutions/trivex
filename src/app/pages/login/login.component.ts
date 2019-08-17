@@ -159,10 +159,10 @@ export class LoginComponent implements OnInit {
 
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
-    if (this.sub !== 'trivesg.com' || this.sub !== 'trivesg') {
+    if (!this.showOrg) {
       this.service.getLogoFilter(this.sub)
         .subscribe(res => {
-          // console.log('logo', res)
+          console.log('logo', res)
           this.orgLogo = res['logoReadUrl'];
           /* Dynamic Manifest */
           let paramsDataManifest = {
