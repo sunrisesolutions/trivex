@@ -35,7 +35,7 @@
           <!-- Dropdown header -->
           <div class="px-3 py-3">
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
-              notifications unread.</h6>
+              unread notifications.</h6>
 
             <div *ngIf="isSupported()" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
@@ -90,7 +90,7 @@
                           <hr class="my-2">
                           <div class="container">
                             <div class="row justify-content-center">
-                              <div 
+                              <div
                               [title]="list.name"
                                 (click)="list['selectedOptionMessage']=!list['selectedOptionMessage']"
                                 [ngClass]="{'btn-primary text-light':list['selectedOptionMessage']===true}"
@@ -104,9 +104,9 @@
                           </div>
                         </div>
                       </div>
-          
+
                     </div>
-          
+
                   </div>
                   <div *ngIf="delivery2['arrayOptions']" class="container d-flex justify-content-center">
                     <div class="form-group">
@@ -116,7 +116,7 @@
                     </div>
                   </div>
                   <div *ngIf="c>1" class="modal-footer justify-content-start border">
-          
+
                     <div class="container text-light">
                       <div class="row">
                         <div class="col-12 col-md-6">

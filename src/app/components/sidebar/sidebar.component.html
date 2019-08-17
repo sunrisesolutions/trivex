@@ -18,14 +18,13 @@
           </div>
           <div [hidden]="countMess == 0" [innerHTML]="(countMess > 99) ? '99 +':countMess" class="badge badge-danger">
           </div>
-
         </a>
         <div role="button" ngbDropdownMenu
           class="dropdown-menu dropdown-menu-lg ml-5 dropdown-menu-right py-0 overflow-hidden ">
           <!-- Dropdown header -->
           <div class="px-3 py-3">
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
-              notifications unread.</h6>
+              unread notifications.</h6>
             <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
                 <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
@@ -33,7 +32,6 @@
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
               <label class="label ml-2">Receive Notification</label>
-
             </div>
           </div>
           <!-- List group -->
@@ -74,7 +72,7 @@
                           <hr class="my-2">
                           <div class="container">
                             <div class="row">
-                              <div 
+                              <div
                               [title]="list.name"
                                 (click)="list['selectedOptionMessage']=!list['selectedOptionMessage']"
                                 [ngClass]="{'btn-primary text-light':list['selectedOptionMessage']===true}"
@@ -88,9 +86,9 @@
                           </div>
                         </div>
                       </div>
-          
+
                     </div>
-          
+
                   </div>
                   <div *ngIf="delivery2['arrayOptions']" class="container d-flex justify-content-center">
                     <div class="form-group">
@@ -100,7 +98,7 @@
                     </div>
                   </div>
                   <div *ngIf="c>1" class="modal-footer justify-content-start border">
-          
+
                     <div class="container text-light">
                       <div class="row">
                         <div class="col-12 col-md-6">
@@ -136,7 +134,9 @@
                         <small>{{delivery.createdAt | date:'short'}}</small>
                       </div>
                     </div>
-                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.message.subject}}</p>
+                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.message.subject}}
+                      <i class="float-right fas fa-reply"> </i>
+                    </p>
                   </div>
                 </div>
               </a>
