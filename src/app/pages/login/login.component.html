@@ -3,7 +3,7 @@
     <div class="header-body text-center mb-7">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-6">
-          <h1 class="text-white display-3">TRIVESG</h1>
+          <h1 class="text-white display-3">TEAM TALK</h1>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
                   name="idNumber"
                   class="p-2 form-control"
                   placeholder="NRIC/ID Number"
-                  type="password"
+                  type="text"
                 />
               </div>
             </div>
@@ -114,9 +114,9 @@
                   ngbDatepicker
                   #d="ngbDatepicker"
                   (focus)="notEnoughOld=''"
-                  [maxDate]="{ year: date.year-18, month: 12, day: 31 }"
-                  [minDate]="{ year: date.year-50, month: 01, day: 01 }"
-                  [startDate]="{ year: date.year-18, month: 01 }"
+                  [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
+                  [minDate]="{ year: date.year-80, month: 01, day: 01 }"
+                  [startDate]="{ year: date.year-21, month: 01 }"
                   (click)="d.toggle()"
                   type="text"
                 />

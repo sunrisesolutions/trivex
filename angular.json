@@ -64,7 +64,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trivesg:build"
+            "browserTarget": "trivesg:build",
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {
