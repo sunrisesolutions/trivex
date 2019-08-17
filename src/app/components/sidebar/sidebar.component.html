@@ -37,16 +37,11 @@
           >
             <i class="fas fa-envelope"></i>
           </div>
-<<<<<<< HEAD
           <div
             [hidden]="countMess == 0"
             [innerHTML]="countMess > 99 ? '99 +' : countMess"
             class="badge badge-danger"
           ></div>
-=======
-          <div [hidden]="countMess == 0" [innerHTML]="(countMess > 99) ? '99 +':countMess" class="badge badge-danger">
-          </div>
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
         </a>
         <div
           role="button"
@@ -55,7 +50,6 @@
         >
           <!-- Dropdown header -->
           <div class="px-3 py-3">
-<<<<<<< HEAD
             <h6 class="text-sm text-muted m-0 mb-2">
               You have
               <strong class="text-primary">{{ countMess }}</strong>
@@ -65,11 +59,6 @@
               *ngIf="deviceInfo.os !== 'iOS'"
               class="group-toggle d-none align-items-center"
             >
-=======
-            <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
-              unread notifications.</h6>
-            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
               <label class="custom-toggle">
                 <input
                   id="checkbox123"
@@ -140,16 +129,9 @@
                           <div class="font-weight-light">
                             {{ delivery2.message.body }}
                           </div>
-<<<<<<< HEAD
                           <hr class="my-2" />
                           <div class="row justify-content-center">
                             <div
-=======
-                          <hr class="my-2">
-                          <div class="container">
-                            <div class="row">
-                              <div
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
                               [title]="list.name"
                               (click)="
                                 selectOption(list.name);
@@ -172,13 +154,7 @@
                           </div>
                         </div>
                       </div>
-<<<<<<< HEAD
                     </div>
-=======
-
-                    </div>
-
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
                   </div>
                   <div
                     *ngIf="delivery2['arrayOptions']"
@@ -195,15 +171,10 @@
                       </a>
                     </div>
                   </div>
-<<<<<<< HEAD
                   <div
                     *ngIf="c > 1"
                     class="modal-footer justify-content-start border"
                   >
-=======
-                  <div *ngIf="c>1" class="modal-footer justify-content-start border">
-
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
                     <div class="container text-light">
                       <div class="row">
                         <div class="col-12 col-md-6">
@@ -236,9 +207,7 @@
               <!-- /.Modal -->
               <a
                 (click)="open(content, delivery); delivery2 = delivery"
-                class="{{
-                  delivery.readAt ? 'unread' : 'readed'
-                }} list-group-item list-group-item-action"
+                class="{{(delivery.readAt) ? 'unread' : 'readed'}} list-group-item list-group-item-action"
               >
                 <div class="row align-items-center">
                   <div class="col-3 ">
@@ -262,16 +231,11 @@
                         <small>{{ delivery.createdAt | date: "short" }}</small>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <p
                       class="text-sm mb-0 text-truncate"
                       style="max-width: 150px"
                     >
                       {{ delivery.message.subject }}
-=======
-                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.message.subject}}
-                      <i class="float-right fas fa-reply"> </i>
->>>>>>> 90e9050b91566f0ea2b50f4dd95a9b8effd750d8
                     </p>
                   </div>
                 </div>

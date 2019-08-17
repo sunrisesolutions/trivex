@@ -30,7 +30,6 @@
     "chart.js": "2.7.3",
     "clipboard": "2.0.4",
     "core-js": "2.6.4",
-    "jquery": "^3.4.1",
     "jsonld-request": "^0.2.0",
     "jwt-decode": "^2.2.0",
     "ngx-clipboard": "11.1.9",
