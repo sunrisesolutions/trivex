@@ -106,8 +106,11 @@ export class MemberConnectComponent implements OnInit {
     this.currentPage++;
     console.log('1');
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
+
     // JSON.stringify(news
-    let members = this.members.concat(mainData['hydra:member']);
+    let members  = this.members = this.members.concat(mainData['hydra:member']);
+    console.log('processing data ', mainData, this.members)
+
     console.log('hey man nnn', members);
     for (let data of members) {
       data['profilePicture'] = '/assets/img-process/Loading-img.gif';
