@@ -5,7 +5,6 @@ import { getRootComponents } from "@angular/core/src/render3/discovery_utils";
 import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from '@angular/common/http';
-import * as $ from 'jquery';
 @Component({
   selector: "info",
   templateUrl: "./memberid.component.html",

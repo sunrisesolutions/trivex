@@ -37,13 +37,11 @@
           >
             <i class="fas fa-envelope"></i>
           </div>
-
           <div
             [hidden]="countMess == 0"
             [innerHTML]="countMess > 99 ? '99 +' : countMess"
             class="badge badge-danger"
           ></div>
-
         </a>
         <div
           role="button"
@@ -52,10 +50,15 @@
         >
           <!-- Dropdown header -->
           <div class="px-3 py-3">
-
-            <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
-              unread notifications.</h6>
-            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
+            <h6 class="text-sm text-muted m-0 mb-2">
+              You have
+              <strong class="text-primary">{{ countMess }}</strong>
+              notifications unread.
+            </h6>
+            <div
+              *ngIf="deviceInfo.os !== 'iOS'"
+              class="group-toggle d-none align-items-center"
+            >
               <label class="custom-toggle">
                 <input
                   id="checkbox123"
@@ -119,84 +122,82 @@
                           <div class="h1">
                             {{ delivery2.name }}
                           </div>
-                          <hr class="my-2"/>
+                          <hr class="my-2" />
                           <div class="font-weight-bold">
                             {{ delivery2.message.subject }}
                           </div>
                           <div class="font-weight-light">
                             {{ delivery2.message.body }}
                           </div>
-                          <hr class="my-2">
-                          <div class="container">
-                            <div class="row">
-                              <div
-                                [title]="list.name"
-                                (click)="
+                          <hr class="my-2" />
+                          <div class="row justify-content-center">
+                            <div
+                              [title]="list.name"
+                              (click)="
                                 selectOption(list.name);
                                 isActiveOption(delivery2['arrayOptions'])
                               "
-                                [ngClass]="{
+                              [ngClass]="{
                                 'btn-primary text-light':
                                   list['selectedOptionMessage']
                               }"
-                                *ngFor="
+                              *ngFor="
                                 let list of delivery2['arrayOptions'];
                                 let i = index
                               "
-                                class="col-12 col-md-12 mx-2 col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn btn-sm text-dark border"
-                              >
-                                <a class="text-truncate">
-                                  {{ list.name }}
-                                </a>
-                              </div>
+                              class="col-12 col-md-12 mx-2 col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn btn-sm text-dark border"
+                            >
+                              <a class="text-truncate">
+                                {{ list.name }}
+                              </a>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div
-                      *ngIf="delivery2['arrayOptions']"
-                      class="container d-flex justify-content-center"
-                    >
-                      <div class="form-group">
-                        <a
-                          (click)="
+                  </div>
+                  <div
+                    *ngIf="delivery2['arrayOptions']"
+                    class="container d-flex justify-content-center"
+                  >
+                    <div class="form-group">
+                      <a
+                        (click)="
                           putApproval(delivery2['arrayOptions'], delivery2)
                         "
-                          class="btn btn-danger text-light"
-                        >
-                          Respond
-                        </a>
-                      </div>
+                        class="btn btn-danger text-light"
+                      >
+                        Respond
+                      </a>
                     </div>
-                    <div
-                      *ngIf="c > 1"
-                      class="modal-footer justify-content-start border"
-                    >
-                      <div class="container text-light">
-                        <div class="row">
-                          <div class="col-12 col-md-6">
-                            <a
-                              (click)="
+                  </div>
+                  <div
+                    *ngIf="c > 1"
+                    class="modal-footer justify-content-start border"
+                  >
+                    <div class="container text-light">
+                      <div class="row">
+                        <div class="col-12 col-md-6">
+                          <a
+                            (click)="
                               delivery2 = deliveries[(i = i - 1)];
                               open('', delivery2)
                             "
-                              *ngIf="i !== 0"
-                              class="btn btn-info w-100"
-                            >Prev</a
-                            >
-                          </div>
-                          <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
-                            <a
-                              (click)="
+                            *ngIf="i !== 0"
+                            class="btn btn-info w-100"
+                          >Prev</a
+                          >
+                        </div>
+                        <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
+                          <a
+                            (click)="
                               delivery2 = deliveries[(i = i + 1)];
                               open('', delivery2)
                             "
-                              *ngIf="c - 1 > i"
-                              class="btn btn-danger w-100"
-                            >Next</a
-                            >
-                          </div>
+                            *ngIf="c - 1 > i"
+                            class="btn btn-danger w-100"
+                          >Next</a
+                          >
                         </div>
                       </div>
                     </div>
@@ -206,9 +207,7 @@
               <!-- /.Modal -->
               <a
                 (click)="open(content, delivery); delivery2 = delivery"
-                class="{{
-                  delivery.readAt ? 'unread' : 'readed'
-                }} list-group-item list-group-item-action"
+                class="{{(delivery.readAt) ? 'unread' : 'readed'}} list-group-item list-group-item-action"
               >
                 <div class="row align-items-center">
                   <div class="col-3 ">
@@ -232,8 +231,11 @@
                         <small>{{ delivery.createdAt | date: "short" }}</small>
                       </div>
                     </div>
-                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">{{delivery.message.subject}}
-                      <i class="float-right fas fa-reply"> </i>
+                    <p
+                      class="text-sm mb-0 text-truncate"
+                      style="max-width: 150px"
+                    >
+                      {{ delivery.message.subject }}
                     </p>
                   </div>
                 </div>
@@ -304,7 +306,7 @@
         <div class="row">
           <div class="col-6 collapse-brand">
             <a routerLinkActive="active" (click)="toQrCode()">
-              <img src="assets/img/brand/logo.png"/>
+              <img src="assets/img/brand/logo.png" />
             </a>
           </div>
           <div class="col-6 collapse-close">
@@ -352,7 +354,7 @@
         </li>
       </ul>
       <!-- Divider -->
-      <hr class="my-3"/>
+      <hr class="my-3" />
       <!-- Heading -->
       <!--  -->
     </div>
