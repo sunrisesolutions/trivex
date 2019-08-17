@@ -18,6 +18,7 @@
       <div id="infinite-scroller" appInfiniteScroller scrollPercent="10" immediateCallback="true"
         [scrollCallback]="scrollCallback" class="row">
         <div *ngFor="let member of members" class="col-12">
+          aaaaaaaaaa {{member.data.name}}
           <div *ngIf="member.data" class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">

@@ -105,6 +105,15 @@ export class PostService {
     };
     return this.http.get(this.orgAPI + "/individual_members/" + id, httpOptions);
   }
+  getRootByFullID(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(this.orgAPI + id, httpOptions);
+  }
   getDataAPI(page): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
