@@ -78,7 +78,7 @@ export class PostService {
   }
 
   // GET REQUEST
-  getUserByuuidCustomToken(uuid,token): Observable<Object> {
+  getUserByuuidCustomToken(uuid, token): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
@@ -194,6 +194,7 @@ export class PostService {
   }
   /* /.MESSAGES */
   /*  OptionSets API */
+
   optionSetsGet(id) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -268,14 +269,23 @@ export class PostService {
     return this.http.get(`${this.messageAPI}/message_option${page}`, httpOptions);
   }
   /* Organisation API */
-  G_OrgByUuid(uuid){
+  uploadImage(file, id) {
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(`${this.orgAPI}/organisations?uuid=${uuid}`,httpOptions);
+    return this.http.put(`${this.orgAPI}/individual_members/${id}`, file,httpOptions);
+  }
+  G_OrgByUuid(uuid) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+    return this.http.get(`${this.orgAPI}/organisations?uuid=${uuid}`, httpOptions);
   }
   subdomainFilter(subdomain) {
     const httpOptions = {
@@ -346,7 +356,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.post(`${this.messageAPI}/free_on_messages`,body, httpOptions);
+    return this.http.post(`${this.messageAPI}/free_on_messages`, body, httpOptions);
   }
   freeOnMessagePut(body, id): Observable<Object> {
     const httpOptions = {
@@ -355,7 +365,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.put(`${this.messageAPI}/free_on_messages/${id}`,body, httpOptions);
+    return this.http.put(`${this.messageAPI}/free_on_messages/${id}`, body, httpOptions);
   }
   freeOnMessageDelete(id): Observable<Object> {
     const httpOptions = {

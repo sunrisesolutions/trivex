@@ -11,12 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NotificationsComponent implements OnInit {
   id;
-  listMessageOptions = [
-    { name: 'message-option-1' },
-    { name: 'message-option-2' },
-    { name: 'message-option-3' },
-    { name: 'message-option-4' },
-  ];
+  listMessageOptions = [];
   config = {
     displayKey: 'name',
     search: true,
@@ -32,6 +27,7 @@ export class NotificationsComponent implements OnInit {
   messages;
   showForm = false;
   members: Array<any> = [];
+  active;
   deliveries: Array<Delivery> = [];
   delivery2: Delivery;
   messagesID = '';
@@ -58,7 +54,7 @@ export class NotificationsComponent implements OnInit {
         // console.log(res)
         for (let delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
+          delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {
@@ -69,14 +65,18 @@ export class NotificationsComponent implements OnInit {
 
                   delivery['profilePicture'] = profilePicture;
 
-                  this.httpClient.get(delivery['profilePicture'])
-                    .subscribe(res => {
+                  if (delivery['profilePicture']) {
+                    this.httpClient.get(delivery['profilePicture'])
+                      .subscribe(res => {
 
-                    }, err => {
-                      if (err.status === 404) {
-                        delivery.profilePicture = 'https://i.gifer.com/B0eS.gif';
-                      }
-                    })
+                      }, err => {
+                        if (err.status === 404) {
+                          delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                        }
+                      })
+                  } else {
+                    delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                  }
                 }
               });
           }
@@ -137,5 +137,17 @@ export class NotificationsComponent implements OnInit {
           alert(error.error['hydra:description'])
         }
       })
+  }
+  isActiveOption(item) {
+    for (let i of item) {
+      if(this.active === i.name){
+        i['selectedOptionMessage']=!i['selectedOptionMessage'];
+      }else {
+        i['selectedOptionMessage']=false;
+      }
+    }
+  }
+  selectOption(item) {
+    this.active = item;
   }
 }

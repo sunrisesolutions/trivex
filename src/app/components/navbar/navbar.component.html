@@ -90,15 +90,13 @@
                           <hr class="my-2">
                           <div class="container">
                             <div class="row justify-content-center">
-                              <div 
-                              [title]="list.name"
-                                (click)="list['selectedOptionMessage']=!list['selectedOptionMessage']"
-                                [ngClass]="{'btn-primary text-light':list['selectedOptionMessage']===true}"
-                                *ngFor="let list of delivery2['arrayOptions']"
-                                class="col-12 col-md-12 col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn text-dark border">
-                                <span class=" text-truncate">
+                              <div [title]="list.name" (click)="selectOption(list.name);isActiveOption(delivery2['arrayOptions'])"
+                              [ngClass]="{'btn-primary text-light': list['selectedOptionMessage']}"
+                                *ngFor="let list of delivery2['arrayOptions'];let i = index"
+                                class="col-12 col-md-12 mx-2 btn-sm col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn text-dark border">
+                                <a class="text-truncate">
                                   {{list.name}}
-                                </span>
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -111,7 +109,7 @@
                   <div *ngIf="delivery2['arrayOptions']" class="container d-flex justify-content-center">
                     <div class="form-group">
                       <a (click)="putApproval(delivery2['arrayOptions'], delivery2)" class="btn btn-danger text-light">
-                        Send
+                        Respond
                       </a>
                     </div>
                   </div>

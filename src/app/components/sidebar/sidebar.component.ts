@@ -70,6 +70,7 @@ export class SidebarComponent implements OnInit {
   member;
   countMess;
   idDelete: any;
+  active;
   publicKey: any;
   status = false;
   getId;
@@ -184,22 +185,15 @@ export class SidebarComponent implements OnInit {
   }
 
 
-  getDelivery() {
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD, 1)
-          .subscribe(res => {
-            this.countMess = res['hydra:totalItems'];
-          })
-      }
-    }, 5000)
 
+  getDelivery() {
     this.service.getDelivery('', 1)
       .subscribe((res) => {
+        // console.log('deliveries', res)
         this.deliveries = res['hydra:member'];
         for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif'
+          delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {
@@ -210,15 +204,18 @@ export class SidebarComponent implements OnInit {
                   let profilePicture = data[0]['profilePicture'];
 
                   delivery['profilePicture'] = profilePicture;
+                  if (delivery['profilePicture']) {
+                    this.httpClient.get(delivery['profilePicture'])
+                      .subscribe(res => {
 
-                  this.httpClient.get(delivery['profilePicture'])
-                    .subscribe(res => {
-
-                    }, err => {
-                      if (err.status === 404) {
-                        delivery.profilePicture = 'https://i.gifer.com/B0eS.gif';
-                      }
-                    })
+                      }, err => {
+                        if (err.status === 404) {
+                          delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
+                        }
+                      })
+                  } else {
+                    delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
+                  }
                 }
               });
           }
@@ -233,7 +230,9 @@ export class SidebarComponent implements OnInit {
               })
 
           }
+
         }
+        console.log('deliveries', this.deliveries)
 
       });
 
@@ -356,5 +355,18 @@ export class SidebarComponent implements OnInit {
           alert(error.error['hydra:description'])
         }
       })
+  }
+
+  isActiveOption(item) {
+    for (let i of item) {
+      if(this.active === i.name){
+        i['selectedOptionMessage']=!i['selectedOptionMessage'];
+      }else {
+        i['selectedOptionMessage']=false;
+      }
+    }
+  }
+  selectOption(item) {
+    this.active = item;
   }
 }

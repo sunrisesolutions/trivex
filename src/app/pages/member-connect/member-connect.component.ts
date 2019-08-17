@@ -31,8 +31,9 @@ export class MemberConnectComponent implements OnInit {
 
   injectNumber(s) {
     if (s) {
-      s = `${s}`;
-      return s.match(/\d+/g).map(Number);
+      console.log(s)
+     /*  s = s.match(/\d+/)[0];
+      return s; */
     }
   }
 
@@ -47,7 +48,7 @@ export class MemberConnectComponent implements OnInit {
 
   getConnect(textSearch: String = null) {
     let endpoint = `/connections?page=${this.currentPage}`;
-    var im_id = localStorage.getItem('im_id')
+    var im_id = this.injectNumber(localStorage.getItem('im_id'));
     if (textSearch !== null) {
       this.loadingSearch = false;
       endpoint = `/connections?fulltextString=${textSearch}`
@@ -60,10 +61,10 @@ export class MemberConnectComponent implements OnInit {
               data['profilePicture'] = '/assets/img-process/Loading-img.gif';
               data['fromId'] = this.injectNumber(data['fromMember']['@id']);
               data['toId'] = this.injectNumber(data['toMember']['@id']);
-              if (data['fromId'][0] === data['toId'][0]) {
+              if (data['fromId'] === data['toId']) {
                 data['data'] = null;
                 data['route'] = null;
-              } else if (data['fromId'][0] === im_id[0]) {
+              } else if (data['fromId'] === im_id) {
                 data['data'] = data['personData']['to'];
 
                 this.service.getRootID(data['toMember'])
@@ -81,9 +82,9 @@ export class MemberConnectComponent implements OnInit {
                     }
                   })
                 data['route'] = `/individual_members/${data['toMember']}`;
-              } else if (data['toId'][0] === im_id[0]) {
+              } else if (data['toId'] === im_id) {
                 data['data'] = data['personData']['from'];
-                data['route'] = `/individual_members/${data['fromId'][0]}`;
+                data['route'] = `/individual_members/${data['fromId']}`;
               }
             }
           }
@@ -97,22 +98,20 @@ export class MemberConnectComponent implements OnInit {
   processData = (mainData) => {
     this.loadingSearch = true;
     this.currentPage++;
-    var im_id = `${localStorage.getItem('im_id')}`;
+    var im_id = this.injectNumber(localStorage.getItem('im_id'));
     // JSON.stringify(news)
     this.members = this.members.concat(mainData['hydra:member']);
     for (let data of this.members) {
       data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-      data['fromMember']['id'] = data['fromMember']['@id'];
-      data['toMember']['id'] = data['toMember']['@id'];
-      data['fromId'] = data['fromMember']['id'].match(/\d+/g).map(Number);
-      data['toId'] = data['toMember']['id'].match(/\d+/g).map(Number);
-      if (data['fromId'][0] === data['toId'][0]) {
+      data['fromId'] = this.injectNumber(data['fromMember']['@id']);
+      data['toId'] = this.injectNumber(data['toMember']['@id']);
+      if (data['fromId'] === data['toId']) {
         data['data'] = null;
         data['route'] = null;
-      } if (data['fromId'][0] === im_id[0]) {
+      } if (data['fromId'] === im_id) {
         data['data'] = data['personData']['to'];
 
-        this.service.getRootID(data['toId'][0])
+        this.service.getRootID(data['toId'])
           .subscribe(res => {
             data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
             if (res['profilePicture']) {
@@ -126,10 +125,10 @@ export class MemberConnectComponent implements OnInit {
                 })
             }
           })
-        data['route'] = `/individual_members/${data['toId'][0]}`;
-      }// else if (data['toId'][0] === im_id[0]) {
+        data['route'] = `/individual_members/${data['toId']}`;
+      }// else if (data['toId'] === im_id[0]) {
       //   data['data'] = data['personData']['from'];
-      //   data['route'] = `/individual_members/${data['toId'][0]}`;
+      //   data['route'] = `/individual_members/${data['toId']}`;
       // }
     }
     console.log(this.members)
