@@ -6,8 +6,8 @@
       <div class="card-content container">
         <div class="row">
           <div class="text-center col-12">
-            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i> INBOX</button>
-            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i> OUTBOX</button>
+            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>
+            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@
                 <div *ngIf="delivery.message.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>
               </div>
 
-              <div *ngIf="delivery.message.optionSet != null">
+              <div *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im">
                 <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger" >RSVP</div>
                 <div *ngIf="delivery.selectedOptions.length > 0"  class="badge badge-pill badge-success">RESPONDED</div>
               </div>
