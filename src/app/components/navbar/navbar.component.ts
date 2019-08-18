@@ -108,9 +108,9 @@ export class NavbarComponent implements OnInit {
     }
     let d = new Date();
     let pramramsRead = {
-      "readAt": d.getTimezoneOffset(),
+      "read": true,
     }
-    delivery.readAt = pramramsRead.readAt;
+    delivery.readAt = pramramsRead.read;
     this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
       console.log(res)
     });
