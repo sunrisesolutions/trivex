@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
   statusChangeSuccessful = true;
   modalSHOW = false;
   statusMessage;
-  queryDeliveriesREAD = '?readAt[exists]=false&';
+  queryDeliveriesREAD = '&readAt[exists]=false&';
   active;
   images = '';
   deviceInfo = null;

@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit {
   status = false;
   getId;
   fakeCountMess;
-  queryDeliveriesREAD = '?readAt%5Bexists%5D=false&';
+  queryDeliveriesREAD = '&readAt%5Bexists%5D=false&';
   deliveries: Delivery[];
   delivery2: Delivery;
   haveRole = {
