@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { PostService } from 'src/app/services/post.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from 'src/app/services/post-notif.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Delivery } from 'src/app/models/Deliveries';
-import { Route } from '@angular/compiler/src/core';
-import { Location } from '@angular/common';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {HttpClient} from '@angular/common/http';
+import {PostService} from 'src/app/services/post.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SwPush} from '@angular/service-worker';
+import {PushNotificationService} from 'src/app/services/post-notif.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Delivery} from 'src/app/models/Deliveries';
+import {Route} from '@angular/compiler/src/core';
+import {Location} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
-import { CheckRoleService } from 'src/app/services/check-role.service';
+import {CheckRoleService} from 'src/app/services/check-role.service';
 
 declare interface RouteInfo {
   path: string;
@@ -60,7 +60,7 @@ export class SidebarComponent implements OnInit {
     noResultsFound: 'No results found!',
     searchPlaceholder: 'Search',
     searchOnKey: 'name',
-  }
+  };
   /* /.SELECT Options */
   public menuItems: any[];
   public exampleMenuItems: any[];
@@ -87,6 +87,7 @@ export class SidebarComponent implements OnInit {
   };
   messagesID = '';
   deviceInfo = null;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -100,7 +101,9 @@ export class SidebarComponent implements OnInit {
   ) {
 
   }
+
   decoded: string;
+
   ngOnInit() {
     this.decoded = jwt_decode(localStorage.getItem('token'));
 
@@ -123,17 +126,18 @@ export class SidebarComponent implements OnInit {
             if (this.fakeCountMess < this.countMess) {
               return this.getDelivery();
             }
-          })
+          });
         setTimeout(() => {
           this.fakeCountMess = this.countMess;
-        }, 2000)
+        }, 2000);
       }
-    }, 2000)
-    this.getInfoUser()
+    }, 2000);
+    this.getInfoUser();
     if (this.checkingRole()) {
-      this.routes.push(this.haveRole)
+      this.routes.push(this.haveRole);
     }
   }
+
   getInfoUser() {
     const decoded = jwt_decode(localStorage.getItem('token'));
     this.service.getUserByuuid(decoded.im)
@@ -153,7 +157,7 @@ export class SidebarComponent implements OnInit {
             this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
           }
         }
-      })
+      });
   }
 
   /* /.Device detector */
@@ -173,7 +177,7 @@ export class SidebarComponent implements OnInit {
   open(content, delivery) {
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
       // this.delivery = delivery;
     }
     const d = new Date();
@@ -188,14 +192,40 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  incomingOnly = false;
+  incomingOnly = null;
 
-  toggleIncomingMessageFilter() {
-    this.incomingOnly = !this.incomingOnly;
+  toggleIncomingMessageFilter(type: string) {
+    if (this.incomingOnly === null) {
+      if (type === 'incoming') {
+        this.incomingOnly = true;
+      } else {
+        this.incomingOnly = false;
+      }
+    } else {
+      if (type === 'incoming') {
+        this.incomingOnly = this.incomingOnly ? null : true;
+      } else {
+        this.incomingOnly = this.incomingOnly ? false : null;
+      }
+    }
+
+    this.deliveries = [];
+    this.getDelivery();
   }
 
   getDelivery() {
-    this.service.getDelivery('', 1)
+    let query = '';
+    if (this.incomingOnly) {
+      query += 'messageSenderUuid=' + this.decoded.im;
+    } else if (this.incomingOnly === false) {
+      query += 'message.sender.uuid=' + this.decoded.im;
+    }
+
+    if (query.length > 0) {
+      query = '&' + query;
+    }
+
+    this.service.getDelivery(query, 1)
       .subscribe((res) => {
         // console.log('deliveries', res)
         this.deliveries = res['hydra:member'];
@@ -220,7 +250,7 @@ export class SidebarComponent implements OnInit {
                         if (err.status === 404) {
                           delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
                         }
-                      })
+                      });
                   } else {
                     delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
                   }
@@ -230,32 +260,36 @@ export class SidebarComponent implements OnInit {
           if (delivery['message']['optionSet']) {
             this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
               .subscribe(res => {
-                this.listMessageOptions = res['hydra:member']
+                this.listMessageOptions = res['hydra:member'];
                 delivery['arrayOptions'] = res['hydra:member'];
                 for (let option of this.listMessageOptions) {
                   option['selectedOptionMessage'] = false;
                 }
-              })
+              });
 
           }
 
         }
-        console.log('deliveries', this.deliveries)
+        console.log('deliveries', this.deliveries);
 
       });
 
   }
+
   toInfo() {
     this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/info`]);
 
   }
+
   toQrCode() {
     this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/qr-code`]);
   }
+
   logout() {
     location.reload();
     localStorage.clear();
   }
+
   // notif
   pushNotif() {
 
@@ -292,16 +326,16 @@ export class SidebarComponent implements OnInit {
           let s = sub.toJSON();
           let contentEncoding = PushManager.supportedContentEncodings[0];
           let contain = {
-            "endpoint": s.endpoint,
-            "expirationTime": s.expirationTime,
-            "authToken": s.keys.auth,
-            "p256dhKey": s.keys.p256dh,
-            "contentEncoding": contentEncoding
+            'endpoint': s.endpoint,
+            'expirationTime': s.expirationTime,
+            'authToken': s.keys.auth,
+            'p256dhKey': s.keys.p256dh,
+            'contentEncoding': contentEncoding
 
-          }
+          };
           this.reqNotif.addPushSubscriber(contain).subscribe(res => {
             this.idDelete = res['@id'];
-            this.publicKey = res.p256dhKey
+            this.publicKey = res.p256dhKey;
             localStorage.setItem('id_pushNotif', this.idDelete);
             localStorage.setItem('public_key', this.publicKey);
           });
@@ -309,31 +343,31 @@ export class SidebarComponent implements OnInit {
         .catch(res => {
           console.error(res);
           setTimeout(() => {
-            alert('There is some problem in subscribing your device for push notification.')
+            alert('There is some problem in subscribing your device for push notification.');
             return this.status = false;
-          }, 300)
-        })
-    } setTimeout(() => {
-      if ((this.status === false && localStorage.getItem("pulish_key")) || (this.status === false && localStorage.getItem("id_pushNotif"))) {
+          }, 300);
+        });
+    }
+    setTimeout(() => {
+      if ((this.status === false && localStorage.getItem('pulish_key')) || (this.status === false && localStorage.getItem('id_pushNotif'))) {
         if (localStorage.getItem('id_pushNotif')) {
           this.reqNotif.deleteNotification(localStorage.getItem('id_pushNotif'))
             .subscribe(res => {
               localStorage.removeItem('id_pushNotif');
               localStorage.removeItem('public_key');
-            })
-        }
-        else if (localStorage.getItem('public_key')) {
+            });
+        } else if (localStorage.getItem('public_key')) {
           this.reqNotif.deleteNotifBySearchPublicKey()
             .subscribe(res => {
               this.reqNotif.deleteNotification(this.getId)
                 .subscribe(res => {
                   localStorage.removeItem('public_key');
-                })
-            })
+                });
+            });
         }
 
       }
-    }, 500)
+    }, 500);
 
   }
 
@@ -341,39 +375,40 @@ export class SidebarComponent implements OnInit {
     let ar = [];
     for (let option of options) {
       if (option['selectedOptionMessage']) {
-        ar.push(option['uuid'])
+        ar.push(option['uuid']);
       }
     }
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
-      "selectedOptions": ar
-    }
+      'selectedOptions': ar
+    };
     this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
       .subscribe(res => {
-        console.log(res)
-        alert('Successfully.!!!')
+        console.log(res);
+        alert('Successfully.!!!');
       }, error => {
         if (error.status === 400) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
         if (error.status === 404) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
         if (error.status === 500) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
-      })
+      });
   }
 
   isActiveOption(item) {
     for (let i of item) {
-      if(this.active === i.name){
-        i['selectedOptionMessage']=!i['selectedOptionMessage'];
-      }else {
-        i['selectedOptionMessage']=false;
+      if (this.active === i.name) {
+        i['selectedOptionMessage'] = !i['selectedOptionMessage'];
+      } else {
+        i['selectedOptionMessage'] = false;
       }
     }
   }
+
   selectOption(item) {
     this.active = item;
   }
