@@ -4,6 +4,8 @@ import { PostService } from 'src/app/services/post.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs-compat/add/operator/do';
 import { HttpClient } from '@angular/common/http';
+import * as jwt_decode from "jwt-decode";
+
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -11,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NotificationsComponent implements OnInit {
   id;
+  im;
   listMessageOptions = [
     { name: 'message-option-1' },
     { name: 'message-option-2' },
@@ -44,6 +47,9 @@ export class NotificationsComponent implements OnInit {
     private service: PostService, private modalService: NgbModal
   ) {
     this.scrollCallback = this.getDelivery.bind(this);
+    const decoded = jwt_decode(localStorage.getItem('token'));
+    this.im = decoded.im;
+    console.log(this.im);
   }
 
   ngOnInit() {

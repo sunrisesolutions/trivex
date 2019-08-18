@@ -56,7 +56,7 @@ export class SmartTableService {
   
   private _state: State = {
     page: 1,
-    pageSize: 4,
+    pageSize: 10,
     searchTerm: '',
     sortColumn: '',
     sortDirection: ''
