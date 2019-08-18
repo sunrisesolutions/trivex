@@ -104,13 +104,15 @@ export class SmartTableService {
       
       // 1. sort
       let deliveries = sort(this.list, sortColumn, sortDirection);
-      
-      // 2. filter
-      deliveries = deliveries.filter(delivery => matches(delivery, searchTerm, this.pipe));
-      const total = deliveries.length;
-      
-      // 3. paginate
-      deliveries = deliveries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+      let total = 0;
+      if (deliveries) {
+        // 2. filter
+        deliveries = deliveries.filter(delivery => matches(delivery, searchTerm, this.pipe));
+        total = deliveries.length;
+        
+        // 3. paginate
+        deliveries = deliveries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize); 
+      }
       return of({deliveries, total});
     }
   }
