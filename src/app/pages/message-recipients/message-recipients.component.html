@@ -1,0 +1,52 @@
+<div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <div class="container w-100 mt-8 mt-md-0">
+    <div class="row d-flex flex-row align-items-center justify-content-between">
+      <div class="col-12">
+        <div class="container">
+          <div class="card">
+            <div class="card-body container">
+              <h1>Message Recipients</h1>
+              <form>
+                <div class="form-group form-inline">
+                  Search keyword: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="service.searchTerm"/>
+                  <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+                </div>
+                
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" sortable="body" (sort)="onSort($event)">Message</th>
+                      <th scope="col" sortable="selectedOptions" (sort)="onSort($event)">Selected Options</th>
+                      <th scope="col" sortable="createdAt" (sort)="onSort($event)">Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let delivery of deliveries$ | async; index as i">
+                      <th><ngb-highlight [result]="delivery.message.body" [term]="searchTerm"></ngb-highlight></th>
+                      <td><ngb-highlight [result]="delivery.selectedOptions" [term]="searchTerm"></ngb-highlight></td>
+                      <td>{{ delivery.createdAt }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <div class="d-flex justify-content-between p-2">
+                  <ngb-pagination
+                  [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                </ngb-pagination>
+                
+                <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                  <option [ngValue]="2">2 items per page</option>
+                  <option [ngValue]="4">4 items per page</option>
+                  <option [ngValue]="6">6 items per page</option>
+                </select>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

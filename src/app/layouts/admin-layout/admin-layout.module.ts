@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -27,6 +27,8 @@ import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DragToSelectModule } from 'ngx-drag-to-select';
+import { MessageRecipientsComponent } from 'src/app/pages/message-recipients/message-recipients.component';
+import { NgbdSortableHeader } from 'src/app/pages/message-recipients/sortable.directive';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -60,7 +62,9 @@ import { DragToSelectModule } from 'ngx-drag-to-select';
     NotificationsComponent,
     FreeOnMessageComponent,
     MessagesComponent,
-  ],
+    MessageRecipientsComponent,
+    NgbdSortableHeader
+  ]
 })
 
 export class AdminLayoutModule { }
