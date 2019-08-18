@@ -5,4 +5,5 @@ export class Delivery {
   profilePicture: string;
   name: string;
   message!: any;
+  readAt: Date
 }

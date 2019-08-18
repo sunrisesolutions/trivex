@@ -66,6 +66,7 @@ export class NavbarComponent implements OnInit {
   modalSHOW = false;
   statusMessage;
   queryDeliveriesREAD = '?readAt[exists]=false&';
+  active;
   images = '';
   deviceInfo = null;
   profilePicture = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif';
@@ -107,9 +108,9 @@ export class NavbarComponent implements OnInit {
     }
     let d = new Date();
     let pramramsRead = {
-      "readAt": d.getTimezoneOffset(),
+      "read": true,
     }
-    delivery.readAt = pramramsRead.readAt;
+    delivery.readAt = pramramsRead.read;
     this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
       console.log(res)
     });
@@ -342,5 +343,17 @@ export class NavbarComponent implements OnInit {
           alert(error.error['hydra:description'])
         }
       })
+  }
+  isActiveOption(item) {
+    for (let i of item) {
+      if(this.active === i.name){
+        i['selectedOptionMessage']=!i['selectedOptionMessage'];
+      }else {
+        i['selectedOptionMessage']=false;
+      }
+    }
+  }
+  selectOption(item) {
+    this.active = item;
   }
 }
