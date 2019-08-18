@@ -163,13 +163,20 @@ export class PostService {
     return this.http.get(`${this.orgAPI}/individual_members${id}`, httpOptions)
   }
   getDelivery(query, page: number = 1): Observable<Object> {
+    if (query == '&selfDelivery=true') {
+      console.log(' hey query is ', `/deliveries?page=${page}${query}`);
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.get(this.messageAPI + `/deliveries${query}?page=${page}`, httpOptions);
+    let observable = this.http.get(this.messageAPI + `/deliveries?page=${page}${query}`, httpOptions);
+    if (query == '&selfDelivery=true') {
+      console.log(observable);
+    }
+    return observable;
   }
 
   readDelivery(read, delivery): Observable<Object> {
