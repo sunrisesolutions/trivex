@@ -42,9 +42,6 @@ export class NotificationsComponent implements OnInit {
     private service: PostService, private modalService: NgbModal
   ) {
     this.scrollCallback = this.getDelivery.bind(this);
-    const decoded = jwt_decode(localStorage.getItem('token'));
-    this.im = decoded.im;
-    console.log(this.im);
   }
 
   ngOnInit() {

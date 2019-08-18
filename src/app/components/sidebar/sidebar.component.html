@@ -241,7 +241,7 @@
                     >
                       {{ delivery.message.subject }}
                       <i *ngIf="delivery.message.optionSet != null" class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
-                      <i *ngIf="delivery.message.senderUuid == decoded.im" class="float-right fas fa-share"></i>
+                      <a routerLink="/message-recipients"><i *ngIf="delivery.message.senderUuid == decoded.im" class="float-right fas fa-share"></i></a>
                     </p>
                   </div>
                 </div>
