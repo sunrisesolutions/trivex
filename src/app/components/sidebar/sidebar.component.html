@@ -241,7 +241,7 @@
                       style="max-width: 150px"
                     >
                       {{ delivery.message.subject }}
-                      <i *ngIf="delivery.message.optionSet != null"
+                      <i *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im"
                          class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
                       <a routerLink="/message-recipients"><i *ngIf="delivery.message.senderUuid == decoded.im" class="float-right fas fa-share"></i></a>
                     </p>
