@@ -102,6 +102,10 @@ export class SidebarComponent implements OnInit {
     this.decoded = jwt_decode(localStorage.getItem('token'));
   }
 
+  isOutgoing(delivery: Delivery) {
+    return delivery.message.senderUuid == this.decoded.im;
+  }
+
   decoded: any;
 
   ngOnInit() {
