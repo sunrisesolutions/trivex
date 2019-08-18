@@ -99,14 +99,12 @@ export class SidebarComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     public roleChecker: CheckRoleService
   ) {
-
+    this.decoded = jwt_decode(localStorage.getItem('token'));
   }
 
-  decoded: string;
+  decoded: any;
 
   ngOnInit() {
-    this.decoded = jwt_decode(localStorage.getItem('token'));
-
     this.deviceInfo = this.deviceService.getDeviceInfo();
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
