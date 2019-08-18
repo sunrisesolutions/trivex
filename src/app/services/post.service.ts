@@ -172,7 +172,8 @@ export class PostService {
     return this.http.get(this.messageAPI + `/deliveries${query}?page=${page}`, httpOptions);
   }
 
-  readDelivery(read, id): Observable<Object> {
+  readDelivery(read, delivery): Observable<Object> {
+    const id = delivery['@id'];
     const httpOptions = {
       headers: new HttpHeaders({
         "accept": "application/ld+json",

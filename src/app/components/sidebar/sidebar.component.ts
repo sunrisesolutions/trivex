@@ -176,15 +176,15 @@ export class SidebarComponent implements OnInit {
     }
     const d = new Date();
     const pramramsRead = {
-      "readAt": d.getTimezoneOffset(),
+      // "readAt": d.getTimezoneOffset(),
+      read: true
     };
-    delivery.readAt = pramramsRead.readAt;
-    this.service.readDelivery(pramramsRead, delivery['@id'])
-      .subscribe(res => {
+    // delivery.readAt = pramramsRead.readAt;
+    this.service.readDelivery(pramramsRead, delivery)
+      .subscribe((res: Delivery) => {
+        delivery.readAt = res.readAt;
       });
   }
-
-
 
   getDelivery() {
     this.service.getDelivery('', 1)

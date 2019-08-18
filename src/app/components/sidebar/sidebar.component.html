@@ -53,7 +53,7 @@
             <h6 class="text-sm text-muted m-0 mb-2">
               You have
               <strong class="text-primary">{{ countMess }}</strong>
-              notifications unread.
+              unread notifications.
             </h6>
             <div
               *ngIf="deviceInfo.os !== 'iOS'"
@@ -207,7 +207,7 @@
               <!-- /.Modal -->
               <a
                 (click)="open(content, delivery); delivery2 = delivery"
-                class="{{(delivery.readAt) ? 'unread' : 'readed'}} list-group-item list-group-item-action"
+                class="{{(delivery.readAt) ? 'readed' : 'unread'}} list-group-item list-group-item-action"
               >
                 <div class="row align-items-center">
                   <div class="col-3 ">
@@ -236,7 +236,7 @@
                       style="max-width: 150px"
                     >
                       {{ delivery.message.subject }}
-                      <i class="float-right fas fa-reply"></i>
+                      <i *ngIf="delivery.message.optionSet != null" class="float-right fas fa-reply"></i>
                     </p>
                   </div>
                 </div>
@@ -362,39 +362,3 @@
   </div>
 </nav>
 
-<!-- <ng-template #content let-modal>
-  <div *ngIf="delivery">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Messages</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body mt-2">
-      <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
-        <div class="d-flex justify-content-center">
-          <div class="card-profile-image" style="top:-20pt">
-            <img style="width:100px;height:100px" alt="Image placeholder" [src]="delivery.profilePicture"
-              class="avatar-notif">
-          </div>
-        </div>
-        <div class="card-body mt-4 text-center">
-          <div class="container">
-            <div class="h1">
-              {{delivery.name}}
-            </div>
-            <hr class="my-2">
-            <div class="font-weight-bold">
-              {{delivery.message.subject}}
-            </div>
-            <div class="font-weight-light">
-              {{delivery.message.body}}
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</ng-template>
- -->

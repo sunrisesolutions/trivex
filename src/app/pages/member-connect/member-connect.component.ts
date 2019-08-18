@@ -16,7 +16,6 @@ import {isNumber} from 'util';
   templateUrl: './member-connect.component.html',
   styleUrls: ['./member-connect.component.scss']
 })
-
 export class MemberConnectComponent implements OnInit {
   showForm = false;
   loadingSearch = false;
