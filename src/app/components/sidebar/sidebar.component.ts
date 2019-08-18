@@ -100,8 +100,10 @@ export class SidebarComponent implements OnInit {
   ) {
 
   }
-
+  decoded: string;
   ngOnInit() {
+    this.decoded = jwt_decode(localStorage.getItem('token'));
+
     this.deviceInfo = this.deviceService.getDeviceInfo();
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
@@ -184,6 +186,12 @@ export class SidebarComponent implements OnInit {
       .subscribe((res: Delivery) => {
         delivery.readAt = res.readAt;
       });
+  }
+
+  incomingOnly = false;
+
+  toggleIncomingMessageFilter() {
+    this.incomingOnly = !this.incomingOnly;
   }
 
   getDelivery() {

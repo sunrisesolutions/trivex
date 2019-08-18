@@ -55,6 +55,10 @@
               <strong class="text-primary">{{ countMess }}</strong>
               unread notifications.
             </h6>
+            <div class="text-center">
+              <i (click)="toggleIncomingMessageFilter()" class="fas fa-inbox text-lg"></i> &nbsp;
+              <i class="far fa-share-square text-lg"></i>
+            </div>
             <div
               *ngIf="deviceInfo.os !== 'iOS'"
               class="group-toggle d-none align-items-center"
@@ -236,7 +240,8 @@
                       style="max-width: 150px"
                     >
                       {{ delivery.message.subject }}
-                      <i *ngIf="delivery.message.optionSet != null" class="float-right fas fa-reply"></i>
+                      <i *ngIf="delivery.message.optionSet != null" class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
+                      <i *ngIf="delivery.message.senderUuid == decoded.im" class="float-right fas fa-share"></i>
                     </p>
                   </div>
                 </div>
