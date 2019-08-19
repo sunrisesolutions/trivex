@@ -28,6 +28,7 @@ export class MessagesComponent implements OnInit {
   message: Message;
   optionName: string;
   initialised = false;
+  delivery: Delivery;
 
   constructor(
     public httpClient: HttpClient,
@@ -35,117 +36,86 @@ export class MessagesComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
-    this.scrollCallback = this.getDelivery.bind(this);
+    // this.scrollCallback = this.getDelivery.bind(this);
 
     this.route.params.subscribe(params => {
       this.id = +params['id'];
-      this.selectedOptionUuid = params['selectedOptionUuid'];
+      // this.selectedOptionUuid = params['selectedOptionUuid'];
       this.deliveries = [];
       this.currentPage = 1;
-      this.service.getMessageById(this.id).subscribe(
-        (res: Message) => {
-          this.message = res;
-            if (this.initialised) {
-              this.getDelivery();
-            }
 
-          this.initialised = true;
-        }
-      );
-      this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
-        this.optionName = res['hydra:member'][0].name;
-      });
+      this.initialise();
     });
   }
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.selectedOptionUuid = this.route.snapshot.paramMap.get('selectedOptionUuid');
+    // this.selectedOptionUuid = this.route.snapshot.paramMap.get('selectedOptionUuid');
     this.currentPage = 1;
-    this.service.getMessageById(this.id).subscribe(
-      (res: Message) => {
-        this.message = res;
+    this.initialise();
+  }
+
+  initialise() {
+    this.service.getDeliveryById(this.id).subscribe(
+      (res: Delivery) => {
+        this.delivery = res;
+        let pramramsRead = {
+          'read': true,
+        };
+        this.delivery.readAt = new Date();
+        this.service.readDelivery(pramramsRead, this.delivery).subscribe(readDeliveryRes => {
+        });
+
+        this.delivery.name = 'Loading...';
+        this.delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
+        if (this.delivery.message.senderUuid !== undefined) {
+          console.log('requesting for ' + this.delivery.message.senderUuid);
+          this.service.getMember(`?uuid=${this.delivery.message.senderUuid}`)
+            .subscribe(response => {
+              // console.log('... requesting for ' + delivery.recipientUuid + '  ' + data[0]['personData'].name);
+              // console.log('abc 123');
+              let data = response['hydra:member'];
+              if (data[0]) {
+                this.delivery['name'] = data[0]['personData'].name;
+                this.delivery['jobTitle'] = data[0]['personData'].jobTitle;
+                let profilePicture = data[0]['profilePicture'];
+
+                this.delivery['profilePicture'] = profilePicture;
+
+                if (this.delivery['profilePicture']) {
+                  this.httpClient.get(this.delivery['profilePicture'])
+                    .subscribe(res => {
+
+                    }, err => {
+                      if (err.status === 404) {
+                        this.delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                      }
+                    });
+                } else {
+                  this.delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                }
+              }
+            });
+        }
+
+        if (this.delivery['message']['optionSet']) {
+          this.service.optionSetsGet(`/${this.delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
+            .subscribe(res => {
+              this.listMessageOptions = res['hydra:member'];
+              this.delivery['arrayOptions'] = res['hydra:member'];
+              for (let option of this.listMessageOptions) {
+                option['selectedOptionMessage'] = false;
+              }
+
+              if (this.delivery.arrayOptions) {
+                this.statisticalOptions(this.delivery.arrayOptions, this.delivery);
+              }
+            });
+
+        }
       }
     );
-    this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
-      this.optionName = res['hydra:member'][0].name;
-    });
   }
-
-  getDelivery() {
-    console.log('getDelivery');
-    let query = '';
-    // let query = '&groupByMessage=true';
-    // if (this.incomingOnly) {
-    //   query += '&messageSenderUuid=' + this.decoded.im;
-    // } else if (this.incomingOnly === false) {
-    //   query += '&message.sender.uuid=' + this.decoded.im;
-    // }
-
-    const parents: Array<ResourceParent> = [];
-    const parent = new ResourceParent();
-    parent.id = this.id;
-    parent.name = 'messages';
-    parents.push(parent);
-
-    query += '&selectedOptions=' + this.selectedOptionUuid;
-
-    return this.service.getDelivery(query, this.currentPage, parents)
-      .subscribe(res => {
-        console.log('get deliveries successfully');
-        this.currentPage++;
-        this.deliveries = this.deliveries.concat(res['hydra:member']);
-        console.log('deliveries for message component requested successfully ', res, this.deliveries);
-        for (let delivery of this.deliveries) {
-          console.log('requesting for delivery ', delivery);
-          delivery.name = 'Loading...';
-          delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
-          if (delivery.recipientUuid !== undefined) {
-            console.log('requesting for ' + delivery.recipientUuid);
-            this.service.getMember(`?uuid=${delivery.recipientUuid}`)
-              .subscribe(response => {
-                // console.log('... requesting for ' + delivery.recipientUuid + '  ' + data[0]['personData'].name);
-                // console.log('abc 123');
-                let data = response['hydra:member'];
-                if (data[0]) {
-                  delivery['name'] = data[0]['personData'].name;
-                  delivery['jobTitle'] = data[0]['personData'].jobTitle;
-                  let profilePicture = data[0]['profilePicture'];
-
-                  delivery['profilePicture'] = profilePicture;
-
-                  if (delivery['profilePicture']) {
-                    this.httpClient.get(delivery['profilePicture'])
-                      .subscribe(res => {
-
-                      }, err => {
-                        if (err.status === 404) {
-                          delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-                        }
-                      });
-                  } else {
-                    delivery['profilePicture'] = '/assets/img-process/Not-found-img.gif';
-                  }
-                }
-              });
-          }
-          // if (delivery['message']['optionSet']) {
-          //   this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
-          //     .subscribe(res => {
-          //       this.listMessageOptions = res['hydra:member'];
-          //       delivery['arrayOptions'] = res['hydra:member'];
-          //       for (let option of this.listMessageOptions) {
-          //         option['selectedOptionMessage'] = false;
-          //       }
-          //     });
-          //
-          // }
-        }
-        console.log('message.component.ts deliveries', this.deliveries);
-      });
-
-  }
-
 
   isActiveOption(item) {
     for (let i of item) {
@@ -160,4 +130,78 @@ export class MessagesComponent implements OnInit {
   selectOption(item) {
     this.active = item;
   }
+
+  statisticalOptions(options, infoDelivery: Delivery = null) {
+    let query = '';
+    const parents: Array<ResourceParent> = [];
+    const parent = new ResourceParent();
+    parent.id = infoDelivery.messageId;
+    parent.name = 'messages';
+    parents.push(parent);
+
+    query += '&selectedOptions=MSG-';
+
+    this.service.getDelivery(query, this.currentPage, parents)
+      .subscribe(res => {
+        for (let o of options) {
+          let query = '';
+          const parents: Array<ResourceParent> = [];
+          const parent = new ResourceParent();
+          parent.id = infoDelivery.messageId;
+          parent.name = 'messages';
+          parents.push(parent);
+
+          query += '&selectedOptions=' + o.uuid;
+          this.service.getDelivery(query, this.currentPage, parents)
+            .subscribe(optionRes => {
+              o['voted'] = optionRes['hydra:totalItems'];
+              o['totalVotes'] = res['hydra:totalItems'];
+            });
+        }
+        console.log(options);
+      });
+  }
+logme(_var){
+    console.log('logggg',_var);
+}
+  parseInt(number) {
+    return Number.parseInt(number);
+  }
+
+  isResponded(delivery: Delivery) {
+    return delivery.selectedOptions.length > 0;
+  }
+
+  putApproval(options, infoDelivery) {
+    let ar = [];
+    let selectedOption = null;
+    for (let option of options) {
+      if (option['selectedOptionMessage']) {
+        selectedOption = option;
+        ar.push(option['uuid']);
+      }
+    }
+    let idDelivery = infoDelivery['@id'];
+    let bodyMessageOption = {
+      'selectedOptions': ar
+    };
+    this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
+      .subscribe(res => {
+        this.statisticalOptions(options, infoDelivery);
+        infoDelivery.selectedOptions.push(selectedOption);
+        /* console.log(res);
+        alert('Successfully.!!!'); */
+      }, error => {
+        if (error.status === 400) {
+          alert(error.error['hydra:description']);
+        }
+        if (error.status === 404) {
+          alert(error.error['hydra:description']);
+        }
+        if (error.status === 500) {
+          alert(error.error['hydra:description']);
+        }
+      });
+  }
+
 }

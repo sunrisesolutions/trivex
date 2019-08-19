@@ -4,15 +4,16 @@
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
       aria-controls="sidenav-collapse-main">
       <span class="navbar-toggler-icon"></span>
-      <span [ngClass]="{'d-none': countSide === 0}" [innerHTML]="countSide > 99 ? '99 +' : countSide" class="badge badge-sidebar badge-danger"></span>
+      <span [ngClass]="{'d-none': countSide === 0}" [innerHTML]="countSide > 99 ? '99 +' : countSide"
+        class="badge badge-sidebar badge-danger"></span>
     </button>
     <!-- Brand -->
     <a class="navbar-brand pt-0" routerLinkActive="active" (click)="toQrCode()">
       <img style="cursor: pointer;" src="assets/img/brand/logo.png" class="navbar-brand-img" alt="..." />
     </a>
-    <!-- User -->
+    <!-- User  autoClose="inside" -->
     <ul class="nav align-items-center d-md-none">
-      <li class="nav-item" ngbDropdown #messageDropdown="ngbDropdown" autoClose="outside" placement="bottom-right">
+      <li class="nav-item" ngbDropdown #messageDropdown="ngbDropdown" placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div [class.position-absolute]="countMess !== 0" class="ic" style="font-size: 18pt;">
             <i class="fas fa-envelope"></i>
@@ -29,12 +30,10 @@
               <strong class="text-primary">{{ countMess }}</strong>
               unread notifications.
             </h6>
-            <div class="text-center">
-              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg"
-                (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>
-              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg"
-                (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i></button>
-            </div>
+            <!--            <div class="text-center">-->
+            <!--              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>-->
+            <!--              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>-->
+            <!--            </div>-->
             <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
                 <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
@@ -157,7 +156,8 @@
                 </div>
               </ng-template>
               <!-- /.Modal -->
-              <a (click)="open(content, delivery); delivery2 = delivery"
+              <a (click)="delivery2 = delivery"
+                routerLink="/club-members/notifications/message-delivery/{{delivery.id}}"
                 class="{{(delivery.readAt) ? 'readed' : 'unread'}} list-group-item list-group-item-action">
                 <div class="row align-items-center">
                   <div class="col-3 ">
@@ -180,8 +180,7 @@
                       {{ delivery.message.subject }}
                       <i *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im"
                         class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
-                      <a routerLink="/message-recipients"><i *ngIf="isOutgoing(delivery)"
-                          class="float-right fas fa-share"></i></a>
+                      <i *ngIf="isOutgoing(delivery)" class="float-right fas fa-share"></i>
                     </p>
                   </div>
                 </div>
@@ -267,6 +266,8 @@
             <i class="ni {{ ROUTEitem.icon }}"></i>
             {{ ROUTEitem.title }}
           </a>
+          <span *ngIf="ROUTEitem.badge" [hidden]="countSide === 0" [innerHTML]="countSide > 99 ? '99 +' : countSide"
+            class="badge badge-sidebar-2 badge-danger"></span>
         </li>
       </ul>
       <!-- Divider -->

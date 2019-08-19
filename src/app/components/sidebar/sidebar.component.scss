@@ -11,6 +11,16 @@
 .badge-sidebar{
   left: -10pt !important;
 }
+.badge-sidebar-2{
+  top: -34pt !important;
+  // left: 0pt !important;
+  left: 160pt !important;
+}
+@media only screen and (max-width: 750px){
+  .badge-sidebar-2{
+    left: 155pt !important;
+  }
+}
 .badge-danger {
   background: red;
   position: relative;
