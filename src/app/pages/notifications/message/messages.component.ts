@@ -37,7 +37,7 @@ export class MessagesComponent implements OnInit {
 
     this.test = this.service.getMessageById(this.id)
       .subscribe(res => {
-        console.log('MESSAGES-ID', res);
+        console.log('this.test MESSAGES-ID', res);
       });
 
   }
@@ -53,7 +53,7 @@ export class MessagesComponent implements OnInit {
         //     // this.delivery.name = senderInfo['personData'].name;
         //     // this.delivery.profilePicture = senderInfo['profilePicture'];
         //   });
-        console.log('MESSAGES-ID', res);
+        console.log('On Init, MESSAGES-ID', res);
       });
   }
 
@@ -85,9 +85,11 @@ export class MessagesComponent implements OnInit {
           if (delivery.recipientUuid !== undefined) {
             this.service.getMember(`?uuid=${delivery.recipientUuid}`)
               .subscribe(response => {
+                console.log('abc 123');
                 let data = response['hydra:member'];
                 if (data[0]) {
                   delivery['name'] = data[0]['personData'].name;
+                  delivery['jobTitle'] = data[0]['personData'].jobTitle;
                   let profilePicture = data[0]['profilePicture'];
 
                   delivery['profilePicture'] = profilePicture;

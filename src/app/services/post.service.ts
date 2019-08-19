@@ -190,6 +190,7 @@ export class PostService {
 
 
   getDelivery(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
+    console.log('post.getDelivery');
     if (query == '&selfDelivery=true') {
       console.log(' hey query is ', `/deliveries?page=${page}${query}`);
     }
