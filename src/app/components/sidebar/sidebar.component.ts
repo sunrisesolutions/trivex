@@ -475,8 +475,9 @@ export class SidebarComponent implements OnInit {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=%7B${decoded.im}%7D&groupByMessage=true`, httpOptions)
+    this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
       .subscribe(res => {
+        console.log(res)
         this.countSide = res['hydra:member'].length;
       })
   }
