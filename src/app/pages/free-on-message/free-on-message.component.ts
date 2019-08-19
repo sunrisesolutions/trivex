@@ -13,6 +13,7 @@ export class FreeOnMessageComponent implements OnInit {
   error = '';
   abcd;
   success = false;
+  phone: any;
   loading = false;
   required = false;
   fromDay = 0;
