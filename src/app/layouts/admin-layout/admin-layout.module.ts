@@ -27,6 +27,7 @@ import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DragToSelectModule } from 'ngx-drag-to-select';
+import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -61,6 +62,7 @@ import { DragToSelectModule } from 'ngx-drag-to-select';
     NotificationsComponent,
     FreeOnMessageComponent,
     MessagesComponent,
+    DeliveriesComponent,
   ]
 })
 

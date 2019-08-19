@@ -76,7 +76,7 @@ export class SidebarComponent implements OnInit {
   status = false;
   getId;
   fakeCountMess;
-  queryDeliveriesREAD = '&readAt%5Bexists%5D=false&';
+  queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
   deliveries: Delivery[];
   delivery2: Delivery;
   haveRole = {
@@ -85,6 +85,12 @@ export class SidebarComponent implements OnInit {
     icon: 'ni-bell-55 text-yellow',
     class: '',
 
+  };
+  haveRoleRecentAnnoucement = {
+    path: '/club-members/notifications/outgoing',
+    title: 'Recent announcements',
+    icon: 'ni-archive-2 text-purple',
+    class: '',
   };
   messagesID = '';
   deviceInfo = null;
@@ -124,7 +130,7 @@ export class SidebarComponent implements OnInit {
     // =======
     setInterval(() => {
       if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD, 1)
+        this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&messageSenderUuid=' + this.decoded.im, 1)
           .subscribe(res => {
             this.countMess = res['hydra:totalItems'];
             if (this.fakeCountMess < this.countMess) {
@@ -139,6 +145,7 @@ export class SidebarComponent implements OnInit {
     this.getInfoUser();
     if (this.checkingRole()) {
       this.routes.push(this.haveRole);
+      this.routes.push(this.haveRoleRecentAnnoucement);
     }
   }
 
@@ -200,7 +207,7 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  incomingOnly = null;
+  incomingOnly = true;
 
   toggleIncomingMessageFilter(type: string) {
     if (this.incomingOnly === null) {

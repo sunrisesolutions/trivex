@@ -6,6 +6,7 @@ import 'rxjs-compat/add/operator/do';
 import {HttpClient} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import {ResourceParent} from '../../models/ResourceParent';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-notifications',
@@ -14,6 +15,8 @@ import {ResourceParent} from '../../models/ResourceParent';
 })
 export class NotificationsComponent implements OnInit {
   @Input() title: string;
+  @Input() statusIpt: string = null;
+
   id;
   listMessageOptions = [];
   config = {
@@ -42,17 +45,30 @@ export class NotificationsComponent implements OnInit {
   countMess;
   queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
 
+
+  status: string = null;
+
   constructor(
     public httpClient: HttpClient,
-    private service: PostService, private modalService: NgbModal
+    private service: PostService, private modalService: NgbModal,
+    private route: ActivatedRoute
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.scrollCallback = this.getDelivery.bind(this);
   }
 
+  initialise() {
+    if (this.statusIpt !== null) {
+      this.status = this.statusIpt;
+    }
+    if (this.status === 'outgoing') {
+      this.incomingOnly = false;
+    }
+  }
+
   decoded: any;
 
-  incomingOnly = null;
+  incomingOnly = true;
 
   toggleIncomingMessageFilter(type: string) {
     if (this.incomingOnly === null) {
@@ -75,6 +91,15 @@ export class NotificationsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.status = this.route.snapshot.paramMap.get('status');
+    this.route.params.subscribe(params => {
+      this.status = params['status'];
+      // this.selectedOptionUuid = params['selectedOptionUuid'];
+      this.deliveries = [];
+      this.currentPage = 1;
+
+      this.initialise();
+    });
   }
 
   getDelivery() {
@@ -121,10 +146,14 @@ export class NotificationsComponent implements OnInit {
           if (delivery['message']['optionSet']) {
             this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
               .subscribe(res => {
-                this.listMessageOptions = res['hydra:member'];
+                let options = this.listMessageOptions = res['hydra:member'];
                 delivery['arrayOptions'] = res['hydra:member'];
-                for (let option of this.listMessageOptions) {
+                for (let option of options) {
                   option['selectedOptionMessage'] = false;
+                }
+
+                if (!this.incomingOnly) {
+                  this.statisticalOptions(options, delivery);
                 }
               });
 
@@ -232,7 +261,9 @@ export class NotificationsComponent implements OnInit {
         console.log(options);
       });
   }
-
+  isResponded(delivery: Delivery) {
+    return delivery.selectedOptions.length > 0;
+  }
   parseInt(number) {
     return Number.parseInt(number);
   }

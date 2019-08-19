@@ -199,6 +199,16 @@ export class PostService {
   }
 
 
+  getDeliveryById(id): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(this.messageAPI + `/deliveries/${id}`, httpOptions);
+  }
+
   getDelivery(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
     // console.log('post.getDelivery');
     if (query == '&selfDelivery=true') {
