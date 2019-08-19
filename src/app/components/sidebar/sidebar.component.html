@@ -89,126 +89,104 @@
             >
               <!-- Modal -->
               <ng-template #content let-modal>
-                <div *ngIf="delivery2" class="">
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">
-                      {{ delivery2.message.createdAt | date: "short" }}
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss((modalSHOW = false))"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body mt-3 mt-md-2">
-                    <div
-                      class="card card-profile"
-                      style="box-shadow: 0px 2px 5px 0px #888888"
-                    >
-                      <div class="d-flex justify-content-center">
-                        <div class="card-profile-image" style="top:-20pt">
-                          <img
-                            (click)="modal.dismiss('go to info sender')"
-                            routerLink="/club-members/{{
-                              delivery2.idSender
-                            }}/info"
-                            style="width:100px;height:100px"
-                            alt="Image placeholder"
-                            [src]="delivery2.profilePicture"
-                            class="avatar-notif"
-                          />
+                  <div *ngIf="delivery2" class="">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">
+                        {{ delivery2.message.createdAt | date: "short" }}
+                      </h4>
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss((modalSHOW = false))">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body mt-3 mt-md-2">
+                      <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
+                        <div class="d-flex justify-content-center">
+                          <div class="card-profile-image" style="top:-20pt">
+                            <img (click)="modal.dismiss('go to info sender')"
+                              routerLink="/club-members/{{ delivery2.idSender }}/info" style="width:100px;height:100px"
+                              alt="Image placeholder" [src]="delivery2['profilePicture']" class="avatar-notif" />
+                          </div>
                         </div>
-                      </div>
-                      <div class="card-body mt-4 text-center">
-                        <div class="container">
-                          <div class="h1">
-                            {{ delivery2.name }}
-                          </div>
-                          <hr class="my-2"/>
-                          <div class="font-weight-bold">
-                            {{ delivery2.message.subject }}
-                          </div>
-                          <div class="font-weight-light">
-                            {{ delivery2.message.body }}
-                          </div>
-                          <hr class="my-2"/>
-                          <div class="row justify-content-center">
-                            <div
-                              [title]="list.name"
-                              (click)="
-                                selectOption(list.name);
-                                isActiveOption(delivery2['arrayOptions'])
-                              "
-                              [ngClass]="{
-                                'btn-primary text-light':
-                                  list['selectedOptionMessage']
-                              }"
-                              *ngFor="
-                                let list of delivery2['arrayOptions'];
-                                let i = index
-                              "
-                              class="col-12 col-md-12 mx-2 col-lg-2 d-flex mt-2 mt-lg-auto justify-content-center btn btn-sm text-dark border"
-                            >
-                              <a class="text-truncate">
-                                {{ list.name }}
-                              </a>
+                        <div class="card-body mt-4 container text-center">
+                          <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                              <div class="h1">
+                                {{ delivery2.name }}
+                              </div>
+                              <hr class="my-2" />
+                              <div class="font-weight-bold">
+                                {{ delivery2.message.subject }}
+                              </div>
+                              <div class="font-weight-light">
+                                {{ delivery2.message.body }}
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <hr class="my-2" />
+                            </div>
+                            <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
+                              <!-- Button -->
+                              <div class="btn border mx-2 mb-2" [title]="list.name" (click)="
+                                    selectOption(list.name);
+                                    isActiveOption(delivery2['arrayOptions'])
+                                  " [ngClass]="{
+                                    'btn-primary text-light': list['selectedOptionMessage']
+                                  }" [hidden]="list.voted" *ngFor="
+                                  let list of delivery2['arrayOptions'];
+                                  let i = index
+                                ">
+                                <div class="d-flex flex-column">
+                                  <span class="text-truncate">
+                                    {{ list.name }}
+                                  </span>
+                                  <a *ngIf="list.selectedOptionMessage" (click)="putApproval(delivery2['arrayOptions'], delivery2)"
+                                    class="btn btn-danger btn-sm text-light">
+                                    Respond
+                                  </a>
+                                </div>
+                              </div>
+            
+                            </div>
+                            <div class="col-12">
+                              <div [hidden]="!list.voted" *ngFor="
+                              let list of delivery2['arrayOptions'];
+                              let i = index
+                            " class="">
+                                <label class="">{{list.name}}</label>
+                                <div class="progress" style="height: 15px;">
+                                  <div class="progress-bar" role="progressbar"
+                                    [style.width]="(list.voted) ? (list.voted.length + '%') : '0%'"
+                                    [attr.aria-valuenow]="(list.voted) ? list.voted.length : ''" aria-valuemin="0"
+                                    aria-valuemax="500">
+                                    {{(list.voted) ? list.voted.length : ''}}
+                                  </div>
+                                </div>
+            
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    *ngIf="delivery2['arrayOptions']"
-                    class="container d-flex justify-content-center"
-                  >
-                    <div class="form-group">
-                      <a
-                        (click)="
-                          putApproval(delivery2['arrayOptions'], delivery2)
-                        "
-                        class="btn btn-danger text-light"
-                      >
-                        Respond
-                      </a>
-                    </div>
-                  </div>
-                  <div
-                    *ngIf="c > 1"
-                    class="modal-footer justify-content-start border"
-                  >
-                    <div class="container text-light">
-                      <div class="row">
-                        <div class="col-12 col-md-6">
-                          <a
-                            (click)="
-                              delivery2 = deliveries[(i = i - 1)];
-                              open('', delivery2)
-                            "
-                            *ngIf="i !== 0"
-                            class="btn btn-info w-100"
-                          >Prev</a
-                          >
-                        </div>
-                        <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
-                          <a
-                            (click)="
-                              delivery2 = deliveries[(i = i + 1)];
-                              open('', delivery2)
-                            "
-                            *ngIf="c - 1 > i"
-                            class="btn btn-danger w-100"
-                          >Next</a
-                          >
+            
+                    <div *ngIf="c > 1" class="modal-footer justify-content-start border">
+                      <div class="container text-light">
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <a (click)="
+                                delivery2 = deliveries[(i = i - 1)]; open('', delivery2)
+                              " *ngIf="i !== 0" class="btn btn-info w-100">Prev</a>
+                          </div>
+                          <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
+                            <a (click)="
+                                delivery2 = deliveries[(i = i + 1)]; open('', delivery2)
+                              " *ngIf="c - 1 > i" class="btn btn-danger w-100">Next</a>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </ng-template>
+                </ng-template>
               <!-- /.Modal -->
               <a
                 (click)="open(content, delivery); delivery2 = delivery"

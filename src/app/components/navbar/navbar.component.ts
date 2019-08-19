@@ -103,15 +103,15 @@ export class NavbarComponent implements OnInit {
   open(content, delivery) {
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
       // this.delivery = delivery;
     }
     let d = new Date();
     let pramramsRead = {
-      "read": true,
-    }
-    this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
-      delivery.readAt = res['readAt'];
+      'read': true,
+    };
+    delivery.readAt = new Date();
+    this.service.readDelivery(pramramsRead, delivery).subscribe(res => {
     });
   }
   /* /.MODAL DIALOG */
@@ -320,28 +320,39 @@ export class NavbarComponent implements OnInit {
     let ar = [];
     for (let option of options) {
       if (option['selectedOptionMessage']) {
-        ar.push(option['uuid'])
+        ar.push(option['uuid']);
       }
     }
+    this.statisticalOptions(options);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
-      "selectedOptions": ar
-    }
+      'selectedOptions': ar
+    };
     this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
       .subscribe(res => {
-        console.log(res)
-        alert('Successfully.!!!')
+        /* console.log(res);
+        alert('Successfully.!!!'); */
       }, error => {
         if (error.status === 400) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
         if (error.status === 404) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
         if (error.status === 500) {
-          alert(error.error['hydra:description'])
+          alert(error.error['hydra:description']);
         }
-      })
+      });
+  }
+  statisticalOptions(options) {
+    for (let o of options) {
+      this.service.messageOptionStatistical(`/deliveries?selectedOptions=${o.uuid}`)
+        .subscribe(res => {
+          o['voted'] = res['hydra:member'];
+
+        })
+    }
+    console.log(options)
   }
   isActiveOption(item) {
     for (let i of item) {

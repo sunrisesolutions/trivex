@@ -6,8 +6,10 @@
       <div class="card-content container">
         <div class="row">
           <div class="text-center col-12">
-            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>
-            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>
+            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg"
+              (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>
+            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg"
+              (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i></button>
           </div>
         </div>
       </div>
@@ -54,7 +56,7 @@
                 </div>
                 <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
                   <!-- Button -->
-                  <div class="btn border" [title]="list.name" (click)="
+                  <div class="btn border mx-2 mb-2" [title]="list.name" (click)="
                         selectOption(list.name);
                         isActiveOption(delivery2['arrayOptions'])
                       " [ngClass]="{
@@ -63,9 +65,12 @@
                       let list of delivery2['arrayOptions'];
                       let i = index
                     ">
-                    {{ list.name }}
-                    <div *ngIf="list.selectedOptionMessage" class="form-group d-flex align-items-center">
-                      <a (click)="putApproval(delivery2['arrayOptions'], delivery2)" class="btn btn-danger text-light">
+                    <div class="d-flex flex-column">
+                      <span class="text-truncate">
+                        {{ list.name }}
+                      </span>
+                      <a *ngIf="list.selectedOptionMessage" (click)="putApproval(delivery2['arrayOptions'], delivery2)"
+                        class="btn btn-danger btn-sm text-light">
                         Respond
                       </a>
                     </div>
@@ -124,23 +129,24 @@
             <h2 class="font-weight-bold">{{delivery.name}}</h2>
             <div style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}
               <div>
-                <div *ngIf="delivery.message.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>
+                <div *ngIf="delivery.message.senderUuid == decoded.im" class="badge badge-pill badge-info">DELIVERED
+                </div>
               </div>
 
               <div *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im">
-                <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger" >RSVP</div>
-                <div *ngIf="delivery.selectedOptions.length > 0"  class="badge badge-pill badge-success">RESPONDED</div>
+                <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger">RSVP</div>
+                <div *ngIf="delivery.selectedOptions.length > 0" class="badge badge-pill badge-success">RESPONDED</div>
               </div>
             </div>
 
-          <div
-            class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
-            <small class="">{{
+            <div
+              class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+              <small class="">{{
               delivery.message.createdAt | date: "short"
             }}</small>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
