@@ -382,7 +382,7 @@ export class SidebarComponent implements OnInit {
         ar.push(option['uuid']);
       }
     }
-    this.statisticalOptions(options);
+    this.statisticalOptions(options, infoDelivery);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
       'selectedOptions': ar
