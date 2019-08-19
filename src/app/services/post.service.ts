@@ -1,15 +1,15 @@
-import {environment} from './../../environments/environment';
-import {ClubMembersComponent} from './../pages/club-members/club-members.component';
-import {Member} from './../models/Member';
-import {LoginComponent} from './../pages/login/login.component';
-import {Http, RequestOptions, Headers} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {Body} from '@angular/http/src/body';
-import {HttpHeaders, HttpClient} from '@angular/common/http';
-import {Data} from '@angular/router';
-import {Observable} from 'rxjs';
-import {ResourceParent} from '../models/ResourceParent';
-import {forEach} from '@angular/router/src/utils/collection';
+import { environment } from './../../environments/environment';
+import { ClubMembersComponent } from './../pages/club-members/club-members.component';
+import { Member } from './../models/Member';
+import { LoginComponent } from './../pages/login/login.component';
+import { Http, RequestOptions, Headers } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Body } from '@angular/http/src/body';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Data } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ResourceParent } from '../models/ResourceParent';
+import { forEach } from '@angular/router/src/utils/collection';
 
 /* header */
 
@@ -25,6 +25,7 @@ export class PostService {
   private orgConnectionsAPI = 'https://org.api.trivesg.com/connections';
   private messageAPI = 'https://messaging.api.trivesg.com';
   private userAPI = 'https://user.api.trivesg.com/login/individual-member-access-token';
+  private personAPI = 'https://person.api.trivesg.com';
 
   constructor(private http: HttpClient) {
   }
@@ -473,4 +474,16 @@ export class PostService {
   }
 
   /* .,Free on Message API */
+
+  /* PERSON API */
+  editInfoPerson(id, data): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.put(`${this.personAPI}${id}`, data, httpOptions)
+  }
+  /* /.PERSON API */
 }

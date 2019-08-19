@@ -24,6 +24,13 @@ export class MemberidComponent implements OnInit {
   notFoundMember;
   file;
   id;
+  formEdit = {
+    name: '',
+    employerName: '',
+    phone: '',
+    email: '',
+    job: ''
+  }
   imId;
   snapID
   members: Object = {
@@ -65,8 +72,8 @@ export class MemberidComponent implements OnInit {
       } else {
         this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
       }
-    },error=>{
-      if(error.status === 404){
+    }, error => {
+      if (error.status === 404) {
         this.notFoundMember = 'Member Not Found.!!!';
       }
     });
@@ -103,6 +110,34 @@ export class MemberidComponent implements OnInit {
     }
   }
 
+  editInfo(data, element, realData) {
+
+    let id = this.routes.snapshot.params.id;
+    if (id === localStorage.getItem('im_id')) {
+      const formEdit = {
+        "givenName": (data.name) ? data.name : null,
+        "email": (data.email) ? data.email : null,
+        "phoneNumber": (data.phone) ? data.phone : null,
+        "jobTitle": (data.job) ? data.job : null,
+        "employerName": (data.employerName) ? data.employerName: null
+      }
+      this.service.editInfoPerson(`/people/${id}`, formEdit)
+        .subscribe(res => {
+          element.hidden = !element.hidden;
+        }, err => {
+          if (err.status === 404) {
+            alert(err.error['hydra:description'])
+          }
+          if (err.status === 400) {
+            alert(err.error['hydra:description'])
+          }
+          if (err.status === 500) {
+            alert(err.error['hydra:description'])
+          }
+        })
+    }
+  }
+
   toClubMem() {
     this.router.navigate(["club-members"]);
   }
@@ -110,7 +145,7 @@ export class MemberidComponent implements OnInit {
     return s.substring(s.lastIndexOf("/") + 1);
   }
 
-  goHome(){
+  goHome() {
     return this.router.navigate(['/club-members']);
   }
 }
