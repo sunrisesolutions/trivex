@@ -49,7 +49,7 @@ export class MemberConnectComponent implements OnInit {
 
   getConnect(textSearch: String = null) {
     let endpoint = `/connections?page=${this.currentPage}`;
-    console.log('4');
+    // console.log('4');
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
     console.log('im_id is ' + im_id);
     if (textSearch !== null) {
@@ -61,7 +61,7 @@ export class MemberConnectComponent implements OnInit {
           if (res['hydra:member']) {
             this.members = res['hydra:member'];
             for (let data of this.members) {
-              console.log('3333');
+              // console.log('3333');
               data['profilePicture'] = '/assets/img-process/Loading-img.gif';
               data['fromId'] = (data['fromMember']['@id']);
               data['toId'] = (data['toMember']['@id']);
@@ -103,17 +103,17 @@ export class MemberConnectComponent implements OnInit {
   processData = (mainData) => {
     this.loadingSearch = true;
     this.currentPage++;
-    console.log('1');
+    // console.log('1');
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
 
     // JSON.stringify(news
     let members  = this.members = this.members.concat(mainData['hydra:member']);
-    console.log('processing data ', mainData, this.members)
+    // console.log('processing data ', mainData, this.members)
 
     console.log('hey man nnn', members);
     for (let data of members) {
       data['profilePicture'] = '/assets/img-process/Loading-img.gif';
-      console.log('2', data);
+      // console.log('2', data);
       data['fromId'] = (data['fromMember']['@id']);
       data['toId'] = (data['toMember']['@id']);
       if (data['fromId'] === data['toId']) {
@@ -136,15 +136,15 @@ export class MemberConnectComponent implements OnInit {
                 });
             }
           });
-        console.log('data route is ', data);
+        // console.log('data route is ', data);
         data['route'] = `/individual_members/${data['toId']}`;
       } else if (data['toId'] === im_id) {
         data['data'] = data['personData']['from'];
         data['route'] = data['toId'];
       }
-      console.log('echoing member', data, im_id);
+      // console.log('echoing member', data, im_id);
     }
-    console.log('end of process data', members);
+    // console.log('end of process data', members);
   };
 
   open(content) {

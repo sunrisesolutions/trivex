@@ -33,9 +33,11 @@ export class NotificationsComponent implements OnInit {
   active;
   deliveries: Array<Delivery> = [];
   delivery2: Delivery;
+  showRespond: boolean = false;
   messagesID = '';
   currentPage = 1;
   scrollCallback;
+  optionsVoted = [];
   countMess;
   queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
 
@@ -147,6 +149,20 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
+
+  isActiveOption(item) {
+    for (let i of item) {
+      if (this.active === i.name) {
+        i['selectedOptionMessage'] = !i['selectedOptionMessage'];
+      } else {
+        i['selectedOptionMessage'] = false;
+        this.showRespond = false;
+      }
+    }
+  }
+  selectOption(item) {
+    this.active = item;
+  }
   putApproval(options, infoDelivery) {
     let ar = [];
     for (let option of options) {
@@ -154,6 +170,7 @@ export class NotificationsComponent implements OnInit {
         ar.push(option['uuid']);
       }
     }
+    this.statisticalOptions(options);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
       'selectedOptions': ar
@@ -174,18 +191,14 @@ export class NotificationsComponent implements OnInit {
         }
       });
   }
+  statisticalOptions(options) {
+    for (let o of options) {
+      this.service.messageOptionStatistical(`/deliveries?selectedOptions=${o.uuid}`)
+        .subscribe(res => {
+          o['voted'] = res['hydra:member'];
 
-  isActiveOption(item) {
-    for (let i of item) {
-      if (this.active === i.name) {
-        i['selectedOptionMessage'] = !i['selectedOptionMessage'];
-      } else {
-        i['selectedOptionMessage'] = false;
-      }
+        })
     }
-  }
-
-  selectOption(item) {
-    this.active = item;
+    console.log(options)
   }
 }

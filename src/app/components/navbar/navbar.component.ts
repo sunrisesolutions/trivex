@@ -110,9 +110,8 @@ export class NavbarComponent implements OnInit {
     let pramramsRead = {
       "read": true,
     }
-    delivery.readAt = pramramsRead.read;
     this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
-      console.log(res)
+      delivery.readAt = res['readAt'];
     });
   }
   /* /.MODAL DIALOG */
@@ -346,10 +345,10 @@ export class NavbarComponent implements OnInit {
   }
   isActiveOption(item) {
     for (let i of item) {
-      if(this.active === i.name){
-        i['selectedOptionMessage']=!i['selectedOptionMessage'];
-      }else {
-        i['selectedOptionMessage']=false;
+      if (this.active === i.name) {
+        i['selectedOptionMessage'] = !i['selectedOptionMessage'];
+      } else {
+        i['selectedOptionMessage'] = false;
       }
     }
   }
