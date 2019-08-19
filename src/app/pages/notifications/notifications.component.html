@@ -1,7 +1,20 @@
-<div appInfiniteScroller scrollPercent="80" immediateCallback="true" [scrollCallback]="scrollCallback"
-  class="scroll header bg-gradient-danger py-7 pt-md-8 ">
-  <div (click)="open(content, delivery); delivery2 = delivery"
-    *ngFor="let delivery of deliveries; let i = index; let c = count" class="container mb-3 w-md-50">
+<div appInfiniteScroller scrollPercent="50" immediateCallback="true" [scrollCallback]="scrollCallback"
+  class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
+  <div class="container mb-3 w-md-50">
+    <h2 class="text-white">{{title}}</h2>
+    <div class="card py-3">
+      <div class="card-content container">
+        <div class="row">
+          <div class="text-center col-12">
+            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>
+            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div (click)="open(content,delivery);delivery2=delivery;"
+    *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
     <!-- Modal Deliveries -->
     <ng-template #content let-modal>
       <div *ngIf="delivery2" class="">
@@ -108,11 +121,18 @@
               [src]="delivery.profilePicture" />
           </div>
           <div class="col-12 col-md-8 pl-mobile-custom">
-            <h2 class="font-weight-bold">{{ delivery.name }}</h2>
-            <p style="font-size:18px !important;" class="text-truncate">
-              {{ delivery.message.subject }}
-            </p>
-          </div>
+            <h2 class="font-weight-bold">{{delivery.name}}</h2>
+            <div style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}
+              <div>
+                <div *ngIf="delivery.message.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>
+              </div>
+
+              <div *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im">
+                <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger" >RSVP</div>
+                <div *ngIf="delivery.selectedOptions.length > 0"  class="badge badge-pill badge-success">RESPONDED</div>
+              </div>
+            </div>
+
           <div
             class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
             <small class="">{{

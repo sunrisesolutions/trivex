@@ -1,4 +1,5 @@
-<div *ngIf="delivery" style="height: 100vh" class="scroll header bg-gradient-danger ">
+<div appInfiniteScroller scrollPercent="50" immediateCallback="true" [scrollCallback]="scrollCallback"
+     class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
   <div class="container-fluid w-mobile m-auto w-desktop">
     <!-- <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Messages</h4>
@@ -6,28 +7,63 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div> -->
-    <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">
-      <div class="d-flex justify-content-center">
-        <div class="card-profile-image" style="top:-20pt">
-          <img [routerLink]="['/club-members']" style="width:100px;cursor: pointer;height:100px" alt="Image placeholder"
-            [src]="delivery.profilePicture" class="avatar-notif">
-        </div>
-      </div>
-      <div class="card-body mt-4 text-center">
-        <div class="container">
-          <div class="h1">
-            {{delivery.name}}
-          </div>
-          <hr class="my-2">
-          <div class="font-weight-bold">
-            {{delivery.message.subject}}
-          </div>
-          <div class="font-weight-light">
-            {{delivery.message.body}}
-          </div>
-        </div>
-      </div>
+<!--    <div class="card card-profile" style="box-shadow: 0px 2px 10px -1px #888888">-->
+<!--      <div class="d-flex justify-content-center">-->
+<!--        <div class="card-profile-image" style="top:-20pt">-->
+<!--          <img [routerLink]="['/club-members']" style="width:100px;cursor: pointer;height:100px" alt="Image placeholder"-->
+<!--            [src]="delivery.profilePicture" class="avatar-notif">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="card-body mt-4 text-center">-->
+<!--        <div class="container">-->
+<!--          <div class="h1">-->
+<!--            {{delivery.name}}-->
+<!--          </div>-->
+<!--          <hr class="my-2">-->
+<!--          <div class="font-weight-bold">-->
+<!--            {{delivery.message.subject}}-->
+<!--          </div>-->
+<!--          <div class="font-weight-light">-->
+<!--            {{delivery.message.body}}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
+<!--    </div>-->
+
+
+    <div (click)="delivery2=delivery;"
+         *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
+      <div *ngIf="delivery.recipientUuid != decoded.im" class="card py-3 cursor {{(delivery.readAt) ? 'readed':'unread'}}">
+        <div class="card-content container">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center col-md-2">
+              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+                   [src]="delivery.profilePicture">
+            </div>
+            <div class="col-12 col-md-8 pl-mobile-custom text-center">
+              <h2 class="font-weight-bold">{{delivery.name}}</h2>
+              <div style="font-size:18px !important;" class="text-truncate">{{delivery.message.subject}}
+                <div>
+<!--                  <div *ngIf="delivery.message.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>-->
+                </div>
+
+<!--                <div *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im">-->
+<!--                  <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger" >RSVP</div>-->
+<!--                  <div *ngIf="delivery.selectedOptions.length > 0"  class="badge badge-pill badge-success">RESPONDED</div>-->
+<!--                </div>-->
+              </div>
+
+              <div
+                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+                <small class="">{{delivery.readAt?(delivery.readAt | date:'short'):'Not Seen'}}</small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>

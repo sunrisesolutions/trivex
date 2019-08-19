@@ -6,19 +6,80 @@
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div class="container w-100 mt-8 mt-md-0">
     <div class="row d-flex flex-row align-items-center justify-content-between">
-      <div class="col-12 col-md-4">
+      <div class="col-12">
         <div class="container">
           <div class="card">
             <div class="card-body container">
               <div class="row">
                 <div class="col-12 flex-center">
                   <h2 class="text-center">Free Days</h2>
-                  <select class="form-control" name="" id="">
-                    <option [selected]="option.status" *ngFor="let option of optionDragModule" value="">
-                      <a>{{ option.name }}</a>
-                    </option>
-                  </select>
-                  <hr class="my-2" />
+                  <div class="row">
+                    <div class="col-3 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          [(ngModel)]="phone"
+                          name="phone"
+                          class="p-2 form-control"
+                          placeholder="From time (hour)"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-3 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          [(ngModel)]="phone"
+                          name="phone"
+                          class="p-2 form-control"
+                          placeholder="From time (minute)"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div class="col-3 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          [(ngModel)]="phone"
+                          name="phone"
+                          class="p-2 form-control"
+                          placeholder="To time (hour)"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-3 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          [(ngModel)]="phone"
+                          name="phone"
+                          class="p-2 form-control"
+                          placeholder="To time (minute)"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                  </div>
                   <dts-select-container
                     #container="dts-select-container"
                     [(selectedItems)]="selectedItems"
@@ -27,26 +88,72 @@
                     [selectWithShortcut]="optionDragModule[2].status"
                     (select)="dragMethod($event)"
                   >
-                    <ul class="container d-flex flex-column">
-                      <li
-                        class="btn mb-2 w-100 border"
-                        [dtsSelectItem]="document"
-                        *ngFor="let document of documents"
-                      >
-                        {{ document.value }}
-                      </li>
-                    </ul>
+                    <div class="container d-flex flex-column">
+                      <div class="row">
+                        <div [class.col-4]="document.number > 1" [class.col-12]="document.number == 1" *ngFor="let document of documents">
+                          <li
+                            class="btn mb-2 w-100 border"
+                            [dtsSelectItem]="document"
+                          >
+                            {{ document.value }}
+                          </li>
+                        </div>
+                      </div>
+                    </div>
                   </dts-select-container>
+                  <div class="row">
+                    <div class="col-6 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          #dobi
+                          class="form-control p-2 datepicker"
+                          placeholder="Effective from"
+                          name="dob"
+                          [(ngModel)]="dob"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                          (focus)="notEnoughOld=''"
+                          [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
+                          [minDate]="{ year: date.year-80, month: 01, day: 01 }"
+                          [startDate]="{ year: date.year-21, month: 01 }"
+                          (click)="d.toggle()"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-6 form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-calendar-grid-58"></i
+                          ></span>
+                        </div>
+                        <input
+                          #dobi
+                          class="form-control p-2 datepicker"
+                          placeholder="Expired on"
+                          name="dob"
+                          [(ngModel)]="dob"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                          (focus)="notEnoughOld=''"
+                          [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
+                          [minDate]="{ year: date.year-80, month: 01, day: 01 }"
+                          [startDate]="{ year: date.year-21, month: 01 }"
+                          (click)="d.toggle()"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-8">
-        <div class="container">
-          <div class="card">
-            <div class="card-body container"></div>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ import { MessagesComponent } from 'src/app/pages/notifications/message/messages.
 import { queryRefresh } from '@angular/core/src/render3';
 import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
+import { MessageRecipientsComponent } from 'src/app/pages/message-recipients/message-recipients.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -33,7 +34,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
-  { path: 'club-members/notifications/message/:id',component: MessagesComponent},
+  { path: 'club-members/notifications/message/:id/selected-option/:selectedOptionUuid', component: MessagesComponent},
   { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
   { path: 'club-members/:id/qr-code', component: QrCodeComponent },
   { path: 'club-members/:id/send-email', component: SendEmailComponent },
@@ -41,5 +42,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: "qr-start", component: QrStartComponent },
   { path: "qr-scanner", component: QrScannerComponent },
   { path: "dashboard/:access", component: DashboardComponent },
-  { path: "post-announcement", component: PostAnnouncementComponent }
+  { path: "post-announcement", component: PostAnnouncementComponent },
+  { path: "message-recipients", component: MessageRecipientsComponent }
 ];

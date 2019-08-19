@@ -26,6 +26,7 @@
       <li
         class="nav-item"
         ngbDropdown
+        #messageDropdown="ngbDropdown"
         autoClose="outside"
         placement="bottom-right"
       >
@@ -56,8 +57,8 @@
               unread notifications.
             </h6>
             <div class="text-center">
-              <i (click)="toggleIncomingMessageFilter()" class="fas fa-inbox text-lg"></i> &nbsp;
-              <i class="far fa-share-square text-lg"></i>
+              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>
+              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>
             </div>
             <div
               *ngIf="deviceInfo.os !== 'iOS'"
@@ -126,14 +127,14 @@
                           <div class="h1">
                             {{ delivery2.name }}
                           </div>
-                          <hr class="my-2" />
+                          <hr class="my-2"/>
                           <div class="font-weight-bold">
                             {{ delivery2.message.subject }}
                           </div>
                           <div class="font-weight-light">
                             {{ delivery2.message.body }}
                           </div>
-                          <hr class="my-2" />
+                          <hr class="my-2"/>
                           <div class="row justify-content-center">
                             <div
                               [title]="list.name"
@@ -240,8 +241,9 @@
                       style="max-width: 150px"
                     >
                       {{ delivery.message.subject }}
-                      <i *ngIf="delivery.message.optionSet != null" class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
-                      <i *ngIf="delivery.message.senderUuid == decoded.im" class="float-right fas fa-share"></i>
+                      <i *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im"
+                         class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
+                      <a routerLink="/message-recipients"><i *ngIf="isOutgoing(delivery)" class="float-right fas fa-share"></i></a>
                     </p>
                   </div>
                 </div>
@@ -249,17 +251,17 @@
             </div>
           </div>
           <!-- View all -->
-          <a
+          <a (click)="messageDropdown.close();"
             routerLink="/club-members/notifications"
             class="dropdown-item text-center text-primary font-weight-bold py-3"
           >View all</a
           >
         </div>
       </li>
+      <!--        autoClose="true"-->
       <li
         class="nav-item"
         ngbDropdown
-        autoClose="inside"
         placement="bottom-right"
       >
         <a class="nav-link" role="button" ngbDropdownToggle>
@@ -312,7 +314,7 @@
         <div class="row">
           <div class="col-6 collapse-brand">
             <a routerLinkActive="active" (click)="toQrCode()">
-              <img src="assets/img/brand/logo.png" />
+              <img src="assets/img/brand/logo.png"/>
             </a>
           </div>
           <div class="col-6 collapse-close">
@@ -360,7 +362,7 @@
         </li>
       </ul>
       <!-- Divider -->
-      <hr class="my-3" />
+      <hr class="my-3"/>
       <!-- Heading -->
       <!--  -->
     </div>

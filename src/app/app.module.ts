@@ -22,8 +22,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PushNotificationService } from './services/post-notif.service';
 import { CheckRoleService } from './services/check-role.service';
-import { Location } from '@angular/common';
+import { Location, DecimalPipe } from '@angular/common';
 import { InfiniteScrollerDirective } from './services/infinite-scroller.directive';
+import { MessageRecipientsComponent } from './pages/message-recipients/message-recipients.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,7 @@ import { InfiniteScrollerDirective } from './services/infinite-scroller.directiv
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
+    AuthLayoutComponent
   ],
   providers: [
     PostService,
@@ -49,6 +50,7 @@ import { InfiniteScrollerDirective } from './services/infinite-scroller.directiv
     Location,
     CheckRoleService,
     PushNotificationService,
+    DecimalPipe
   ],
   bootstrap: [AppComponent]
 })

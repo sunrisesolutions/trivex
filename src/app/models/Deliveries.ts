@@ -4,5 +4,7 @@ import { Registration } from "./Registration";
 export class Delivery {
   profilePicture: string;
   name: string;
-  readAt: Date
+  message!: any;
+  readAt: Date;
+  recipientUuid: string;
 }
