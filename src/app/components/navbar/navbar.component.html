@@ -5,7 +5,7 @@
   <div class="container-fluid flex-lg-row flex-md-row-reverse">
     <!-- Brand -->
     <a style="margin-left: 180pt !important; cursor:pointer"
-      class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block " routerLinkActive="active"
+      class="h4 mb-0 text-white-no-longer text-uppercase d-none d-lg-inline-block " routerLinkActive="active"
       (click)="toQrCode()">My Qr-Code</a>
     <!-- Form -->
     <!--  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
@@ -115,7 +115,7 @@
                                   </a>
                                 </div>
                               </div>
-            
+
                             </div>
                             <div class="col-12">
                               <div [hidden]="!list.voted" *ngFor="
@@ -131,14 +131,14 @@
                                     {{(list.voted) ? list.voted.length : ''}}
                                   </div>
                                 </div>
-            
+
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-            
+
                     <div *ngIf="c > 1" class="modal-footer justify-content-start border">
                       <div class="container text-light">
                         <div class="row">

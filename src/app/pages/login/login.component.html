@@ -21,7 +21,7 @@
     </svg>
   </div>
 </div>
-<h1 class="text-white text-center display-5 display-md-1" *ngIf="error">
+<h1 class="text-white-no-longer text-center display-5 display-md-1" *ngIf="error">
   {{ error | uppercase }}
 </h1>
 <!-- Page content -->
@@ -123,7 +123,7 @@
               </div>
             </div>
           </form>
-          <div *ngIf="notEnoughOld" class="text-center bg-danger rounded text-white">{{ notEnoughOld }}</div>
+          <div *ngIf="notEnoughOld" class="text-center bg-danger rounded text-white-no-longer">{{ notEnoughOld }}</div>
         </div>
         <div class="card-body">
           <form role="form">

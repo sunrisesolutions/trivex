@@ -3,7 +3,7 @@
     <div class="header-body text-center mb-5">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">TRIVESG</h1>
+          <h1 class="text-white-no-longer">TRIVESG</h1>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
     </svg>
   </div>
 </div>
-<h1 class="text-white text-center display-5 display-md-1" *ngIf="error">
+<h1 class="text-white-no-longer text-center display-5 display-md-1" *ngIf="error">
   {{ error | uppercase }}
 </h1>
 <!-- Page content -->
@@ -182,7 +182,7 @@
               </div>
               <div
                 *ngIf="notEnoughYearOld"
-                class="text-center bg-danger rounded text-white mb-3"
+                class="text-center bg-danger rounded text-white-no-longer mb-3"
               >
                 {{ notEnoughYearOld }}
               </div>
@@ -255,7 +255,7 @@
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                </div>          <div *ngIf="notEnoughOld" class="text-center bg-danger rounded text-white">{{ notEnoughOld }}</div>
+                </div>          <div *ngIf="notEnoughOld" class="text-center bg-danger rounded text-white-no-longer">{{ notEnoughOld }}</div>
 
                 <input class="form-control" placeholder="Password" type="password">
               </div>
@@ -379,7 +379,7 @@
               </div>
               <div
                 *ngIf="notEnoughYearOld"
-                class="text-center bg-danger mb-2 rounded text-white"
+                class="text-center bg-danger mb-2 rounded text-white-no-longer"
               >
                 {{ notEnoughYearOld }}
               </div>

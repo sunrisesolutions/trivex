@@ -15,11 +15,11 @@
     class="container mt-6">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">
-        <h1 class="display-3 display-md-2 text-white">Announcements</h1>
+        <h1 class="display-3 display-md-2 text-white-no-longer">Announcements</h1>
         <div *ngIf="error" class="alert alert-danger">
           {{error}}
         </div>
-        <div *ngIf="success" class="h3 text-white">
+        <div *ngIf="success" class="h3 text-white-no-longer">
           <p for="">You have successfully posted the announcement.</p>
           <button (click)="success=false;this.subject='';this.body=''" class="btn btn-info">Post another
             announcement</button>
@@ -29,14 +29,14 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label class="form-control-label text-white" for="subject">Subject</label>
+                <label class="form-control-label text-white-no-longer" for="subject">Subject</label>
                 <input [(ngModel)]="subject" name="subject" id="subject" class="form-control form-control-alternative"
                   placeholder="An invitation letter from Club" type="text">
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="text-white form-control-label">Predefined Options</label>
+            <label class="text-white-no-longer form-control-label">Predefined Options</label>
             <ngx-select-dropdown (change)="getId($event)" insideKeyPress="true" [(ngModel)]="dataModel" name="select"
               [config]="config" [options]="listOptions"></ngx-select-dropdown>
             <!-- <select class="form-control cursor-pointer" name="listOptions">
@@ -47,10 +47,10 @@
             </select> -->
           </div>
           <div class="form-group">
-            <label class="text-white form-control-label">Message</label>
+            <label class="text-white-no-longer form-control-label">Message</label>
             <angular-editor class="" name="body" [(ngModel)]="body"></angular-editor>
           </div>
-          <div class="row text-white">
+          <div class="row text-white-no-longer">
             <div class="col-12 text-right">
               <button class="btn btn-info" (click)="send(idOptionSet)" [disabled]="loading">Send</button>
             </div>
