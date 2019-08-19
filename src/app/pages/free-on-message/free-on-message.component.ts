@@ -12,6 +12,7 @@ import { getLocaleDateTimeFormat } from '@angular/common';
 export class FreeOnMessageComponent implements OnInit {
   error = '';
   dob: any;
+  notEnoughOld: any;
 
   success = false;
   phone: any;
