@@ -1,7 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { getLocaleDateTimeFormat } from '@angular/common';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import {getLocaleDateTimeFormat} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-free-on-message',
@@ -11,14 +12,27 @@ import { getLocaleDateTimeFormat } from '@angular/common';
 
 export class FreeOnMessageComponent implements OnInit {
   error = '';
-  dob: any;
+  effectiveFrom: any = {year: 2019, moth: 8, day: 20};
+  expireOn: any = {year: 2019, moth: 9, day: 20};
   notEnoughOld: any;
-
+  deviceInfo = null;
   success = false;
-  phone: any;
+
+  fromTime = '';
+  toTime = '';
+  day = {
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
+    saturday: false,
+    sunday: false
+  };
+
   loading = false;
   required = false;
-  fromDay = 0;
+
   selectedItems: boolean = true;
   optionDragModule = [
     {
@@ -31,7 +45,7 @@ export class FreeOnMessageComponent implements OnInit {
       name: 'select with shortcut',
       status: false
     }
-  ]
+  ];
   documents = [
     {
       number: 1,
@@ -55,20 +69,20 @@ export class FreeOnMessageComponent implements OnInit {
       number: 7,
       value: 'Saturday'
     }
-  ]
+  ];
   toDay = 0;
   dirty;
   date = {
     year: 0,
     month: 0,
     day: 0
-  }
+  };
   check = {
     fromDay: 0,
     toDay: 0,
     effectiveFrom: this.date,
     expireOn: this.date
-  }
+  };
   template = {
     fromAt: '',
     toAt: '',
@@ -77,15 +91,15 @@ export class FreeOnMessageComponent implements OnInit {
     text: '',
     effectiveFrom: this.date = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth()+1,
-      day: new Date().getDate()+1
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate() + 1
     },
     expireOn: this.date = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth()+4,
+      month: new Date().getMonth() + 4,
       day: new Date().getDate()
     }
-  }
+  };
   form = {
     fromAt: '',
     toAt: '',
@@ -94,22 +108,29 @@ export class FreeOnMessageComponent implements OnInit {
     text: '',
     effectiveFrom: this.date = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth()+1,
-      day: new Date().getDate()+1
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate() + 1
     },
     expireOn: this.date = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth()+4,
+      month: new Date().getMonth() + 4,
       day: new Date().getDate()
     }
-  }
+  };
 
   constructor(
-    public apiService: PostService
-  ) { }
+    public apiService: PostService,
+    private deviceService: DeviceDetectorService,
+  ) {
+  }
 
   ngOnInit() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
 
+  }
+
+  isIOS() {
+    return this.deviceInfo.os === 'iOS';
   }
 
   checkDay(formCheck) {
@@ -122,14 +143,14 @@ export class FreeOnMessageComponent implements OnInit {
         this.form.fromDay = this.check.fromDay;
         this.form.toDay = this.check.toDay;
         alert(`From day not same To day`);
-        console.log(this.form.fromDay, this.form.toDay)
+        console.log(this.form.fromDay, this.form.toDay);
       }
       if (this.form.fromDay < this.form.toDay) {
         console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
         return true;
       }
       if (this.form.fromDay > this.form.toDay) {
-        this.form.toDay = this.form.toDay + 7
+        this.form.toDay = this.form.toDay + 7;
         console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
         return true;
       }
@@ -139,8 +160,8 @@ export class FreeOnMessageComponent implements OnInit {
 
   send(form) {
     this.loading = true;
-    form.expireOn = `${form.expireOn.day}-${form.expireOn.month}-${form.expireOn.year}`
-    form.effectiveFrom = `${form.effectiveFrom.day}-${form.effectiveFrom.month}-${form.effectiveFrom.year}`
+    form.expireOn = `${form.expireOn.day}-${form.expireOn.month}-${form.expireOn.year}`;
+    form.effectiveFrom = `${form.effectiveFrom.day}-${form.effectiveFrom.month}-${form.effectiveFrom.year}`;
     let freeOnMessageBody = {
       fromHour: Number(form.fromAt.slice(0, 2)),
       toHour: Number(form.toAt.slice(0, 2)),
@@ -152,19 +173,20 @@ export class FreeOnMessageComponent implements OnInit {
       effectiveFrom: form.effectiveFrom,
       expireOn: form.expireOn
 
-    }
-     this.apiService.freeOnMessagePost(freeOnMessageBody)
-       .subscribe(res => {
-         this.loading = false;
-         this.success = true;
-         this.error = '';
-         console.log(res);
-       }, error => {
-         this.loading = false;
-         this.error = error.error['hydra:description'];
-       })
+    };
+    this.apiService.freeOnMessagePost(freeOnMessageBody)
+      .subscribe(res => {
+        this.loading = false;
+        this.success = true;
+        this.error = '';
+        console.log(res);
+      }, error => {
+        this.loading = false;
+        this.error = error.error['hydra:description'];
+      });
   }
-  dragMethod(event){
+
+  dragMethod(event) {
     console.log(event);
   }
 }

@@ -7,122 +7,82 @@
   <div class="container w-100 mt-8 mt-md-0">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">
-        <div class="container">
+        <div class="">
           <div class="card">
             <div class="card-body container">
               <div class="row">
                 <div class="col-12 flex-center">
-                  <h2 class="text-center">Free Days</h2>
                   <div class="row">
-                    <div class="col-3 form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
-                          ></span>
-                        </div>
-                        <input
-                          [(ngModel)]="phone"
-                          name="phone"
-                          class="p-2 form-control"
-                          placeholder="From time (hour)"
-                          type="number"
-                        />
-                      </div>
+                    <div class="col-12 form-group">
+                      <h2 class="text-center">Free from (time)</h2>
+                      <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="fromTime" name="fromAt"
+                             atp-time-picker placeholder="Time picker" />
+                      <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="fromTime" name="fromAt"
+                             type="time" placeholder="Time picker" />
+                      <!--                      <hr>-->
+                      <!--                      <pre>Selected time: {{fromTime | json}}</pre>-->
                     </div>
-                    <div class="col-3 form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
-                          ></span>
-                        </div>
-                        <input
-                          [(ngModel)]="phone"
-                          name="phone"
-                          class="p-2 form-control"
-                          placeholder="From time (minute)"
-                          type="number"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div class="col-3 form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
-                          ></span>
-                        </div>
-                        <input
-                          [(ngModel)]="phone"
-                          name="phone"
-                          class="p-2 form-control"
-                          placeholder="To time (hour)"
-                          type="number"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-3 form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
-                          ></span>
-                        </div>
-                        <input
-                          [(ngModel)]="phone"
-                          name="phone"
-                          class="p-2 form-control"
-                          placeholder="To time (minute)"
-                          type="number"
-                        />
-                      </div>
+                    <div class="col-12 form-group">
+                      <h2 class="text-center">To (time)</h2>
+                      <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="toTime" name="toAt"
+                             atp-time-picker placeholder="Time picker" />
+                      <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="toTime" name="toAt"
+                             type="time" placeholder="Time picker" />
                     </div>
                   </div>
-                  <dts-select-container
-                    #container="dts-select-container"
-                    [(selectedItems)]="selectedItems"
-                    [selectOnDrag]="optionDragModule[0].status"
-                    [selectMode]="optionDragModule[1].status"
-                    [selectWithShortcut]="optionDragModule[2].status"
-                    (select)="dragMethod($event)"
-                  >
-                    <div class="container d-flex flex-column">
-                      <div class="row">
-                        <div [class.col-4]="document.number > 1" [class.col-12]="document.number == 1" *ngFor="let document of documents">
-                          <li
-                            class="btn mb-2 w-100 border"
-                            [dtsSelectItem]="document"
-                          >
-                            {{ document.value }}
-                          </li>
-                        </div>
-                      </div>
+                  <hr>
+                  <h2>On what day(s)</h2>
+                  <div class="flex-column d-flex">
+                    <div class="btn-group btn-group-toggle justify-content-center">
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.monday"> MON
+                      </label>
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.tuesday"> TUE
+                      </label>
+                      <label class="btn-primary" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.wednesday"> WED
+                      </label>
                     </div>
-                  </dts-select-container>
+                    <div class="btn-group btn-group-toggle mt-1 justify-content-center">
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.thursday"> THUR
+                      </label>
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.friday"> FRI
+                      </label>
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.saturday"> SAT
+                      </label>
+                    </div>
+                    <div class="btn-group btn-group-toggle mt-1 justify-content-center">
+                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                        <input type="checkbox" ngbButton [(ngModel)]="day.sunday"> SUNDAY
+                      </label>
+                    </div>
+                  </div>
+                  <hr>
                   <div class="row">
                     <div class="col-6 form-group">
                       <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
+                          ><i class="ni ni-calendar-grid-58"></i
                           ></span>
                         </div>
                         <input
-                          #dobi
-                          class="form-control p-2 datepicker"
-                          placeholder="Effective from"
-                          name="dob"
-                          [(ngModel)]="dob"
-                          ngbDatepicker
-                          #d="ngbDatepicker"
-                          (focus)="notEnoughOld=''"
-                          [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
-                          [minDate]="{ year: date.year-80, month: 01, day: 01 }"
-                          [startDate]="{ year: date.year-21, month: 01 }"
-                          (click)="d.toggle()"
-                          type="text"
+                            #effectiveFromIpt
+                            class="form-control p-2 datepicker"
+                            placeholder="Effective from"
+                            name="dob"
+                            [(ngModel)]="effectiveFrom"
+                            ngbDatepicker
+                            #d="ngbDatepicker"
+                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
+                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"
+                            [startDate]="{ year: date.year-21, month: 01 }"
+                            (click)="d.toggle()"
+                            type="text"
                         />
                       </div>
                     </div>
@@ -130,23 +90,22 @@
                       <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text"
-                            ><i class="ni ni-calendar-grid-58"></i
+                          ><i class="ni ni-calendar-grid-58"></i
                           ></span>
                         </div>
                         <input
-                          #dobi
-                          class="form-control p-2 datepicker"
-                          placeholder="Expired on"
-                          name="dob"
-                          [(ngModel)]="dob"
-                          ngbDatepicker
-                          #d="ngbDatepicker"
-                          (focus)="notEnoughOld=''"
-                          [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
-                          [minDate]="{ year: date.year-80, month: 01, day: 01 }"
-                          [startDate]="{ year: date.year-21, month: 01 }"
-                          (click)="d.toggle()"
-                          type="text"
+                            #expireOnIpt
+                            class="form-control p-2 datepicker"
+                            placeholder="Expired on"
+                            name="dob"
+                            [(ngModel)]="expireOn"
+                            ngbDatepicker
+                            #d="ngbDatepicker"
+                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
+                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"
+                            [startDate]="{ year: date.year-21, month: 01 }"
+                            (click)="d.toggle()"
+                            type="text"
                         />
                       </div>
                     </div>
