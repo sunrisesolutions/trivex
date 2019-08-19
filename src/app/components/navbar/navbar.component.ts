@@ -174,7 +174,7 @@ export class NavbarComponent implements OnInit {
       .subscribe((res) => {
         // console.log('deliveries', res)
         this.deliveries = res['hydra:member'];
-        for (const delivery of this.deliveries) {
+        for (let delivery of this.deliveries) {
           delivery.name = 'Waiting...';
           delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
           if (delivery['message'].senderUuid !== undefined) {
@@ -215,7 +215,7 @@ export class NavbarComponent implements OnInit {
           }
 
         }
-        console.log('deliveries', this.deliveries)
+        console.log('navbar deliveries', this.deliveries)
 
       });
 

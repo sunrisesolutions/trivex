@@ -200,7 +200,7 @@ export class PostService {
 
 
   getDelivery(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
-    console.log('post.getDelivery');
+    // console.log('post.getDelivery');
     if (query == '&selfDelivery=true') {
       console.log(' hey query is ', `/deliveries?page=${page}${query}`);
     }
@@ -220,6 +220,7 @@ export class PostService {
     if (query == '&selfDelivery=true') {
       console.log(observable);
     }
+    // console.log('returning observable');
     return observable;
   }
 

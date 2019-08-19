@@ -1,22 +1,57 @@
-
-@media only screen and(min-width: 1064px){
-  .w-desktop{
-    width: 50%;
-  }
-  .header{
-    padding-top: 270px !important;
+@media only screen and(max-width: 768px) {
+  .card-content {
+    text-align: center;
   }
 }
-@media only screen and(min-width: 768px){
-  .w-desktop{
+@media only screen and(min-width: 768px) {
+  .w-md-50 {
+    width: 100% !important;
+  }
+
+  .pl-mobile-custom {
+    padding-left: 20px !important;
+  }
+}
+@media only screen and(min-width: 964px) {
+  .pl-mobile-custom {
+    padding-left: 5px !important;
+  }
+}
+@media only screen and(min-width: 1064px) {
+  .w-md-50 {
     width: 80% !important;
   }
 }
-@media only screen and(max-width: 768px){
-  .header{
-    padding-top: 150px !important;
+.unread {
+  background-color: white;
+}
+.readed {
+  background-color: #edf2fa;
+}
+
+.cursor {
+  cursor: pointer !important;
+}
+
+
+ngx-select-dropdown {
+  /deep/ .selected-items li{
+    display: flex !important;
+    align-items: center;
+    /deep/ .nsdicon-close{
+      margin-right: 10px !important;
+    }
   }
-  .w-mobile{
-    width: 100% !important;
-  }
+  margin-bottom: 10px !important;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+.text-light{
+  color: white !important;
+}
+.btn{
+  white-space: normal !important;
+}
+.avatar-notif{
+  object-fit: cover !important;
 }
