@@ -24,7 +24,6 @@ import { PushNotificationService } from './services/post-notif.service';
 import { CheckRoleService } from './services/check-role.service';
 import { Location, DecimalPipe } from '@angular/common';
 import { InfiniteScrollerDirective } from './services/infinite-scroller.directive';
-import { MessageRecipientsComponent } from './pages/message-recipients/message-recipients.component';
 
 @NgModule({
   imports: [

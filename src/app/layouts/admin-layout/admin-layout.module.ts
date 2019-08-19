@@ -27,8 +27,7 @@ import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DragToSelectModule } from 'ngx-drag-to-select';
-import { MessageRecipientsComponent } from 'src/app/pages/message-recipients/message-recipients.component';
-import { NgbdSortableHeader } from 'src/app/pages/message-recipients/sortable.directive';
+
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -62,8 +61,6 @@ import { NgbdSortableHeader } from 'src/app/pages/message-recipients/sortable.di
     NotificationsComponent,
     FreeOnMessageComponent,
     MessagesComponent,
-    MessageRecipientsComponent,
-    NgbdSortableHeader
   ]
 })
 
