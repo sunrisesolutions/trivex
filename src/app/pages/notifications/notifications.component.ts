@@ -136,9 +136,10 @@ export class NotificationsComponent implements OnInit {
   }
 
   open(content, delivery) {
-    if(delivery.arrayOptions){
-      this.statisticalOptions(delivery.arrayOptions, delivery)
-    };
+    if (delivery.arrayOptions) {
+      this.statisticalOptions(delivery.arrayOptions, delivery);
+    }
+    ;
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
@@ -171,18 +172,21 @@ export class NotificationsComponent implements OnInit {
 
   putApproval(options, infoDelivery) {
     let ar = [];
+    let selectedOption = null;
     for (let option of options) {
       if (option['selectedOptionMessage']) {
+        selectedOption = option;
         ar.push(option['uuid']);
       }
     }
-    this.statisticalOptions(options, infoDelivery);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
       'selectedOptions': ar
     };
     this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
       .subscribe(res => {
+        this.statisticalOptions(options, infoDelivery);
+        infoDelivery.selectedOptions.push(selectedOption);
         /* console.log(res);
         alert('Successfully.!!!'); */
       }, error => {

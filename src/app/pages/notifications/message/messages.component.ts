@@ -19,14 +19,15 @@ export class MessagesComponent implements OnInit {
 
   deliveries: Array<Delivery> = [];
   currentPage = 1;
-  scrollCallback;
+  scrollCallback: any = null;
   listMessageOptions = [];
   decoded: any;
   delivery2: Delivery;
   active;
   selectedOptionUuid: string;
   message: Message;
-  optionName: string ;
+  optionName: string;
+  initialised = false;
 
   constructor(
     public httpClient: HttpClient,
@@ -35,6 +36,7 @@ export class MessagesComponent implements OnInit {
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.scrollCallback = this.getDelivery.bind(this);
+
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.selectedOptionUuid = params['selectedOptionUuid'];
@@ -43,7 +45,11 @@ export class MessagesComponent implements OnInit {
       this.service.getMessageById(this.id).subscribe(
         (res: Message) => {
           this.message = res;
-          this.getDelivery();
+            if (this.initialised) {
+              this.getDelivery();
+            }
+
+          this.initialised = true;
         }
       );
       this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
@@ -55,6 +61,7 @@ export class MessagesComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.selectedOptionUuid = this.route.snapshot.paramMap.get('selectedOptionUuid');
+    this.currentPage = 1;
     this.service.getMessageById(this.id).subscribe(
       (res: Message) => {
         this.message = res;
@@ -88,7 +95,7 @@ export class MessagesComponent implements OnInit {
         console.log('get deliveries successfully');
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
-        // console.log(res)
+        console.log('deliveries for message component requested successfully ', res, this.deliveries);
         for (let delivery of this.deliveries) {
           console.log('requesting for delivery ', delivery);
           delivery.name = 'Loading...';

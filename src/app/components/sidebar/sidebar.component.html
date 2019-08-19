@@ -117,43 +117,46 @@
                             <div class="font-weight-bold">
                               {{ delivery2.message.subject }}
                             </div>
-                            <div class="font-weight-light">
-                              <div [innerHTML]="delivery2.message.body"></div>
+                            <div class="font-weight-light" [innerHTML]=" delivery2.message.body ">
                             </div>
                           </div>
                           <div class="col-12">
                             <hr class="my-2"/>
                           </div>
-                          <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
-                            <!-- Button -->
-                            <div class="btn border mx-2 mb-2" [title]="list.name" (click)="
+                          <div [hidden]="delivery2.message.optionSet == null || delivery2.selectedOptions.length > 0" class="col-12 justify-content-center">
+                            <div class="d-flex flex-column flex-md-row justify-content-center">
+                              <!-- Button -->
+                              <div class="btn border mx-2 mb-2" [title]="list.name" (click)="
                         selectOption(list.name);
                         isActiveOption(delivery2['arrayOptions'])
-                      "[ngClass]="{
+                      " [ngClass]="{
                         'btn-primary text-light': list['selectedOptionMessage']
-                      }" [hidden]="delivery2.selectedOptions.length > 0" *ngFor="
-                      let list of delivery2['arrayOptions'];
+                      }"
+                                   *ngFor="let list of delivery2['arrayOptions'];
                       let i = index
                     ">
-                              <div class="d-flex flex-column justify-content-center">
+                                <div class="d-flex flex-column justify-content-center">
                       <span class="text-truncate">
                         {{ list.name }}
                       </span>
-                                <a *ngIf="list.selectedOptionMessage" (click)="putApproval(delivery2['arrayOptions'], delivery2)"
-                                   class="btn btn-danger btn-sm text-light">
-                                  Respond
-                                </a>
+                                </div>
                               </div>
+
+                              <a (click)="putApproval(delivery2['arrayOptions'], delivery2)"
+                                 class="btn btn-danger btn-lg text-light">
+                                <!--*ngIf="list.selectedOptionMessage"-->
+                                Respond
+                              </a>
                             </div>
                           </div>
 
-                          <div class="col-12">
-                            <div [hidden]="delivery2.selectedOptions.length == 0" *ngFor="
+                          <div class="col-12" [hidden]="delivery2.selectedOptions.length == 0">
+                            <div *ngFor="
                   let list of delivery2['arrayOptions'];
                   let i = index
                 " class="">
                               <a
-                                (click)="modal.dismiss();" routerLinkActive="active"
+                                (click)="modal.dismiss();"
                                 routerLink="/club-members/notifications/message/{{ delivery2.messageId }}/selected-option/{{ list.uuid }}">
                                 <label class="">{{list.name}}</label>
                                 <div class="progress" style="height: 15px;">
@@ -179,19 +182,22 @@
                         <div class="col-12 col-md-6">
                           <a (click)="
                     delivery2 = deliveries[(i = i - 1)]; open('', delivery2)
-                  " *ngIf="i !== 0" class="btn btn-info w-100">Prev</a>
+                  "
+                             *ngIf="i !== 0 && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
+                             class="btn btn-info w-100">Prev</a>
                         </div>
                         <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
                           <a (click)="
                     delivery2 = deliveries[(i = i + 1)]; open('', delivery2)
-                  " *ngIf="c - 1 > i" class="btn btn-danger w-100">Next</a>
+                  "
+                             *ngIf="c - 1 > i && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
+                             class="btn btn-danger w-100">Next</a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </ng-template>
-
               <!-- /.Modal -->
               <a
                 (click)="open(content, delivery); delivery2 = delivery"

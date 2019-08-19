@@ -47,7 +47,8 @@
 
     <div (click)="delivery2=delivery;"
          *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
-      <div *ngIf="delivery.recipientUuid != decoded.im"
+<!--       *ngIf="delivery.recipientUuid != decoded.im"     -->
+      <div
            class="card py-3 cursor {{(delivery.readAt) ? 'readed':'unread'}}">
         <div class="card-content container">
           <div class="row">
