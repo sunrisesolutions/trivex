@@ -118,7 +118,7 @@
                               {{ delivery2.message.subject }}
                             </div>
                             <div class="font-weight-light">
-                              {{ delivery2.message.body }}
+                              <div [innerHTML]="delivery2.message.body"></div>
                             </div>
                           </div>
                           <div class="col-12">
