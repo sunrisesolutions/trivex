@@ -1,17 +1,17 @@
-import {HttpClient} from '@angular/common/http';
-import {PostService} from 'src/app/services/post.service';
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {SwPush} from '@angular/service-worker';
-import {PushNotificationService} from 'src/app/services/post-notif.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Delivery} from 'src/app/models/Deliveries';
-import {Route} from '@angular/compiler/src/core';
-import {Location} from '@angular/common';
-import {DeviceDetectorService} from 'ngx-device-detector';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
+import { PushNotificationService } from 'src/app/services/post-notif.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Delivery } from 'src/app/models/Deliveries';
+import { Route } from '@angular/compiler/src/core';
+import { Location } from '@angular/common';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
-import {CheckRoleService} from 'src/app/services/check-role.service';
-import {ResourceParent} from '../../models/ResourceParent';
+import { CheckRoleService } from 'src/app/services/check-role.service';
+import { ResourceParent } from '../../models/ResourceParent';
 
 declare interface RouteInfo {
   path: string;
@@ -89,7 +89,8 @@ export class SidebarComponent implements OnInit {
   messagesID = '';
   deviceInfo = null;
   currentPage = 1;
-
+  incomingOnly = null;
+  countSide = 0;
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -131,6 +132,7 @@ export class SidebarComponent implements OnInit {
               return this.getDelivery();
             }
           });
+        this.countSideBar();
         setTimeout(() => {
           this.fakeCountMess = this.countMess;
         }, 2000);
@@ -179,13 +181,13 @@ export class SidebarComponent implements OnInit {
   }
 
   open(content, delivery) {
-    if(delivery.arrayOptions){
+    if (delivery.arrayOptions) {
       this.statisticalOptions(delivery.arrayOptions, delivery)
     };
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
       // this.delivery = delivery;
     }
     const d = new Date();
@@ -200,7 +202,6 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  incomingOnly = null;
 
   toggleIncomingMessageFilter(type: string) {
     if (this.incomingOnly === null) {
@@ -456,5 +457,19 @@ export class SidebarComponent implements OnInit {
 
   selectOption(item) {
     this.active = item;
+  }
+
+  countSideBar() {
+    let decoded = jwt_decode(localStorage.getItem('token'))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=%7B${decoded.im}%7D&groupByMessage=true`, httpOptions)
+      .subscribe(res => {
+        this.countSide = res['hydra:member'].length;
+      })
   }
 }

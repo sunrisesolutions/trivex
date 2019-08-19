@@ -1,54 +1,27 @@
-<nav
-  class="navbar fixed-top navbar-vertical navbar-expand-md navbar-light bg-white"
-  id="sidenav-main"
->
+<nav class="navbar fixed-top navbar-vertical navbar-expand-md navbar-light bg-white" id="sidenav-main">
   <div class="container-fluid">
     <!-- Toggler -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="isCollapsed = !isCollapsed"
-      aria-controls="sidenav-collapse-main"
-    >
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+      aria-controls="sidenav-collapse-main">
       <span class="navbar-toggler-icon"></span>
+      <span [ngClass]="{'d-none': countSide === 0}" [innerHTML]="countSide > 99 ? '99 +' : countSide" class="badge badge-sidebar badge-danger"></span>
     </button>
     <!-- Brand -->
     <a class="navbar-brand pt-0" routerLinkActive="active" (click)="toQrCode()">
-      <img
-        style="cursor: pointer;"
-        src="assets/img/brand/logo.png"
-        class="navbar-brand-img"
-        alt="..."
-      />
+      <img style="cursor: pointer;" src="assets/img/brand/logo.png" class="navbar-brand-img" alt="..." />
     </a>
     <!-- User -->
     <ul class="nav align-items-center d-md-none">
-      <li
-        class="nav-item"
-        ngbDropdown
-        #messageDropdown="ngbDropdown"
-        autoClose="outside"
-        placement="bottom-right"
-      >
+      <li class="nav-item" ngbDropdown #messageDropdown="ngbDropdown" autoClose="outside" placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
-          <div
-            [class.position-absolute]="countMess !== 0"
-            class="ic"
-            style="font-size: 18pt;"
-          >
+          <div [class.position-absolute]="countMess !== 0" class="ic" style="font-size: 18pt;">
             <i class="fas fa-envelope"></i>
           </div>
-          <div
-            [hidden]="countMess == 0"
-            [innerHTML]="countMess > 99 ? '99 +' : countMess"
-            class="badge badge-danger"
-          ></div>
+          <div [hidden]="countMess == 0" [innerHTML]="countMess > 99 ? '99 +' : countMess" class="badge badge-danger">
+          </div>
         </a>
-        <div
-          role="button"
-          ngbDropdownMenu
-          class="dropdown-menu dropdown-menu-lg ml-5 dropdown-menu-right py-0 overflow-hidden "
-        >
+        <div role="button" ngbDropdownMenu
+          class="dropdown-menu dropdown-menu-lg ml-5 dropdown-menu-right py-0 overflow-hidden ">
           <!-- Dropdown header -->
           <div class="px-3 py-3">
             <h6 class="text-sm text-muted m-0 mb-2">
@@ -57,36 +30,25 @@
               unread notifications.
             </h6>
             <div class="text-center">
-              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>
-              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>
+              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg"
+                (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>
+              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg"
+                (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i></button>
             </div>
-            <div
-              *ngIf="deviceInfo.os !== 'iOS'"
-              class="group-toggle d-none align-items-center"
-            >
+            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
               <label class="custom-toggle">
-                <input
-                  id="checkbox123"
-                  [(ngModel)]="status"
-                  (ngModelChange)="statusControl()"
-                  name="checkbox"
-                  type="checkbox"
-                />
+                <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
+                  type="checkbox" />
                 <span class="custom-toggle-slider rounded-circle"></span>
               </label>
               <label class="label ml-2">Receive Notification</label>
             </div>
           </div>
           <!-- List group -->
-          <div
-            *ngIf="deliveries"
-            style="height: 45vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch"
-          >
-            <div
-              *ngFor="let delivery of deliveries; let i = index; let c = count"
-              [attr.data-index]="i"
-              class="list-group list-group-flush"
-            >
+          <div *ngIf="deliveries"
+            style="height: 45vh !important;overflow: scroll;overflow-x: hidden; -webkit-overflow-scrolling: touch">
+            <div *ngFor="let delivery of deliveries; let i = index; let c = count" [attr.data-index]="i"
+              class="list-group list-group-flush">
               <!-- Modal -->
               <ng-template #content let-modal>
                 <div *ngIf="delivery2" class="">
@@ -103,8 +65,8 @@
                       <div class="d-flex justify-content-center">
                         <div class="card-profile-image" style="top:-20pt">
                           <img (click)="modal.dismiss('go to info sender')"
-                               routerLink="/club-members/{{ delivery2.idSender }}/info" style="width:100px;height:100px"
-                               alt="Image placeholder" [src]="delivery2['profilePicture']" class="avatar-notif"/>
+                            routerLink="/club-members/{{ delivery2.idSender }}/info" style="width:100px;height:100px"
+                            alt="Image placeholder" [src]="delivery2['profilePicture']" class="avatar-notif" />
                         </div>
                       </div>
                       <div class="card-body mt-4 container text-center">
@@ -113,7 +75,7 @@
                             <div class="h1">
                               {{ delivery2.name }}
                             </div>
-                            <hr class="my-2"/>
+                            <hr class="my-2" />
                             <div class="font-weight-bold">
                               {{ delivery2.message.subject }}
                             </div>
@@ -121,9 +83,10 @@
                             </div>
                           </div>
                           <div class="col-12">
-                            <hr class="my-2"/>
+                            <hr class="my-2" />
                           </div>
-                          <div [hidden]="delivery2.message.optionSet == null || delivery2.selectedOptions.length > 0" class="col-12 justify-content-center">
+                          <div [hidden]="delivery2.message.optionSet == null || delivery2.selectedOptions.length > 0"
+                            class="col-12 justify-content-center">
                             <div class="d-flex flex-column flex-md-row justify-content-center">
                               <!-- Button -->
                               <div class="btn border mx-2 mb-2" [title]="list.name" (click)="
@@ -131,19 +94,18 @@
                         isActiveOption(delivery2['arrayOptions'])
                       " [ngClass]="{
                         'btn-primary text-light': list['selectedOptionMessage']
-                      }"
-                                   *ngFor="let list of delivery2['arrayOptions'];
+                      }" *ngFor="let list of delivery2['arrayOptions'];
                       let i = index
                     ">
                                 <div class="d-flex flex-column justify-content-center">
-                      <span class="text-truncate">
-                        {{ list.name }}
-                      </span>
+                                  <span class="text-truncate">
+                                    {{ list.name }}
+                                  </span>
                                 </div>
                               </div>
 
                               <a (click)="putApproval(delivery2['arrayOptions'], delivery2)"
-                                 class="btn btn-danger btn-lg text-light">
+                                class="btn btn-danger btn-lg text-light">
                                 <!--*ngIf="list.selectedOptionMessage"-->
                                 Respond
                               </a>
@@ -155,15 +117,13 @@
                   let list of delivery2['arrayOptions'];
                   let i = index
                 " class="">
-                              <a
-                                (click)="modal.dismiss();"
+                              <a (click)="modal.dismiss();"
                                 routerLink="/club-members/notifications/message/{{ delivery2.messageId }}/selected-option/{{ list.uuid }}">
                                 <label class="">{{list.name}}</label>
                                 <div class="progress" style="height: 15px;">
                                   <div class="progress-bar" role="progressbar"
-                                       [style.width]="(list.voted) ? ((parseInt(list.voted)/parseInt(list.totalVotes))*100 + '%') : '0%'"
-                                       [attr.aria-valuenow]=" list.voted " aria-valuemin="0"
-                                       aria-valuemax="500">
+                                    [style.width]="(list.voted) ? ((parseInt(list.voted)/parseInt(list.totalVotes))*100 + '%') : '0%'"
+                                    [attr.aria-valuenow]=" list.voted " aria-valuemin="0" aria-valuemax="500">
                                     {{(list.voted) ? list.voted : ''}}
                                   </div>
                                 </div>
@@ -182,16 +142,14 @@
                         <div class="col-12 col-md-6">
                           <a (click)="
                     delivery2 = deliveries[(i = i - 1)]; open('', delivery2)
-                  "
-                             *ngIf="i !== 0 && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
-                             class="btn btn-info w-100">Prev</a>
+                  " *ngIf="i !== 0 && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
+                            class="btn btn-info w-100">Prev</a>
                         </div>
                         <div class="col-12 col-md-6 text-right mt-2 mt-md-0">
                           <a (click)="
                     delivery2 = deliveries[(i = i + 1)]; open('', delivery2)
-                  "
-                             *ngIf="c - 1 > i && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
-                             class="btn btn-danger w-100">Next</a>
+                  " *ngIf="c - 1 > i && (delivery2.selectedOptions.length > 0 || delivery2['message']['optionSet'] == null)"
+                            class="btn btn-danger w-100">Next</a>
                         </div>
                       </div>
                     </div>
@@ -199,25 +157,18 @@
                 </div>
               </ng-template>
               <!-- /.Modal -->
-              <a
-                (click)="open(content, delivery); delivery2 = delivery"
-                class="{{(delivery.readAt) ? 'readed' : 'unread'}} list-group-item list-group-item-action"
-              >
+              <a (click)="open(content, delivery); delivery2 = delivery"
+                class="{{(delivery.readAt) ? 'readed' : 'unread'}} list-group-item list-group-item-action">
                 <div class="row align-items-center">
                   <div class="col-3 ">
                     <!-- Avatar -->
                     <div class="avatar avatar-md rounded-circle">
-                      <img
-                        alt="Image placeholder"
-                        style="object-fit: cover; width: 100%; height: 100%;"
-                        [src]="delivery['profilePicture']"
-                      />
+                      <img alt="Image placeholder" style="object-fit: cover; width: 100%; height: 100%;"
+                        [src]="delivery['profilePicture']" />
                     </div>
                   </div>
                   <div class="col-9">
-                    <div
-                      class="d-flex justify-content-md-between justify-content-between align-items-center"
-                    >
+                    <div class="d-flex justify-content-md-between justify-content-between align-items-center">
                       <div>
                         <h4 class="mb-0 text-sm">{{ delivery.name }}</h4>
                       </div>
@@ -225,14 +176,12 @@
                         <small>{{ delivery.createdAt | date: "short" }}</small>
                       </div>
                     </div>
-                    <p
-                      class="text-sm mb-0 text-truncate"
-                      style="max-width: 150px"
-                    >
+                    <p class="text-sm mb-0 text-truncate" style="max-width: 150px">
                       {{ delivery.message.subject }}
                       <i *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im"
-                         class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
-                      <a routerLink="/message-recipients"><i *ngIf="isOutgoing(delivery)" class="float-right fas fa-share"></i></a>
+                        class="float-right fas fa-reply {{ delivery.selectedOptions.length > 0?'':'text-red' }} "></i>
+                      <a routerLink="/message-recipients"><i *ngIf="isOutgoing(delivery)"
+                          class="float-right fas fa-share"></i></a>
                     </p>
                   </div>
                 </div>
@@ -240,31 +189,20 @@
             </div>
           </div>
           <!-- View all -->
-          <a (click)="messageDropdown.close();"
-            routerLink="/club-members/notifications"
-            class="dropdown-item text-center text-primary font-weight-bold py-3"
-          >View all</a
-          >
+          <a (click)="messageDropdown.close();" routerLink="/club-members/notifications"
+            class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
         </div>
       </li>
       <!--        autoClose="true"-->
-      <li
-        class="nav-item"
-        ngbDropdown
-        placement="bottom-right"
-      >
+      <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="custom-avatar rounded-circle">
-              <img
-                class="avatar-user border"
-                alt=""
-                [src]="
+              <img class="avatar-user border" alt="" [src]="
                   member
                     ? member.profilePicture
                     : '/assets/img-process/Not-found-img.gif'
-                "
-              />
+                " />
             </span>
           </div>
         </a>
@@ -276,11 +214,7 @@
             <i class="text-dark fas fa-user"></i>
             <span class="text-dark">My profile</span>
           </a>
-          <a
-            routerLinkActive="active"
-            (click)="toQrCode()"
-            class="dropdown-item"
-          >
+          <a routerLinkActive="active" (click)="toQrCode()" class="dropdown-item">
             <i class="text-dark fas fa-qrcode" aria-hidden="true"></i>
             <span class="text-dark">Qr Code</span>
           </a>
@@ -293,25 +227,17 @@
       </li>
     </ul>
     <!-- Collapse -->
-    <div
-      class="collapse navbar-collapse"
-      [ngbCollapse]="isCollapsed"
-      id="sidenav-collapse-main"
-    >
+    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="sidenav-collapse-main">
       <!-- Collapse header -->
       <div class="navbar-collapse-header d-md-none">
         <div class="row">
           <div class="col-6 collapse-brand">
             <a routerLinkActive="active" (click)="toQrCode()">
-              <img src="assets/img/brand/logo.png"/>
+              <img src="assets/img/brand/logo.png" />
             </a>
           </div>
           <div class="col-6 collapse-close">
-            <button
-              type="button"
-              class="navbar-toggler"
-              (click)="isCollapsed = !isCollapsed"
-            >
+            <button type="button" class="navbar-toggler" (click)="isCollapsed = !isCollapsed">
               <span></span>
               <span></span>
             </button>
@@ -336,25 +262,17 @@
       </h6>
       <!-- Navigation -->
       <ul class="navbar-nav">
-        <li
-          *ngFor="let ROUTEitem of routes"
-          class="{{ ROUTEitem.class }} nav-item"
-        >
-          <a
-            routerLinkActive="active"
-            [routerLink]="ROUTEitem.path"
-            class="nav-link"
-          >
+        <li *ngFor="let ROUTEitem of routes" class="{{ ROUTEitem.class }} nav-item">
+          <a routerLinkActive="active" [routerLink]="ROUTEitem.path" class="nav-link">
             <i class="ni {{ ROUTEitem.icon }}"></i>
             {{ ROUTEitem.title }}
           </a>
         </li>
       </ul>
       <!-- Divider -->
-      <hr class="my-3"/>
+      <hr class="my-3" />
       <!-- Heading -->
       <!--  -->
     </div>
   </div>
 </nav>
-
