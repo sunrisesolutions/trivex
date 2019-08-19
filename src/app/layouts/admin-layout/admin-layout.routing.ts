@@ -34,7 +34,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
-  { path: 'club-members/notifications/message/:id',component: MessagesComponent},
+  { path: 'club-members/notifications/message/:id/selected-option/:selectedOptionUuid', component: MessagesComponent},
   { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
   { path: 'club-members/:id/qr-code', component: QrCodeComponent },
   { path: 'club-members/:id/send-email', component: SendEmailComponent },

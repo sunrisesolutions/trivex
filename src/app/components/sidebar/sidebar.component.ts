@@ -216,15 +216,11 @@ export class SidebarComponent implements OnInit {
   }
 
   getDelivery() {
-    let query = '';
+    let query = '&groupByMessage=true';
     if (this.incomingOnly) {
-      query += 'messageSenderUuid=' + this.decoded.im;
+      query += '&messageSenderUuid=' + this.decoded.im;
     } else if (this.incomingOnly === false) {
-      query += 'message.sender.uuid=' + this.decoded.im;
-    }
-
-    if (query.length > 0) {
-      query = '&' + query;
+      query += '&message.sender.uuid=' + this.decoded.im;
     }
 
     this.service.getDelivery(query, 1)
