@@ -47,7 +47,7 @@ export class MessagesComponent implements OnInit {
         }
       );
       this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
-        this.optionName = res['hydra:member'][0];
+        this.optionName = res['hydra:member'][0].name;
       });
     });
   }
@@ -61,7 +61,7 @@ export class MessagesComponent implements OnInit {
       }
     );
     this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
-      this.optionName = res['hydra:member'][0];
+      this.optionName = res['hydra:member'][0].name;
     });
   }
 

@@ -337,7 +337,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.messageAPI}/message_option${page}${query}`, httpOptions);
+    return this.http.get(`${this.messageAPI}/message_options${page}${query}`, httpOptions);
   }
 
   /* Organisation API */
