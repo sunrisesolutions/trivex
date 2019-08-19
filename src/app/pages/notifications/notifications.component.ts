@@ -156,7 +156,6 @@ export class NotificationsComponent implements OnInit {
         i['selectedOptionMessage'] = !i['selectedOptionMessage'];
       } else {
         i['selectedOptionMessage'] = false;
-        this.showRespond = false;
       }
     }
   }
@@ -177,8 +176,8 @@ export class NotificationsComponent implements OnInit {
     };
     this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
       .subscribe(res => {
-        console.log(res);
-        alert('Successfully.!!!');
+        /* console.log(res);
+        alert('Successfully.!!!'); */
       }, error => {
         if (error.status === 400) {
           alert(error.error['hydra:description']);
