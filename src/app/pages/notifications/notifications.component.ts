@@ -3,8 +3,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PostService} from 'src/app/services/post.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs-compat/add/operator/do';
-import { HttpClient } from '@angular/common/http';
-import * as jwt_decode from "jwt-decode";
+import {HttpClient} from '@angular/common/http';
+import * as jwt_decode from 'jwt-decode';
+import {ResourceParent} from '../../models/ResourceParent';
 
 @Component({
   selector: 'app-notifications',
@@ -135,6 +136,10 @@ export class NotificationsComponent implements OnInit {
   }
 
   open(content, delivery) {
+    if(delivery.arrayOptions){
+      this.statisticalOptions(delivery.arrayOptions, delivery)
+    };
+
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
@@ -159,9 +164,11 @@ export class NotificationsComponent implements OnInit {
       }
     }
   }
+
   selectOption(item) {
     this.active = item;
   }
+
   putApproval(options, infoDelivery) {
     let ar = [];
     for (let option of options) {
@@ -169,7 +176,7 @@ export class NotificationsComponent implements OnInit {
         ar.push(option['uuid']);
       }
     }
-    this.statisticalOptions(options);
+    this.statisticalOptions(options, infoDelivery);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
       'selectedOptions': ar
@@ -190,14 +197,39 @@ export class NotificationsComponent implements OnInit {
         }
       });
   }
-  statisticalOptions(options) {
-    for (let o of options) {
-      this.service.messageOptionStatistical(`/deliveries?selectedOptions=${o.uuid}`)
-        .subscribe(res => {
-          o['voted'] = res['hydra:member'];
 
-        })
-    }
-    console.log(options)
+  statisticalOptions(options, infoDelivery: Delivery = null) {
+    let query = '';
+    const parents: Array<ResourceParent> = [];
+    const parent = new ResourceParent();
+    parent.id = infoDelivery.messageId;
+    parent.name = 'messages';
+    parents.push(parent);
+
+    query += '&selectedOptions=MSG-';
+
+    this.service.getDelivery(query, this.currentPage, parents)
+      .subscribe(res => {
+        for (let o of options) {
+          let query = '';
+          const parents: Array<ResourceParent> = [];
+          const parent = new ResourceParent();
+          parent.id = infoDelivery.messageId;
+          parent.name = 'messages';
+          parents.push(parent);
+
+          query += '&selectedOptions=' + o.uuid;
+          this.service.getDelivery(query, this.currentPage, parents)
+            .subscribe(optionRes => {
+              o['voted'] = optionRes['hydra:totalItems'];
+              o['totalVotes'] = res['hydra:totalItems'];
+            });
+        }
+        console.log(options);
+      });
+  }
+
+  parseInt(number) {
+    return Number.parseInt(number);
   }
 }

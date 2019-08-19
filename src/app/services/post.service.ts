@@ -330,14 +330,14 @@ export class PostService {
     return this.http.delete(`${this.messageAPI}/message_options/${id}`, httpOptions);
   }
 
-  messageOptionsGet(page) {
+  messageOptionsGet(page, query = '') {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.messageAPI}/message_option${page}`, httpOptions);
+    return this.http.get(`${this.messageAPI}/message_option${page}${query}`, httpOptions);
   }
 
   /* Organisation API */

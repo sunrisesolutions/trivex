@@ -1,5 +1,5 @@
 <div appInfiniteScroller scrollPercent="50" immediateCallback="true" [scrollCallback]="scrollCallback"
-  class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
+     class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
   <div class="container mb-3 w-md-50">
     <h2 class="text-white">{{title}}</h2>
     <div class="card py-3">
@@ -7,16 +7,17 @@
         <div class="row">
           <div class="text-center col-12">
             <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg"
-              (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>
+                    (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>
             <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg"
-              (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i></button>
+                    (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div (click)="open(content,delivery);delivery2=delivery;"
-    *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
+       *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
     <!-- Modal Deliveries -->
     <ng-template #content let-modal>
       <div *ngIf="delivery2" class="">
@@ -33,8 +34,8 @@
             <div class="d-flex justify-content-center">
               <div class="card-profile-image" style="top:-20pt">
                 <img (click)="modal.dismiss('go to info sender')"
-                  routerLink="/club-members/{{ delivery2.idSender }}/info" style="width:100px;height:100px"
-                  alt="Image placeholder" [src]="delivery2['profilePicture']" class="avatar-notif" />
+                     routerLink="/club-members/{{ delivery2.idSender }}/info" style="width:100px;height:100px"
+                     alt="Image placeholder" [src]="delivery2['profilePicture']" class="avatar-notif"/>
               </div>
             </div>
             <div class="card-body mt-4 container text-center">
@@ -43,7 +44,7 @@
                   <div class="h1">
                     {{ delivery2.name }}
                   </div>
-                  <hr class="my-2" />
+                  <hr class="my-2"/>
                   <div class="font-weight-bold">
                     {{ delivery2.message.subject }}
                   </div>
@@ -52,7 +53,7 @@
                   </div>
                 </div>
                 <div class="col-12">
-                  <hr class="my-2" />
+                  <hr class="my-2"/>
                 </div>
                 <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
                   <!-- Button -->
@@ -61,39 +62,43 @@
                         isActiveOption(delivery2['arrayOptions'])
                       " [ngClass]="{
                         'btn-primary text-light': list['selectedOptionMessage']
-                      }" [hidden]="list.voted" *ngFor="
+                      }" [hidden]="delivery2.selectedOptions.length > 0" *ngFor="
                       let list of delivery2['arrayOptions'];
                       let i = index
                     ">
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column justify-content-center">
                       <span class="text-truncate">
                         {{ list.name }}
                       </span>
                       <a *ngIf="list.selectedOptionMessage" (click)="putApproval(delivery2['arrayOptions'], delivery2)"
-                        class="btn btn-danger btn-sm text-light">
+                         class="btn btn-danger btn-sm text-light">
                         Respond
                       </a>
                     </div>
                   </div>
-
                 </div>
+
                 <div class="col-12">
-                  <div [hidden]="!list.voted" *ngFor="
+                  <div [hidden]="delivery2.selectedOptions.length == 0" *ngFor="
                   let list of delivery2['arrayOptions'];
                   let i = index
                 " class="">
-                    <label class="">{{list.name}}</label>
-                    <div class="progress" style="height: 15px;">
-                      <div class="progress-bar" role="progressbar"
-                        [style.width]="(list.voted) ? (list.voted.length + '%') : '0%'"
-                        [attr.aria-valuenow]="(list.voted) ? list.voted.length : ''" aria-valuemin="0"
-                        aria-valuemax="500">
-                        {{(list.voted) ? list.voted.length : ''}}
+                    <a
+                      (click)="modal.dismiss();"
+                      routerLink="/club-members/notifications/message/{{ delivery2.messageId }}/selected-option/{{ list.uuid }}">
+                      <label class="">{{list.name}}</label>
+                      <div class="progress" style="height: 15px;">
+                        <div class="progress-bar" role="progressbar"
+                             [style.width]="(list.voted) ? ((parseInt(list.voted)/parseInt(list.totalVotes))*100 + '%') : '0%'"
+                             [attr.aria-valuenow]=" list.voted " aria-valuemin="0"
+                             aria-valuemax="500">
+                          {{(list.voted) ? list.voted : ''}}
+                        </div>
                       </div>
-                    </div>
-
+                    </a>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -123,7 +128,7 @@
         <div class="row">
           <div class="col-12 d-flex justify-content-center col-md-2">
             <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
-              [src]="delivery.profilePicture" />
+                 [src]="delivery.profilePicture"/>
           </div>
           <div class="col-12 col-md-8 pl-mobile-custom">
             <h2 class="font-weight-bold">{{delivery.name}}</h2>
@@ -142,8 +147,8 @@
             <div
               class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
               <small class="">{{
-              delivery.message.createdAt | date: "short"
-            }}</small>
+                  delivery.message.createdAt | date: "short"
+                }}</small>
             </div>
           </div>
         </div>

@@ -26,6 +26,7 @@ export class MessagesComponent implements OnInit {
   active;
   selectedOptionUuid: string;
   message: Message;
+  optionName: string ;
 
   constructor(
     public httpClient: HttpClient,
@@ -34,6 +35,24 @@ export class MessagesComponent implements OnInit {
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.scrollCallback = this.getDelivery.bind(this);
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.selectedOptionUuid = params['selectedOptionUuid'];
+      this.deliveries = [];
+      this.currentPage = 1;
+      this.service.getMessageById(this.id).subscribe(
+        (res: Message) => {
+          this.message = res;
+          this.getDelivery();
+        }
+      );
+      this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
+        this.optionName = res['hydra:member'][0];
+      });
+    });
+  }
+
+  ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.selectedOptionUuid = this.route.snapshot.paramMap.get('selectedOptionUuid');
     this.service.getMessageById(this.id).subscribe(
@@ -41,10 +60,9 @@ export class MessagesComponent implements OnInit {
         this.message = res;
       }
     );
-  }
-
-  ngOnInit() {
-
+    this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
+      this.optionName = res['hydra:member'][0];
+    });
   }
 
   getDelivery() {
