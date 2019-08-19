@@ -135,6 +135,16 @@ export class PostService {
 
 
   /* MESSAGES REQUEST*/
+  messageOptionStatistical(query) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "accept": "application/ld+json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      })
+    };
+
+    return this.http.get(`${this.messageAPI}${query}`, httpOptions);
+  }
   messagePost(message): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -286,7 +296,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     };
-    return this.http.put(`${this.orgAPI}/individual_members/${id}`, file,httpOptions);
+    return this.http.put(`${this.orgAPI}/individual_members/${id}`, file, httpOptions);
   }
   G_OrgByUuid(uuid) {
     const httpOptions = {

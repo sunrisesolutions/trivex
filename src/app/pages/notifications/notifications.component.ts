@@ -30,9 +30,11 @@ export class NotificationsComponent implements OnInit {
   active;
   deliveries: Array<Delivery> = [];
   delivery2: Delivery;
+  showRespond: boolean = false;
   messagesID = '';
   currentPage = 1;
   scrollCallback;
+  optionsVoted = [];
   countMess;
   queryDeliveriesREAD = '?readAt%5Bexists%5D=false';
   constructor(
@@ -104,13 +106,28 @@ export class NotificationsComponent implements OnInit {
     }
     let d = new Date();
     let pramramsRead = {
-      "readAt": d.getTimezoneOffset(),
+      "read": true,
     }
-    delivery.readAt = pramramsRead.readAt;
-    this.service.readDelivery(pramramsRead, delivery['@id']).subscribe(res => {
+    this.service.readDelivery(pramramsRead, delivery).subscribe(res => {
+      delivery.readAt = res['readAt'];
+      console.log(res)
     });
   }
 
+
+  isActiveOption(item) {
+    for (let i of item) {
+      if (this.active === i.name) {
+        i['selectedOptionMessage'] = !i['selectedOptionMessage'];
+      } else {
+        i['selectedOptionMessage'] = false;
+        this.showRespond = false;
+      }
+    }
+  }
+  selectOption(item) {
+    this.active = item;
+  }
   putApproval(options, infoDelivery) {
     let ar = [];
     for (let option of options) {
@@ -118,14 +135,13 @@ export class NotificationsComponent implements OnInit {
         ar.push(option['uuid'])
       }
     }
+    this.statisticalOptions(options);
     let idDelivery = infoDelivery['@id'];
     let bodyMessageOption = {
       "selectedOptions": ar
     }
     this.service.putDelivery(bodyMessageOption, `${idDelivery}`)
       .subscribe(res => {
-        console.log(res)
-        alert('Successfully.!!!')
       }, error => {
         if (error.status === 400) {
           alert(error.error['hydra:description'])
@@ -138,16 +154,14 @@ export class NotificationsComponent implements OnInit {
         }
       })
   }
-  isActiveOption(item) {
-    for (let i of item) {
-      if(this.active === i.name){
-        i['selectedOptionMessage']=!i['selectedOptionMessage'];
-      }else {
-        i['selectedOptionMessage']=false;
-      }
+  statisticalOptions(options) {
+    for (let o of options) {
+      this.service.messageOptionStatistical(`/deliveries?selectedOptions=${o.uuid}`)
+        .subscribe(res => {
+          o['voted'] = res['hydra:member'];
+
+        })
     }
-  }
-  selectOption(item) {
-    this.active = item;
+    console.log(options)
   }
 }
