@@ -13,7 +13,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 export class FreeOnMessageComponent implements OnInit {
   error = '';
   effectiveFrom: any = {year: 2019, moth: 8, day: 20};
-  expireOn: any = {year: 2019, moth: 9, day: 20};
+  expireAt: any = {year: 2019, moth: 9, day: 20};
   notEnoughOld: any;
   deviceInfo = null;
   success = false;

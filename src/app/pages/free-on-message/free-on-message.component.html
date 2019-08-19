@@ -70,20 +70,21 @@
                           ><i class="ni ni-calendar-grid-58"></i
                           ></span>
                         </div>
-                        <input
-                            #effectiveFromIpt
-                            class="form-control p-2 datepicker"
-                            placeholder="Effective from"
-                            name="dob"
-                            [(ngModel)]="effectiveFrom"
-                            ngbDatepicker
-                            #d="ngbDatepicker"
-                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
-                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"
-                            [startDate]="{ year: date.year-21, month: 01 }"
-                            (click)="d.toggle()"
-                            type="text"
-                        />
+<!--                        <input-->
+<!--                            #effectiveFromIpt-->
+<!--                            class="form-control p-2 datepicker"-->
+<!--                            placeholder="Effective from"-->
+<!--                            name="dob"-->
+<!--                            [(ngModel)]="effectiveFrom"-->
+<!--                            ngbDatepicker-->
+<!--                            #d="ngbDatepicker"-->
+<!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
+<!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
+<!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
+<!--                            (click)="d.toggle()"-->
+<!--                            type="text"-->
+<!--                        />-->
+                        <input class="form-control p-2" placeholder="Effective from" type="date" [(ngModel)]="effectiveFrom" />
                       </div>
                     </div>
                     <div class="col-6 form-group">
@@ -93,20 +94,21 @@
                           ><i class="ni ni-calendar-grid-58"></i
                           ></span>
                         </div>
-                        <input
-                            #expireOnIpt
-                            class="form-control p-2 datepicker"
-                            placeholder="Expired on"
-                            name="dob"
-                            [(ngModel)]="expireOn"
-                            ngbDatepicker
-                            #d="ngbDatepicker"
-                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
-                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"
-                            [startDate]="{ year: date.year-21, month: 01 }"
-                            (click)="d.toggle()"
-                            type="text"
-                        />
+<!--                        <input-->
+<!--                            #expireOnIpt-->
+<!--                            class="form-control p-2 datepicker"-->
+<!--                            placeholder="Expired on"-->
+<!--                            name="dob"-->
+<!--                            [(ngModel)]="expireOn"-->
+<!--                            ngbDatepicker-->
+<!--                            #d="ngbDatepicker"-->
+<!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
+<!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
+<!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
+<!--                            (click)="d.toggle()"-->
+<!--                            type="text"-->
+<!--                        />-->
+                        <input class="form-control p-2" placeholder="Effective from" type="date" [(ngModel)]="expireAt" />
                       </div>
                     </div>
                   </div>
