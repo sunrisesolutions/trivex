@@ -485,7 +485,6 @@ export class SidebarComponent implements OnInit {
     };
     this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
       .subscribe(res => {
-        console.log(res)
         this.countSide = res['hydra:member'].length;
       })
   }

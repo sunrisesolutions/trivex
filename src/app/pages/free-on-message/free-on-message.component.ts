@@ -1,8 +1,8 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {PostService} from 'src/app/services/post.service';
-import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
-import {getLocaleDateTimeFormat} from '@angular/common';
-import {DeviceDetectorService} from 'ngx-device-detector';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { getLocaleDateTimeFormat } from '@angular/common';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-free-on-message',
@@ -12,14 +12,15 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 
 export class FreeOnMessageComponent implements OnInit {
   error = '';
-  effectiveFrom: any = {year: 2019, moth: 8, day: 20};
-  expireAt: any = {year: 2019, moth: 9, day: 20};
+  effectiveFrom: any = { year: 2019, moth: 8, day: 20 };
+  expireAt: any = { year: 2019, moth: 9, day: 20 };
   notEnoughOld: any;
   deviceInfo = null;
   success = false;
-
-  fromTime = '';
-  toTime = '';
+  time = {
+    fromTime: '',
+    toTime: '',
+  }
   day = {
     monday: false,
     tuesday: false,
@@ -101,19 +102,14 @@ export class FreeOnMessageComponent implements OnInit {
     }
   };
   form = {
-    fromAt: '',
-    toAt: '',
-    fromDay: 0,
-    toDay: 0,
-    text: '',
     effectiveFrom: this.date = {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
-      day: new Date().getDate() + 1
+      day: new Date().getDate()
     },
-    expireOn: this.date = {
+    expireAt: this.date = {
       year: new Date().getFullYear(),
-      month: new Date().getMonth() + 4,
+      month: new Date().getMonth() + 2,
       day: new Date().getDate()
     }
   };
@@ -133,57 +129,49 @@ export class FreeOnMessageComponent implements OnInit {
     return this.deviceInfo.os === 'iOS';
   }
 
-  checkDay(formCheck) {
-    if (formCheck.fromDay && formCheck.toDay) {
-      this.form.fromDay = formCheck.fromDay;
-      this.form.toDay = formCheck.toDay;
-      if (this.form.fromDay == this.form.toDay) {
-        this.check.fromDay = 0;
-        this.check.toDay = 0;
-        this.form.fromDay = this.check.fromDay;
-        this.form.toDay = this.check.toDay;
-        alert(`From day not same To day`);
-        console.log(this.form.fromDay, this.form.toDay);
-      }
-      if (this.form.fromDay < this.form.toDay) {
-        console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
-        return true;
-      }
-      if (this.form.fromDay > this.form.toDay) {
-        this.form.toDay = this.form.toDay + 7;
-        console.log('fromDay', this.form.fromDay, 'toDay', this.form.toDay);
-        return true;
-      }
+  checkForm(time, day, dateStart) {
+    let expireAt = dateStart.expireAt.day + dateStart.expireAt.month + dateStart.expireAt.year;
+    let effectiveFrom = dateStart.effectiveFrom.day + dateStart.effectiveFrom.month + dateStart.effectiveFrom.year;
 
+    if (effectiveFrom > expireAt) {
+      alert('Effective Time smaller than Expire Time');
+    } else if(!time.fromTime || !time.toTime) {
+      alert('Please insert From and To time');
+    } else {
+      this.send(time, day, dateStart);
     }
   }
 
-  send(form) {
+  send(time, day, dateStart) {
     this.loading = true;
-    form.expireOn = `${form.expireOn.day}-${form.expireOn.month}-${form.expireOn.year}`;
-    form.effectiveFrom = `${form.effectiveFrom.day}-${form.effectiveFrom.month}-${form.effectiveFrom.year}`;
-    let freeOnMessageBody = {
-      fromHour: Number(form.fromAt.slice(0, 2)),
-      toHour: Number(form.toAt.slice(0, 2)),
-      fromMinute: Number(form.fromAt.slice(3, 5)),
-      toMinute: Number(form.toAt.slice(3, 5)),
-      fromDay: Number(form.fromDay),
-      toDay: Number(form.toDay),
-      text: `${form.text}`,
-      effectiveFrom: form.effectiveFrom,
-      expireOn: form.expireOn
-
-    };
-    this.apiService.freeOnMessagePost(freeOnMessageBody)
-      .subscribe(res => {
-        this.loading = false;
-        this.success = true;
-        this.error = '';
-        console.log(res);
-      }, error => {
-        this.loading = false;
-        this.error = error.error['hydra:description'];
-      });
+    dateStart.expireAt = `${dateStart.expireAt.day}-${dateStart.expireAt.month}-${dateStart.expireAt.year}`;
+    dateStart.effectiveFrom = `${dateStart.effectiveFrom.day}-${dateStart.effectiveFrom.month}-${dateStart.effectiveFrom.year}`;
+     let freeOnMessageBody = {
+       fromHour: Number(time.fromTime.slice(0, 2)),
+       toHour: Number(time.toTime.slice(0, 2)),
+       fromMinute: Number(time.fromTime.slice(3, 5)),
+       toMinute: Number(time.toTime.slice(3, 5)),
+       "freeOnMondays": day.monday,
+       "freeOnTuesdays": day.tuesday,
+       "freeOnWednesdays": day.wednesday,
+       "freeOnThursdays": day.thursday,
+       "freeOnFridays": day.friday,
+       "freeOnSaturdays": day.saturday,
+       "freeOnSundays": day.sunday,
+       effectiveFrom: dateStart.effectiveFrom,
+       expireAt: dateStart.expireAt
+ 
+     };
+     this.apiService.freeOnMessagePost(freeOnMessageBody)
+       .subscribe(res => {
+         this.loading = false;
+         this.success = true;
+         this.error = '';
+         console.log(res);
+       }, error => {
+         this.loading = false;
+         this.error = error.error['hydra:description'];
+       });
   }
 
   dragMethod(event) {
