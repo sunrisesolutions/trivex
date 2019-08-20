@@ -20,7 +20,7 @@
     <!-- User  autoClose="inside" -->
     <ul class="nav align-items-center d-md-none">
       <li class="nav-item" ngbDropdown #messageDropdown="ngbDropdown" placement="bottom-right">
-        <a class="nav-link" role="button" ngbDropdownToggle>
+        <a class="nav-link" role="button" data-comment="ngbDropdownToggle" routerLink="/club-members/notifications">
           <div [class.position-absolute]="countMess !== 0" class="ic" style="font-size: 18pt;">
             <i class="fas fa-envelope"></i>
           </div>
