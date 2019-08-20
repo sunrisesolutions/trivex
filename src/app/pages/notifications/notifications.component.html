@@ -188,6 +188,8 @@
               <div *ngFor="let option of delivery.arrayOptions;let i = index;let c = count;"
                    class="btn btn-primary cursor mr-1 mt-1" routerLink="/club-members/notifications/message/{{ delivery.messageId }}/selected-option/{{ option.uuid }}">
                 {{option.name}} ({{option.voted}})
+                <span [hidden]="option['newResponseCount'] === 0" [innerHTML]="option['newResponseCount'] > 99 ? '99 +' : option['newResponseCount']"
+                      class="badge badge-sidebar badge-danger"></span>
               </div>
             </div>
           </div>

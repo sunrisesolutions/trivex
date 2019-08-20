@@ -129,6 +129,13 @@ export class DeliveriesComponent implements OnInit {
                 }
               });
           }
+
+          let pramramsRead = {
+            'readSelectedOptions': true,
+          };
+          delivery.selectedOptionsReadAt = new Date();
+          this.service.readDelivery(pramramsRead, delivery).subscribe(readDeliveryRes => {
+          });
           // if (delivery['message']['optionSet']) {
           //   this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
           //     .subscribe(res => {

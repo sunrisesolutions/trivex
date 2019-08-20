@@ -9,7 +9,13 @@
     </button>
     <!-- Brand -->
     <a class="navbar-brand pt-0" routerLinkActive="active" (click)="toQrCode()">
-      <img style="cursor: pointer;" src="assets/img/brand/logo.png" class="navbar-brand-img" alt="..." />
+<!--      <img style="cursor: pointer;" src="assets/img/brand/logo.png" class="navbar-brand-img" alt="..." />-->
+      <img
+        height="auto"
+        class="navbar-brand-img" alt="..."
+        style="cursor: pointer;"
+        [src]="(!orgLogo) ? 'assets/img/brand/logo.png' : orgLogo"
+      />
     </a>
     <!-- User  autoClose="inside" -->
     <ul class="nav align-items-center d-md-none">
@@ -232,7 +238,13 @@
         <div class="row">
           <div class="col-6 collapse-brand">
             <a routerLinkActive="active" (click)="toQrCode()">
-              <img src="assets/img/brand/logo.png" />
+<!--              <img src="assets/img/brand/logo.png" />-->
+              <img
+                height="auto"
+                class="123 navbar-brand-img" alt="..."
+                style="cursor: pointer;"
+                [src]="(!orgLogo) ? 'assets/img/brand/logo.png' : orgLogo"
+              />
             </a>
           </div>
           <div class="col-6 collapse-close">

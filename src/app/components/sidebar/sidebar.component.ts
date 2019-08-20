@@ -49,6 +49,11 @@ export class SidebarComponent implements OnInit {
       class: ''
     }
   ];
+
+  showOrg = false;
+  sub = null;
+  orgLogo = 'https://i.ya-webdesign.com/images/peach-svg-animated-6.gif';
+
   listMessageOptions = [];
   config = {
     displayKey: 'name',
@@ -118,6 +123,9 @@ export class SidebarComponent implements OnInit {
   decoded: any;
 
   ngOnInit() {
+    this.getSubdomain();
+    this.getLogoOrganisation();
+
     this.deviceInfo = this.deviceService.getDeviceInfo();
     // change status
     if (localStorage.getItem('id_pushNotif') || localStorage.getItem('public_key')) {
@@ -480,5 +488,62 @@ export class SidebarComponent implements OnInit {
         console.log(res)
         this.countSide = res['hydra:member'].length;
       })
+  }
+
+
+  getSubdomain() {
+    var host = window.location.hostname;
+    var parts = host.split('.');
+    this.sub = parts[0];
+    console.log(parts)
+    if (parts.length > 2) {
+      if (parts[0] === 'www') {
+        this.showOrg = true;
+      } else {
+        this.sub = parts[0];
+        this.showOrg = false;
+      }
+    } else if (parts.length < 2) {
+      this.showOrg = true;
+    }
+  }
+
+
+  /* LOGIN BY SUBDOMAIN */
+  getLogoOrganisation() {
+    // if (!this.showOrg) {
+      this.service.G_OrgByUuid(this.decoded.org)
+        .subscribe(res => {
+          console.log('logo', res)
+          this.orgLogo = res['hydra:member'][0]['logoReadUrl'];
+          /* Dynamic Manifest */
+          let paramsDataManifest = {
+            logo: this.orgLogo,
+            name: this.sub,
+            host: document.location.host
+          }
+
+
+          /* check server image */
+          this.httpClient.get(this.orgLogo)
+            .subscribe(res => {
+
+            }, err => {
+              if (err.status === 404) {
+                this.orgLogo = '/assets/img-process/Not-found-img.gif';
+
+              }
+            })
+        }, error => {
+          if (error.status === 404) {
+            this.orgLogo = './assets/img-process/Not-found-img.gif';
+            // this.error = 'Organisation not found'
+          }
+          if (error.status === 500) {
+            // this.error = error.error.message;
+          }
+        });
+    // }
+
   }
 }

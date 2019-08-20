@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PostService} from 'src/app/services/post.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs-compat/add/operator/do';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import {ResourceParent} from '../../models/ResourceParent';
 import {ActivatedRoute} from '@angular/router';
@@ -257,13 +257,37 @@ export class NotificationsComponent implements OnInit {
               o['voted'] = optionRes['hydra:totalItems'];
               o['totalVotes'] = res['hydra:totalItems'];
             });
+
+          this.countNewResponses(o, infoDelivery.messageId, o.uuid);
+
         }
         console.log(options);
       });
   }
+
+  countNewResponses(o, messageId = null, selectedOption = null) {
+    let decoded = jwt_decode(localStorage.getItem('token'));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    let url = `https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}`;
+    if (messageId !== null && selectedOption !== null) {
+      url = `https://messaging.api.trivesg.com/messages/${messageId}/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&selectedOptions=${selectedOption}`;
+    }
+    this.httpClient.get(url, httpOptions)
+      .subscribe(res => {
+        console.log(res);
+        o['newResponseCount'] = res['hydra:member'].length;
+      });
+  }
+
   isResponded(delivery: Delivery) {
     return delivery.selectedOptions.length > 0;
   }
+
   parseInt(number) {
     return Number.parseInt(number);
   }
