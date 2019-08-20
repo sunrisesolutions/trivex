@@ -1,8 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { getLocaleDateTimeFormat } from '@angular/common';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import {getLocaleDateTimeFormat} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-free-on-message',
@@ -12,15 +12,15 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 export class FreeOnMessageComponent implements OnInit {
   error = '';
-  effectiveFrom: any = { year: 2019, moth: 8, day: 20 };
-  expireAt: any = { year: 2019, moth: 9, day: 20 };
+  effectiveFrom: any = {year: 2019, moth: 8, day: 20};
+  expireAt: any = {year: 2019, moth: 9, day: 20};
   notEnoughOld: any;
   deviceInfo = null;
   success = false;
   time = {
     fromTime: '',
     toTime: '',
-  }
+  };
   day = {
     monday: false,
     tuesday: false,
@@ -102,16 +102,8 @@ export class FreeOnMessageComponent implements OnInit {
     }
   };
   form = {
-    effectiveFrom: this.date = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    },
-    expireAt: this.date = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 2,
-      day: new Date().getDate()
-    }
+    effectiveFrom: null,
+    expireAt: null
   };
 
   constructor(
@@ -130,49 +122,53 @@ export class FreeOnMessageComponent implements OnInit {
   }
 
   checkForm(time, day, dateStart) {
-    let expireAt = dateStart.expireAt.day + dateStart.expireAt.month + dateStart.expireAt.year;
-    let effectiveFrom = dateStart.effectiveFrom.day + dateStart.effectiveFrom.month + dateStart.effectiveFrom.year;
+    // let expireAt = dateStart.expireAt.day + dateStart.expireAt.month + dateStart.expireAt.year;
+    // let effectiveFrom = dateStart.effectiveFrom.day + dateStart.effectiveFrom.month + dateStart.effectiveFrom.year;
 
-    if (effectiveFrom > expireAt) {
-      alert('Effective Time smaller than Expire Time');
-    } else if(!time.fromTime || !time.toTime) {
-      alert('Please insert From and To time');
-    } else {
-      this.send(time, day, dateStart);
-    }
+    let expireAt = dateStart.expireAt;
+    let effectiveFrom = dateStart.effectiveFrom;
+
+    // if (effectiveFrom > expireAt) {
+    //   alert('Effective Time smaller than Expire Time');
+    // } else if (!time.fromTime || !time.toTime) {
+    //   alert('Please insert From and To time');
+    // } else {
+    this.send(time, day, dateStart);
+    // }
   }
 
   send(time, day, dateStart) {
     this.loading = true;
-    dateStart.expireAt = `${dateStart.expireAt.day}-${dateStart.expireAt.month}-${dateStart.expireAt.year}`;
-    dateStart.effectiveFrom = `${dateStart.effectiveFrom.day}-${dateStart.effectiveFrom.month}-${dateStart.effectiveFrom.year}`;
-     let freeOnMessageBody = {
-       published: true,
-       fromHour: Number(time.fromTime.slice(0, 2)),
-       toHour: Number(time.toTime.slice(0, 2)),
-       fromMinute: Number(time.fromTime.slice(3, 5)),
-       toMinute: Number(time.toTime.slice(3, 5)),
-       "freeOnMondays": day.monday,
-       "freeOnTuesdays": day.tuesday,
-       "freeOnWednesdays": day.wednesday,
-       "freeOnThursdays": day.thursday,
-       "freeOnFridays": day.friday,
-       "freeOnSaturdays": day.saturday,
-       "freeOnSundays": day.sunday,
-       effectiveFrom: dateStart.effectiveFrom,
-       expireAt: dateStart.expireAt
+    console.log('update 2 is here ', dateStart);
+    // dateStart.expireAt = `${dateStart.expireAt.day}-${dateStart.expireAt.month}-${dateStart.expireAt.year}`;
+    // dateStart.effectiveFrom = `${dateStart.effectiveFrom.day}-${dateStart.effectiveFrom.month}-${dateStart.effectiveFrom.year}`;
+    let freeOnMessageBody = {
+      published: true,
+      fromHour: Number(time.fromTime.slice(0, 2)),
+      toHour: Number(time.toTime.slice(0, 2)),
+      fromMinute: Number(time.fromTime.slice(3, 5)),
+      toMinute: Number(time.toTime.slice(3, 5)),
+      'freeOnMondays': day.monday,
+      'freeOnTuesdays': day.tuesday,
+      'freeOnWednesdays': day.wednesday,
+      'freeOnThursdays': day.thursday,
+      'freeOnFridays': day.friday,
+      'freeOnSaturdays': day.saturday,
+      'freeOnSundays': day.sunday,
+      effectiveFrom: dateStart.effectiveFrom,
+      expireAt: dateStart.expireAt
 
-     };
-     this.apiService.freeOnMessagePost(freeOnMessageBody)
-       .subscribe(res => {
-         this.loading = false;
-         this.success = true;
-         this.error = '';
-         console.log(res);
-       }, error => {
-         this.loading = false;
-         this.error = error.error['hydra:description'];
-       });
+    };
+    this.apiService.freeOnMessagePost(freeOnMessageBody)
+      .subscribe(res => {
+        this.loading = false;
+        this.success = true;
+        this.error = '';
+        console.log(res);
+      }, error => {
+        this.loading = false;
+        this.error = error.error['hydra:description'];
+      });
   }
 
   dragMethod(event) {
