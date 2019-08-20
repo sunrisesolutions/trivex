@@ -1,9 +1,9 @@
 <div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center"
-  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+     style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- ERROR -->
-  <div  *ngIf="roleChecking()===false" class="container text-center">
+  <div *ngIf="roleChecking()===false" class="container text-center">
     <div class="card">
       <div class="card-body">
         <h1 class="text-dark">{{error}}</h1>
@@ -12,7 +12,7 @@
   </div>
   <!-- Header container -->
   <div *ngIf="roleChecking()===true"
-    class="container mt-6">
+       class="container mt-6">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">
         <h1 class="display-3 display-md-2 text-white-no-longer">Announcements</h1>
@@ -22,29 +22,35 @@
         <div *ngIf="success" class="h3 text-white-no-longer">
           <p for="">You have successfully posted the announcement.</p>
           <button (click)="success=false;this.subject='';this.body=''" class="btn btn-info">Post another
-            announcement</button>
+            announcement
+          </button>
         </div>
         <form *ngIf="!success">
-          <hr class="my-4" />
+          <hr class="my-4"/>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
                 <label class="form-control-label text-white-no-longer" for="subject">Subject</label>
                 <input [(ngModel)]="subject" name="subject" id="subject" class="form-control form-control-alternative"
-                  placeholder="An invitation letter from Club" type="text">
+                       placeholder="An invitation letter from Club" type="text">
               </div>
             </div>
           </div>
           <div class="form-group">
             <label class="text-white-no-longer form-control-label">Predefined Options</label>
             <ngx-select-dropdown (change)="getId($event)" insideKeyPress="true" [(ngModel)]="dataModel" name="select"
-              [config]="config" [options]="listOptions"></ngx-select-dropdown>
+                                 [config]="config" [options]="listOptions"></ngx-select-dropdown>
             <!-- <select class="form-control cursor-pointer" name="listOptions">
               <option selected>Select your option</option>
               <a *ngFor="let list of listOption">
                 {{list.name}}
               </a>
             </select> -->
+          </div>
+          <div class="form-group">
+            <label class="text-white-no-longer form-control-label">Expiry Date</label>
+            <input [(ngModel)]="expireAt" class="form-control p-2" type="date"
+                   placeholder="Expiry Date" />
           </div>
           <div class="form-group">
             <label class="text-white-no-longer form-control-label">Message</label>

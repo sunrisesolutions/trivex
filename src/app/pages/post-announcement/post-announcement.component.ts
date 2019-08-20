@@ -39,6 +39,7 @@ export class PostAnnouncementComponent implements OnInit {
   member;
   loading = false;
   subject;
+  expireAt: any;
   listOptions: Array<any>[] = [];
   selected = 'Select your option';
   listSelect = [
@@ -58,12 +59,12 @@ export class PostAnnouncementComponent implements OnInit {
     private modalService: NgbModal,
     public roleChecker: CheckRoleService
   ) {
-    
+
   }
 
   ngOnInit() {
     this.getOptionSets();
-    
+
   }
 
   roleChecking(): boolean{
@@ -96,7 +97,8 @@ export class PostAnnouncementComponent implements OnInit {
       "published": true,
       "subject": this.subject,
       "body": this.body,
-      "optionSet": (idOptionSet) ? idOptionSet : null
+      "optionSet": (idOptionSet) ? idOptionSet : null,
+      "expireAt": this.expireAt
     }
     this.service.messagePost(_message)
       .subscribe(res => {

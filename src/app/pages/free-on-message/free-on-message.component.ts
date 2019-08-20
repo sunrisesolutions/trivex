@@ -147,6 +147,7 @@ export class FreeOnMessageComponent implements OnInit {
     dateStart.expireAt = `${dateStart.expireAt.day}-${dateStart.expireAt.month}-${dateStart.expireAt.year}`;
     dateStart.effectiveFrom = `${dateStart.effectiveFrom.day}-${dateStart.effectiveFrom.month}-${dateStart.effectiveFrom.year}`;
      let freeOnMessageBody = {
+       published: true,
        fromHour: Number(time.fromTime.slice(0, 2)),
        toHour: Number(time.toTime.slice(0, 2)),
        fromMinute: Number(time.fromTime.slice(3, 5)),
@@ -160,7 +161,7 @@ export class FreeOnMessageComponent implements OnInit {
        "freeOnSundays": day.sunday,
        effectiveFrom: dateStart.effectiveFrom,
        expireAt: dateStart.expireAt
- 
+
      };
      this.apiService.freeOnMessagePost(freeOnMessageBody)
        .subscribe(res => {

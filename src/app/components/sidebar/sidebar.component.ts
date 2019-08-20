@@ -1,17 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PostService } from 'src/app/services/post.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from 'src/app/services/post-notif.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Delivery } from 'src/app/models/Deliveries';
-import { Route } from '@angular/compiler/src/core';
-import { Location } from '@angular/common';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {PostService} from 'src/app/services/post.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SwPush} from '@angular/service-worker';
+import {PushNotificationService} from 'src/app/services/post-notif.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Delivery} from 'src/app/models/Deliveries';
+import {Route} from '@angular/compiler/src/core';
+import {Location} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
-import { CheckRoleService } from 'src/app/services/check-role.service';
-import { ResourceParent } from '../../models/ResourceParent';
+import {CheckRoleService} from 'src/app/services/check-role.service';
+import {ResourceParent} from '../../models/ResourceParent';
 
 declare interface RouteInfo {
   path: string;
@@ -42,12 +42,6 @@ export class SidebarComponent implements OnInit {
       icon: 'ni-planet text-blue',
       class: ''
     },
-    {
-      path: '/free-on-message',
-      title: 'Free On Message',
-      icon: 'ni-email-83 text-black',
-      class: ''
-    }
   ];
 
   showOrg = false;
@@ -84,6 +78,12 @@ export class SidebarComponent implements OnInit {
   queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
   deliveries: Delivery[];
   delivery2: Delivery;
+  freeOnMessage = {
+    path: '/free-on-message',
+    title: 'Free On Message',
+    icon: 'ni-email-83 text-black',
+    class: ''
+  };
   haveRole = {
     path: '/post-announcement',
     title: 'Post an announcement',
@@ -102,6 +102,7 @@ export class SidebarComponent implements OnInit {
   deviceInfo = null;
   currentPage = 1;
   countSide = 0;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -153,6 +154,9 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000);
     this.getInfoUser();
+    if (!this.checkingRole(true)) {
+      this.routes.push(this.freeOnMessage);
+    }
     if (this.checkingRole()) {
       this.routes.push(this.haveRole);
       this.routes.push(this.haveRoleRecentAnnoucement);
@@ -183,11 +187,11 @@ export class SidebarComponent implements OnInit {
 
   /* /.Device detector */
 
-  checkingRole(): boolean {
+  checkingRole(adminOnly = false): boolean {
     if (this.roleChecker.ROLE_MSG_ADMIN) {
       return true;
     } else if (this.roleChecker.ROLE_MSG_USER) {
-      return true;
+      return true && !adminOnly;
     } else if (this.roleChecker.ROLE_ORG_ADMIN) {
       return true;
     } else {
@@ -197,12 +201,13 @@ export class SidebarComponent implements OnInit {
 
   open(content, delivery) {
     if (delivery.arrayOptions) {
-      this.statisticalOptions(delivery.arrayOptions, delivery)
-    };
+      this.statisticalOptions(delivery.arrayOptions, delivery);
+    }
+    ;
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
       // this.delivery = delivery;
     }
     const d = new Date();
@@ -476,7 +481,7 @@ export class SidebarComponent implements OnInit {
   }
 
   countSideBar() {
-    let decoded = jwt_decode(localStorage.getItem('token'))
+    let decoded = jwt_decode(localStorage.getItem('token'));
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -486,7 +491,7 @@ export class SidebarComponent implements OnInit {
     this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
       .subscribe(res => {
         this.countSide = res['hydra:member'].length;
-      })
+      });
   }
 
 
@@ -494,7 +499,7 @@ export class SidebarComponent implements OnInit {
     var host = window.location.hostname;
     var parts = host.split('.');
     this.sub = parts[0];
-    console.log(parts)
+    console.log(parts);
     if (parts.length > 2) {
       if (parts[0] === 'www') {
         this.showOrg = true;
@@ -511,37 +516,37 @@ export class SidebarComponent implements OnInit {
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
     // if (!this.showOrg) {
-      this.service.G_OrgByUuid(this.decoded.org)
-        .subscribe(res => {
-          console.log('logo', res)
-          this.orgLogo = res['hydra:member'][0]['logoReadUrl'];
-          /* Dynamic Manifest */
-          let paramsDataManifest = {
-            logo: this.orgLogo,
-            name: this.sub,
-            host: document.location.host
-          }
+    this.service.G_OrgByUuid(this.decoded.org)
+      .subscribe(res => {
+        console.log('logo', res);
+        this.orgLogo = res['hydra:member'][0]['logoReadUrl'];
+        /* Dynamic Manifest */
+        let paramsDataManifest = {
+          logo: this.orgLogo,
+          name: this.sub,
+          host: document.location.host
+        };
 
 
-          /* check server image */
-          this.httpClient.get(this.orgLogo)
-            .subscribe(res => {
+        /* check server image */
+        this.httpClient.get(this.orgLogo)
+          .subscribe(res => {
 
-            }, err => {
-              if (err.status === 404) {
-                this.orgLogo = '/assets/img-process/Not-found-img.gif';
+          }, err => {
+            if (err.status === 404) {
+              this.orgLogo = '/assets/img-process/Not-found-img.gif';
 
-              }
-            })
-        }, error => {
-          if (error.status === 404) {
-            this.orgLogo = './assets/img-process/Not-found-img.gif';
-            // this.error = 'Organisation not found'
-          }
-          if (error.status === 500) {
-            // this.error = error.error.message;
-          }
-        });
+            }
+          });
+      }, error => {
+        if (error.status === 404) {
+          this.orgLogo = './assets/img-process/Not-found-img.gif';
+          // this.error = 'Organisation not found'
+        }
+        if (error.status === 500) {
+          // this.error = error.error.message;
+        }
+      });
     // }
 
   }
