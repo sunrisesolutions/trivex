@@ -4,25 +4,24 @@
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div class="container w-100 mt-8 mt-md-0">
     <div class="row d-flex flex-row align-items-center justify-content-between">
-      <div *ngIf="success" class="col-12 text-center">
-        <div class="">
-          <div class="card">
-            <div class="card-body container">
-              <div class="row">
-                <div class="h3 text-white-no-longer">
-                  <p>You have successfully sent your free time to our admins.</p>
-                  <button (click)="success=false" class="btn btn-info">Send another
-                    message
-                  </button>
+      <div class="col-12">
+        <div *ngIf="success" class="col-12 text-center">
+          <div class="">
+            <div class="card">
+              <div class="card-body container">
+                <div class="row">
+                  <div class="h3 text-white-no-longer">
+                    <p>You have successfully sent your free time to our admins.</p>
+                    <button (click)="success=false" class="btn btn-info">Send another
+                      message
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div *ngIf="!success" class="col-12">
-        <div class="">
+        <div *ngIf="!success" class="col-12">
           <div class="card">
             <div class="card-body container">
               <div class="row">
@@ -133,19 +132,7 @@
                                placeholder="Expiry Date"/>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <h2 class="label" for="">My Availability</h2>
-                        <select class="form-control" name="My Availability" id="">
-                          <option value="">
-                            option-1
-                          </option>
-                          <option value="">
-                            option-2
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -160,7 +147,36 @@
             </div>
           </div>
         </div>
+        <div class="col-12 mt-2">
+          <div class="card">
+            <div class="card-header">
+              <h1>My Availability</h1>
+            </div>
+            <div class="card-body container">
+              <div *ngFor="let data of availabilityMessage" class="container-fluid">
+                <div class="card my-3">
+                  <div class="card-body">
+                    <h3>{{data.subject}}</h3>
+                    <p class="text-truncate">{{data.body}}</p>
+                    <p></p>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between p-2">
+                    <div class="d-flex align-items-end">
+                      <small class="text-muted">
+                        {{data.createdAt | date: 'short'}}
+                      </small>
+                    </div>
+                    <a class="d-none btn btn-primary text-light">EDIT</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+
+
+

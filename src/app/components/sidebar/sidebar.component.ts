@@ -91,6 +91,13 @@ export class SidebarComponent implements OnInit {
     class: '',
 
   };
+  haveRoleAnnouncementApproval = {
+    path: '/announcement-approval',
+    title: 'Announcement Approval',
+    icon: 'ni-like-2 text-cyan',
+    class: '',
+
+  };
   haveRoleRecentAnnoucement = {
     path: '/club-members/notifications/outgoing',
     title: 'Recent announcements',
@@ -159,6 +166,7 @@ export class SidebarComponent implements OnInit {
     }
     if (this.checkingRole()) {
       this.routes.push(this.haveRole);
+      this.routes.push(this.haveRoleAnnouncementApproval);
       this.routes.push(this.haveRoleRecentAnnoucement);
     }
   }

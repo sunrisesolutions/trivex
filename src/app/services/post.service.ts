@@ -266,6 +266,16 @@ export class PostService {
     return this.http.get(this.messageAPI + `/messages/${id}`, httpOptions);
   }
 
+  getFreeOnMessage(senderUuid): Observable<Object>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+
+    return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`,httpOptions);
+  }
   /* /.MESSAGES */
 
   /*  OptionSets API */
