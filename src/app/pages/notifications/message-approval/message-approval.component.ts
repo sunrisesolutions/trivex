@@ -82,7 +82,6 @@ export class MessageApprovalComponent implements OnInit {
                 if (message['profilePicture']) {
                   this.httpClient.get(message['profilePicture'])
                     .subscribe(res => {
-
                     }, err => {
                       if (err.status === 404) {
                         message['profilePicture'] = '/assets/img-process/Not-found-img.gif';
