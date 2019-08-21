@@ -74,7 +74,7 @@ export class NotificationsComponent implements OnInit {
   incomingOnly = true;
 
   getPendingApprovalMessages() {
-    this.service.getMessage(1, '&status=MESSAGE_PENDING_APPROVAL').subscribe(res => {
+    this.service.getMessage(1, '&status=MESSAGE_PENDING_APPROVAL&senderUuid='+this.decoded.im).subscribe(res => {
       this.pendingApprovalMessages = res['hydra:member'];
       for (const message of this.pendingApprovalMessages) {
         if (message.senderUuid !== undefined) {
