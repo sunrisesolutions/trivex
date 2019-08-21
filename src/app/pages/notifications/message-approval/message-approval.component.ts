@@ -25,7 +25,7 @@ export class MessageApprovalComponent implements OnInit {
   delivery2: Delivery;
   active;
   selectedOptionUuid: string;
-  message: Message;
+  messages: Array<Message>;
   optionName: string;
   initialised = false;
   delivery: Delivery;
@@ -65,9 +65,9 @@ export class MessageApprovalComponent implements OnInit {
   }
 
   getMessage() {
-    return this.service.getMessage(1, '&senderMessageAdmin=false&approvalDecidedAt[exists]=true').subscribe(res => {
-      this.pendingApprovalMessages = res['hydra:member'];
-      for (const message of this.pendingApprovalMessages) {
+    return this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=true').subscribe(res => {
+      this.messages = res['hydra:member'];
+      for (const message of this.messages) {
         if (message.senderUuid !== undefined) {
           this.service.getSender(`?uuid=${message.senderUuid}`)
             .subscribe(response => {
@@ -99,7 +99,7 @@ export class MessageApprovalComponent implements OnInit {
   }
 
   getPendingApprovalMessages() {
-    this.service.getMessage(1, '&senderMessageAdmin=false&approvalDecidedAt[exists]=false').subscribe(res => {
+    this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=false').subscribe(res => {
       this.pendingApprovalMessages = res['hydra:member'];
       for (const message of this.pendingApprovalMessages) {
         if (message.senderUuid !== undefined) {
