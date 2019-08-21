@@ -21,10 +21,10 @@
     <!--          </div>-->
     <!--          <hr class="my-2">-->
     <!--          <div class="font-weight-bold">-->
-    <!--            {{delivery.message.subject}}-->
+    <!--            {{delivery.delivery.subject}}-->
     <!--          </div>-->
     <!--          <div class="font-weight-light">-->
-    <!--            {{delivery.message.body}}-->
+    <!--            {{delivery.delivery.body}}-->
     <!--          </div>-->
     <!--        </div>-->
     <!--      </div>-->
@@ -61,10 +61,10 @@
               <div style="font-size:18px !important;" class="text-truncate">
                 {{delivery.jobTitle}}
                 <div>
-                  <!--                  <div *ngIf="delivery.message.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>-->
+                  <!--                  <div *ngIf="delivery.delivery.senderUuid == decoded.im"  class="badge badge-pill badge-info">DELIVERED</div>-->
                 </div>
 
-                <!--                <div *ngIf="delivery.message.optionSet != null && delivery.message.senderUuid != decoded.im">-->
+                <!--                <div *ngIf="delivery.delivery.optionSet != null && delivery.delivery.senderUuid != decoded.im">-->
                 <!--                  <div *ngIf="delivery.selectedOptions.length == 0" class="badge badge-pill badge-danger" >RSVP</div>-->
                 <!--                  <div *ngIf="delivery.selectedOptions.length > 0"  class="badge badge-pill badge-success">RESPONDED</div>-->
                 <!--                </div>-->

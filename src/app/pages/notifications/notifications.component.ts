@@ -6,7 +6,8 @@ import 'rxjs-compat/add/operator/do';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import {ResourceParent} from '../../models/ResourceParent';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Message} from '../../models/Message';
 
 @Component({
   selector: 'app-notifications',
@@ -31,7 +32,7 @@ export class NotificationsComponent implements OnInit {
     searchPlaceholder: 'Search',
     searchOnKey: 'name',
   };
-  messages;
+  pendingApprovalMessages: Array<Message>;
   showForm = false;
   members: Array<any> = [];
   active;
@@ -51,10 +52,12 @@ export class NotificationsComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     private service: PostService, private modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.scrollCallback = this.getDelivery.bind(this);
+    this.getPendingApprovalMessages();
   }
 
   initialise() {
@@ -69,6 +72,40 @@ export class NotificationsComponent implements OnInit {
   decoded: any;
 
   incomingOnly = true;
+
+  getPendingApprovalMessages() {
+    this.service.getMessage(1, '&status=MESSAGE_PENDING_APPROVAL').subscribe(res => {
+      this.pendingApprovalMessages = res['hydra:member'];
+      for (const message of this.pendingApprovalMessages) {
+        if (message.senderUuid !== undefined) {
+          this.service.getSender(`?uuid=${message.senderUuid}`)
+            .subscribe(response => {
+              const data = response['hydra:member'];
+              if (data[0]) {
+                message['name'] = data[0]['personData'].name;
+                message['senderId'] = data[0].id;
+                const profilePicture = data[0]['profilePicture'];
+
+                message['profilePicture'] = profilePicture;
+
+                if (message['profilePicture']) {
+                  this.httpClient.get(message['profilePicture'])
+                    .subscribe(res => {
+
+                    }, err => {
+                      if (err.status === 404) {
+                        message['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                      }
+                    });
+                } else {
+                  message['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                }
+              }
+            });
+        }
+      }
+    });
+  }
 
   toggleIncomingMessageFilter(type: string) {
     if (this.incomingOnly === null) {
@@ -107,7 +144,7 @@ export class NotificationsComponent implements OnInit {
     if (this.incomingOnly) {
       query += '&messageSenderUuid=' + this.decoded.im;
     } else if (this.incomingOnly === false) {
-      query += '&message.sender.uuid=' + this.decoded.im;
+      query += '&delivery.sender.uuid=' + this.decoded.im;
     }
 
     return this.service.getDelivery(query, this.currentPage)

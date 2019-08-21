@@ -19,7 +19,7 @@ import { SendEmailComponent } from '../../pages/club-members/send-email/send-ema
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { PostAnnouncementComponent } from '../../pages/post-announcement/post-announcement.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component'
-import { MessagesComponent } from '../../pages/notifications/message/messages.component';
+import { DeliveryComponent } from '../../pages/notifications/delivery/delivery.component';
 import { InfiniteScrollerDirective } from 'src/app/services/infinite-scroller.directive';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
@@ -28,6 +28,7 @@ import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-me
 import { BrowserModule } from '@angular/platform-browser';
 import { DragToSelectModule } from 'ngx-drag-to-select';
 import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
+import {MessageComponent} from '../../pages/notifications/message/message.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -61,7 +62,8 @@ import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveri
     PostAnnouncementComponent,
     NotificationsComponent,
     FreeOnMessageComponent,
-    MessagesComponent,
+    MessageComponent,
+    DeliveryComponent,
     DeliveriesComponent,
   ]
 })

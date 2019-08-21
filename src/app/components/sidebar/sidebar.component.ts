@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit {
   deliveries: Delivery[];
   delivery2: Delivery;
   freeOnMessage = {
-    path: '/free-on-message',
+    path: '/free-on-delivery',
     title: 'Free On Message',
     icon: 'ni-email-83 text-black',
     class: ''
@@ -248,7 +248,7 @@ export class SidebarComponent implements OnInit {
     if (this.incomingOnly) {
       query += '&messageSenderUuid=' + this.decoded.im;
     } else if (this.incomingOnly === false) {
-      query += '&message.sender.uuid=' + this.decoded.im;
+      query += '&delivery.sender.uuid=' + this.decoded.im;
     }
 
     this.service.getDelivery(query, 1)
@@ -544,7 +544,7 @@ export class SidebarComponent implements OnInit {
           // this.error = 'Organisation not found'
         }
         if (error.status === 500) {
-          // this.error = error.error.message;
+          // this.error = error.error.delivery;
         }
       });
     // }

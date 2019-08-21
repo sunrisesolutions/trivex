@@ -79,7 +79,7 @@ export class DeliveriesComponent implements OnInit {
     // if (this.incomingOnly) {
     //   query += '&messageSenderUuid=' + this.decoded.im;
     // } else if (this.incomingOnly === false) {
-    //   query += '&message.sender.uuid=' + this.decoded.im;
+    //   query += '&delivery.sender.uuid=' + this.decoded.im;
     // }
 
     const parents: Array<ResourceParent> = [];
@@ -95,7 +95,7 @@ export class DeliveriesComponent implements OnInit {
         console.log('get deliveries successfully');
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
-        console.log('deliveries for message component requested successfully ', res, this.deliveries);
+        console.log('deliveries for delivery component requested successfully ', res, this.deliveries);
         for (let delivery of this.deliveries) {
           console.log('requesting for delivery ', delivery);
           delivery.name = 'Loading...';
@@ -136,8 +136,8 @@ export class DeliveriesComponent implements OnInit {
           delivery.selectedOptionsReadAt = new Date();
           this.service.readDelivery(pramramsRead, delivery).subscribe(readDeliveryRes => {
           });
-          // if (delivery['message']['optionSet']) {
-          //   this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
+          // if (delivery['delivery']['optionSet']) {
+          //   this.service.optionSetsGet(`/${delivery['delivery'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
           //     .subscribe(res => {
           //       this.listMessageOptions = res['hydra:member'];
           //       delivery['arrayOptions'] = res['hydra:member'];

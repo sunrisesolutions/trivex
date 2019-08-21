@@ -10,10 +10,10 @@ import {Message} from '../../../models/Message';
 
 @Component({
   selector: 'app-messages',
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss']
+  templateUrl: './delivery.component.html',
+  styleUrls: ['./delivery.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class DeliveryComponent implements OnInit {
   test;
   id;
 
