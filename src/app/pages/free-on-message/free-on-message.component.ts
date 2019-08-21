@@ -166,7 +166,7 @@ export class FreeOnMessageComponent implements OnInit {
         this.loading = false;
         this.success = true;
         this.error = '';
-        console.log(res);
+        this.getAvailability();
       }, error => {
         this.loading = false;
         this.error = error.error['hydra:description'];
