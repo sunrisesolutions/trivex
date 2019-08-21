@@ -1,10 +1,18 @@
 <div class="header pb-8 pt-lg-8 pt-md-8 d-flex align-items-center"
-     style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div class="container w-100 mt-8 mt-md-0">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">
+        <div *ngIf="success" class="h3 text-white-no-longer">
+          <p for="">You have successfully posted your message.</p>
+          <button (click)="success=false" class="btn btn-info">Post another
+            message
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!success" class="col-12">
         <div class="">
           <div class="card">
             <div class="card-body container">
@@ -22,21 +30,17 @@
                   <div class="row">
                     <div class="col-6 form-group">
                       <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
-                             name="fromAt"
-                             atp-time-picker placeholder="Time picker"/>
+                        name="fromAt" atp-time-picker placeholder="Time picker" />
                       <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
-                             name="fromAt"
-                             type="time" placeholder="Time picker"/>
+                        name="fromAt" type="time" placeholder="Time picker" />
                       <!--                      <hr>-->
                       <!--                      <pre>Selected time: {{fromTime | json}}</pre>-->
                     </div>
                     <div class="col-6 form-group">
                       <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
-                             name="toAt"
-                             atp-time-picker placeholder="Time picker"/>
+                        name="toAt" atp-time-picker placeholder="Time picker" />
                       <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
-                             name="toAt"
-                             type="time" placeholder="Time picker"/>
+                        name="toAt" type="time" placeholder="Time picker" />
                     </div>
                   </div>
                   <hr>
@@ -93,7 +97,7 @@
                         <!--                            type="text"-->
                         <!--                        />-->
                         <input class="form-control p-2" placeholder="Effective Date" type="date"
-                               [(ngModel)]="form.effectiveFrom"/>
+                          [(ngModel)]="form.effectiveFrom" />
                       </div>
                     </div>
                     <div class="col-12 form-group">
@@ -117,7 +121,7 @@
                         <!--                            type="text"-->
                         <!--                        />-->
                         <input [(ngModel)]="form.expireAt" class="form-control p-2" type="date"
-                               placeholder="Expiry Date" />
+                          placeholder="Expiry Date" />
                       </div>
                     </div>
                   </div>
@@ -125,7 +129,8 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label (click)="checkForm(time, day, form)"  class="btn-primary btn form-control flex-grow-1" ngbButtonLabel>
+                  <label (click)="checkForm(time, day, form)" class="btn-primary btn form-control flex-grow-1"
+                    ngbButtonLabel>
                     <a class="w-100" ngbButton>Submit</a>
                   </label>
                 </div>
