@@ -17,39 +17,7 @@
     <!--    </div>-->
   </div>
   <!--   (click)="open(content,delivery);delivery2=delivery;"  -->
-  <div *ngFor="let message of pendingApprovalMessages;let i = index;let c = count;" class="container mb-3 w-md-50"
-  routerLink="/club-members/notifications/messages/{{message.id}}"
-  >
-    <div>
-      <div class="card py-3 read">
-        <div class="card-content container">
-          <div class="row">
-            <div class="badge badge-warning ml-2">Pending Approval</div>
 
-            <div class="col-12 d-flex justify-content-center col-md-2">
-              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
-                   [src]="message.profilePicture"/>
-            </div>
-
-            <div class="col-12 col-md-8 pl-mobile-custom">
-              <h2 class="font-weight-bold">
-                {{message.subject}}
-              </h2>
-              <div style="font-size:18px !important;" class="text-truncate">{{message.body}}</div>
-
-              <div
-                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
-                <small class="">{{
-                    message.createdAt | date: "short"
-                  }}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
   <div *ngFor="let delivery of deliveries;let i = index;let c = count;" class="container mb-3 w-md-50">
     <div *ngIf="incomingOnly" routerLink="/club-members/notifications/deliveries/{{delivery.id}}">
       <!-- Modal Deliveries -->

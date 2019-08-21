@@ -29,6 +29,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DragToSelectModule } from 'ngx-drag-to-select';
 import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
 import {MessageComponent} from '../../pages/notifications/message/message.component';
+import {MessageApprovalComponent} from '../../pages/notifications/message-approval/message-approval.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -63,6 +64,7 @@ import {MessageComponent} from '../../pages/notifications/message/message.compon
     NotificationsComponent,
     FreeOnMessageComponent,
     MessageComponent,
+    MessageApprovalComponent,
     DeliveryComponent,
     DeliveriesComponent,
   ]

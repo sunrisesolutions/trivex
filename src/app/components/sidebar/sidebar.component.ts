@@ -92,7 +92,7 @@ export class SidebarComponent implements OnInit {
 
   };
   haveRoleAnnouncementApproval = {
-    path: '/announcement-approval',
+    path: '/club-members/notifications/announcement-approvals',
     title: 'Announcement Approval',
     icon: 'ni-like-2 text-cyan',
     class: '',

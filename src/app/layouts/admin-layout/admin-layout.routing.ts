@@ -21,6 +21,7 @@ import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
 import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
 import {MessageComponent} from '../../pages/notifications/message/message.component';
+import {MessageApprovalComponent} from '../../pages/notifications/message-approval/message-approval.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -35,6 +36,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
+  { path: 'club-members/notifications/announcement-approvals', component: MessageApprovalComponent},
   { path: 'club-members/notifications/:status', component: NotificationsComponent },
   { path: 'club-members/notifications/deliveries/:id/selected-option/:selectedOptionUuid', component: DeliveriesComponent},
   { path: 'club-members/notifications/deliveries/:id', component: DeliveryComponent},

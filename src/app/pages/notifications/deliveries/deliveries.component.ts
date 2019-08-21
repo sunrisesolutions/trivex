@@ -148,7 +148,7 @@ export class DeliveriesComponent implements OnInit {
           //
           // }
         }
-        console.log('message.component.ts deliveries', this.deliveries);
+        console.log('message-approval.component.ts deliveries', this.deliveries);
       });
 
   }
