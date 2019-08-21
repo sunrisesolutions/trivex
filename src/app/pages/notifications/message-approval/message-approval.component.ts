@@ -1,11 +1,11 @@
-import {ActivatedRoute} from '@angular/router';
+import {Delivery} from './../../../models/Deliveries';
+import {Component, Input, OnInit} from '@angular/core';
 import {PostService} from 'src/app/services/post.service';
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Delivery} from 'src/app/models/Deliveries';
-import {HttpClient} from '@angular/common/http';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import 'rxjs-compat/add/operator/do';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import {ResourceParent} from '../../../models/ResourceParent';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Message} from '../../../models/Message';
 
 @Component({
@@ -38,7 +38,7 @@ export class MessageApprovalComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
-    // this.scrollCallback = this.getDelivery.bind(this);
+    this.scrollCallback = this.getMessage.bind(this);
 
     this.route.params.subscribe(params => {
       this.id = +params['id'];
@@ -50,6 +50,7 @@ export class MessageApprovalComponent implements OnInit {
       this.initialise();
     });
   }
+
   pendingApprovalMessages: Array<Message>;
 
   ngOnInit() {
@@ -62,8 +63,43 @@ export class MessageApprovalComponent implements OnInit {
   initialise() {
     this.getPendingApprovalMessages();
   }
+
+  getMessage() {
+    return this.service.getMessage(1, '&senderMessageAdmin=false&approvalDecidedAt[exists]=true').subscribe(res => {
+      this.pendingApprovalMessages = res['hydra:member'];
+      for (const message of this.pendingApprovalMessages) {
+        if (message.senderUuid !== undefined) {
+          this.service.getSender(`?uuid=${message.senderUuid}`)
+            .subscribe(response => {
+              const data = response['hydra:member'];
+              if (data[0]) {
+                message['name'] = data[0]['personData'].name;
+                message['senderId'] = data[0].id;
+                const profilePicture = data[0]['profilePicture'];
+
+                message['profilePicture'] = profilePicture;
+
+                if (message['profilePicture']) {
+                  this.httpClient.get(message['profilePicture'])
+                    .subscribe(res => {
+
+                    }, err => {
+                      if (err.status === 404) {
+                        message['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                      }
+                    });
+                } else {
+                  message['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                }
+              }
+            });
+        }
+      }
+    });
+  }
+
   getPendingApprovalMessages() {
-    this.service.getMessage(1, '&status=MESSAGE_PENDING_APPROVAL&senderUuid='+this.decoded.im).subscribe(res => {
+    this.service.getMessage(1, '&senderMessageAdmin=false&approvalDecidedAt[exists]=false').subscribe(res => {
       this.pendingApprovalMessages = res['hydra:member'];
       for (const message of this.pendingApprovalMessages) {
         if (message.senderUuid !== undefined) {
