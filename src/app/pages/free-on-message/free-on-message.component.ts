@@ -3,6 +3,7 @@ import {PostService} from 'src/app/services/post.service';
 import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 import {getLocaleDateTimeFormat} from '@angular/common';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-free-on-message',
@@ -16,6 +17,7 @@ export class FreeOnMessageComponent implements OnInit {
   expireAt: any = {year: 2019, moth: 9, day: 20};
   notEnoughOld: any;
   deviceInfo = null;
+  availabilityMessage = [];
   success = false;
   time = {
     fromTime: '',
@@ -114,7 +116,7 @@ export class FreeOnMessageComponent implements OnInit {
 
   ngOnInit() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
-
+    this.getAvailability();
   }
 
   isIOS() {
@@ -173,5 +175,13 @@ export class FreeOnMessageComponent implements OnInit {
 
   dragMethod(event) {
     console.log(event);
+  }
+
+  getAvailability(){
+    let decoded = jwt_decode(localStorage.getItem('token'));
+    this.apiService.getFreeOnMessage(decoded.im)
+      .subscribe(res=>{
+        this.availabilityMessage = res['hydra:member'];
+      })
   }
 }

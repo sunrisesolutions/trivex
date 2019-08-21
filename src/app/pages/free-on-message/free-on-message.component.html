@@ -13,139 +13,151 @@
         </div>
       </div>
       <div *ngIf="!success" class="col-12">
-        <div class="">
-          <div class="card">
-            <div class="card-body container">
-              <div class="row">
-                <div class="col-12 flex-center">
-                  <div class="row">
-                    <div class="col-6 form-group">
-                      <h2 class="text-center">Free from (time)</h2>
+        <div class="card">
+          <div class="card-body container">
+            <div class="row">
+              <div class="col-12 flex-center">
+                <div class="row">
+                  <div class="col-6 form-group">
+                    <h2 class="text-center">Free from (time)</h2>
 
-                    </div>
-                    <div class="col-6 form-group">
-                      <h2 class="text-center">To (time)</h2>
-                    </div>
                   </div>
-                  <div class="row">
-                    <div class="col-6 form-group">
-                      <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
-                        name="fromAt" atp-time-picker placeholder="Time picker" />
-                      <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
-                        name="fromAt" type="time" placeholder="Time picker" />
-                      <!--                      <hr>-->
-                      <!--                      <pre>Selected time: {{fromTime | json}}</pre>-->
-                    </div>
-                    <div class="col-6 form-group">
-                      <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
-                        name="toAt" atp-time-picker placeholder="Time picker" />
-                      <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
-                        name="toAt" type="time" placeholder="Time picker" />
-                    </div>
-                  </div>
-                  <hr>
-                  <h2>On what day(s)</h2>
-                  <div class="flex-column d-flex">
-                    <div class="btn-group btn-group-toggle justify-content-center">
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.monday"> MON
-                      </label>
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.tuesday"> TUE
-                      </label>
-                      <label class="btn-primary" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.wednesday"> WED
-                      </label>
-                    </div>
-                    <div class="btn-group btn-group-toggle mt-1 justify-content-center">
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.thursday"> THUR
-                      </label>
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.friday"> FRI
-                      </label>
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.saturday"> SAT
-                      </label>
-                    </div>
-                    <div class="btn-group btn-group-toggle mt-1 justify-content-center">
-                      <label class="btn-primary flex-grow-1" ngbButtonLabel>
-                        <input type="checkbox" ngbButton [(ngModel)]="day.sunday"> SUNDAY
-                      </label>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-12 form-group">
-                      <h2>Effective from</h2>
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                        </div>
-                        <!--                        <input-->
-                        <!--                            #effectiveFromIpt-->
-                        <!--                            class="form-control p-2 datepicker"-->
-                        <!--                            placeholder="Effective from"-->
-                        <!--                            name="dob"-->
-                        <!--                            [(ngModel)]="effectiveFrom"-->
-                        <!--                            ngbDatepicker-->
-                        <!--                            #d="ngbDatepicker"-->
-                        <!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
-                        <!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
-                        <!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
-                        <!--                            (click)="d.toggle()"-->
-                        <!--                            type="text"-->
-                        <!--                        />-->
-                        <input class="form-control p-2" placeholder="Effective Date" type="date"
-                          [(ngModel)]="form.effectiveFrom" />
-                      </div>
-                    </div>
-                    <div class="col-12 form-group">
-                      <h2>Expire On</h2>
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                        </div>
-                        <!--                        <input-->
-                        <!--                            #expireOnIpt-->
-                        <!--                            class="form-control p-2 datepicker"-->
-                        <!--                            placeholder="Expired on"-->
-                        <!--                            name="dob"-->
-                        <!--                            [(ngModel)]="expireOn"-->
-                        <!--                            ngbDatepicker-->
-                        <!--                            #d="ngbDatepicker"-->
-                        <!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
-                        <!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
-                        <!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
-                        <!--                            (click)="d.toggle()"-->
-                        <!--                            type="text"-->
-                        <!--                        />-->
-                        <input [(ngModel)]="form.expireAt" class="form-control p-2" type="date"
-                          placeholder="Expiry Date" />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group">
-                        <h2 class="label" for="">My Availability</h2>
-                        <select class="form-control" name="My Availability" id="">
-                          <option value="">
-                            option-1
-                          </option>
-                          <option value="">
-                            option-2
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+                  <div class="col-6 form-group">
+                    <h2 class="text-center">To (time)</h2>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-6 form-group">
+                    <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
+                      name="fromAt" atp-time-picker placeholder="Time picker" />
+                    <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.fromTime"
+                      name="fromAt" type="time" placeholder="Time picker" />
+                    <!--                      <hr>-->
+                    <!--                      <pre>Selected time: {{fromTime | json}}</pre>-->
+                  </div>
+                  <div class="col-6 form-group">
+                    <input *ngIf="isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
+                      name="toAt" atp-time-picker placeholder="Time picker" />
+                    <input *ngIf="!isIOS()" class="form-control p-2" autocomplete="off" [(ngModel)]="time.toTime"
+                      name="toAt" type="time" placeholder="Time picker" />
+                  </div>
+                </div>
+                <hr>
+                <h2>On what day(s)</h2>
+                <div class="flex-column d-flex">
+                  <div class="btn-group btn-group-toggle justify-content-center">
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.monday"> MON
+                    </label>
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.tuesday"> TUE
+                    </label>
+                    <label class="btn-primary" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.wednesday"> WED
+                    </label>
+                  </div>
+                  <div class="btn-group btn-group-toggle mt-1 justify-content-center">
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.thursday"> THUR
+                    </label>
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.friday"> FRI
+                    </label>
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.saturday"> SAT
+                    </label>
+                  </div>
+                  <div class="btn-group btn-group-toggle mt-1 justify-content-center">
+                    <label class="btn-primary flex-grow-1" ngbButtonLabel>
+                      <input type="checkbox" ngbButton [(ngModel)]="day.sunday"> SUNDAY
+                    </label>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <h2>Effective from</h2>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <!--                        <input-->
+                      <!--                            #effectiveFromIpt-->
+                      <!--                            class="form-control p-2 datepicker"-->
+                      <!--                            placeholder="Effective from"-->
+                      <!--                            name="dob"-->
+                      <!--                            [(ngModel)]="effectiveFrom"-->
+                      <!--                            ngbDatepicker-->
+                      <!--                            #d="ngbDatepicker"-->
+                      <!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
+                      <!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
+                      <!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
+                      <!--                            (click)="d.toggle()"-->
+                      <!--                            type="text"-->
+                      <!--                        />-->
+                      <input class="form-control p-2" placeholder="Effective Date" type="date"
+                        [(ngModel)]="form.effectiveFrom" />
+                    </div>
+                  </div>
+                  <div class="col-12 form-group">
+                    <h2>Expire On</h2>
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <!--                        <input-->
+                      <!--                            #expireOnIpt-->
+                      <!--                            class="form-control p-2 datepicker"-->
+                      <!--                            placeholder="Expired on"-->
+                      <!--                            name="dob"-->
+                      <!--                            [(ngModel)]="expireOn"-->
+                      <!--                            ngbDatepicker-->
+                      <!--                            #d="ngbDatepicker"-->
+                      <!--                            [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
+                      <!--                            [minDate]="{ year: date.year-80, month: 01, day: 01 }"-->
+                      <!--                            [startDate]="{ year: date.year-21, month: 01 }"-->
+                      <!--                            (click)="d.toggle()"-->
+                      <!--                            type="text"-->
+                      <!--                        />-->
+                      <input [(ngModel)]="form.expireAt" class="form-control p-2" type="date"
+                        placeholder="Expiry Date" />
+                    </div>
+                  </div>
+
+                </div>
               </div>
-              <div class="row">
-                <div class="col-12">
-                  <label (click)="checkForm(time, day, form)" class="btn-primary btn form-control flex-grow-1"
-                    ngbButtonLabel>
-                    <a class="w-100" ngbButton>Submit</a>
-                  </label>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label (click)="checkForm(time, day, form)" class="btn-primary btn form-control flex-grow-1"
+                  ngbButtonLabel>
+                  <a class="w-100" ngbButton>Submit</a>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
+        <div class="card">
+          <div class="card-header">
+            <h1>My Availability</h1>
+          </div>
+          <div class="card-body container">
+            <div *ngFor="let data of availabilityMessage" class="container-fluid">
+              <div class="card my-3">
+                <div class="card-body">
+                  <h3>{{data.subject}}</h3>
+                  <p class="text-truncate">{{data.body}}</p>
+                  <p></p>
+                </div>
+                <div class="card-footer d-flex justify-content-between p-2">
+                  <div class="d-flex align-items-end">
+                    <small class="text-muted">
+                      {{data.createdAt | date: 'short'}}
+                    </small>
+                  </div>
+                  <a class="d-none btn btn-primary text-light">EDIT</a>
                 </div>
               </div>
             </div>
