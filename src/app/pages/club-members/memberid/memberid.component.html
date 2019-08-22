@@ -19,11 +19,13 @@
                         members.profilePictureWriteForm
                       )
                     " #upload class="d-none" type="file" />
+
                 </a>
               </div>
             </div>
           </div>
           <div class="card-header text-center border-0  mt-7 mt-sm-7 pt-md-4">
+            <div class="badge bg-success text-light mb-2">{{members?.alternateName}}</div>
             <div [ngClass]="{ 'd-none': id === imId }" class="">
               <a routerLink="/club-members/{{ members['@id'] }}/send-email">
                 <div href="javascript:void(0)" class="btn btn-sm btn-default">
@@ -38,13 +40,15 @@
               <div *ngIf="members.personData.name" class="">
                 <h1 *ngIf="name.hidden" class="font-weight-bold">
                   {{ members.personData.name }}
-                  <a *ngIf="id === imId" (click)="name.hidden=!name.hidden;formEdit.name=members.personData.name" class="icon fas fa-pen">
+                  <a *ngIf="id === imId" (click)="name.hidden=!name.hidden;formEdit.name=members.personData.name"
+                    class="icon fas fa-pen">
                   </a>
                 </h1>
                 <div #name hidden="true" class="form-group">
                   <div class="d-flex">
                     <input class="form-control" [(ngModel)]="formEdit.name" type="text">
-                    <a (click)="editInfo(formEdit, name, members.personData)" class="btn btn-primary ml-2 text-light">Submit</a>
+                    <a (click)="editInfo(formEdit, name, members.personData)"
+                      class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
                   <a (click)="name.hidden=!name.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
                 </div>
@@ -57,14 +61,16 @@
               <div *ngIf="members.personData.jobTitle" class="">
                 <h1 *ngIf="jobTitle.hidden" class="h2 mt-4">
                   {{ members.personData.jobTitle }}
-                  <a *ngIf="id === imId"  (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.personData.jobTitle"
+                  <a *ngIf="id === imId"
+                    (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.personData.jobTitle"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
                 <div #jobTitle hidden="true" class="form-group">
                   <div class="d-flex">
                     <input class="form-control" [(ngModel)]="formEdit.job" type="text">
-                    <a (click)="editInfo(formEdit,jobTitle, members.personData)" class="btn btn-primary ml-2 text-light">Submit</a>
+                    <a (click)="editInfo(formEdit,jobTitle, members.personData)"
+                      class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
                   <a (click)="jobTitle.hidden=!jobTitle.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
                 </div>
@@ -73,14 +79,16 @@
               <div *ngIf="members.personData.employerName" class="">
                 <h1 *ngIf="employer.hidden" class="h2">
                   {{ members.personData.employerName }}
-                  <a *ngIf="id === imId"  (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.personData.employerName"
+                  <a *ngIf="id === imId"
+                    (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.personData.employerName"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
                 <div #employer hidden="true" class="form-group">
                   <div class="d-flex">
                     <input class="form-control" [(ngModel)]="formEdit.employerName" type="text">
-                    <a (click)="editInfo(formEdit,employer,member.personData)" class="btn btn-primary ml-2 text-light">Submit</a>
+                    <a (click)="editInfo(formEdit,employer,member.personData)"
+                      class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
                   <a (click)="employer.hidden=!employer.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
                 </div>
@@ -89,34 +97,36 @@
               <div *ngIf="members.personData.phone" class="">
                 <h1 *ngIf="phone.hidden" class="h2">
                   {{ members.personData.phone }}
-                  <a  *ngIf="id === imId" (click)="phone.hidden=!phone.hidden;formEdit.phone=members.personData.phone"
+                  <a *ngIf="id === imId" (click)="phone.hidden=!phone.hidden;formEdit.phone=members.personData.phone"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
                 <div #phone hidden="true" class="form-group">
                   <div class="d-flex">
                     <input class="form-control" [(ngModel)]="formEdit.phone" type="text">
-                    <a  (click)="editInfo(formEdit,phone,members.personData)" class="btn btn-primary ml-2 text-light">Submit</a>
+                    <a (click)="editInfo(formEdit,phone,members.personData)"
+                      class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
                   <a (click)="phone.hidden=!phone.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
                 </div>
               </div>
               <!-- Email -->
               <div *ngIf="members.personData.email" class="">
-                  <h1 *ngIf="email.hidden" class="h2">
-                    {{ members.personData.email }}
-                    <a *ngIf="id === imId" (click)="email.hidden=!email.hidden;formEdit.email=members.personData.email"
-                      class="icon fas fa-pen">
-                    </a>
-                  </h1>
-                  <div #email hidden="true" class="form-group">
-                    <div class="d-flex">
-                      <input class="form-control" [(ngModel)]="formEdit.email" type="text">
-                      <a (click)="editInfo(formEdit, email, members.personData)" class="btn btn-primary ml-2 text-light">Submit</a>
-                    </div>
-                    <a (click)="email.hidden=!email.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
+                <h1 *ngIf="email.hidden" class="h2">
+                  {{ members.personData.email }}
+                  <a *ngIf="id === imId" (click)="email.hidden=!email.hidden;formEdit.email=members.personData.email"
+                    class="icon fas fa-pen">
+                  </a>
+                </h1>
+                <div #email hidden="true" class="form-group">
+                  <div class="d-flex">
+                    <input class="form-control" [(ngModel)]="formEdit.email" type="text">
+                    <a (click)="editInfo(formEdit, email, members.personData)"
+                      class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
+                  <a (click)="email.hidden=!email.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
                 </div>
+              </div>
               <hr class="my-4" />
             </div>
           </div>
