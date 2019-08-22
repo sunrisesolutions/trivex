@@ -149,61 +149,57 @@
           </div>
         </div>
       </div>
-      <div class="col-12 mt-2">
-        <div class="card">
-          <div class="card-header">
-            <h1>My Availability</h1>
+      <div class="col-12 mt-4">
+        <h1>My Availability</h1>
+        <div *ngFor="let data of availabilityMessage" class="card my-2">
+          <div class="card-header p-2 text-center">
+            <h2 *ngIf="data.freeOnMondays" class="font-weight-bold badge">Monday</h2>
+            <h2 *ngIf="data.freeOnTuesdays" class="font-weight-bold badge">Tuesday</h2>
+            <h2 *ngIf="data.freeOnWednesdays" class="font-weight-bold badge">Wednesday</h2>
+            <h2 *ngIf="data.freeOnThursdays" class="font-weight-bold badge">Thursday</h2>
+            <h2 *ngIf="data.freeOnFridays" class="font-weight-bold badge">Friday</h2>
+            <h2 *ngIf="data.freeOnSaturdays" class="font-weight-bold badge">Saturday</h2>
+            <h2 *ngIf="data.freeOnSundays" class="font-weight-bold badge">Sunday</h2>
           </div>
-          <div class="card-body container">
-            <div *ngFor="let data of availabilityMessage" class="container-fluid">
-              <div class="card my-4">
-                <div class="card-header p-2 text-center">
-                  <p *ngIf="data.freeOnMondays" class="font-weight-bold badge">Monday</p>
-                  <p *ngIf="data.freeOnTuesdays" class="font-weight-bold badge">Tuesday</p>
-                  <p *ngIf="data.freeOnWednesdays" class="font-weight-bold badge">Wednesday</p>
-                  <p *ngIf="data.freeOnThursdays" class="font-weight-bold badge">Thursday</p>
-                  <p *ngIf="data.freeOnFridays" class="font-weight-bold badge">Friday</p>
-                  <p *ngIf="data.freeOnSaturdays" class="font-weight-bold badge">Saturday</p>
-                  <p *ngIf="data.freeOnSundays" class="font-weight-bold badge">Sunday</p>
-                </div>
-                <div class="card-body row">
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label class="font-weight-bold" for="">From Time: <span
-                          class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label class="font-weight-bold" for="">To Time: <span
-                          class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label class="font-weight-bold" for="">Effective From: <span
-                          class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
-                      </label>
-                    </div>
-                    <div class="form-group text-left">
-                      <label class="font-weight-bold" for="">Expire On: <span
-                          class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
+          <div class="card-body row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="font-weight-bold" for="">From Time: <span
+                    class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="font-weight-bold" for="">To Time: <span
+                    class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
+                </label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="font-weight-bold" for="">Effective From: <span
+                    class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
+                </label>
+              </div>
+              <div class="form-group text-left">
+                <label class="font-weight-bold" for="">Expire On: <span
+                    class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
+                </label>
+              </div>
+            </div>
+          </div>
 
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-12 col-md-6">
-                      <a (click)="editMessage(data)" class="btn btn-primary w-100 text-light">EDIT</a>
-                    </div>
-                    <div class="col-12 col-md-6 mt-2 mt-md-0">
-                      <a (click)="deleteMessage(data['@id'])" class="btn btn-danger w-100 text-light">DELETE</a>
-                    </div>
-                  </div>
-                </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <a (click)="editMessage(data)" class="btn btn-primary w-100 text-light">EDIT</a>
+              </div>
+              <div class="col-12 col-md-6 mt-2 mt-md-0">
+                <a (click)="deleteMessage(data['@id'])" class="btn btn-danger w-100 text-light">DELETE</a>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
