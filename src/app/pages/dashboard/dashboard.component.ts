@@ -15,22 +15,22 @@ export class DashboardComponent implements OnInit {
   constructor(private router: Router, private service: PostService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    let snapAT = this.route.snapshot.paramMap.get('access')
-    console.log(snapAT)
-    this.access_token = localStorage.getItem("access_token");
-    let accessTok = new FormData();
-    accessTok.append("access-token", `${snapAT}`);
-
-    this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/dashboard/${snapAT}.png`;
-
-
-    if (snapAT == this.access_token) {
-      localStorage.clear();
-      this.router.navigate(['/login'])
-    } else {
-      this.service.loginByAccessToken(accessTok).subscribe(res => {
-        console.log(res);
-      });
-    }
+    // let snapAT = this.route.snapshot.paramMap.get('access')
+    // console.log(snapAT)
+    // this.access_token = localStorage.getItem("access_token");
+    // let accessTok = new FormData();
+    // accessTok.append("access-token", `${snapAT}`);
+    //
+    // this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/dashboard/${snapAT}.png`;
+    //
+    //
+    // if (snapAT == this.access_token) {
+    //   localStorage.clear();
+    //   this.router.navigate(['/login'])
+    // } else {
+    //   this.service.loginByAccessToken(accessTok).subscribe(res => {
+    //     console.log(res);
+    //   });
+    // }
   }
 }

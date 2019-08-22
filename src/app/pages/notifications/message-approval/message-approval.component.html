@@ -58,27 +58,31 @@
       <div class="card py-3 read">
         <div class="card-content container">
           <div class="row">
-            <div class="badge {{message.status =='MESSAGE_PENDING_APPROVAL'?'badge-warning':(message.status == 'DELIVERY_REJECTED'?'badge-danger':'badge-success')}} ml-2">{{message.status =='MESSAGE_PENDING_APPROVAL'?'PENDING APPROVAL':(message.status == 'DELIVERY_DENIED'?'REJECTED':'APPROVED')}}</div>
 
-            <div class="col-12 d-flex justify-content-center col-md-2">
-              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+            <div class="col-3 flex-column d-flex justify-content-center col-md-2">
+              <div
+                class="badge {{message.status =='MESSAGE_PENDING_APPROVAL'?'badge-warning':(message.status == 'DELIVERY_REJECTED'?'badge-danger':'badge-success')}} ml-2">{{message.status == 'MESSAGE_PENDING_APPROVAL' ? 'PENDING APPROVAL' : (message.status == 'DELIVERY_DENIED' ? 'REJECTED' : 'APPROVED')}}</div>
+              <img alt="Image placeholder" class="rounded-circle"
+                   style="object-fit: cover; width: 80px; height: 80px;"
                    [src]="message.profilePicture"/>
             </div>
+          </div>
 
-            <div class="col-12 col-md-8 pl-mobile-custom">
-              <h2 class="font-weight-bold">
-                {{message.subject}}
-              </h2>
-              <div style="font-size:18px !important;" class="text-truncate">{{message.body}}</div>
+          <div class="col-9 col-md-8 pl-mobile-custom">
+            <h2 class="font-weight-bold">
+              {{message.subject}}
+            </h2>
+            <div style="font-size:18px !important;" class="text-truncate">{{message.body}}</div>
 
-              <div
-                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
-                <small class="">{{
-                    message.createdAt | date: "short"
-                  }}</small>
-              </div>
+            <div
+              class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+              <small class="">{{
+                  message.createdAt | date: "short"
+                }}</small>
             </div>
           </div>
+
+
         </div>
       </div>
 

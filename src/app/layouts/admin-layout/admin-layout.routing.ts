@@ -48,7 +48,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "qr-code", component: QrCodeComponent },
   { path: "qr-start", component: QrStartComponent },
   { path: "qr-scanner", component: QrScannerComponent },
-  { path: "dashboard/:access", component: DashboardComponent },
+  { path: "dashboard", component: DashboardComponent },
   { path: "post-announcement", component: PostAnnouncementComponent },
 ];
 

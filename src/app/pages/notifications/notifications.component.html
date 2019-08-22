@@ -136,12 +136,11 @@
       <div class="card py-3 cursor {{ delivery.readAt ? 'unread' : 'readed'  }}">
         <div class="card-content container">
           <div class="row">
-
-            <div class="col-12 d-flex justify-content-center col-md-2">
-              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+            <div class="col-3 d-flex justify-content-center col-md-2">
+              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px;"
                    [src]="delivery.profilePicture"/>
             </div>
-            <div class="col-12 col-md-8 pl-mobile-custom">
+            <div class="col-9 col-md-8 pl-mobile-custom text-left">
               <h2 class="font-weight-bold">
                 {{delivery.name}}
               </h2>
@@ -159,7 +158,7 @@
               </div>
 
               <div
-                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+                class="col-12 col-md-2 d-flex justify-content-md-end text-left align-items-end text-md-right">
                 <small class="">{{
                     delivery.message.createdAt | date: "short"
                   }}</small>
@@ -189,7 +188,7 @@
 
               <div *ngFor="let option of delivery.arrayOptions;let i = index;let c = count;"
                    class="btn btn-primary cursor mr-1 mt-1"
-                   routerLink="/club-members/notifications/message/{{ delivery.messageId }}/selected-option/{{ option.uuid }}">
+                   routerLink="/club-members/notifications/deliveries/{{ delivery.messageId }}/selected-option/{{ option.uuid }}">
                 {{option.name}} ({{option.voted}})
                 <span [hidden]="option['newResponseCount'] === 0"
                       [innerHTML]="option['newResponseCount'] > 99 ? '99 +' : option['newResponseCount']"
