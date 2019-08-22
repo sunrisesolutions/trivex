@@ -1,4 +1,4 @@
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PostService} from 'src/app/services/post.service';
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Delivery} from 'src/app/models/Deliveries';
@@ -35,7 +35,8 @@ export class MessageComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     private service: PostService, private modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     // this.scrollCallback = this.getDelivery.bind(this);
@@ -97,6 +98,10 @@ export class MessageComponent implements OnInit {
         }
       }
     );
+  }
+
+  submitDecision(decision: string) {
+    this.router.navigate(['/club-members/notifications/announcement-approvals']);
   }
 
   isActiveOption(item) {

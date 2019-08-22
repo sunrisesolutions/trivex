@@ -68,6 +68,7 @@ export class MessageApprovalComponent implements OnInit {
     return this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=true').subscribe(res => {
       this.messages = res['hydra:member'];
       for (const message of this.messages) {
+        message['profilePicture'] = '/assets/img-process/Loading-img.gif';
         if (message.senderUuid !== undefined) {
           this.service.getSender(`?uuid=${message.senderUuid}`)
             .subscribe(response => {
@@ -101,6 +102,7 @@ export class MessageApprovalComponent implements OnInit {
     this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=false').subscribe(res => {
       this.pendingApprovalMessages = res['hydra:member'];
       for (const message of this.pendingApprovalMessages) {
+        message['profilePicture'] = '/assets/img-process/Loading-img.gif';
         if (message.senderUuid !== undefined) {
           this.service.getSender(`?uuid=${message.senderUuid}`)
             .subscribe(response => {

@@ -31,9 +31,8 @@
               <hr class="my-2"/>
             </div>
 
-            <div *ngIf="message.optionSet != null"
-                 class="col-12 justify-content-center">
-              <div class="d-flex flex-column flex-md-row justify-content-center">
+            <div class="col-12 justify-content-center">
+              <div *ngIf="message.optionSet != null" class="d-flex flex-column flex-md-row justify-content-center">
                 <!-- Button -->
                 <div class="btn border mx-2 mb-2" [title]="message['name']"
                      *ngFor="let list of message['optionSet']['messageOptions'];
@@ -46,10 +45,11 @@
                   </div>
                 </div>
               </div>
+              <!-- DECISION MAKING -->
               <div *ngIf="message['status'] == 'MESSAGE_PENDING_APPROVAL'">
                 <div class="btn btn-success border mx-2 mb-2" [title]=""
                      routerLink="/club-members/notifications/messages/{{message.id}}/decide/approve">
-                  <div class="d-flex flex-column justify-content-center">
+                  <div (click)="submitDecision('approve')" class="d-flex flex-column justify-content-center">
                       <span class="text-truncate">
                         APPROVE
                       </span>
@@ -95,7 +95,7 @@
           </div>
           <div class="col-12  mt-3">
             <button class="btn" routerLink="/club-members/notifications/messages/{{id}}">&lt; CANCEL</button>
-            <button class="btn btn-primary">SUBMIT &gt;</button>
+            <button (click)="submitDecision('reject')" class="btn btn-primary">SUBMIT &gt;</button>
           </div>
 
         </div>

@@ -108,7 +108,7 @@ export class NotificationsComponent implements OnInit {
     if (this.incomingOnly) {
       query += '&messageSenderUuid=' + this.decoded.im;
     } else if (this.incomingOnly === false) {
-      query += '&delivery.sender.uuid=' + this.decoded.im;
+      query += '&message.sender.uuid=' + this.decoded.im;
     }
 
     return this.service.getDelivery(query, this.currentPage)

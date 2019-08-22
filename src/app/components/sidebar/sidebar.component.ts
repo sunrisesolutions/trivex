@@ -96,19 +96,23 @@ export class SidebarComponent implements OnInit {
     title: 'Announcement Approval',
     icon: 'ni-like-2 text-cyan',
     class: '',
-
+    badge: true,
+    badgeType: 'approval'
   };
   haveRoleRecentAnnoucement = {
     path: '/club-members/notifications/outgoing',
     title: 'Recent announcements',
     icon: 'ni-archive-2 text-purple',
     class: '',
-    badge: true
+    badge: true,
+    badgeType: 'recent'
   };
   messagesID = '';
   deviceInfo = null;
   currentPage = 1;
   countSide = 0;
+  recentAnnouncementCount = 0;
+  approvalCount = 0;
 
   constructor(
     private modalService: NgbModal,
@@ -498,10 +502,34 @@ export class SidebarComponent implements OnInit {
     };
     this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
       .subscribe(res => {
-        this.countSide = res['hydra:member'].length;
+        const recentAnnouncementCount = +res['hydra:member'].length;
+        if (this.recentAnnouncementCount !== recentAnnouncementCount) {
+          this.countSide -= this.recentAnnouncementCount;
+          this.countSide += recentAnnouncementCount;
+          this.recentAnnouncementCount = recentAnnouncementCount;
+        }
       });
-  }
 
+    if (this.checkingRole(true)) {
+      this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=false').subscribe(res => {
+        const approvalCount = +res['hydra:totalItems'];
+        if (this.approvalCount !== approvalCount) {
+          this.countSide -= this.approvalCount;
+          this.countSide += approvalCount;
+          this.approvalCount = approvalCount;
+        }
+      });
+    } else {
+      this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=true,approvalDecisionReadAt[exists]=false').subscribe(res => {
+        const approvalCount = +res['hydra:totalItems'];
+        if (this.approvalCount !== approvalCount) {
+          this.countSide -= this.approvalCount;
+          this.countSide += approvalCount;
+          this.approvalCount = approvalCount;
+        }
+      });
+    }
+  }
 
   getSubdomain() {
     var host = window.location.hostname;
@@ -520,7 +548,6 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-
   /* LOGIN BY SUBDOMAIN */
   getLogoOrganisation() {
     // if (!this.showOrg) {
@@ -534,7 +561,6 @@ export class SidebarComponent implements OnInit {
           name: this.sub,
           host: document.location.host
         };
-
 
         /* check server image */
         this.httpClient.get(this.orgLogo)

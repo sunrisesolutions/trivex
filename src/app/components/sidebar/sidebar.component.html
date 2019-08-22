@@ -274,12 +274,15 @@
       <!-- Navigation -->
       <ul class="navbar-nav">
         <li *ngFor="let ROUTEitem of routes" class="{{ ROUTEitem.class }} nav-item">
-          <a routerLinkActive="active" [routerLink]="ROUTEitem.path" class="nav-link">
+          <a routerLinkActive="active" [routerLink]="ROUTEitem.path" class="nav-link" style="align-self: flex-end;">
             <i class="ni {{ ROUTEitem.icon }}"></i>
             {{ ROUTEitem.title }}
+            &nbsp;
+            <span style="align-self: flex-start; position: inherit" *ngIf="ROUTEitem.badgeType == 'recent'" [hidden]="recentAnnouncementCount === 0" [innerHTML]="recentAnnouncementCount > 99 ? '99+' : recentAnnouncementCount"
+                  class="badge badge-sidebar-2 badge-danger"></span>
+            <span style="align-self: flex-start; position: inherit" *ngIf="ROUTEitem.badgeType == 'approval'" [hidden]="approvalCount === 0" [innerHTML]="approvalCount > 99 ? '99+' : approvalCount"
+                  class="badge badge-sidebar-2 badge-danger"></span>
           </a>
-          <span *ngIf="ROUTEitem.badge" [hidden]="countSide === 0" [innerHTML]="countSide > 99 ? '99 +' : countSide"
-            class="badge badge-sidebar-2 badge-danger"></span>
         </li>
       </ul>
       <!-- Divider -->
