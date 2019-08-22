@@ -103,7 +103,7 @@ export class NavbarComponent implements OnInit {
   open(content, delivery) {
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
       // this.delivery = delivery;
     }
     let d = new Date();

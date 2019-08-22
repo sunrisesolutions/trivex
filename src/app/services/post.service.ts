@@ -470,7 +470,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.put(`${this.messageAPI}/free_on_messages/${id}`, body, httpOptions);
+    return this.http.put(`${this.messageAPI}${id}`, body, httpOptions);
   }
 
   freeOnMessageDelete(id): Observable<Object> {
@@ -480,7 +480,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.delete(`${this.messageAPI}/free_on_messages/${id}`, httpOptions);
+    return this.http.delete(`${this.messageAPI}${id}`, httpOptions);
   }
 
   /* .,Free on Message API */

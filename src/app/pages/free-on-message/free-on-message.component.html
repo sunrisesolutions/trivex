@@ -7,7 +7,7 @@
       <div class="col-12">
         <div *ngIf="success" class="h3 text-white-no-longer">
           <p for="">You have successfully posted your message.</p>
-          <button (click)="success=false" class="btn btn-info">Post another
+          <button (click)="cancel()" class="btn btn-info">Post another
             message
           </button>
         </div>
@@ -48,28 +48,35 @@
                   <div class="btn-group btn-group-toggle justify-content-center">
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.monday"> MON
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.monday && onEdit}"></span>
                     </label>
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.tuesday"> TUE
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.tuesday && onEdit}"></span>
                     </label>
                     <label class="btn-primary" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.wednesday"> WED
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.wednesday && onEdit}"></span>
                     </label>
                   </div>
                   <div class="btn-group btn-group-toggle mt-1 justify-content-center">
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.thursday"> THUR
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.thursday && onEdit}"></span>
                     </label>
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.friday"> FRI
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.friday && onEdit}"></span>
                     </label>
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.saturday"> SAT
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.saturday && onEdit}"></span>
                     </label>
                   </div>
                   <div class="btn-group btn-group-toggle mt-1 justify-content-center">
                     <label class="btn-primary flex-grow-1" ngbButtonLabel>
                       <input type="checkbox" ngbButton [(ngModel)]="day.sunday"> SUNDAY
+                      <span class="fas" [ngClass]="{'fa-check-circle': day.sunday && onEdit}"></span>
                     </label>
                   </div>
                 </div>
@@ -133,6 +140,10 @@
                   ngbButtonLabel>
                   <a class="w-100" ngbButton>Submit</a>
                 </label>
+                <label *ngIf="onEdit" (click)="cancel()" class="btn-primary btn form-control flex-grow-1"
+                  ngbButtonLabel>
+                  <a class="w-100" ngbButton>Cancel</a>
+                </label>
               </div>
             </div>
           </div>
@@ -146,10 +157,61 @@
           <div class="card-body container">
             <div *ngFor="let data of availabilityMessage" class="container-fluid">
               <div class="card my-3">
-                <div class="card-body">
-                  <h3>{{data.subject}}</h3>
-                  <p class="text-truncate">{{data.body}}</p>
-                  <p></p>
+                <div class="card-body row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-weight-bold">Monday: <span
+                            [ngClass]="{'fas text-success': data.freeOnMondays===true, 'far text-danger': data.freeOnMondays===false}"
+                            class="fa-check-circle"></span> </p>
+                        <p class="font-weight-bold">Tuesday: <span
+                            [ngClass]="{'fas text-success': data.freeOnTuesdays===true, 'far text-danger': data.freeOnTuesdays===false}"
+                            class="fa-check-circle "></span> </p>
+                        <p class="font-weight-bold">Wednesday: <span
+                            [ngClass]="{'fas text-success': data.freeOnWednesdays===true, 'far text-danger': data.freeOnWednesdays===false}"
+                            class="fa-check-circle "></span> </p>
+                        <p class="font-weight-bold">Thursday: <span
+                            [ngClass]="{'fas text-success': data.freeOnThursdays===true, 'far text-danger': data.freeOnThursdays===false}"
+                            class="fa-check-circle "></span> </p>
+                        <p class="font-weight-bold">Friday: <span
+                            [ngClass]="{'fas text-success': data.freeOnFridays===true, 'far text-danger': data.freeOnFridays===false}"
+                            class="fa-check-circle "></span> </p>
+                        <p class="font-weight-bold">Saturday: <span
+                            [ngClass]="{'fas text-success': data.freeOnSaturdays===true, 'far text-danger': data.freeOnSaturdays===false}"
+                            class="fa-check-circle "></span> </p>
+                        <p class="font-weight-bold">Sunday: <span
+                            [ngClass]="{'fas text-success': data.freeOnSundays===true, 'far text-danger': data.freeOnSundays===false}"
+                            class="fa-check-circle "></span> </p>
+
+                      </div>
+                      <div class="col-6">
+                        <div class="d-flex flex-column">
+                          <div class="form-group">
+                            <label class="font-weight-bold" for="">From Time: <span
+                                class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
+                            </label>
+                          </div>
+                          <div class="form-group">
+                            <label class="font-weight-bold" for="">To Time: <span
+                                class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                          <div class="form-group">
+                            <label class="font-weight-bold" for="">Effective From: <span
+                                class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
+                            </label>
+                          </div>
+                          <div class="form-group text-left">
+                            <label class="font-weight-bold" for="">Expire On: <span
+                                class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between p-2">
                   <div class="d-flex align-items-end">
@@ -157,7 +219,10 @@
                       {{data.createdAt | date: 'short'}}
                     </small>
                   </div>
-                  <a class="d-none btn btn-primary text-light">EDIT</a>
+                  <div class="">
+                    <a (click)="deleteMessage(data['@id'])" class="btn btn-danger text-light">DELETE</a>
+                    <a (click)="editMessage(data)" class="btn btn-primary text-light">EDIT</a>
+                  </div>
                 </div>
               </div>
             </div>
