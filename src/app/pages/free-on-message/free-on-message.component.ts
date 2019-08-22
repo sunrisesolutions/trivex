@@ -201,13 +201,15 @@ export class FreeOnMessageComponent implements OnInit {
       })
   }
   deleteMessage(id) {
-    this.apiService.freeOnMessageDelete(id)
-      .subscribe(res => {
-        this.getMessage();
-        alert('Successed.!!!');
-      }, error => {
-        alert(error.error['hydra:description']);
-      });
+    if (window.confirm('Are you sure you want to delete this message ???')) {
+      this.apiService.freeOnMessageDelete(id)
+        .subscribe(res => {
+          this.getMessage();
+          alert('Successed.!!!');
+        }, error => {
+          alert(error.error['hydra:description']);
+        });
+    }
   }
   editMessage(data) {
     console.log(data)

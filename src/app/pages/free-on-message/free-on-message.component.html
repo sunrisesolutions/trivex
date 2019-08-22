@@ -156,79 +156,54 @@
           </div>
           <div class="card-body container">
             <div *ngFor="let data of availabilityMessage" class="container-fluid">
-              <div class="card my-3">
+              <div class="card my-4">
+                <div class="card-header p-2 text-center">
+                  <p *ngIf="data.freeOnMondays" class="font-weight-bold badge">Monday</p>
+                  <p *ngIf="data.freeOnTuesdays" class="font-weight-bold badge">Tuesday</p>
+                  <p *ngIf="data.freeOnWednesdays" class="font-weight-bold badge">Wednesday</p>
+                  <p *ngIf="data.freeOnThursdays" class="font-weight-bold badge">Thursday</p>
+                  <p *ngIf="data.freeOnFridays" class="font-weight-bold badge">Friday</p>
+                  <p *ngIf="data.freeOnSaturdays" class="font-weight-bold badge">Saturday</p>
+                  <p *ngIf="data.freeOnSundays" class="font-weight-bold badge">Sunday</p>
+                </div>
                 <div class="card-body row">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-6">
-                        <p class="font-weight-bold">Monday: <span
-                            [ngClass]="{'fas text-success': data.freeOnMondays===true, 'far text-danger': data.freeOnMondays===false}"
-                            class="fa-check-circle"></span> </p>
-                        <p class="font-weight-bold">Tuesday: <span
-                            [ngClass]="{'fas text-success': data.freeOnTuesdays===true, 'far text-danger': data.freeOnTuesdays===false}"
-                            class="fa-check-circle "></span> </p>
-                        <p class="font-weight-bold">Wednesday: <span
-                            [ngClass]="{'fas text-success': data.freeOnWednesdays===true, 'far text-danger': data.freeOnWednesdays===false}"
-                            class="fa-check-circle "></span> </p>
-                        <p class="font-weight-bold">Thursday: <span
-                            [ngClass]="{'fas text-success': data.freeOnThursdays===true, 'far text-danger': data.freeOnThursdays===false}"
-                            class="fa-check-circle "></span> </p>
-                        <p class="font-weight-bold">Friday: <span
-                            [ngClass]="{'fas text-success': data.freeOnFridays===true, 'far text-danger': data.freeOnFridays===false}"
-                            class="fa-check-circle "></span> </p>
-                        <p class="font-weight-bold">Saturday: <span
-                            [ngClass]="{'fas text-success': data.freeOnSaturdays===true, 'far text-danger': data.freeOnSaturdays===false}"
-                            class="fa-check-circle "></span> </p>
-                        <p class="font-weight-bold">Sunday: <span
-                            [ngClass]="{'fas text-success': data.freeOnSundays===true, 'far text-danger': data.freeOnSundays===false}"
-                            class="fa-check-circle "></span> </p>
-
-                      </div>
-                      <div class="col-6">
-                        <div class="d-flex flex-column">
-                          <div class="form-group">
-                            <label class="font-weight-bold" for="">From Time: <span
-                                class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
-                            </label>
-                          </div>
-                          <div class="form-group">
-                            <label class="font-weight-bold" for="">To Time: <span
-                                class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div class="d-flex flex-column">
-                          <div class="form-group">
-                            <label class="font-weight-bold" for="">Effective From: <span
-                                class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
-                            </label>
-                          </div>
-                          <div class="form-group text-left">
-                            <label class="font-weight-bold" for="">Expire On: <span
-                                class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="">From Time: <span
+                          class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="">To Time: <span
+                          class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="">Effective From: <span
+                          class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
+                      </label>
+                    </div>
+                    <div class="form-group text-left">
+                      <label class="font-weight-bold" for="">Expire On: <span
+                          class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
+                      </label>
                     </div>
                   </div>
                 </div>
-                <div class="card-footer d-flex justify-content-between p-2">
-                  <div class="d-flex align-items-end">
-                    <small class="text-muted">
-                      {{data.createdAt | date: 'short'}}
-                    </small>
-                  </div>
-                  <div class="">
-                    <a (click)="deleteMessage(data['@id'])" class="btn btn-danger text-light">DELETE</a>
-                    <a (click)="editMessage(data)" class="btn btn-primary text-light">EDIT</a>
+
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <a (click)="editMessage(data)" class="btn btn-primary w-100 text-light">EDIT</a>
+                    </div>
+                    <div class="col-12 col-md-6 mt-2 mt-md-0">
+                      <a (click)="deleteMessage(data['@id'])" class="btn btn-danger w-100 text-light">DELETE</a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
