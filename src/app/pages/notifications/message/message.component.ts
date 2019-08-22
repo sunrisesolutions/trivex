@@ -1,12 +1,12 @@
-import {ActivatedRoute, Router} from '@angular/router';
-import {PostService} from 'src/app/services/post.service';
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Delivery} from 'src/app/models/Deliveries';
-import {HttpClient} from '@angular/common/http';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Delivery } from 'src/app/models/Deliveries';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jwt_decode from 'jwt-decode';
-import {ResourceParent} from '../../../models/ResourceParent';
-import {Message} from '../../../models/Message';
+import { ResourceParent } from '../../../models/ResourceParent';
+import { Message } from '../../../models/Message';
 
 @Component({
   selector: 'app-messages',
@@ -100,8 +100,37 @@ export class MessageComponent implements OnInit {
     );
   }
 
-  submitDecision(decision: string) {
-    this.router.navigate(['/club-members/notifications/announcement-approvals']);
+  submitDecision(descision: string) {
+    /* HEADER */
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    /* /.HEADER */
+    const id = +this.route.snapshot.params.id;
+    if(descision === 'approve'){
+      const requestForm = {
+        'approved': true,
+      };
+      this.httpClient.put(`https://messaging.api.trivesg.com/messages/${id}`, requestForm, httpOptions)
+        .subscribe(res => {
+          console.log(res);
+          this.router.navigate(['/club-members/notifications/announcement-approvals']);
+        });
+    }
+    if(this.decision === 'reject'){
+      const requestForm = {
+        'rejected': true,
+        'decisionReasons': this.reasonsForRejection
+      };
+      this.httpClient.put(`https://messaging.api.trivesg.com/messages/${id}`, requestForm, httpOptions)
+        .subscribe(res => {
+          console.log(res);
+          this.router.navigate(['/club-members/notifications/announcement-approvals']);
+        });
+    }
   }
 
   isActiveOption(item) {

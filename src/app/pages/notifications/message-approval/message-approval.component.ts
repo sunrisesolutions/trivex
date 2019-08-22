@@ -28,6 +28,7 @@ export class MessageApprovalComponent implements OnInit {
   selectedOptionUuid: string;
   messages: Array<Message>;
   optionName: string;
+  loading: boolean = true;
   initialised = false;
   delivery: Delivery;
   decision: string = null;
@@ -66,7 +67,9 @@ export class MessageApprovalComponent implements OnInit {
   }
 
   getMessage() {
-    return this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=true').subscribe(res => {
+    this.loading = true;
+    return this.service.getMessage(1, '&type=simple&senderMessageAdmin=false&approvalDecidedAt[exists]=true').do(res => {
+      this.loading = false;
       this.messages = res['hydra:member'];
       for (const message of this.messages) {
         message['profilePicture'] = '/assets/img-process/Loading-img.gif';

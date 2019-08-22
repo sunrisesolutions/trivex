@@ -47,8 +47,7 @@
               </div>
               <!-- DECISION MAKING -->
               <div *ngIf="message['status'] == 'MESSAGE_PENDING_APPROVAL'">
-                <div class="btn btn-success border mx-2 mb-2" [title]=""
-                     routerLink="/club-members/notifications/messages/{{message.id}}/decide/approve">
+                <div class="btn btn-success border mx-2 mb-2" [title]="">
                   <div (click)="submitDecision('approve')" class="d-flex flex-column justify-content-center">
                       <span class="text-truncate">
                         APPROVE
@@ -71,15 +70,15 @@
     </div>
 
   </div>
-  <div *ngIf="decision">
+  <div *ngIf="decision==='reject'">
     <div class="modal-header"></div>
     <div class="modal-body mt-3 mt-md-2">
       <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
         <div class="d-flex justify-content-center">
           <div class="card-profile-image" style="top:-20pt">
             <img
-              routerLink="/club-members/{{ message['senderId'] }}/info" style="width:100px;height:100px"
-              alt="Image placeholder" [src]="message['profilePicture']" class="avatar-notif"/>
+              routerLink="/club-members/{{ message?.senderId}}/info" style="width:100px;height:100px"
+              alt="Image placeholder" [src]="message?.profilePicture" class="avatar-notif"/>
           </div>
         </div>
         <div class="card-body mt-4 container text-center">
