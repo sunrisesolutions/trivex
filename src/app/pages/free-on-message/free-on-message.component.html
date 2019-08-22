@@ -153,37 +153,39 @@
         <h1>My Availability</h1>
         <div *ngFor="let data of availabilityMessage" class="card my-2">
           <div class="card-header p-2 text-center">
-            <h2 *ngIf="data.freeOnMondays" class="font-weight-bold badge">Monday</h2>
-            <h2 *ngIf="data.freeOnTuesdays" class="font-weight-bold badge">Tuesday</h2>
-            <h2 *ngIf="data.freeOnWednesdays" class="font-weight-bold badge">Wednesday</h2>
-            <h2 *ngIf="data.freeOnThursdays" class="font-weight-bold badge">Thursday</h2>
-            <h2 *ngIf="data.freeOnFridays" class="font-weight-bold badge">Friday</h2>
-            <h2 *ngIf="data.freeOnSaturdays" class="font-weight-bold badge">Saturday</h2>
-            <h2 *ngIf="data.freeOnSundays" class="font-weight-bold badge">Sunday</h2>
+            <h2 *ngIf="data.freeOnMondays" class="font-weight-bold badge bg-success text-light mr-2">Monday</h2>
+            <h2 *ngIf="data.freeOnTuesdays" class="font-weight-bold badge bg-success text-light mr-2">Tuesday</h2>
+            <h2 *ngIf="data.freeOnWednesdays" class="font-weight-bold badge bg-success text-light mr-2">Wednesday</h2>
+            <h2 *ngIf="data.freeOnThursdays" class="font-weight-bold badge bg-success text-light mr-2">Thursday</h2>
+            <h2 *ngIf="data.freeOnFridays" class="font-weight-bold badge bg-success text-light mr-2">Friday</h2>
+            <h2 *ngIf="data.freeOnSaturdays" class="font-weight-bold badge bg-success text-light mr-2">Saturday</h2>
+            <h2 *ngIf="data.freeOnSundays" class="font-weight-bold badge bg-success text-light">Sunday</h2>
           </div>
-          <div class="card-body row">
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="font-weight-bold" for="">From Time: <span
-                    class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
-                </label>
+          <div class="card-body container">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold" for="">From Time: <span
+                      class="text-muted">{{((data.fromHour.toString()===1) ? '0'+data.fromHour : data.fromHour )}}:{{((data.fromMinute.toString().length===1) ? '0'+data.fromMinute:data.fromMinute)}}</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="font-weight-bold" for="">To Time: <span
+                      class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
+                  </label>
+                </div>
               </div>
-              <div class="form-group">
-                <label class="font-weight-bold" for="">To Time: <span
-                    class="text-muted">{{((data.toHour.toString()===1) ? '0'+data.toHour : data.toHour )}}:{{((data.toMinute.toString().length===1) ? '0'+data.toMinute:data.toMinute)}}</span>
-                </label>
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="font-weight-bold" for="">Effective From: <span
-                    class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
-                </label>
-              </div>
-              <div class="form-group text-left">
-                <label class="font-weight-bold" for="">Expire On: <span
-                    class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
-                </label>
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold" for="">Effective From: <span
+                      class="text-muted text-truncate">{{data.effectiveFrom | date: 'mediumDate'}}</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="font-weight-bold" for="">Expire On: <span
+                      class="text-muted text-truncate">{{data.expireAt | date: 'mediumDate'}}</span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
