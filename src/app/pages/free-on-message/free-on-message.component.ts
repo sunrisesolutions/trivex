@@ -1,8 +1,8 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {PostService} from 'src/app/services/post.service';
-import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
-import {getLocaleDateTimeFormat} from '@angular/common';
-import {DeviceDetectorService} from 'ngx-device-detector';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { getLocaleDateTimeFormat } from '@angular/common';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
 
 @Component({
@@ -13,15 +13,15 @@ import * as jwt_decode from 'jwt-decode';
 
 export class FreeOnMessageComponent implements OnInit {
   error = '';
-  effectiveFrom: any = {year: 2019, moth: 8, day: 20};
-  expireAt: any = {year: 2019, moth: 9, day: 20};
+  effectiveFrom: any = { year: 2019, moth: 8, day: 20 };
+  expireAt: any = { year: 2019, moth: 9, day: 20 };
   notEnoughOld: any;
   deviceInfo = null;
   availabilityMessage = [];
   success = false;
   time = {
-    fromTime: '',
-    toTime: '',
+    fromTime: null,
+    toTime: null,
   };
   day = {
     monday: false,
@@ -75,6 +75,8 @@ export class FreeOnMessageComponent implements OnInit {
   ];
   toDay = 0;
   dirty;
+  idMessage;
+  onEdit: boolean = false;
   date = {
     year: 0,
     month: 0,
@@ -86,25 +88,25 @@ export class FreeOnMessageComponent implements OnInit {
     effectiveFrom: this.date,
     expireOn: this.date
   };
-  template = {
-    fromAt: '',
-    toAt: '',
-    fromDay: 0,
-    toDay: 0,
-    text: '',
-    effectiveFrom: this.date = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate() + 1
-    },
-    expireOn: this.date = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 4,
-      day: new Date().getDate()
-    }
-  };
+  /*  template = {
+     fromAt: '',
+     toAt: '',
+     fromDay: 0,
+     toDay: 0,
+     text: '',
+     effectiveFrom: this.date = {
+       year: new Date().getFullYear(),
+       month: new Date().getMonth() + 1,
+       day: new Date().getDate() + 1
+     },
+     expireOn: this.date = {
+       year: new Date().getFullYear(),
+       month: new Date().getMonth() + 4,
+       day: new Date().getDate()
+     }
+   }; */
   form = {
-    effectiveFrom: null,
+    effectiveFrom: new Date(Date.now()).toISOString().split('T')[0],
     expireAt: null
   };
 
@@ -116,7 +118,7 @@ export class FreeOnMessageComponent implements OnInit {
 
   ngOnInit() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
-    this.getAvailability();
+    this.getMessage();
   }
 
   isIOS() {
@@ -161,27 +163,84 @@ export class FreeOnMessageComponent implements OnInit {
       expireAt: dateStart.expireAt
 
     };
-    this.apiService.freeOnMessagePost(freeOnMessageBody)
-      .subscribe(res => {
-        this.loading = false;
-        this.success = true;
-        this.error = '';
-        this.getAvailability();
-      }, error => {
-        this.loading = false;
-        this.error = error.error['hydra:description'];
-      });
+    if (!this.onEdit) {
+      this.apiService.freeOnMessagePost(freeOnMessageBody)
+        .subscribe(res => {
+          this.loading = false;
+          this.success = true;
+          this.error = '';
+          this.getMessage();
+        }, error => {
+          this.loading = false;
+          this.error = error.error['hydra:description'];
+        });
+    } else {
+      this.apiService.freeOnMessagePut(freeOnMessageBody, this.idMessage)
+        .subscribe(res => {
+          this.loading = false;
+          this.success = true;
+          this.error = '';
+          this.getMessage();
+        }, error => {
+          this.loading = false;
+          this.error = error.error['hydra:description'];
+        });
+    }
   }
 
   dragMethod(event) {
     console.log(event);
   }
 
-  getAvailability(){
+  getMessage() {
     let decoded = jwt_decode(localStorage.getItem('token'));
     this.apiService.getFreeOnMessage(decoded.im)
-      .subscribe(res=>{
+      .subscribe(res => {
         this.availabilityMessage = res['hydra:member'];
+        console.log(res)
       })
+  }
+  deleteMessage(id) {
+    this.apiService.freeOnMessageDelete(id)
+      .subscribe(res => {
+        this.getMessage();
+        alert('Successed.!!!');
+      }, error => {
+        alert(error.error['hydra:description']);
+      });
+  }
+  editMessage(data) {
+    console.log(data)
+    let pos = 0;
+    this.onEdit = true;
+    this.idMessage = data['@id'];
+    this.day.monday = data.freeOnMondays;
+    this.day.tuesday = data.freeOnTuesdays;
+    this.day.wednesday = data.freeOnWednesdays;
+    this.day.thursday = data.freeOnThursdays;
+    this.day.friday = data.freeOnFridays;
+    this.day.saturday = data.freeOnSaturdays;
+    this.day.sunday = data.freeOnSundays;
+    this.time.fromTime = `${(data.fromHour.toString().length === 1) ? '0' + data.fromHour : data.fromHour}:${(data.fromMinute.toString().length === 1) ? '0' + data.fromMinute : data.fromMinute}`;
+    this.time.toTime = `${(data.toHour.toString().length === 1) ? '0' + data.toHour : data.toHour}:${(data.toMinute.toString().length === 1) ? '0' + data.toMinute : data.toMinute}`;
+    this.form.effectiveFrom = `${data.effectiveFrom.split('T')[0]}`;
+    this.form.expireAt = `${data.expireAt.split('T')[0]}`;
+    window.scrollTo(0, pos - 20); // how far to scroll on each step
+  }
+  cancel() {
+    this.onEdit = false;
+    this.success = false;
+    this.idMessage = '';
+    this.day.monday = false;
+    this.day.tuesday = false;
+    this.day.wednesday = false;
+    this.day.thursday = false;
+    this.day.friday = false;
+    this.day.saturday = false;
+    this.day.sunday = false;
+    this.time.fromTime = null;
+    this.time.toTime = null;
+    this.form.effectiveFrom = new Date(Date.now()).toISOString().split('T')[0];
+    this.form.expireAt = null;
   }
 }
