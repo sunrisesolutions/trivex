@@ -16,6 +16,7 @@ import {Message} from '../../../models/Message';
 export class MessageApprovalComponent implements OnInit {
   test;
   id;
+  @Input() title: string;
 
   deliveries: Array<Delivery> = [];
   currentPage = 1;
