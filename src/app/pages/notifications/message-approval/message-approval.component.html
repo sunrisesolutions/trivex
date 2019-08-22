@@ -1,0 +1,88 @@
+<div appInfiniteScroller scrollPercent="50" immediateCallback="true" [scrollCallback]="scrollCallback"
+     class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
+  <div *ngIf="title == 'Recent Announcements' " class="container mb-3 w-md-50">
+    <h2 class="text-white-no-longer">{{title}}</h2>
+    <!--    <div class="card py-3">-->
+    <!--      <div class="card-content container">-->
+    <!--        <div class="row">-->
+    <!--&lt;!&ndash;          <div class="text-center col-12">&ndash;&gt;-->
+    <!--&lt;!&ndash;            <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    (click)="toggleIncomingMessageFilter('incoming')"><i class="fas fa-inbox"></i></button>&ndash;&gt;-->
+    <!--&lt;!&ndash;            <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    (click)="toggleIncomingMessageFilter('outgoing')"><i class="far fa-share-square text-lg"></i>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </button>&ndash;&gt;-->
+    <!--&lt;!&ndash;          </div>&ndash;&gt;-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+  </div>
+  <!--   (click)="open(content,delivery);delivery2=delivery;"  -->
+  <div *ngFor="let message of pendingApprovalMessages;let i = index;let c = count;" class="container mb-3 w-md-50"
+       routerLink="/club-members/notifications/messages/{{message.id}}"
+  >
+    <div>
+      <div class="card py-3 read">
+        <div class="card-content container">
+          <div class="row">
+            <div class="badge badge-warning ml-2">Pending Approval</div>
+
+            <div class="col-12 d-flex justify-content-center col-md-2">
+              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+                   [src]="message.profilePicture"/>
+            </div>
+
+            <div class="col-12 col-md-8 pl-mobile-custom">
+              <h2 class="font-weight-bold">
+                {{message.subject}}
+              </h2>
+              <div style="font-size:18px !important;" class="text-truncate">{{message.body}}</div>
+
+              <div
+                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+                <small class="">{{
+                    message.createdAt | date: "short"
+                  }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngFor="let message of messages;let i = index;let c = count;" class="container mb-3 w-md-50"
+       routerLink="/club-members/notifications/messages/{{message.id}}"
+  >
+    <div>
+      <div class="card py-3 read">
+        <div class="card-content container">
+          <div class="row">
+            <div class="badge {{message.status =='MESSAGE_PENDING_APPROVAL'?'badge-warning':(message.status == 'DELIVERY_REJECTED'?'badge-danger':'badge-success')}} ml-2">{{message.status =='MESSAGE_PENDING_APPROVAL'?'PENDING APPROVAL':(message.status == 'DELIVERY_DENIED'?'REJECTED':'APPROVED')}}</div>
+
+            <div class="col-12 d-flex justify-content-center col-md-2">
+              <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px; height: 80px;"
+                   [src]="message.profilePicture"/>
+            </div>
+
+            <div class="col-12 col-md-8 pl-mobile-custom">
+              <h2 class="font-weight-bold">
+                {{message.subject}}
+              </h2>
+              <div style="font-size:18px !important;" class="text-truncate">{{message.body}}</div>
+
+              <div
+                class="col-12 col-md-2 d-flex justify-content-md-end justify-content-center align-items-end text-md-right">
+                <small class="">{{
+                    message.createdAt | date: "short"
+                  }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

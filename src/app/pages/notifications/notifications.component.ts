@@ -6,7 +6,8 @@ import 'rxjs-compat/add/operator/do';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import {ResourceParent} from '../../models/ResourceParent';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Message} from '../../models/Message';
 
 @Component({
   selector: 'app-notifications',
@@ -31,7 +32,6 @@ export class NotificationsComponent implements OnInit {
     searchPlaceholder: 'Search',
     searchOnKey: 'name',
   };
-  messages;
   showForm = false;
   members: Array<any> = [];
   active;
@@ -51,7 +51,8 @@ export class NotificationsComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     private service: PostService, private modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.scrollCallback = this.getDelivery.bind(this);

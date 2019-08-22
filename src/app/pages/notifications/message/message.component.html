@@ -1,0 +1,106 @@
+<div class="scroll header bg-gradient-danger py-7 pt-md-8 ">
+  <div *ngIf="message && !decision" class="">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        {{ message.createdAt | date: "short" }}
+      </h4>
+    </div>
+    <div class="modal-body mt-3 mt-md-2">
+      <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
+        <div class="d-flex justify-content-center">
+          <div class="card-profile-image" style="top:-20pt">
+            <img
+              routerLink="/club-members/{{ message['senderId'] }}/info" style="width:100px;height:100px"
+              alt="Image placeholder" [src]="message['profilePicture']" class="avatar-notif"/>
+          </div>
+        </div>
+        <div class="card-body mt-4 container text-center">
+          <div class="row">
+            <div class="col-12 d-flex flex-column">
+              <div class="h1">
+                {{ message['name'] }}
+              </div>
+              <hr class="my-2"/>
+              <div class="font-weight-bold">
+                {{ message.subject }}
+              </div>
+              <div class="font-weight-light" [innerHTML]=" message.body ">
+              </div>
+            </div>
+            <div class="col-12">
+              <hr class="my-2"/>
+            </div>
+
+            <div class="col-12 justify-content-center">
+              <div *ngIf="message.optionSet != null" class="d-flex flex-column flex-md-row justify-content-center">
+                <!-- Button -->
+                <div class="btn border mx-2 mb-2" [title]="message['name']"
+                     *ngFor="let list of message['optionSet']['messageOptions'];
+                      let i = index
+                    ">
+                  <div class="d-flex flex-column justify-content-center">
+                      <span class="text-truncate">
+                        {{ list.name }}
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <!-- DECISION MAKING -->
+              <div *ngIf="message['status'] == 'MESSAGE_PENDING_APPROVAL'">
+                <div class="btn btn-success border mx-2 mb-2" [title]=""
+                     routerLink="/club-members/notifications/messages/{{message.id}}/decide/approve">
+                  <div (click)="submitDecision('approve')" class="d-flex flex-column justify-content-center">
+                      <span class="text-truncate">
+                        APPROVE
+                      </span>
+                  </div>
+                </div>
+                <div class="btn btn-danger border mx-2 mb-2" [title]=""
+                     routerLink="/club-members/notifications/messages/{{message.id}}/decide/reject">
+                  <div class="d-flex flex-column justify-content-center">
+                      <span class="text-truncate">
+                        REJECT
+                      </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="decision">
+    <div class="modal-header"></div>
+    <div class="modal-body mt-3 mt-md-2">
+      <div class="card card-profile" style="box-shadow: 0px 2px 5px 0px #888888">
+        <div class="d-flex justify-content-center">
+          <div class="card-profile-image" style="top:-20pt">
+            <img
+              routerLink="/club-members/{{ message['senderId'] }}/info" style="width:100px;height:100px"
+              alt="Image placeholder" [src]="message['profilePicture']" class="avatar-notif"/>
+          </div>
+        </div>
+        <div class="card-body mt-4 container text-center">
+          <div class="row">
+            <div class="col-12 d-flex flex-column">
+              <div class="h1">
+                Reasons for rejection
+              </div>
+              <hr class="my-2"/>
+              <input class="form-control" type="text" placeholder="Why are you rejecting?"
+                     [(ngModel)]="reasonsForRejection" name="reasonsForRejection" id=""/>
+            </div>
+          </div>
+          <div class="col-12  mt-3">
+            <button class="btn" routerLink="/club-members/notifications/messages/{{id}}">&lt; CANCEL</button>
+            <button (click)="submitDecision('reject')" class="btn btn-primary">SUBMIT &gt;</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--</div>-->

@@ -169,14 +169,14 @@ export class PostService {
     return this.http.post(this.messageAPI + '/messages', message, httpOptions);
   }
 
-  getMessage(): Observable<Object> {
+  getMessage(page = 1, query = ''): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(this.messageAPI + '/messages', httpOptions);
+    return this.http.get(this.messageAPI + `/messages?page=${page}${query}`, httpOptions);
   }
 
   getSender(id): Observable<Object> {
