@@ -21,12 +21,11 @@ import { EventsComponent } from 'src/app/pages/events/events.component';
 
   ],
   declarations: [
-    EventsComponent,
     LoginComponent,
     RegisterComponent,
     LoginAcccessTokenComponent,
     RegisterEventComponent,
     EventLoginMember
-  ]
+  ],
 })
 export class AuthLayoutModule { }

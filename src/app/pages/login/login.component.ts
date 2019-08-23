@@ -123,6 +123,7 @@ export class LoginComponent implements OnInit {
       let refreshToken = response['refresh_token'];
       let accessToken = response['im_access_token'];
       let imID = response['im_id'];
+      this.loading = false;
       // console.log("token", response);
       localStorage.setItem("im_id", imID);
       localStorage.setItem("token", setToken);
@@ -142,18 +143,21 @@ export class LoginComponent implements OnInit {
     }, error => {
       if (error.status === 401 || error.status === 500) {
         alert('Something went wrong!!!');
-        this.loading = false;
       }
+      this.loading = false;
     });
     /* let id = localStorage.getItem('im_id');
     this.router.navigate([`club-members/${id}/qr-code`]); */
   }
 
   checkTime(dob) {
-    if (this.date.year - dob.year < 18) {
-      this.notEnoughOld = 'You must be over 18 years old';
-    } else {
-      this.login();
+    if (dob) {
+      if (this.date.year - dob.year < 18) {
+        this.notEnoughOld = 'You must be over 18 years old';
+      } else {
+        this.loading = true;
+        this.login();
+      }
     }
   }
 

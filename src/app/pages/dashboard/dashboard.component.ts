@@ -1,8 +1,8 @@
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { PostService } from "src/app/services/post.service";
-import { Router} from "@angular/router";
-
+import { Router } from "@angular/router";
+import * as jwt_decode from 'jwt-decode';
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -11,10 +11,15 @@ import { Router} from "@angular/router";
 export class DashboardComponent implements OnInit {
   access_token;
   qrLink;
-
-  constructor(private router: Router, private service: PostService, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private service: PostService,
+    private route: ActivatedRoute) {
+      
+  }
 
   ngOnInit() {
+    this.checkingRole();
     // let snapAT = this.route.snapshot.paramMap.get('access')
     // console.log(snapAT)
     // this.access_token = localStorage.getItem("access_token");
@@ -32,5 +37,12 @@ export class DashboardComponent implements OnInit {
     //     console.log(res);
     //   });
     // }
+  }
+  checkingRole(){
+    let decoded = jwt_decode(localStorage.getItem('token'));
+    let role = decoded.roles;
+    if(role.indexOf('ROLE_EVENT_ADMIN') > -1){
+      return true;
+    }
   }
 }

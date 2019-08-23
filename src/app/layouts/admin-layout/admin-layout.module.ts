@@ -53,6 +53,7 @@ import {MessageApprovalComponent} from '../../pages/notifications/message-approv
     ClubMembersComponent,
     MemberConnectComponent,
     QrScannerComponent,
+    EventsComponent,
     QrCodeComponent,
     QrStartComponent,
     JobComponent,

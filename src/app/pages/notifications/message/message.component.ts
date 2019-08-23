@@ -110,17 +110,17 @@ export class MessageComponent implements OnInit {
     };
     /* /.HEADER */
     const id = +this.route.snapshot.params.id;
-    if(descision === 'approve'){
+    if (descision === 'approve') {
       const requestForm = {
         'approved': true,
       };
       this.httpClient.put(`https://messaging.api.trivesg.com/messages/${id}`, requestForm, httpOptions)
         .subscribe(res => {
-          console.log(res);
+          localStorage.setItem("flashMessage", "The message from ... has been approved");
           this.router.navigate(['/club-members/notifications/announcement-approvals']);
         });
     }
-    if(this.decision === 'reject'){
+    if (this.decision === 'reject') {
       const requestForm = {
         'rejected': true,
         'decisionReasons': this.reasonsForRejection

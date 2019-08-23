@@ -9,28 +9,38 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EventsComponent implements OnInit {
   loading = false;
+  events = [];
   event;
+
   getEventError = '';
   constructor(
     public apiService: PostService,
     public route: ActivatedRoute,
     private router: Router
 
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.getEvents();
+    if (this.route.snapshot.params.id) {
+      this.getEvent();
+    }
   }
 
   getEvents() {
-    this.loading=true;
+    this.loading = true;
     let id = +this.route.snapshot.params.id;
-    this.apiService.eventGet(`/events/${id}`)
+    this.apiService.eventGet(`/events`)
       .subscribe(res => {
         this.loading = false;
-        this.event = res;
-        this.event['id'] = res['@id'];
-        console.log(res)
+        this.events = res['hydra:member'];
+        for (let e of this.events) {
+          e['id'] = e['@id'];
+          e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://trivesg.com/events/${this.getNumberOfString(e.id)}/registration.png`;
+        }
+
       }, error => {
         if (error.status === 404) {
           this.getEventError = 'Event not found.!!!';
@@ -51,5 +61,38 @@ export class EventsComponent implements OnInit {
   idEvent() {
     let id = +this.route.snapshot.params.id;
     return id;
+  }
+  getNumberOfString(string) {
+    if (string) {
+      return string.split('/')[2];
+    }
+  }
+  getEvent() {
+    this.loading = true;
+    const id = +this.route.snapshot.params.id;
+    this.apiService.eventGet(`/events/${id}`)
+      .subscribe(res => {
+        this.loading = false;
+        this.event = res;
+        this.event['id'] = this.event['@id'];
+        this.event['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://trivesg.com/events/${this.getNumberOfString(this.event['id'])}/registration.png`;
+      }, error => {
+        if (error.status === 404) {
+          this.getEventError = 'Event not found.!!!';
+        }
+        if (error.status === 401) {
+          this.getEventError = error.error.message;
+        }
+        if (error.status === 400) {
+          this.getEventError = error.error.message;
+        }
+        if (error.status === 500) {
+          this.getEventError = error.error.message;
+        }
+        // this.router.navigate(['/club-members']);
+      });
+  }
+  toEvent(id) {
+    this.router.navigate([`dashboard/event/${this.getNumberOfString(id)}`])
   }
 }
