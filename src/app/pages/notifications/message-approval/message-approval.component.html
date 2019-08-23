@@ -60,7 +60,7 @@
               <div class="col-3 flex-column d-flex justify-content-flex-start align-items-start col-md-2">
                 <div
                   class="badge {{message.status =='MESSAGE_PENDING_APPROVAL'?'badge-warning':(message.status == 'DELIVERY_REJECTED'?'badge-danger':'badge-success')}} ml-2">
-                  {{message.status == 'MESSAGE_PENDING_APPROVAL' ? 'PENDING APPROVAL' : (message.status == 'DELIVERY_DENIED' ? 'REJECTED' : 'APPROVED')}}
+                  {{message.status == 'MESSAGE_PENDING_APPROVAL' ? 'PENDING APPROVAL' : (message.status == 'DELIVERY_REJECTED' ? 'REJECTED' : 'APPROVED')}}
                 </div>
                 <img alt="Image placeholder" class="mt-1 rounded-circle"
                   style="object-fit: cover; width: 80px; height: 80px;" [src]="message.profilePicture" />
