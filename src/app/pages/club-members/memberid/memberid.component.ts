@@ -60,6 +60,10 @@ export class MemberidComponent implements OnInit {
       this.members = res;
 
       this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
+      this.service.getPersonByUuid(this.members['personData'].uuid)
+        .subscribe(res => {
+          this.members['alternateName'] = res['hydra:member'][0].alternateName;
+        })
       console.log(this.members);
       if (this.members['profilePicture']) {
         this.http.get(this.members['profilePicture'])
@@ -119,7 +123,7 @@ export class MemberidComponent implements OnInit {
         "email": (data.email) ? data.email : null,
         "phoneNumber": (data.phone) ? data.phone : null,
         "jobTitle": (data.job) ? data.job : null,
-        "employerName": (data.employerName) ? data.employerName: null
+        "employerName": (data.employerName) ? data.employerName : null
       }
       this.service.editInfoPerson(`/people/${id}`, formEdit)
         .subscribe(res => {

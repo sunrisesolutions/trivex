@@ -70,9 +70,12 @@ export class ClubMembersComponent implements OnInit {
         this.currentPage++;
         this.dec = this.decoded.im;
         this.members = this.members.concat(res['hydra:member']);
-        console.log(this.members);
 
         for (const member of this.members) {
+          this.service.getPersonByUuid(member.personData.uuid)
+            .subscribe(res=>{
+              member['alternateName'] = res['hydra:member'][0].alternateName;
+            })
           if (member['profilePicture']) {
             this.httpClient.get(member['profilePicture'])
               .subscribe(res => {
@@ -86,7 +89,7 @@ export class ClubMembersComponent implements OnInit {
             member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
           }
         }
-
+        console.log(this.members);
       });
     }
 

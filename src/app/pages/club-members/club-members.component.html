@@ -28,9 +28,10 @@
                 <div class="col text-muted">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'">
                     <h2 class="h2 font-weight-bold">{{member.personData.name}}</h2>
+                    <div *ngIf="member.alternateName" class="badge bg-success text-light">{{member.alternateName}}</div>
                   </a>
-                  <span>{{member.personData.jobTitle}}</span><br>
-                  <span>{{member.personData.employerName}}</span><br>
+                  <div>{{member.personData.jobTitle}}</div><br>
+                  <div>{{member.personData.employerName}}</div><br>
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">

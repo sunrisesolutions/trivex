@@ -112,7 +112,7 @@ export class NotificationsComponent implements OnInit {
     }
 
     return this.service.getDelivery(query, this.currentPage)
-      .subscribe(res => {
+      .do(res => {
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
         // console.log(res)

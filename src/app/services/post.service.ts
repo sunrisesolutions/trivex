@@ -266,7 +266,7 @@ export class PostService {
     return this.http.get(this.messageAPI + `/messages/${id}`, httpOptions);
   }
 
-  getFreeOnMessage(senderUuid): Observable<Object>{
+  getFreeOnMessage(senderUuid): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -274,7 +274,7 @@ export class PostService {
       })
     };
 
-    return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`,httpOptions);
+    return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`, httpOptions);
   }
   /* /.MESSAGES */
 
@@ -494,6 +494,15 @@ export class PostService {
       }),
     };
     return this.http.put(`${this.personAPI}${id}`, data, httpOptions)
+  }
+  getPersonByUuid(uuid): Observable<Object> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.get(`${this.personAPI}/people?uuid=${uuid}`, httpOptions);
   }
   /* /.PERSON API */
 }
