@@ -63,6 +63,7 @@ export class MemberidComponent implements OnInit {
       this.service.getPersonByUuid(this.members['personData'].uuid)
         .subscribe(res => {
           this.members['alternateName'] = res['hydra:member'][0].alternateName;
+          this.members['person'] = res['hydra:member'][0];
         })
       console.log(this.members);
       if (this.members['profilePicture']) {
@@ -114,10 +115,8 @@ export class MemberidComponent implements OnInit {
     }
   }
 
-  editInfo(data, element, realData) {
-
-    let id = this.routes.snapshot.params.id;
-    if (id === localStorage.getItem('im_id')) {
+  editInfo(data, element, realData,id) {
+    if (this.routes.snapshot.params.id === localStorage.getItem('im_id')) {
       const formEdit = {
         "givenName": (data.name) ? data.name : null,
         "email": (data.email) ? data.email : null,
@@ -125,9 +124,11 @@ export class MemberidComponent implements OnInit {
         "jobTitle": (data.job) ? data.job : null,
         "employerName": (data.employerName) ? data.employerName : null
       }
-      this.service.editInfoPerson(`/people/${id}`, formEdit)
+      this.service.editInfoPerson(`/people/${id.match(/\d+/g)[0]}`, formEdit)
         .subscribe(res => {
           element.hidden = !element.hidden;
+          this.getRootId();
+          console.log(res);
         }, err => {
           if (err.status === 404) {
             alert(err.error['hydra:description'])
@@ -152,4 +153,5 @@ export class MemberidComponent implements OnInit {
   goHome() {
     return this.router.navigate(['/club-members']);
   }
+
 }

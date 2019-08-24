@@ -1583,7 +1583,7 @@
         constructor(driver, adapter) {
             this.driver = driver;
             this.adapter = adapter;
-            // There are two debug log delivery arrays. debugLogA records new debugging messages.
+            // There are two debug log message arrays. debugLogA records new debugging messages.
             // Once it reaches DEBUG_LOG_BUFFER_SIZE, the array is moved to debugLogB and a new
             // array is assigned to debugLogA. This ensures that insertion to the debug log is
             // always O(1) no matter the number of logged messages, and that the total number
@@ -1652,7 +1652,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             if (typeof value !== 'string') {
                 value = this.errorToString(value);
             }
-            // Log the delivery.
+            // Log the message.
             this.debugLogA.push({ value, time: this.adapter.time, context });
         }
         errorToString(err) { return `${err.name}(${err.message}, ${err.stack})`; }
@@ -1886,7 +1886,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
                     this.scope.registration.active.postMessage({ action: 'INITIALIZE' });
                 }
             });
-            // Handle the fetch, delivery, and push events.
+            // Handle the fetch, message, and push events.
             this.scope.addEventListener('fetch', (event) => this.onFetch(event));
             this.scope.addEventListener('message', (event) => this.onMessage(event));
             this.scope.addEventListener('push', (event) => this.onPush(event));
@@ -1953,14 +1953,14 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             event.respondWith(this.handleFetch(event));
         }
         /**
-         * The handler for delivery events.
+         * The handler for message events.
          */
         onMessage(event) {
-            // Ignore delivery events when the SW is in safe mode, for now.
+            // Ignore message events when the SW is in safe mode, for now.
             if (this.state === DriverReadyState.SAFE_MODE) {
                 return;
             }
-            // If the delivery doesn't have the expected signature, ignore it.
+            // If the message doesn't have the expected signature, ignore it.
             const data = event.data;
             if (!data || !data.action) {
                 return;
@@ -1987,7 +1987,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             if (!this.adapter.isClient(event.source)) {
                 return;
             }
-            // Handle the delivery and keep the SW alive until it's handled.
+            // Handle the message and keep the SW alive until it's handled.
             event.waitUntil(this.handleMessage(data, event.source));
         }
         onPush(msg) {

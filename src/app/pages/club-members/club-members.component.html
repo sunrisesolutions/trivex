@@ -3,9 +3,9 @@
     <div class="form-group mb-0">
       <div class="input-group input-group-alternative">
         <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fas fa-search"></i></span>
+          <span class="input-group-text"><i class="fas fa-search text-dark"></i></span>
         </div>
-        <input [(ngModel)]="textSearch" (input)="getMembers(textSearch)" name="search" class="form-control"
+        <input [(ngModel)]="textSearch" (input)="getMembers(textSearch)" name="search" class="form-control text-dark"
           placeholder="Search" type="text">
       </div>
     </div>
@@ -27,11 +27,11 @@
                 </div>
                 <div class="col text-muted">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'">
-                    <h2 class="h2 font-weight-bold">{{member.personData.name}}</h2>
+                    <h2 class="h2 font-weight-bold">{{member.person?.name}}</h2>
                     <div *ngIf="member.alternateName" class="badge bg-success text-light">{{member.alternateName}}</div>
                   </a>
-                  <div>{{member.personData.jobTitle}}</div><br>
-                  <div>{{member.personData.employerName}}</div><br>
+                  <div>{{member.person?.jobTitle}}</div><br>
+                  <div>{{member.person?.employerName}}</div><br>
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">

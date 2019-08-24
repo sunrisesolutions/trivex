@@ -112,7 +112,7 @@ export class MemberConnectComponent implements OnInit {
 
     console.log('hey man nnn', members);
     for (let data of members) {
-      data['profilePicture'] = '/assets/img-process/Loading-img.gif';
+      // data['profilePicture'] = '/assets/img-process/Loading-img.gif';
       // console.log('2', data);
       data['fromId'] = (data['fromMember']['@id']);
       data['toId'] = (data['toMember']['@id']);

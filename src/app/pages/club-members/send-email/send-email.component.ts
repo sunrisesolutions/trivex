@@ -31,13 +31,25 @@ export class SendEmailComponent implements OnInit {
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res;
       this.member = getInfo;
-      this.httpClient.get(this.member['profilePicture'])
-        .subscribe(res => {
-        }, error => {
-          if (error.status === 404) {
-            this.member['profilePicture'] = 'https://i.gifer.com/B0eS.gif'
-          }
-        })
+      for (let m of [this.member]) {
+        this.service.getPersonByUuid(m.personData.uuid)
+          .subscribe(res => {
+            let nowYear = new Date().getFullYear();
+            m['personData'] = res['hydra:member'][0];
+            let yearMember = m.personData['birthDate'].split('T')[0].split('-')[0];
+            m['personData']['yearOld'] = nowYear - yearMember;
+
+          })
+        this.httpClient.get(m['profilePicture'])
+          .subscribe(res => {
+          }, error => {
+            if (error.status === 404) {
+              m['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+            }
+          })
+      }
+
+      console.log(this.member)
     });
   }
 

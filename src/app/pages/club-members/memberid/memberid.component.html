@@ -37,17 +37,17 @@
           <div class="card-body text-center" style="margin-top: -25pt">
             <div class="container">
               <!-- Name -->
-              <div *ngIf="members.personData.name" class="">
+              <div *ngIf="members.person?.name" class="">
                 <h1 *ngIf="name.hidden" class="font-weight-bold">
-                  {{ members.personData.name }}
-                  <a *ngIf="id === imId" (click)="name.hidden=!name.hidden;formEdit.name=members.personData.name"
+                  {{ members.person?.name }}
+                  <a *ngIf="id === imId" (click)="name.hidden=!name.hidden;formEdit.name=members.person?.givenName"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
                 <div #name hidden="true" class="form-group">
                   <div class="d-flex">
                     <input class="form-control" [(ngModel)]="formEdit.name" type="text">
-                    <a (click)="editInfo(formEdit, name, members.personData)"
+                    <a (click)="editInfo(formEdit, name, members?.person,members?.person['@id'])"
                       class="btn btn-primary ml-2 text-light">Submit</a>
                   </div>
                   <a (click)="name.hidden=!name.hidden" class="btn btn-danger mt-2 text-light">Cancel</a>
@@ -55,14 +55,14 @@
               </div>
               <!-- Dob -->
               <div class="h2">
-                {{ members.personData.dob | date }}
+                {{ members.person?.birthDate | date }}
               </div>
               <!-- Job -->
-              <div *ngIf="members.personData.jobTitle" class="">
+              <div *ngIf="members.person?.jobTitle" class="">
                 <h1 *ngIf="jobTitle.hidden" class="h2 mt-4">
-                  {{ members.personData.jobTitle }}
+                  {{ members.person?.jobTitle }}
                   <a *ngIf="id === imId"
-                    (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.personData.jobTitle"
+                    (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.person?.jobTitle"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
@@ -76,11 +76,11 @@
                 </div>
               </div>
               <!-- Employer Name -->
-              <div *ngIf="members.personData.employerName" class="">
+              <div *ngIf="members.person?.employerName" class="">
                 <h1 *ngIf="employer.hidden" class="h2">
-                  {{ members.personData.employerName }}
+                  {{ members.person?.employerName }}
                   <a *ngIf="id === imId"
-                    (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.personData.employerName"
+                    (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.person?.employerName"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
@@ -94,10 +94,10 @@
                 </div>
               </div>
               <!-- Phone -->
-              <div *ngIf="members.personData.phone" class="">
+              <div *ngIf="members.person?.phone" class="">
                 <h1 *ngIf="phone.hidden" class="h2">
-                  {{ members.personData.phone }}
-                  <a *ngIf="id === imId" (click)="phone.hidden=!phone.hidden;formEdit.phone=members.personData.phone"
+                  {{ members.person?.phone }}
+                  <a *ngIf="id === imId" (click)="phone.hidden=!phone.hidden;formEdit.phone=members.person?.phone"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
@@ -111,10 +111,10 @@
                 </div>
               </div>
               <!-- Email -->
-              <div *ngIf="members.personData.email" class="">
+              <div *ngIf="members.person?.email" class="">
                 <h1 *ngIf="email.hidden" class="h2">
-                  {{ members.personData.email }}
-                  <a *ngIf="id === imId" (click)="email.hidden=!email.hidden;formEdit.email=members.personData.email"
+                  {{ members.person?.email }}
+                  <a *ngIf="id === imId" (click)="email.hidden=!email.hidden;formEdit.email=members.person?.email"
                     class="icon fas fa-pen">
                   </a>
                 </h1>
@@ -141,4 +141,5 @@
       </div>
     </div>
   </div>
+  <div class="h1"></div>
 </div>

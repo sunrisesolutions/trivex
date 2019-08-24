@@ -24,7 +24,7 @@
       <li class="nav-item" ngbDropdown autoClose="outside" placement="bottom-right">
         <a id="dropdownConfig" class="nav-link" role="button" ngbDropdownToggle>
           <div [class.position-absolute]="countMess !==0" class="ic" style="font-size: 18pt;">
-            <i class="fas fa-envelope"></i>
+            <i class="fas text-dark fa-envelope"></i>
           </div>
           <div [hidden]="countMess == 0" [innerHtml]="(countMess > 99) ? '99 +':countMess" style="font-size:9pt;"
             class="badge badge-danger font-weight-bold"></div>
@@ -193,7 +193,7 @@
               <img class="avatar-user" alt="" [src]="(members) ? members.profilePicture : '/assets/img-process/Not-found-img.gif'">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span style="cursor: pointer" class="mb-0 text-sm  font-weight-bold">{{(members) ? members.personData.name : ''}}</span>
+              <span style="cursor: pointer" class="mb-0 text-sm text-dark font-weight-bold">{{(members) ? members.personData.name : ''}}</span>
             </div>
           </div>
         </a>

@@ -33,6 +33,10 @@
   }
 }
 
+::-webkit-input-placeholder { /* Edge */
+  color: black !important;
+}
+
 .loading{
   width: 150px;
 }

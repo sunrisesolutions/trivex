@@ -504,5 +504,14 @@ export class PostService {
     };
     return this.http.get(`${this.personAPI}/people?uuid=${uuid}`, httpOptions);
   }
+  getPersonData(params): Observable<Object>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }),
+    };
+    return this.http.get(`${this.personAPI}/people${params}`, httpOptions);
+  }
   /* /.PERSON API */
 }

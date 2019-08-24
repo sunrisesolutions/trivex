@@ -50,10 +50,15 @@ export class ClubMembersComponent implements OnInit {
           this.members = res['hydra:member'];
           this.loadingSearch = true;
           for (const member of this.members) {
+            this.service.getPersonByUuid(member.personData.uuid)
+              .subscribe(res => {
+                member['alternateName'] = res['hydra:member'][0].alternateName;
+                member['person'] = res['hydra:member'][0];
+              })
             if (member['profilePicture']) {
               this.httpClient.get(member['profilePicture'])
                 .subscribe(res => {
-
+  
                 }, err => {
                   if (err.status === 404) {
                     member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
@@ -66,6 +71,7 @@ export class ClubMembersComponent implements OnInit {
         })
     } else {
       return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
+        console.log(res)
         this.loadingSearch = true;
         this.currentPage++;
         this.dec = this.decoded.im;
@@ -73,8 +79,9 @@ export class ClubMembersComponent implements OnInit {
 
         for (const member of this.members) {
           this.service.getPersonByUuid(member.personData.uuid)
-            .subscribe(res=>{
+            .subscribe(res => {
               member['alternateName'] = res['hydra:member'][0].alternateName;
+              member['person'] = res['hydra:member'][0];
             })
           if (member['profilePicture']) {
             this.httpClient.get(member['profilePicture'])
