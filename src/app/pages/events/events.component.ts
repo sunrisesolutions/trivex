@@ -11,6 +11,7 @@ export class EventsComponent implements OnInit {
   loading = false;
   events = [];
   event;
+  id;
   date = {
     startOn: new Date(Date.now()).toISOString().split('T')[0],
     endOn: new Date(Date.now()).toISOString().split('T')[0]
@@ -22,6 +23,7 @@ export class EventsComponent implements OnInit {
     date: this.date
   }
   createEvent: Boolean = false;
+  editEvent: Boolean = false;
   getEventError = '';
   constructor(
     public apiService: PostService,
@@ -29,7 +31,6 @@ export class EventsComponent implements OnInit {
     private router: Router
 
   ) {
-    console.log(this.date)
   }
 
   ngOnInit() {
@@ -115,13 +116,66 @@ export class EventsComponent implements OnInit {
       endedAt: form.date.endOn,
       timezone: 'Asia/Singapore'
     }
-    this.apiService.eventPost(formEvent)
+    if (this.createEvent) {
+      this.apiService.eventPost(formEvent)
+        .subscribe(res => {
+          setTimeout(() => {
+            this.finished();
+          }, 1000)
+        })
+    }
+    if (this.editEvent) {
+      this.apiService.eventPut(formEvent, this.id)
+        .subscribe(res => {
+          setTimeout(() => {
+           
+            this.finished();
+          }, 1000)
+        })
+    }
+  }
+  deleteEvent(id) {
+    this.apiService.eventDelete(id)
       .subscribe(res => {
-        setTimeout(() => {
-          this.loading = false;
-          this.getEvents();
-          this.createEvent = false;
-        }, 1000)
+        this.getEvents();
       })
+  }
+  updateEvent(form, id) {
+    this.editEvent = true;
+    this.id = id;
+    this.formSubmit.name = form.name;
+    this.formSubmit.date.startOn = form.startedAt.split('T')[0];
+    this.formSubmit.date.endOn = form.endedAt.split('T')[0];
+    this.formSubmit.title = form.title;
+    this.formSubmit.subTitle = form.subTitle;
+    console.log(form)
+  }
+  finished() {
+    this.loading = false;
+    this.getEvents();
+    this.createEvent = false;
+    this.editEvent = false;
+    this.date = {
+      startOn: new Date(Date.now()).toISOString().split('T')[0],
+      endOn: new Date(Date.now()).toISOString().split('T')[0]
+    }
+    this.formSubmit = {
+      name: '',
+      title: '',
+      subTitle: '',
+      date: this.date
+    }
+  }
+  clean(){
+    this.date = {
+      startOn: new Date(Date.now()).toISOString().split('T')[0],
+      endOn: new Date(Date.now()).toISOString().split('T')[0]
+    }
+    this.formSubmit = {
+      name: '',
+      title: '',
+      subTitle: '',
+      date: this.date
+    }
   }
 }

@@ -41,3 +41,11 @@
 .qr-image{
     height: 150px;   
 }
+.sticky-create{
+    position: fixed !important;
+    bottom: 15px;
+    opacity:  0.3;
+}
+.sticky-create:hover{
+    opacity:  1;
+}

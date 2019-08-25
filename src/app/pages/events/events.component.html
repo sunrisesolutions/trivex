@@ -1,13 +1,16 @@
 <!-- ALL EVENTS -->
 <div class="container text-center mt-5">
   <h1 class="title-page">{{(!createEvent) ? 'LIST EVENTS' : 'Create New Event'}}</h1>
-  <small (click)="createEvent=true" class="btn badge animation-fade mx-0 bg-success">Create New Event</small>
+  <small (click)="createEvent=true;clean();editEvent=false" class="btn badge animation-fade mx-0 bg-success">Create New Event</small>
   <hr class="my-2 w-50" />
 </div>
-<div *ngIf="!idEvent() && !createEvent" class="container text-center">
-
-  <div (click)="toEvent(e.id)" *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
-    <div class="card-body">
+<div *ngIf="!idEvent() && !createEvent && !editEvent" class="container text-center">
+  <div *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
+    <div class="text-right mr-3 mt-3">
+      <a (click)="updateEvent(e, e['@id'])" class="far fa-edit mx-2 text-primary"></a>
+      <a (click)="deleteEvent(e['@id'])" class="fas fa-trash-alt text-danger"></a>
+    </div>
+    <div (click)="toEvent(e.id)" class="card-body">
       <div class="h1">{{e.name}}</div>
       <div class="h2">{{e.title}}</div>
       <!-- <img routerLink="/events/{{getNumberOfString(e.id)}}/registration" class="qr-image" [src]="e.qrLink" alt=""> -->
@@ -15,7 +18,7 @@
   </div>
 </div>
 <!-- VIEW EVENT -->
-<div *ngIf="idEvent() && event && !createEvent" class="container text-center">
+<div *ngIf="idEvent() && event && !createEvent && !editEvent" class="container text-center">
   <div class="text-left animation-fade" routerLink="/dashboard">
     <div class="cursor-pointer fas fa-arrow-left">
 
@@ -41,8 +44,8 @@
     </div>
   </div>
 </div>
-<!-- CREATE EVENT -->
-<div *ngIf="createEvent" class="animation-fade container">
+<!-- CREATE & EDIT EVENT -->
+<div *ngIf="createEvent || editEvent" class="animation-fade container">
   <div *ngIf="loading" class="container text-center">
     <img height="150px" src="/assets/img-process/loading.gif" alt="">
   </div>
@@ -98,10 +101,13 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-right text-light">
-      <a (click)="createEvent=false" class="btn btn-danger">CANCEL</a>
+    <div class="card-footer text-center text-md-right text-light">
+      <a (click)="finished()" class="btn btn-danger">CANCEL</a>
       <a (click)="submitEvent(formSubmit);" class="btn btn-primary"
-        [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle}">SUBMIT</a>
+        [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle && edit===false}">SUBMIT</a>
     </div>
   </div>
+</div>
+<div *ngIf="createEvent===false && editEvent===false" class="container d-block d-md-none sticky-create">
+  <a (click)="createEvent=true" class="fas fa-plus bg-success btn"></a>
 </div>
