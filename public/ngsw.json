@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1566663655539,
+  "timestamp": 1566729994201,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,13 +8,13 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/4.717f75e2f2f5e59c8874.js",
+        "/4.b4c4db3d6bb4855d88cf.js",
         "/5.1adc046e69fb1fd9bad5.js",
         "/favicon.ico",
         "/index.html",
         "/main.05fea3baa63115b65923.js",
         "/polyfills.59c2af097338049c864e.js",
-        "/runtime.2a58bc4e1199c57ad41e.js",
+        "/runtime.e000d8291b551921d9e4.js",
         "/scripts.2db4cbc668a10a0c2a68.js",
         "/styles.df6f402ba1596b36231b.css"
       ],
@@ -1573,7 +1573,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/4.717f75e2f2f5e59c8874.js": "e90e397437b6a5678c7a5de3a07613028ad9ec6b",
+    "/4.b4c4db3d6bb4855d88cf.js": "d16838bc698ad2dd39a62c8dd15cf5d9503934a2",
     "/5.1adc046e69fb1fd9bad5.js": "0bc845150aa86b6488e01b01ac8c1bf187d38865",
     "/assets/fonts/nucleo/nucleo-icons.eot": "b2dee001981e635c2a6709f97f707b7f799703c5",
     "/assets/fonts/nucleo/nucleo-icons.svg": "0bd4e40449c239d34bf4a1b0a770ae39140ff1f4",
@@ -3118,10 +3118,10 @@
     "/icomoon.4180f0a8927e86bc0fdc.woff": "6dccc942bb80da30ab06fd4aced87113c69e8574",
     "/icomoon.441fea52e48fd515d26c.svg": "d3da87b0ac79521e60a72c33f236bb10e6368148",
     "/icomoon.b22738b5dbd3effff883.ttf": "d16e20b968e676eba53afc815aef8fbd559729d8",
-    "/index.html": "2e2d5b813c93863fe981db71f00751b9894d48c3",
+    "/index.html": "9c2ef09ff9969a52f50bb0888e29335bd8da1d32",
     "/main.05fea3baa63115b65923.js": "df4d76de72dfffc6087421fdced390a13b7aa967",
     "/polyfills.59c2af097338049c864e.js": "355717d8468c0c8ed876bca5f71802d27bbe86c2",
-    "/runtime.2a58bc4e1199c57ad41e.js": "c278bfd594c2f8fc274919679e8dd21e9b41dc2b",
+    "/runtime.e000d8291b551921d9e4.js": "27d758cad11c0a446c0b79ea4a3bcf4e6a510ebe",
     "/scripts.2db4cbc668a10a0c2a68.js": "4b0072d19cb9b358fa54464d992fb90355c1c655",
     "/styles.df6f402ba1596b36231b.css": "099de6d038e6687b4def16ac95fa5969fa6028fa"
   },

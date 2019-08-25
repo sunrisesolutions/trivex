@@ -1,6 +1,11 @@
-<div *ngIf="!idEvent()" class="container text-center">
-  <h1 class="title-page">LIST EVENTS</h1>
+<!-- ALL EVENTS -->
+<div class="container text-center mt-5">
+  <h1 class="title-page">{{(!createEvent) ? 'LIST EVENTS' : 'Create New Event'}}</h1>
+  <small (click)="createEvent=true" class="btn badge animation-fade mx-0 bg-success">Create New Event</small>
   <hr class="my-2 w-50" />
+</div>
+<div *ngIf="!idEvent() && !createEvent" class="container text-center">
+
   <div (click)="toEvent(e.id)" *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
     <div class="card-body">
       <div class="h1">{{e.name}}</div>
@@ -9,7 +14,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="idEvent() && event" class="container text-center">
+<!-- VIEW EVENT -->
+<div *ngIf="idEvent() && event && !createEvent" class="container text-center">
   <div class="text-left animation-fade" routerLink="/dashboard">
     <div class="cursor-pointer fas fa-arrow-left">
 
@@ -32,6 +38,70 @@
       <small class="font-weight-bold d-block">
         Ended Time: <span class="text-muted">{{event.endedAt | date:'mediumDate'}} ({{event.timezone}})</span>
       </small>
+    </div>
+  </div>
+</div>
+<!-- CREATE EVENT -->
+<div *ngIf="createEvent" class="animation-fade container">
+  <div *ngIf="loading" class="container text-center">
+    <img height="150px" src="/assets/img-process/loading.gif" alt="">
+  </div>
+  <div *ngIf="!loading" class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <!-- Name -->
+          <div class="form-group">
+            <label class="form-text">Name:</label>
+            <input #name required [(ngModel)]="formSubmit.name" name="name" placeholder="Name" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <!-- Title -->
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-text">Title:</label>
+                <input placeholder="Title" [(ngModel)]="formSubmit.title" name="title" class="form-control" type="text">
+              </div>
+            </div>
+            <!-- Sub Title -->
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-text">Sub Title:</label>
+                <input placeholder="Sub Title" [(ngModel)]="formSubmit.subTitle" name="subTitle" class="form-control"
+                  type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <!-- Start On -->
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-text">Start On:</label>
+                <input [(ngModel)]="date.startOn" name="startOn" placeholder="Start On" class="form-control"
+                  type="date">
+              </div>
+            </div>
+            <!-- End On -->
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-text">End On:</label>
+                <input [(ngModel)]="date.endOn" name="endOn" placeholder="End On" class="form-control" type="date">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right text-light">
+      <a (click)="createEvent=false" class="btn btn-danger">CANCEL</a>
+      <a (click)="submitEvent(formSubmit);" class="btn btn-primary"
+        [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle}">SUBMIT</a>
     </div>
   </div>
 </div>

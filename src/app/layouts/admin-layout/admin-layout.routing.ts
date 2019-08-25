@@ -54,8 +54,11 @@ export const AdminLayoutRoutes: Routes = [
       {
         path: '',
         component: DashboardComponent,
+      },{
+        path: 'events',
+        component: DashboardComponent
       }, {
-        path: 'event/:id',
+        path: 'events/:id',
         component: DashboardComponent,
       }
     ]  

@@ -11,7 +11,17 @@ export class EventsComponent implements OnInit {
   loading = false;
   events = [];
   event;
-
+  date = {
+    startOn: new Date(Date.now()).toISOString().split('T')[0],
+    endOn: new Date(Date.now()).toISOString().split('T')[0]
+  }
+  formSubmit = {
+    name: '',
+    title: '',
+    subTitle: '',
+    date: this.date
+  }
+  createEvent: Boolean = false;
   getEventError = '';
   constructor(
     public apiService: PostService,
@@ -19,7 +29,7 @@ export class EventsComponent implements OnInit {
     private router: Router
 
   ) {
-
+    console.log(this.date)
   }
 
   ngOnInit() {
@@ -93,6 +103,25 @@ export class EventsComponent implements OnInit {
       });
   }
   toEvent(id) {
-    this.router.navigate([`dashboard/event/${this.getNumberOfString(id)}`])
+    this.router.navigate([`dashboard/events/${this.getNumberOfString(id)}`])
+  }
+  submitEvent(form) {
+    this.loading = true;
+    let formEvent = {
+      name: form.name,
+      title: form.title,
+      subtitle: form.subTitle,
+      startedAt: form.date.startOn,
+      endedAt: form.date.endOn,
+      timezone: 'Asia/Singapore'
+    }
+    this.apiService.eventPost(formEvent)
+      .subscribe(res => {
+        setTimeout(() => {
+          this.loading = false;
+          this.getEvents();
+          this.createEvent = false;
+        }, 1000)
+      })
   }
 }
