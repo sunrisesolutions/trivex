@@ -278,9 +278,9 @@
             <i class="ni {{ ROUTEitem.icon }}"></i>
             {{ ROUTEitem.title }}
             &nbsp;
-            <span style="align-self: flex-start; position: inherit" *ngIf="ROUTEitem.badgeType == 'recent'" [hidden]="recentAnnouncementCount === 0" [innerHTML]="recentAnnouncementCount > 99 ? '99+' : recentAnnouncementCount"
+            <span style="align-self: flex-start; position: initial" *ngIf="ROUTEitem.badgeType == 'recent'" [hidden]="recentAnnouncementCount === 0" [innerHTML]="recentAnnouncementCount > 99 ? '99+' : recentAnnouncementCount"
                   class="badge badge-sidebar-2 badge-danger"></span>
-            <span style="align-self: flex-start; position: inherit" *ngIf="ROUTEitem.badgeType == 'approval'" [hidden]="approvalCount === 0" [innerHTML]="approvalCount > 99 ? '99+' : approvalCount"
+            <span style="align-self: flex-start; position: initial" *ngIf="ROUTEitem.badgeType == 'approval'" [hidden]="approvalCount === 0" [innerHTML]="approvalCount > 99 ? '99+' : approvalCount"
                   class="badge badge-sidebar-2 badge-danger"></span>
           </a>
         </li>

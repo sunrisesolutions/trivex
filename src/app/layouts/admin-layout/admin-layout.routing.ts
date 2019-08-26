@@ -25,7 +25,7 @@ import {MessageApprovalComponent} from '../../pages/notifications/message-approv
 
 export const AdminLayoutRoutes: Routes = [
   {
-    path: 'club-members',
+    path: 'club-members/list',
     component: ClubMembersComponent,
   },
   {
@@ -48,8 +48,8 @@ export const AdminLayoutRoutes: Routes = [
   { path: "qr-code", component: QrCodeComponent },
   { path: "qr-start", component: QrStartComponent },
   { path: "qr-scanner", component: QrScannerComponent },
-  { 
-    path: "dashboard", 
+  {
+    path: "dashboard",
     children: [
       {
         path: '',
@@ -61,7 +61,7 @@ export const AdminLayoutRoutes: Routes = [
         path: 'events/:id',
         component: DashboardComponent,
       }
-    ]  
+    ]
   },
   { path: "post-announcement", component: PostAnnouncementComponent },
 ];
