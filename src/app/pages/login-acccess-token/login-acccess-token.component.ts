@@ -52,7 +52,7 @@ export class LoginAcccessTokenComponent implements OnInit {
           let imId = res['hydra:member'][0]['@id'];
           localStorage.setItem('im_id', imId);
         })
-      this.router.navigate([`club-members`])
+      this.router.navigate([`/dashboard`]);
       // console.log(decoded.exp);
       //refresh
 

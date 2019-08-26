@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
   /* SELECT Options*/
   routes: RouteInfo[] = [
     {
-      path: `/club-members`,
+      path: `/club-members/list`,
       title: 'Club Members',
       icon: 'ni-bullet-list-67 text-red',
       class: ''

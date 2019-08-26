@@ -81,9 +81,9 @@ export class LoginComponent implements OnInit {
 
     if (this.returnUrl) {
       this.router.navigateByUrl(this.returnUrl)
-        .catch(() => this.router.navigate([`club-members`]))
+        .catch(() => this.router.navigate([`dashboard`]));
     } else {
-      this.router.navigate([`club-members`])
+      this.router.navigate([`dashboard`]);
     }
 
     this.getLogoOrganisation();
