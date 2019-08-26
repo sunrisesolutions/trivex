@@ -151,7 +151,7 @@ export class MemberidComponent implements OnInit {
   }
 
   goHome() {
-    return this.router.navigate(['/club-members']);
+    return this.router.navigate(['/dashboard']);
   }
 
 }

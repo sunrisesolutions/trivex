@@ -30,7 +30,7 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
       this.service.refreshToken(formRef).subscribe(res => {
         localStorage.setItem('token', res['token']);
         console.log('refreshed', res);
-        this.router.navigate(['/club-members'])
+        this.router.navigate(['/dashboard']);
       }, error => {
         if (error.status === 401) {
           this.router.navigate(['/login']);
