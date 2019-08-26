@@ -1,7 +1,8 @@
 <!-- ALL EVENTS -->
 <div class="container text-center mt-5">
   <h1 class="title-page">{{(!createEvent) ? 'LIST EVENTS' : 'Create New Event'}}</h1>
-  <small (click)="createEvent=true;clean();editEvent=false" class="btn badge animation-fade mx-0 bg-success">Create New Event</small>
+<!--  badge animation-fade mx-0 bg-success  -->
+  <small (click)="createEvent=true;clean();editEvent=false" class="btn btn-primary">Create New Event</small>
   <hr class="my-2 w-50" />
 </div>
 <div *ngIf="!idEvent() && !createEvent && !editEvent" class="container text-center">

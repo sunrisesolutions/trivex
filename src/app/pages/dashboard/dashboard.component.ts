@@ -1,21 +1,27 @@
-import { ActivatedRoute } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
-import { PostService } from "src/app/services/post.service";
-import { Router } from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {Router} from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
+import {CheckRoleService} from '../../services/check-role.service';
+import * as jwt_decoded from 'jwt-decode';
+
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   access_token;
   qrLink;
+
   constructor(
     private router: Router,
     private service: PostService,
-    private route: ActivatedRoute) {
-      
+    private route: ActivatedRoute,
+    public roleChecker: CheckRoleService
+  ) {
+
   }
 
   ngOnInit() {
@@ -38,11 +44,18 @@ export class DashboardComponent implements OnInit {
     //   });
     // }
   }
-  checkingRole(){
-    let decoded = jwt_decode(localStorage.getItem('token'));
-    let role = decoded.roles;
-    if(role.indexOf('ROLE_EVENT_ADMIN') > -1){
+
+  checkingRole(adminOnly = false): boolean {
+    // let decoded =  jwt_decoded(localStorage.getItem('token'));
+    // let roles =  decoded.roles;
+    // console.log(roles, 'hey',this.roleChecker.ROLE_EVENT_ADMIN);
+    if (this.roleChecker.ROLE_EVENT_ADMIN) {
       return true;
+    } else if (this.roleChecker.ROLE_ORG_ADMIN) {
+      return true;
+    } else {
+      return false;
     }
+
   }
 }
