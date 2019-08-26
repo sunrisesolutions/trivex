@@ -12,7 +12,9 @@ import { ResourceParent } from '../models/ResourceParent';
 import { forEach } from '@angular/router/src/utils/collection';
 
 /* header */
-
+export interface TEST {
+  profilePicture: 'assets/img-process/giphy-loading.gif';
+}
 /* /.header */
 
 @Injectable({
@@ -127,14 +129,16 @@ export class PostService {
     return this.http.get(this.orgAPI + id, httpOptions);
   }
 
-  getDataAPI(page): Observable<Object> {
+  
+
+  getDataAPI(page): Observable<TEST> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(this.orgAPI + `/individual_members${page}`, httpOptions);
+    return this.http.get<TEST>(this.orgAPI + `/individual_members${page}`, httpOptions);
   }
 
   getConnect(query): Observable<Object> {

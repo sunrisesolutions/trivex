@@ -67,7 +67,7 @@ export class DeliveryComponent implements OnInit {
         });
 
         this.delivery.name = 'Loading...';
-        this.delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
+        this.delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
         if (this.delivery.message.senderUuid !== undefined) {
           console.log('requesting for ' + this.delivery.message.senderUuid);
           this.service.getMember(`?uuid=${this.delivery.message.senderUuid}`)

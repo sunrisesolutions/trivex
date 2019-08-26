@@ -1,15 +1,15 @@
-import {ActivatedRoute} from '@angular/router';
-import {PostService} from 'src/app/services/post.service';
-import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit } from '@angular/core';
 // import 'rxjs-compat/add/operator/do';
 import * as jwt_decode from 'jwt-decode';
-import {Observable} from 'rxjs';
-import {Delivery} from 'src/app/models/Deliveries';
-import {HttpClient} from '@angular/common/http';
-import {SearchService} from 'src/app/services/search.service';
+import { Observable } from 'rxjs';
+import { Delivery } from 'src/app/models/Deliveries';
+import { HttpClient } from '@angular/common/http';
+import { SearchService } from 'src/app/services/search.service';
 import 'rxjs/add/operator/do';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {isNumber} from 'util';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-member-connect',
@@ -33,8 +33,8 @@ export class MemberConnectComponent implements OnInit {
   injectNumber(s) {
     if (s) {
       // console.log(s);
-       s = s.match(/\d+/)[0];
-       return s;
+      s = s.match(/\d+/)[0];
+      return s;
     }
   }
 
@@ -59,19 +59,19 @@ export class MemberConnectComponent implements OnInit {
         .subscribe(res => {
           this.loadingSearch = true;
           if (res['hydra:member']) {
-            this.members = res['hydra:member'];
+            this.members = this.members.concat(res['hydra:member']);
             for (let data of this.members) {
-              // console.log('3333');
-              data['profilePicture'] = '/assets/img-process/Loading-img.gif';
+              // data['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+              // console.log('2', data);
               data['fromId'] = (data['fromMember']['@id']);
               data['toId'] = (data['toMember']['@id']);
               if (data['fromId'] === data['toId']) {
                 data['data'] = null;
                 data['route'] = null;
-              } else if (data['fromId'] === im_id) {
+              }
+              if (data['fromId'] === im_id) {
                 data['data'] = data['personData']['to'];
-
-                this.service.getRootByFullID(data['toMember'])
+                this.service.getRootByFullID(data['toMember']['@id'])
                   .subscribe(res => {
                     data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
                     if (res['profilePicture']) {
@@ -85,11 +85,13 @@ export class MemberConnectComponent implements OnInit {
                         });
                     }
                   });
-                data['route'] = data['toMember']['@id'];
+                // console.log('data route is ', data);
+                data['route'] = `${data['toId']}`;
               } else if (data['toId'] === im_id) {
                 data['data'] = data['personData']['from'];
-                data['route'] = data['fromMember']['@id'];
+                data['route'] = data['toId'];
               }
+              // console.log('echoing member', data, im_id);
             }
           }
         });
@@ -107,11 +109,11 @@ export class MemberConnectComponent implements OnInit {
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
 
     // JSON.stringify(news
-    let members  = this.members = this.members.concat(mainData['hydra:member']);
+    let members = this.members = this.members.concat(mainData['hydra:member']);
     // console.log('processing data ', mainData, this.members)
 
     for (let data of members) {
-      // data['profilePicture'] = '/assets/img-process/Loading-img.gif';
+      // data['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
       // console.log('2', data);
       data['fromId'] = (data['fromMember']['@id']);
       data['toId'] = (data['toMember']['@id']);
@@ -149,7 +151,7 @@ export class MemberConnectComponent implements OnInit {
 
   open(content) {
     if (content) {
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
       // this.delivery = delivery;
     }
   }

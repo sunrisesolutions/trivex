@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1566800158839,
+  "timestamp": 1566803956648,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,13 +8,13 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/4.4c92942c24081e693bca.js",
-        "/5.ff30b17ad6004b22402e.js",
+        "/4.898ca0e263a36b9b0178.js",
+        "/5.e4ad35fdfc370658d0d2.js",
         "/favicon.ico",
         "/index.html",
-        "/main.05fea3baa63115b65923.js",
+        "/main.a263ceafd3cd7ac442ad.js",
         "/polyfills.59c2af097338049c864e.js",
-        "/runtime.09e155325134677cb31e.js",
+        "/runtime.579feaa8fd87d1203bdd.js",
         "/scripts.2db4cbc668a10a0c2a68.js",
         "/styles.df6f402ba1596b36231b.css"
       ],
@@ -40,6 +40,7 @@
         "/assets/icons/icon-96x96.png",
         "/assets/img-process/Loading-img.gif",
         "/assets/img-process/Not-found-img.gif",
+        "/assets/img-process/giphy-loading.gif",
         "/assets/img-process/loading.gif",
         "/assets/img/brand/MBTA.svg",
         "/assets/img/brand/MBTA_T_Logo_Green_MAGNET_grande.jpg",
@@ -1573,8 +1574,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/4.4c92942c24081e693bca.js": "949ae82df71f570bb1f2205c739969c91ccba117",
-    "/5.ff30b17ad6004b22402e.js": "0664dfcf652e129b27863e5c8a391d41dea88c47",
+    "/4.898ca0e263a36b9b0178.js": "17fb8d256f774e203906da7c0a9efe1be02f5593",
+    "/5.e4ad35fdfc370658d0d2.js": "547c9e7c7533d0c6fa8c88792224d799b5f7d5db",
     "/assets/fonts/nucleo/nucleo-icons.eot": "b2dee001981e635c2a6709f97f707b7f799703c5",
     "/assets/fonts/nucleo/nucleo-icons.svg": "0bd4e40449c239d34bf4a1b0a770ae39140ff1f4",
     "/assets/fonts/nucleo/nucleo-icons.ttf": "e251b6b0211dadf880db8a281c7e0f86b148892a",
@@ -1590,6 +1591,7 @@
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/img-process/Loading-img.gif": "1095c97d9cd679d0454418963f5940293ff4cc00",
     "/assets/img-process/Not-found-img.gif": "82bfdb5d64a40cdfa5378a2ead6d1cd0f7fb0f64",
+    "/assets/img-process/giphy-loading.gif": "ab5a217700f9a577fe11ca1c3cf8ed2a5eb22558",
     "/assets/img-process/loading.gif": "56acd148a56082369dbb7e1be83306c4041dab0d",
     "/assets/img/brand/MBTA.svg": "3dc808f7ccb20470c17ce65a0bef7837001df0de",
     "/assets/img/brand/MBTA_T_Logo_Green_MAGNET_grande.jpg": "f7a2b90a708421c7d9d9252a33b2939b1e74fcde",
@@ -3118,10 +3120,10 @@
     "/icomoon.4180f0a8927e86bc0fdc.woff": "6dccc942bb80da30ab06fd4aced87113c69e8574",
     "/icomoon.441fea52e48fd515d26c.svg": "d3da87b0ac79521e60a72c33f236bb10e6368148",
     "/icomoon.b22738b5dbd3effff883.ttf": "d16e20b968e676eba53afc815aef8fbd559729d8",
-    "/index.html": "7acec00bb5af4716d2c561d7d9f9214fb8c78d0e",
-    "/main.05fea3baa63115b65923.js": "df4d76de72dfffc6087421fdced390a13b7aa967",
+    "/index.html": "3b68f66ee3d2d7bf3422f7134e2e7cca0fd5fdb9",
+    "/main.a263ceafd3cd7ac442ad.js": "0ce734bb06d0a6a451cff5452f7c52dccd67136c",
     "/polyfills.59c2af097338049c864e.js": "355717d8468c0c8ed876bca5f71802d27bbe86c2",
-    "/runtime.09e155325134677cb31e.js": "bb11465dd598eb8afb7ac4991f5167a2e77a295a",
+    "/runtime.579feaa8fd87d1203bdd.js": "599d3d261215516286d2922435d7742b8af526d7",
     "/scripts.2db4cbc668a10a0c2a68.js": "4b0072d19cb9b358fa54464d992fb90355c1c655",
     "/styles.df6f402ba1596b36231b.css": "099de6d038e6687b4def16ac95fa5969fa6028fa"
   },

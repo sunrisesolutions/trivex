@@ -118,7 +118,7 @@ export class NotificationsComponent implements OnInit {
         // console.log(res)
         for (let delivery of this.deliveries) {
           delivery.name = 'Loading...';
-          delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {

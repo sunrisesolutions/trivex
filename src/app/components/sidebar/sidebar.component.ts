@@ -269,7 +269,7 @@ export class SidebarComponent implements OnInit {
         this.deliveries = res['hydra:member'];
         for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery['profilePicture'] = '/assets/img-process/Loading-img.gif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {

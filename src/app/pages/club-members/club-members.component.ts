@@ -49,8 +49,9 @@ export class ClubMembersComponent implements OnInit {
         .subscribe(res => {
           this.members = res['hydra:member'];
           this.loadingSearch = true;
+
           for (const member of this.members) {
-            this.service.getPersonByUuid(member.personData.uuid)
+            this.service.getPersonByUuid(member['personData'].uuid)
               .subscribe(res => {
                 member['alternateName'] = res['hydra:member'][0].alternateName;
                 member['person'] = res['hydra:member'][0];
@@ -58,7 +59,7 @@ export class ClubMembersComponent implements OnInit {
             if (member['profilePicture']) {
               this.httpClient.get(member['profilePicture'])
                 .subscribe(res => {
-  
+
                 }, err => {
                   if (err.status === 404) {
                     member['profilePicture'] = 'assets/img-process/Not-found-img.gif';

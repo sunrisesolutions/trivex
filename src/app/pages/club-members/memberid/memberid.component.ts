@@ -55,7 +55,7 @@ export class MemberidComponent implements OnInit {
     this.snapID = this.routes.snapshot.params.id;
     this.id = this.snapID;
     this.imId = localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
-    this.members['profilePicture'] = 'https://media2.giphy.com/media/FREwu876NMmBy/giphy.gif';
+    this.members['profilePicture'] = '/assets/img-process/giphy-loading.gif';
     this.service.getRootID(this.snapID).subscribe(res => {
       this.members = res;
 
