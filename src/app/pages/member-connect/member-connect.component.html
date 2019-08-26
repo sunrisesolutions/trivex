@@ -22,11 +22,11 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-auto">
-                  <a [routerLink]="'/club-members/'+injectNumber(member.route)+'/info'"><img class="icon shadow"
+                  <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
                 </div>
                 <div class="col text-muted">
-                  <a [routerLink]="'/club-members/'+injectNumber(member.fromMember)+'/info'">
+                  <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info">
                     <h2 class="h2 font-weight-bold">{{member.data.name}}</h2>
                   </a>
                   <span>{{member.data.jobTitle}}</span><br>
@@ -34,7 +34,7 @@
                 </div>
               </div>
               <p class="mt-2 mb-0 text-sm text-right">
-                <a [routerLink]="'/club-members/'+injectNumber(member.route)+'/send-email'"
+                <a routerLink="/club-members/{{member.route?.split('/')[2]}}/send-email"
                   class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>
               </p>
             </div>

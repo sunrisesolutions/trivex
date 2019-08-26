@@ -20,24 +20,28 @@ export class SendEmailComponent implements OnInit {
     public httpClient: HttpClient
   ) { }
   member;
-  loading = false;
+  loading = true;
   subject = '';
   body = '';
   error = '';
   success = false;
 
   ngOnInit() {
+    this.getInfo()
+  }
+  getInfo() {
     const id = +this.routes.snapshot.paramMap.get('id');
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res;
+      this.loading = false;
       this.member = getInfo;
       for (let m of [this.member]) {
         this.service.getPersonByUuid(m.personData.uuid)
           .subscribe(res => {
             let nowYear = new Date().getFullYear();
-            m['personData'] = res['hydra:member'][0];
-            let yearMember = m.personData['birthDate'].split('T')[0].split('-')[0];
-            m['personData']['yearOld'] = nowYear - yearMember;
+            m['person'] = res['hydra:member'][0];
+            let yearMember = m['person']['birthDate'].split('T')[0].split('-')[0];
+            m['person']['yearOld'] = nowYear - yearMember;
 
           })
         this.httpClient.get(m['profilePicture'])
@@ -52,7 +56,6 @@ export class SendEmailComponent implements OnInit {
       console.log(this.member)
     });
   }
-
   send() {
     this.loading = true;
     let memberId = this.member['@id'];

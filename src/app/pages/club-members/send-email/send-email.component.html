@@ -2,10 +2,13 @@
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
-  <div *ngIf="member" class="container mt-6">
+  <div  *ngIf="loading" class="container text-center mt-6">
+    <img height="150px" src="/assets/img-process/loading.gif" alt="">
+  </div>
+  <div *ngIf="!loading" class="container mt-6">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12 col-lg-6 col-md-12 mb-8 ">
-        <h1 class="display-2 text-white-no-longer">{{member.personData.name}}</h1>
+        <h1 class="display-2 text-white-no-longer">{{member.person?.name}}</h1>
         <div *ngIf="error" class="alert alert-danger">
           {{error}}
         </div>
@@ -38,7 +41,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image" style="top:-20pt;">
                 <a (click)="toClubMem()" href="javascript:void(0)">
-                  <img [src]="member['profilePicture']" class="avatar">
+                  <img [src]="member?.profilePicture" class="avatar">
                 </a>
               </div>
             </div>
@@ -52,13 +55,13 @@
           <div class="card-body ml-2">
             <div class="container-fluid text-center" style="margin-top: -50pt;">
               <h1 class="font-weight-bold">
-                {{member.personData.name}}<span class="font-weight-light">, {{member.personData.yearOld}}</span>
+                {{member.person?.name}}<span class="font-weight-light">, {{member.person?.yearOld}}</span>
               </h1>
               <div class="h2 mt-2">
-                {{member.personData.jobTitle}}
+                {{member.person?.jobTitle}}
               </div>
               <div class="h2">
-                {{member.personData.employerName}}
+                {{member.person?.employerName}}
               </div>
               <hr class="my-3" />
               <!-- <p style="visibility: hidden;">Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and

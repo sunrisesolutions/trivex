@@ -93,16 +93,19 @@ export class LoginComponent implements OnInit {
   getSubdomain() {
     var host = window.location.hostname;
     var parts = host.split('.');
-    this.sub = parts[0];
     console.log(parts)
-    if (parts.length > 2) {
+    if (parts.length >= 2) {
       if (parts[0] === 'www') {
         this.showOrg = true;
       } else {
         this.sub = parts[0];
-        this.showOrg = false;
+        if (this.sub === 'trivesg') {
+          this.showOrg = true;
+        } else {
+          this.showOrg = false;
+        }
       }
-    } else if (parts.length < 2) {
+    } else if (parts.length === 1) {
       this.showOrg = true;
     }
   }

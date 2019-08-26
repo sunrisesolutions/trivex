@@ -32,9 +32,9 @@ export class MemberConnectComponent implements OnInit {
 
   injectNumber(s) {
     if (s) {
-      console.log(s);
-      /*  s = s.match(/\d+/)[0];
-       return s; */
+      // console.log(s);
+       s = s.match(/\d+/)[0];
+       return s;
     }
   }
 
@@ -51,7 +51,7 @@ export class MemberConnectComponent implements OnInit {
     let endpoint = `/connections?page=${this.currentPage}`;
     // console.log('4');
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
-    console.log('im_id is ' + im_id);
+    // console.log('im_id is ' + im_id);
     if (textSearch !== null) {
       this.loadingSearch = false;
       endpoint = `/connections?fulltextString=${textSearch}`;
@@ -88,7 +88,7 @@ export class MemberConnectComponent implements OnInit {
                 data['route'] = data['toMember']['@id'];
               } else if (data['toId'] === im_id) {
                 data['data'] = data['personData']['from'];
-                data['route'] = data['fromId'];
+                data['route'] = data['fromMember']['@id'];
               }
             }
           }
@@ -110,7 +110,6 @@ export class MemberConnectComponent implements OnInit {
     let members  = this.members = this.members.concat(mainData['hydra:member']);
     // console.log('processing data ', mainData, this.members)
 
-    console.log('hey man nnn', members);
     for (let data of members) {
       // data['profilePicture'] = '/assets/img-process/Loading-img.gif';
       // console.log('2', data);
@@ -137,13 +136,14 @@ export class MemberConnectComponent implements OnInit {
             }
           });
         // console.log('data route is ', data);
-        data['route'] = `/individual_members/${data['toId']}`;
+        data['route'] = `${data['toId']}`;
       } else if (data['toId'] === im_id) {
         data['data'] = data['personData']['from'];
         data['route'] = data['toId'];
       }
       // console.log('echoing member', data, im_id);
     }
+    console.log('hey man nnn', members);
     // console.log('end of process data', members);
   };
 

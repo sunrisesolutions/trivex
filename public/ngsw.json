@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1566734892182,
+  "timestamp": 1566800158839,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,13 +8,13 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/4.680472917c97ee67e7ea.js",
-        "/5.1adc046e69fb1fd9bad5.js",
+        "/4.4c92942c24081e693bca.js",
+        "/5.ff30b17ad6004b22402e.js",
         "/favicon.ico",
         "/index.html",
         "/main.05fea3baa63115b65923.js",
         "/polyfills.59c2af097338049c864e.js",
-        "/runtime.5e968ebc3a7c7a820da2.js",
+        "/runtime.09e155325134677cb31e.js",
         "/scripts.2db4cbc668a10a0c2a68.js",
         "/styles.df6f402ba1596b36231b.css"
       ],
@@ -1573,8 +1573,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/4.680472917c97ee67e7ea.js": "77ee33bcb77505c5133548e8ea2467ebe8dec54d",
-    "/5.1adc046e69fb1fd9bad5.js": "0bc845150aa86b6488e01b01ac8c1bf187d38865",
+    "/4.4c92942c24081e693bca.js": "949ae82df71f570bb1f2205c739969c91ccba117",
+    "/5.ff30b17ad6004b22402e.js": "0664dfcf652e129b27863e5c8a391d41dea88c47",
     "/assets/fonts/nucleo/nucleo-icons.eot": "b2dee001981e635c2a6709f97f707b7f799703c5",
     "/assets/fonts/nucleo/nucleo-icons.svg": "0bd4e40449c239d34bf4a1b0a770ae39140ff1f4",
     "/assets/fonts/nucleo/nucleo-icons.ttf": "e251b6b0211dadf880db8a281c7e0f86b148892a",
@@ -3118,10 +3118,10 @@
     "/icomoon.4180f0a8927e86bc0fdc.woff": "6dccc942bb80da30ab06fd4aced87113c69e8574",
     "/icomoon.441fea52e48fd515d26c.svg": "d3da87b0ac79521e60a72c33f236bb10e6368148",
     "/icomoon.b22738b5dbd3effff883.ttf": "d16e20b968e676eba53afc815aef8fbd559729d8",
-    "/index.html": "7b2b524110a5767a4a2f1040c53053872d76a46d",
+    "/index.html": "7acec00bb5af4716d2c561d7d9f9214fb8c78d0e",
     "/main.05fea3baa63115b65923.js": "df4d76de72dfffc6087421fdced390a13b7aa967",
     "/polyfills.59c2af097338049c864e.js": "355717d8468c0c8ed876bca5f71802d27bbe86c2",
-    "/runtime.5e968ebc3a7c7a820da2.js": "2413e0867eed0c51734db0193f0d8bafc5c52b93",
+    "/runtime.09e155325134677cb31e.js": "bb11465dd598eb8afb7ac4991f5167a2e77a295a",
     "/scripts.2db4cbc668a10a0c2a68.js": "4b0072d19cb9b358fa54464d992fb90355c1c655",
     "/styles.df6f402ba1596b36231b.css": "099de6d038e6687b4def16ac95fa5969fa6028fa"
   },
