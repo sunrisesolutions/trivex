@@ -5,3 +5,21 @@
     width: 135pt;
     border-radius: 100%;
 }
+.text-light{
+    color: white !important;
+}
+.animation-fade{
+    animation-name: fade;
+    animation-duration: 2500ms;
+    @keyframes fade{
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to{
+            opacity: 1;
+            transform: translateX(0px);
+
+        }
+    }
+}

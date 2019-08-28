@@ -3,7 +3,7 @@
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- ERROR -->
-  <div *ngIf="roleChecking()===false" class="container text-center">
+  <div *ngIf="error" class="container text-center">
     <div class="card">
       <div class="card-body">
         <h1 class="text-dark">{{error}}</h1>
@@ -11,7 +11,7 @@
     </div>
   </div>
   <!-- Header container -->
-  <div *ngIf="roleChecking()===true"
+  <div *ngIf="!error"
        class="container mt-6">
     <div class="row d-flex flex-row align-items-center justify-content-between">
       <div class="col-12">

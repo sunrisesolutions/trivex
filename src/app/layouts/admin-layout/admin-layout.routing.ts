@@ -19,9 +19,9 @@ import { DeliveryComponent } from 'src/app/pages/notifications/delivery/delivery
 import { queryRefresh } from '@angular/core/src/render3';
 import { EventsComponent } from 'src/app/pages/events/events.component';
 import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-message.component';
-import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
-import {MessageComponent} from '../../pages/notifications/message/message.component';
-import {MessageApprovalComponent} from '../../pages/notifications/message-approval/message-approval.component';
+import { DeliveriesComponent } from '../../pages/notifications/deliveries/deliveries.component';
+import { MessageComponent } from '../../pages/notifications/message/message.component';
+import { MessageApprovalComponent } from '../../pages/notifications/message-approval/message-approval.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -36,12 +36,12 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/:id/info', component: MemberidComponent },
   { path: 'club-members/:id/connect', component: ConnectComponent },
   { path: 'club-members/notifications', component: NotificationsComponent },
-  { path: 'club-members/notifications/announcement-approvals', component: MessageApprovalComponent},
+  { path: 'club-members/notifications/announcement-approvals', component: MessageApprovalComponent },
   { path: 'club-members/notifications/:status', component: NotificationsComponent },
-  { path: 'club-members/notifications/deliveries/:id/selected-option/:selectedOptionUuid', component: DeliveriesComponent},
-  { path: 'club-members/notifications/deliveries/:id', component: DeliveryComponent},
-  { path: 'club-members/notifications/messages/:id', component: MessageComponent},
-  { path: 'club-members/notifications/messages/:id/decide/:decision', component: MessageComponent},
+  { path: 'club-members/notifications/deliveries/:id/selected-option/:selectedOptionUuid', component: DeliveriesComponent },
+  { path: 'club-members/notifications/deliveries/:id', component: DeliveryComponent },
+  { path: 'club-members/notifications/messages/:id', component: MessageComponent },
+  { path: 'club-members/notifications/messages/:id/decide/:decision', component: MessageComponent },
   { path: 'club-members/individual_members/:id/connect', component: ConnectComponent },
   { path: 'club-members/:id/qr-code', component: QrCodeComponent },
   { path: 'club-members/:id/send-email', component: SendEmailComponent },
@@ -54,14 +54,16 @@ export const AdminLayoutRoutes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-      },{
-        path: 'events',
-        component: DashboardComponent
-      }, {
-        path: 'events/:id',
-        component: DashboardComponent,
-      }
-    ]
+      },
+    ],
+
+  },
+  {
+    path: 'events',
+    component: EventsComponent
+  }, {
+    path: 'events/:id',
+    component: EventsComponent,
   },
   { path: "post-announcement", component: PostAnnouncementComponent },
 ];

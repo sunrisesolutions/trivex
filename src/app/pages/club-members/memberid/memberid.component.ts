@@ -23,13 +23,23 @@ export class MemberidComponent implements OnInit {
   }
   notFoundMember;
   file;
+  loading: boolean = true;
   id;
   formEdit = {
     name: '',
     employerName: '',
+    givenName: '',
+    familyName: '',
     phone: '',
     email: '',
-    job: ''
+    job: '',
+    jobIndustry: '',
+    interestGroups: '',
+    alternateEmployerName: '',
+    homeAddress: '',
+    lifeStyle: '',
+    mobileNumber: '',
+
   }
   imId;
   snapID
@@ -64,6 +74,9 @@ export class MemberidComponent implements OnInit {
         .subscribe(res => {
           this.members['alternateName'] = res['hydra:member'][0].alternateName;
           this.members['person'] = res['hydra:member'][0];
+          setTimeout(() => {
+            this.loading = false;
+          },1000)
         })
       console.log(this.members);
       if (this.members['profilePicture']) {
@@ -115,20 +128,28 @@ export class MemberidComponent implements OnInit {
     }
   }
 
-  editInfo(data, element, realData,id) {
+  editInfo(data, element, id) {
     if (this.routes.snapshot.params.id === localStorage.getItem('im_id')) {
       const formEdit = {
-        "givenName": (data.name) ? data.name : null,
-        "email": (data.email) ? data.email : null,
-        "phoneNumber": (data.phone) ? data.phone : null,
-        "jobTitle": (data.job) ? data.job : null,
-        "employerName": (data.employerName) ? data.employerName : null
+        "familyName": (data.familyName) ? data.familyName : undefined,
+        "givenName": (data.givenName) ? data.givenName : undefined,
+        "email": (data.email) ? data.email : undefined,
+        "phoneNumber": (data.phone) ? data.phone : undefined,
+        "jobTitle": (data.job) ? data.job : undefined,
+        "jobIndustry": (data.jobIndustry) ? data.jobIndustry : undefined,
+        "employerName": (data.employerName) ? data.employerName : undefined,
+        "interestGroups": (data.interestGroups) ? data.interestGroups : undefined,
+        "alternateEmployerName": (data.alternateEmployerName) ? data.alternateEmployerName : undefined,
+        "homeAddress": (data.homeAddress) ? data.homeAddress : undefined,
+        "lifeStyle": (data.lifeStyle) ? data.lifeStyle : undefined,
+        "mobileNumber": (data.mobileNumber) ? data.mobileNumber : undefined,
+
       }
-      this.service.editInfoPerson(`/people/${id.match(/\d+/g)[0]}`, formEdit)
+      this.service.editInfoPerson(`/people/${id.split('/')[2]}`, formEdit)
         .subscribe(res => {
           element.hidden = !element.hidden;
           this.getRootId();
-          console.log(res);
+          this.clean();
         }, err => {
           if (err.status === 404) {
             alert(err.error['hydra:description'])
@@ -154,4 +175,22 @@ export class MemberidComponent implements OnInit {
     return this.router.navigate(['/dashboard']);
   }
 
+  clean(){
+    this.formEdit = {
+      name: '',
+      employerName: '',
+      givenName: '',
+      familyName: '',
+      phone: '',
+      email: '',
+      job: '',
+      jobIndustry: '',
+      interestGroups: '',
+      alternateEmployerName: '',
+      homeAddress: '',
+      lifeStyle: '',
+      mobileNumber: '',
+  
+    }
+  }
 }

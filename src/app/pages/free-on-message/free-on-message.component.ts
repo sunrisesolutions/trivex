@@ -33,7 +33,7 @@ export class FreeOnMessageComponent implements OnInit {
     sunday: false
   };
 
-  loading = false;
+  loading = true;
   required = false;
 
   selectedItems: boolean = true;
@@ -119,6 +119,10 @@ export class FreeOnMessageComponent implements OnInit {
   ngOnInit() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     this.getMessage();
+    this.checkingRole();
+    setTimeout(()=>{
+      this.loading = false;
+    },2000)
   }
 
   isIOS() {
@@ -244,5 +248,15 @@ export class FreeOnMessageComponent implements OnInit {
     this.time.toTime = null;
     this.form.effectiveFrom = new Date(Date.now()).toISOString().split('T')[0];
     this.form.expireAt = null;
+  }
+  checkingRole() {
+    let decoded = jwt_decode(localStorage.getItem('token'))
+    this.apiService.G_OrgByUuid(decoded.org)
+      .subscribe(res => {
+        console.log(res);
+        if (!res['hydra:member'][0].freeonMessagingEnabled) {
+          return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+        }
+      })
   }
 }

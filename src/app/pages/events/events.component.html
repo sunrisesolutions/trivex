@@ -1,114 +1,138 @@
-<!-- ALL EVENTS -->
-<div class="container text-center mt-5">
-  <h1 class="title-page">{{(!createEvent) ? 'LIST EVENTS' : 'Create New Event'}}</h1>
-<!--  badge animation-fade mx-0 bg-success  -->
-  <small (click)="createEvent=true;clean();editEvent=false" class="btn btn-primary">Create New Event</small>
-  <hr class="my-2 w-50" />
-</div>
-<div *ngIf="!idEvent() && !createEvent && !editEvent" class="container text-center">
-  <div *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
-    <div class="text-right mr-3 mt-3">
-      <a (click)="updateEvent(e, e['@id'])" class="far fa-edit mx-2 text-primary"></a>
-      <a (click)="deleteEvent(e['@id'])" class="fas fa-trash-alt text-danger"></a>
-    </div>
-    <div (click)="toEvent(e.id)" class="card-body">
-      <div class="h1">{{e.name}}</div>
-      <div class="h2">{{e.title}}</div>
-      <!-- <img routerLink="/events/{{getNumberOfString(e.id)}}/registration" class="qr-image" [src]="e.qrLink" alt=""> -->
-    </div>
-  </div>
-</div>
-<!-- VIEW EVENT -->
-<div *ngIf="idEvent() && event && !createEvent && !editEvent" class="container text-center">
-  <div class="text-left animation-fade" routerLink="/dashboard">
-    <div class="cursor-pointer fas fa-arrow-left">
-
-    </div>
-  </div>
-  <div class="animation-fade card my-2">
-    <small class="text-left ml-2">Status: <span
-        [ngClass]="{'text-success': event?.enabled, 'text-danger': event?.disabled}">{{(event?.enabled) ? 'active' : (event?.disabled) ? 'deactive' : ''}}</span></small>
-    <div class="card-body">
-      <div routerLink="/events/{{getNumberOfString(event.id)}}/registration" class="h1">{{event.name}}</div>
-      <div routerLink="/events/{{getNumberOfString(event.id)}}/registration" class="cursor-pointer h2">{{event.title}}
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container text-center">
+    <img *ngIf="loading" src="/assets/img-process/loading.gif" height="150px" alt="">
+    <div  *ngIf="error && !loading" class="card">
+      <div class="card-body">
+        <h1>{{error}}</h1>
       </div>
-      <img routerLink="/events/{{getNumberOfString(event.id)}}/registration" class="cursor-pointer qr-image"
-        [src]="event.qrLink" alt="">
-    </div>
-    <div class="card-footer text-left">
-      <small class="font-weight-bold d-block">
-        Started Time: <span class="text-muted">{{event.startedAt | date:'mediumDate'}} ({{event.timezone}})</span>
-      </small>
-      <small class="font-weight-bold d-block">
-        Ended Time: <span class="text-muted">{{event.endedAt | date:'mediumDate'}} ({{event.timezone}})</span>
-      </small>
     </div>
   </div>
-</div>
-<!-- CREATE & EDIT EVENT -->
-<div *ngIf="createEvent || editEvent" class="animation-fade container">
-  <div *ngIf="loading" class="container text-center">
-    <img height="150px" src=" /assets/img-process/giphy-loading.gif" alt="">
-  </div>
-  <div *ngIf="!loading" class="card">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-12">
-          <!-- Name -->
-          <div class="form-group">
-            <label class="form-text">Name:</label>
-            <input #name required [(ngModel)]="formSubmit.name" name="name" placeholder="Name" class="form-control"
-              type="text">
+  <div *ngIf="!error && !loading" class="">
+    <!-- ALL EVENTS -->
+    <div class="container text-center mt-5">
+      <h1 class="title-page">{{(!createEvent) ? 'LIST EVENTS' : 'Create New Event'}}</h1>
+      <!--  badge animation-fade mx-0 bg-success  -->
+      <small (click)="createEvent=true;clean();editEvent=false" class="btn btn-primary">Create New Event</small>
+      <hr class="my-2 w-50" />
+    </div>
+    <div *ngIf="!idEvent() && !createEvent && !editEvent" class="container text-center">
+      <div *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
+        <div class="text-right mr-3 mt-3">
+          <a (click)="updateEvent(e, e['@id'])" class="far fa-edit  icon-hover cursor-pointer mx-2 text-primary"></a>
+          <a (click)="deleteEvent(e['@id'])" class="fas fa-trash-alt  icon-hover cursor-pointer text-danger"></a>
+        </div>
+        <div (click)="toEvent(e.id)" class="card-body">
+          <div class="h1">{{e.name}}</div>
+          <div class="h2">{{e.title}}</div>
+          <!-- <img routerLink="/events/{{getNumberOfString(e.id)}}/registration" class="qr-image" [src]="e.qrLink" alt=""> -->
+        </div>
+        <div class="card-footer">
+          <div class="row text-light">
+            <!-- Member -->
+            <div class="col-12 col-md-6">
+              <a class="btn btn-primary">Member Check-ins</a>
+            </div>
+            <!-- Non-member -->
+            <div class="col-12 col-md-6">
+              <a class="btn btn-danger">Non-Member Check-ins</a>
+            </div>
           </div>
         </div>
-        <div class="col-12">
+      </div>
+    </div>
+    <!-- VIEW EVENT -->
+    <div *ngIf="idEvent() && event && !createEvent && !editEvent" class="container text-center">
+      <div class="text-left animation-fade" routerLink="/events">
+        <div class="cursor-pointer fas fa-arrow-left">
+
+        </div>
+      </div>
+      <div class="animation-fade card my-2">
+        <small class="text-left ml-2">Status: <span
+            [ngClass]="{'text-success': event?.enabled, 'text-danger': event?.disabled}">{{(event?.enabled) ? 'active' : (event?.disabled) ? 'deactive' : ''}}</span></small>
+        <div class="card-body">
+          <div (click)="toEventRegistration(event.id)" class="h1">{{event.name}}</div>
+          <div (click)="toEventRegistration(event.id)" class="cursor-pointer h2">{{event.title}}
+          </div>
+          <img (click)="toEventRegistration(event.id)" class="cursor-pointer qr-image" [src]="event.qrLink" alt="">
+        </div>
+        <div class="card-footer text-left">
+          <small class="font-weight-bold d-block">
+            Started Time: <span class="text-muted">{{event.startedAt | date:'mediumDate'}} ({{event.timezone}})</span>
+          </small>
+          <small class="font-weight-bold d-block">
+            Ended Time: <span class="text-muted">{{event.endedAt | date:'mediumDate'}} ({{event.timezone}})</span>
+          </small>
+        </div>
+      </div>
+    </div>
+    <!-- CREATE & EDIT EVENT -->
+    <div *ngIf="createEvent || editEvent" class="animation-fade container">
+      <div *ngIf="loading" class="container text-center">
+        <img height="150px" src=" /assets/img-process/giphy-loading.gif" alt="">
+      </div>
+      <div *ngIf="!loading" class="card">
+        <div class="card-body">
           <div class="row">
-            <!-- Title -->
-            <div class="col-12 col-md-6">
+            <div class="col-12">
+              <!-- Name -->
               <div class="form-group">
-                <label class="form-text">Title:</label>
-                <input placeholder="Title" [(ngModel)]="formSubmit.title" name="title" class="form-control" type="text">
-              </div>
-            </div>
-            <!-- Sub Title -->
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="form-text">Sub Title:</label>
-                <input placeholder="Sub Title" [(ngModel)]="formSubmit.subTitle" name="subTitle" class="form-control"
+                <label class="form-text">Name:</label>
+                <input #name required [(ngModel)]="formSubmit.name" name="name" placeholder="Name" class="form-control"
                   type="text">
               </div>
             </div>
+            <div class="col-12">
+              <div class="row">
+                <!-- Title -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label class="form-text">Title:</label>
+                    <input placeholder="Title" [(ngModel)]="formSubmit.title" name="title" class="form-control"
+                      type="text">
+                  </div>
+                </div>
+                <!-- Sub Title -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label class="form-text">Sub Title:</label>
+                    <input placeholder="Sub Title" [(ngModel)]="formSubmit.subTitle" name="subTitle"
+                      class="form-control" type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <!-- Start On -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label class="form-text">Start On:</label>
+                    <input [(ngModel)]="date.startOn" name="startOn" placeholder="Start On" class="form-control"
+                      type="date">
+                  </div>
+                </div>
+                <!-- End On -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label class="form-text">End On:</label>
+                    <input [(ngModel)]="date.endOn" name="endOn" placeholder="End On" class="form-control" type="date">
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-        <div class="col-12">
-          <div class="row">
-            <!-- Start On -->
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="form-text">Start On:</label>
-                <input [(ngModel)]="date.startOn" name="startOn" placeholder="Start On" class="form-control"
-                  type="date">
-              </div>
-            </div>
-            <!-- End On -->
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="form-text">End On:</label>
-                <input [(ngModel)]="date.endOn" name="endOn" placeholder="End On" class="form-control" type="date">
-              </div>
-            </div>
-          </div>
-
+        <div class="card-footer text-center text-md-right text-light">
+          <a (click)="finished()" class="btn btn-danger">CANCEL</a>
+          <a (click)="submitEvent(formSubmit);" class="btn btn-primary"
+            [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle && edit===false}">SUBMIT</a>
         </div>
       </div>
     </div>
-    <div class="card-footer text-center text-md-right text-light">
-      <a (click)="finished()" class="btn btn-danger">CANCEL</a>
-      <a (click)="submitEvent(formSubmit);" class="btn btn-primary"
-        [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle && edit===false}">SUBMIT</a>
+    <div *ngIf="createEvent===false && editEvent===false" class="container d-block d-md-none sticky-create">
+      <a (click)="createEvent=true" class="fas fa-plus bg-success btn"></a>
     </div>
   </div>
-</div>
-<div *ngIf="createEvent===false && editEvent===false" class="container d-block d-md-none sticky-create">
-  <a (click)="createEvent=true" class="fas fa-plus bg-success btn"></a>
 </div>

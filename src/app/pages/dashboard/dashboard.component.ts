@@ -1,10 +1,9 @@
-import {ActivatedRoute} from '@angular/router';
-import {Component, OnInit} from '@angular/core';
-import {PostService} from 'src/app/services/post.service';
-import {Router} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
+import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
-import {CheckRoleService} from '../../services/check-role.service';
-import * as jwt_decoded from 'jwt-decode';
+import { CheckRoleService } from '../../services/check-role.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +13,12 @@ import * as jwt_decoded from 'jwt-decode';
 export class DashboardComponent implements OnInit {
   access_token;
   qrLink;
+  isAdmin: boolean = false;
+  isMessage: boolean = false;
+  isQrCode: boolean = false;
+  isUser: boolean = false;
 
+  decoded = jwt_decode(localStorage.getItem('token'))
   constructor(
     private router: Router,
     private service: PostService,
@@ -45,16 +49,27 @@ export class DashboardComponent implements OnInit {
     // }
   }
 
-  checkingRole(adminOnly = false): boolean {
-    // let decoded =  jwt_decoded(localStorage.getItem('token'));
-    // let roles =  decoded.roles;
-    // console.log(roles, 'hey',this.roleChecker.ROLE_EVENT_ADMIN);
-    if (this.roleChecker.ROLE_EVENT_ADMIN) {
-      return true;
-    } else if (this.roleChecker.ROLE_ORG_ADMIN) {
-      return true;
+  checkingRole() {
+
+    if (this.roleChecker.ROLE_EVENT_ADMIN || this.roleChecker.ROLE_ORG_ADMIN) {
+      this.service.G_OrgByUuid(this.decoded.org)
+        .subscribe(res => {
+          if (res['hydra:member'][0].eventEnabled) {
+            return this.isAdmin = true;
+          }
+        })
     } else {
-      return false;
+      if (this.roleChecker.ROLE_USER) {
+        this.isUser = true;
+        this.service.getMessage(1, '')
+          .subscribe(res => {
+            if (res['hydra:totalItems'] > 0) {
+              this.isMessage = true;
+            } else {
+              this.isQrCode = true;
+            }
+          })
+      }
     }
 
   }

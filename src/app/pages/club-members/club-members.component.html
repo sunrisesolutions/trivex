@@ -21,14 +21,14 @@
           <div class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
-                <div class="col-auto">
+                <div class="col-auto d-flex flex-column">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
+                  <small *ngIf="member.alternateName" class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
                 </div>
                 <div class="col text-muted">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'">
                     <h2 class="h2 font-weight-bold">{{member.person?.name}}</h2>
-                    <div *ngIf="member.alternateName" class="badge bg-success text-light">{{member.alternateName}}</div>
                   </a>
                   <div>{{member.person?.jobTitle}}</div><br>
                   <div>{{member.person?.employerName}}</div><br>

@@ -99,7 +99,7 @@ export class DeliveriesComponent implements OnInit {
         for (let delivery of this.deliveries) {
           console.log('requesting for delivery ', delivery);
           delivery.name = 'Loading...';
-          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
           if (delivery.recipientUuid !== undefined) {
             console.log('requesting for ' + delivery.recipientUuid);
             this.service.getMember(`?uuid=${delivery.recipientUuid}`)

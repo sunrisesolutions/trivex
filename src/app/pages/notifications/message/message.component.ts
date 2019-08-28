@@ -65,7 +65,7 @@ export class MessageComponent implements OnInit {
         this.message = res;
 
         this.message['name'] = 'Loading...';
-        this.message['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+        this.message['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
         if (this.message.senderUuid !== undefined) {
           console.log('requesting for ' + this.message.senderUuid);
           this.service.getMember(`?uuid=${this.message.senderUuid}`)

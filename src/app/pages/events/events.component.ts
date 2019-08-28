@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import * as jwt_decode from 'jwt-decode';
+import { CheckRoleService } from 'src/app/services/check-role.service';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit {
-  loading = false;
+  loading = true;
+  decoded = jwt_decode(localStorage.getItem('token'));
   events = [];
+  error;
   event;
   id;
+  status = {
+    member: false,
+    nonMember: false
+  }
   date = {
     startOn: new Date(Date.now()).toISOString().split('T')[0],
     endOn: new Date(Date.now()).toISOString().split('T')[0]
@@ -26,6 +33,7 @@ export class EventsComponent implements OnInit {
   editEvent: Boolean = false;
   getEventError = '';
   constructor(
+    private roleChecker: CheckRoleService,
     public apiService: PostService,
     public route: ActivatedRoute,
     private router: Router
@@ -38,20 +46,31 @@ export class EventsComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.getEvent();
     }
+    this.checkingRole();
   }
 
   getEvents() {
-    this.loading = true;
+    // this.loading = true;
     let id = +this.route.snapshot.params.id;
     this.apiService.eventGet(`/events`)
       .subscribe(res => {
-        this.loading = false;
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000)
         this.events = res['hydra:member'];
         for (let e of this.events) {
           e['id'] = e['@id'];
-          e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://trivesg.com/events/${this.getNumberOfString(e.id)}/registration.png`;
+          let decoded = jwt_decode(localStorage.getItem('token'));
+          this.apiService.G_OrgByUuid(decoded.org)
+            .subscribe(res => {
+              for (let org of res['hydra:member']) {
+                e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/events/${this.getNumberOfString(e.id)}/registration.png`;
+              }
+              console.log(res)
+            })
+          // this.getCountAttendee(e['@id'].split('/')[2]);
         }
-
+        console.log(this.events)
       }, error => {
         if (error.status === 404) {
           this.getEventError = 'Event not found.!!!';
@@ -86,7 +105,14 @@ export class EventsComponent implements OnInit {
         this.loading = false;
         this.event = res;
         this.event['id'] = this.event['@id'];
-        this.event['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://trivesg.com/events/${this.getNumberOfString(this.event['id'])}/registration.png`;
+        let decoded = jwt_decode(localStorage.getItem('token'));
+        this.apiService.G_OrgByUuid(decoded.org)
+          .subscribe(res => {
+            for (let org of res['hydra:member']) {
+              this.event['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/events/${this.getNumberOfString(this.event['id'])}/registration.png`;
+            }
+            console.log(res)
+          })
       }, error => {
         if (error.status === 404) {
           this.getEventError = 'Event not found.!!!';
@@ -104,7 +130,10 @@ export class EventsComponent implements OnInit {
       });
   }
   toEvent(id) {
-    this.router.navigate([`dashboard/events/${this.getNumberOfString(id)}`])
+    this.router.navigate([`events/${this.getNumberOfString(id)}`])
+  }
+  toEventRegistration(id) {
+    this.router.navigate([`events/${this.getNumberOfString(id)}/registration`])
   }
   submitEvent(form) {
     this.loading = true;
@@ -128,7 +157,7 @@ export class EventsComponent implements OnInit {
       this.apiService.eventPut(formEvent, this.id)
         .subscribe(res => {
           setTimeout(() => {
-           
+
             this.finished();
           }, 1000)
         })
@@ -166,7 +195,7 @@ export class EventsComponent implements OnInit {
       date: this.date
     }
   }
-  clean(){
+  clean() {
     this.date = {
       startOn: new Date(Date.now()).toISOString().split('T')[0],
       endOn: new Date(Date.now()).toISOString().split('T')[0]
@@ -176,6 +205,24 @@ export class EventsComponent implements OnInit {
       title: '',
       subTitle: '',
       date: this.date
+    }
+  }
+  getCountAttendee(id) {
+    this.apiService.eventGet(`/attendee?registration.member.Uuid=${id}&[exists]=false`)
+      .subscribe(res => {
+        console.log('attendee', res)
+      })
+  }
+  checkingRole() {
+    if (this.roleChecker.ROLE_EVENT_ADMIN || this.roleChecker.ROLE_ORG_ADMIN) {
+      this.apiService.G_OrgByUuid(this.decoded.org)
+        .subscribe(res => {
+          if (!res['hydra:member'][0].eventEnabled) {
+            return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+          }
+        })
+    } else {
+      return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
     }
   }
 }

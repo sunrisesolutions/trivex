@@ -21,9 +21,11 @@
           <div *ngIf="member.data" class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
-                <div class="col-auto">
+                <div class="col-auto d-flex flex-column">
                   <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
+                  <small *ngIf="member.alternateName" class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
+
                 </div>
                 <div class="col text-muted">
                   <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info">

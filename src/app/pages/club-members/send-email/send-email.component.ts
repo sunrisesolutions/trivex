@@ -33,7 +33,7 @@ export class SendEmailComponent implements OnInit {
     const id = +this.routes.snapshot.paramMap.get('id');
     this.service.getRootID(id).subscribe(res => {
       let getInfo = res;
-      this.loading = false;
+
       this.member = getInfo;
       for (let m of [this.member]) {
         this.service.getPersonByUuid(m.personData.uuid)
@@ -42,17 +42,25 @@ export class SendEmailComponent implements OnInit {
             m['person'] = res['hydra:member'][0];
             let yearMember = m['person']['birthDate'].split('T')[0].split('-')[0];
             m['person']['yearOld'] = nowYear - yearMember;
+            m['person']['alternateName'] = m['person']['alternateName']
+          })
+        if (m['profilePicture']) {
+          this.httpClient.get(m['profilePicture'])
+            .subscribe(res => {
 
-          })
-        this.httpClient.get(m['profilePicture'])
-          .subscribe(res => {
-          }, error => {
-            if (error.status === 404) {
-              m['profilePicture'] = '/assets/img-process/Not-found-img.gif'
-            }
-          })
+            }, err => {
+              if (err.status === 404) {
+                m['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+              }
+            })
+        } else {
+          m['profilePicture'] = 'assets/img-process/Not-found-img.gif';
+        }
       }
+      setTimeout(() => {
+        this.loading = false;
 
+      }, 2000)
       console.log(this.member)
     });
   }

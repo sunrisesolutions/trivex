@@ -1,17 +1,17 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {PostService} from 'src/app/services/post.service';
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {SwPush} from '@angular/service-worker';
-import {PushNotificationService} from 'src/app/services/post-notif.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Delivery} from 'src/app/models/Deliveries';
-import {Route} from '@angular/compiler/src/core';
-import {Location} from '@angular/common';
-import {DeviceDetectorService} from 'ngx-device-detector';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PostService } from 'src/app/services/post.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
+import { PushNotificationService } from 'src/app/services/post-notif.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Delivery } from 'src/app/models/Deliveries';
+import { Route } from '@angular/compiler/src/core';
+import { Location } from '@angular/common';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
-import {CheckRoleService} from 'src/app/services/check-role.service';
-import {ResourceParent} from '../../models/ResourceParent';
+import { CheckRoleService } from 'src/app/services/check-role.service';
+import { ResourceParent } from '../../models/ResourceParent';
 
 declare interface RouteInfo {
   path: string;
@@ -84,7 +84,13 @@ export class SidebarComponent implements OnInit {
     icon: 'ni-email-83 text-black',
     class: ''
   };
-  haveRole = {
+  manageEvents = {
+    path: '/events',
+    title: 'Manage Events',
+    icon: 'ni-email-83 text-black',
+    class: ''
+  };
+  haveRolePostAnnouncement = {
     path: '/post-announcement',
     title: 'Post an announcement',
     icon: 'ni-bell-55 text-yellow',
@@ -165,13 +171,24 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000);
     this.getInfoUser();
-    if (!this.checkingRole(true)) {
+    /* if (!this.checkingRole(true)) {
       this.routes.push(this.freeOnMessage);
-    }
+    } */
     if (this.checkingRole()) {
-      this.routes.push(this.haveRole);
+      let decoded = jwt_decode(localStorage.getItem('token'))
+      this.service.G_OrgByUuid(decoded.org)
+        .subscribe(res => {
+          if (res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_EVENT_ADMIN || res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_ORG_ADMIN) {
+            this.routes.push(this.manageEvents); /* Menu event */
+          }
+          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
+            this.routes.push(this.haveRoleRecentAnnoucement);
+          }
+          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_USER) {
+            this.routes.push(this.haveRolePostAnnouncement);
+          }
+        })
       this.routes.push(this.haveRoleAnnouncementApproval);
-      this.routes.push(this.haveRoleRecentAnnoucement);
     }
   }
 
@@ -200,10 +217,17 @@ export class SidebarComponent implements OnInit {
   /* /.Device detector */
 
   checkingRole(adminOnly = false): boolean {
+    let decoded = jwt_decode(localStorage.getItem('token'))
+    this.service.G_OrgByUuid(decoded.org)
+      .subscribe(res => {
+        if (res['hydra:member'][0].freeonMessagingEnabled) {
+          this.routes.push(this.freeOnMessage);
+        }
+      })
     if (this.roleChecker.ROLE_MSG_ADMIN) {
       return true;
     } else if (this.roleChecker.ROLE_MSG_USER) {
-      return true && !adminOnly;
+      return true;
     } else if (this.roleChecker.ROLE_ORG_ADMIN) {
       return true;
     } else {
@@ -219,7 +243,7 @@ export class SidebarComponent implements OnInit {
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
       // this.delivery = delivery;
     }
     const d = new Date();
@@ -269,7 +293,7 @@ export class SidebarComponent implements OnInit {
         this.deliveries = res['hydra:member'];
         for (const delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {

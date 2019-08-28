@@ -16,6 +16,7 @@ import { CheckRoleService } from "src/app/services/check-role.service";
 })
 export class PostAnnouncementComponent implements OnInit {
   idOptionSet;
+  decoded = jwt_decode(localStorage.getItem('token'))
   dropdownOptions = [
     'option-1',
     'option-2',
@@ -64,10 +65,10 @@ export class PostAnnouncementComponent implements OnInit {
 
   ngOnInit() {
     this.getOptionSets();
-
+    this.checkingRole();
   }
 
-  roleChecking(): boolean{
+  /* roleChecking(): boolean{
     if(this.roleChecker.ROLE_MSG_ADMIN){
       return true;
     }else if(this.roleChecker.ROLE_MSG_USER){
@@ -76,13 +77,21 @@ export class PostAnnouncementComponent implements OnInit {
       return true;
     }else {
       this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
-      setTimeout(()=>{
-        this.router.navigate(['/club-members'])
-      }, 3000)
       return false;
     }
+  } */
+  checkingRole() {
+    if (this.roleChecker.ROLE_ADMIN || this.roleChecker.ROLE_MSG_ADMIN || this.roleChecker.ROLE_MSG_USER) {
+      this.service.G_OrgByUuid(this.decoded.org)
+        .subscribe(res => {
+          if (!res['hydra:member'][0].adminAnnouncementEnabled ) {
+            return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+          }
+        })
+    } else {
+      return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+    }
   }
-
   getOptionSets() {
     this.service.optionSetsGet('')
       .subscribe(res => {

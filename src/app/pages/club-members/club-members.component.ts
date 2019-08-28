@@ -73,7 +73,9 @@ export class ClubMembersComponent implements OnInit {
     } else {
       return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
         console.log(res)
-        this.loadingSearch = true;
+        setTimeout(() => {
+          this.loadingSearch = true;
+        },2000)
         this.currentPage++;
         this.dec = this.decoded.im;
         this.members = this.members.concat(res['hydra:member']);

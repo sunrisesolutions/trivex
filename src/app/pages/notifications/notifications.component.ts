@@ -1,13 +1,14 @@
-import {Delivery} from './../../models/Deliveries';
-import {Component, Input, OnInit} from '@angular/core';
-import {PostService} from 'src/app/services/post.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Delivery } from './../../models/Deliveries';
+import { Component, Input, OnInit } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs-compat/add/operator/do';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import {ResourceParent} from '../../models/ResourceParent';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Message} from '../../models/Message';
+import { ResourceParent } from '../../models/ResourceParent';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from '../../models/Message';
+import { CheckRoleService } from 'src/app/services/check-role.service';
 
 @Component({
   selector: 'app-notifications',
@@ -20,6 +21,7 @@ export class NotificationsComponent implements OnInit {
 
   id;
   listMessageOptions = [];
+  loading: boolean = true;
   config = {
     displayKey: 'name',
     search: true,
@@ -41,6 +43,7 @@ export class NotificationsComponent implements OnInit {
   messagesID = '';
   currentPage = 1;
   scrollCallback;
+  error;
   optionsVoted = [];
   countMess;
   queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
@@ -49,6 +52,7 @@ export class NotificationsComponent implements OnInit {
   status: string = null;
 
   constructor(
+    private roleChecker: CheckRoleService,
     public httpClient: HttpClient,
     private service: PostService, private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -101,6 +105,7 @@ export class NotificationsComponent implements OnInit {
 
       this.initialise();
     });
+    this.checkingRole();
   }
 
   getDelivery() {
@@ -115,10 +120,13 @@ export class NotificationsComponent implements OnInit {
       .do(res => {
         this.currentPage++;
         this.deliveries = this.deliveries.concat(res['hydra:member']);
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
         // console.log(res)
         for (let delivery of this.deliveries) {
           delivery.name = 'Loading...';
-          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {
@@ -173,7 +181,7 @@ export class NotificationsComponent implements OnInit {
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
       // this.delivery = delivery;
     }
     let d = new Date();
@@ -291,5 +299,17 @@ export class NotificationsComponent implements OnInit {
 
   parseInt(number) {
     return Number.parseInt(number);
+  }
+  checkingRole() {
+    if (this.roleChecker.ROLE_ADMIN || this.roleChecker.ROLE_MSG_ADMIN) {
+      this.service.G_OrgByUuid(this.decoded.org)
+        .subscribe(res => {
+          if (!res['hydra:member'][0].adminAnnouncementEnabled ) {
+            return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+          }
+        })
+    } else {
+      return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+    }
   }
 }

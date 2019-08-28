@@ -137,6 +137,9 @@ export class NavbarComponent implements OnInit {
             this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
           }
         }
+        for(let m in this.members){
+          console.log('m navbar', m['personData'])
+        }
       })
     /*  this.service.getRootID(localStorage.getItem('im_id').match(/\d+/g).map(Number)).subscribe(res => {
        this.members = res;
@@ -176,7 +179,7 @@ export class NavbarComponent implements OnInit {
         this.deliveries = res['hydra:member'];
         for (let delivery of this.deliveries) {
           delivery.name = 'Waiting...';
-          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
           if (delivery['message'].senderUuid !== undefined) {
             this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
               .subscribe(response => {

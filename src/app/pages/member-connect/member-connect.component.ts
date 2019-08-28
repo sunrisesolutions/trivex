@@ -61,7 +61,7 @@ export class MemberConnectComponent implements OnInit {
           if (res['hydra:member']) {
             this.members = this.members.concat(res['hydra:member']);
             for (let data of this.members) {
-              // data['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+              // data['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
               // console.log('2', data);
               data['fromId'] = (data['fromMember']['@id']);
               data['toId'] = (data['toMember']['@id']);
@@ -113,7 +113,8 @@ export class MemberConnectComponent implements OnInit {
     // console.log('processing data ', mainData, this.members)
 
     for (let data of members) {
-      // data['profilePicture'] = ' /assets/img-process/giphy-loading.gifgif';
+
+      // data['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
       // console.log('2', data);
       data['fromId'] = (data['fromMember']['@id']);
       data['toId'] = (data['toMember']['@id']);
@@ -123,6 +124,11 @@ export class MemberConnectComponent implements OnInit {
       }
       if (data['fromId'] === im_id) {
         data['data'] = data['personData']['to'];
+        this.service.getPersonByUuid(data['data'].uuid)
+          .subscribe(res => {
+            data['alternateName'] = res['hydra:member'][0].alternateName;
+            data['person'] = res['hydra:member'][0];
+          })
         this.service.getRootByFullID(data['toMember']['@id'])
           .subscribe(res => {
             data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
@@ -141,6 +147,11 @@ export class MemberConnectComponent implements OnInit {
         data['route'] = `${data['toId']}`;
       } else if (data['toId'] === im_id) {
         data['data'] = data['personData']['from'];
+        this.service.getPersonByUuid(data['data'].uuid)
+          .subscribe(res => {
+            data['alternateName'] = res['hydra:member'][0].alternateName;
+            data['person'] = res['hydra:member'][0];
+          })
         data['route'] = data['toId'];
       }
       // console.log('echoing member', data, im_id);

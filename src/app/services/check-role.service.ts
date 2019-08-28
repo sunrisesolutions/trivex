@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as jwt_decoded from 'jwt-decode';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ export class CheckRoleService {
   ROLE_MSG_USER = false;
   ROLE_MSG_ADMIN = false;
   ROLE_ORG_ADMIN = false;
+  ROLE_ADMIN = false;
+  ROLE_USER = false;
 
   constructor(public router: Router) {
     this.checkRole();
@@ -24,13 +26,19 @@ export class CheckRoleService {
         this.ROLE_ORG_ADMIN = true;
       }
       if (roles.indexOf('ROLE_MSG_USER') > -1) {
-         this.ROLE_MSG_USER = true;
+        this.ROLE_MSG_USER = true;
       }
       if (roles.indexOf('ROLE_MSG_ADMIN') > -1) {
-         this.ROLE_MSG_ADMIN = true;
+        this.ROLE_MSG_ADMIN = true;
       }
       if (roles.indexOf('ROLE_EVENT_ADMIN') > -1) {
-         this.ROLE_EVENT_ADMIN = true;
+        this.ROLE_EVENT_ADMIN = true;
+      }
+      if (roles.indexOf('ROLE_ADMIN') > -1) {
+        this.ROLE_ADMIN = true;
+      }
+      if (roles.indexOf('ROLE_USER') > -1) {
+        this.ROLE_USER = true;
       }
     }
   }
