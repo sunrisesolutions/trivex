@@ -52,25 +52,26 @@ export class DashboardComponent implements OnInit {
 
   checkingRole() {
 
-    if (this.roleChecker.ROLE_EVENT_ADMIN || this.roleChecker.ROLE_ORG_ADMIN) {
+   /*  if (this.roleChecker.ROLE_EVENT_ADMIN || this.roleChecker.ROLE_ORG_ADMIN) {
       this.service.G_OrgByUuid(this.decoded.org)
         .subscribe(res => {
           if (res['hydra:member'][0].eventEnabled) {
             return this.isEvent = true;
           }
         });
-    }
-    // if (this.roleChecker.ROLE_USER) {
+    } */
+    if (this.roleChecker.ROLE_USER) {
       this.isUser = true;
-      this.service.getMessage(1, '')
+      this.service.getTotalDelivery()
         .subscribe(res => {
+          console.log(res)
           if (res['hydra:totalItems'] > 0) {
             this.isMessage = true;
           } else {
             this.isQrCode = true;
           }
         });
-    // }
+    }
   }
 
 

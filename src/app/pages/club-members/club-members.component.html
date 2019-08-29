@@ -1,5 +1,10 @@
-<div style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
-  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
+<div
+  style="min-height: 400px; background-image: url(/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;"
+  class="header bg-gradient-danger py-7 pt-md-8 ">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!--  -->
+  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-6">
     <div class="form-group mb-0">
       <div class="input-group input-group-alternative">
         <div class="input-group-prepend">
@@ -24,7 +29,8 @@
                 <div class="col-auto d-flex flex-column">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
-                  <small *ngIf="member.alternateName" class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
+                  <small *ngIf="member.alternateName"
+                    class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
                 </div>
                 <div class="col text-muted">
                   <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/info'">
@@ -34,10 +40,10 @@
                   <div>{{member.person?.employerName}}</div><br>
                 </div>
               </div>
-<!--              <p class="mt-2 mb-0 text-sm text-right">-->
-<!--                <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'"-->
-<!--                  class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>-->
-<!--              </p>-->
+              <!--              <p class="mt-2 mb-0 text-sm text-right">-->
+              <!--                <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'"-->
+              <!--                  class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>-->
+              <!--              </p>-->
             </div>
           </div>
         </div>

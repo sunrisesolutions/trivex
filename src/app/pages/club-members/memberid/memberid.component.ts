@@ -102,6 +102,7 @@ export class MemberidComponent implements OnInit {
       }
     }, error => {
       if (error.status === 404) {
+        this.loading = false;
         this.notFoundMember = 'Member Not Found.!!!';
       }
     });

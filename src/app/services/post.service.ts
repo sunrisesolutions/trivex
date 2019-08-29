@@ -238,7 +238,15 @@ export class PostService {
     // console.log('returning observable');
     return observable;
   }
-
+  getTotalDelivery(){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.messageAPI}/deliveries`, httpOptions);
+  }
   readDelivery(read, delivery): Observable<Object> {
     const id = delivery['@id'];
     const httpOptions = {

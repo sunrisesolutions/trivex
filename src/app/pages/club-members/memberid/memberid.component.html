@@ -2,7 +2,7 @@
      style="min-height: 400px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
-  <div *ngIf="loading" class="container text-center">
+  <div *ngIf="loading && !notFoundMember" class="container text-center">
     <img height="150px" src="/assets/img-process/loading.gif" alt="">
   </div>
   <!-- Header container -->
@@ -40,9 +40,9 @@
                 </a>
               </span>
               <!-- <small class="badge bg-success text-light">{{members?.alternateName}}</small> -->
-              <div #name hidden="true" class="form-group mt-2"> hey
+              <div #name hidden="true" class="form-group mt-2">
                 <div class="d-flex">
-                  <div class="form-group mt-2">
+                  <div class="form-group">
                     <label for="">Given Name</label>
                     <input class="form-control" [(ngModel)]="formEdit.givenName" type="text">
                   </div>
@@ -50,7 +50,7 @@
                     <label for="">Family Name</label>
                     <input class="form-control" [(ngModel)]="formEdit.familyName" type="text">
                   </div>
-                  <div class="d-flex align-items-center mt-1">
+                  <div class="d-flex align-items-center mt-4">
                     <a (click)="editInfo(formEdit, name, members?.person['@id'])"
                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                   </div>
@@ -129,10 +129,10 @@
                   <div class="from-group mt-12">
                     <label class="font-weight-bold">Group</label>
                     <div *ngIf="groupName.hidden"
-                         [ngClass]="{'none-data': !members.person?.interestGroups}">
+                         [ngClass]="{'none-data': !members?.groupName}">
                       {{ (members.groupName) ? members.groupName : (id == imId) ? 'Tap to update' : 'Data not avaiable'}}
                       <a *ngIf="id == imId"
-                         (click)="groupName.hidden=!groupName.hidden;formEdit.groupName=members.groupName?.groupName"
+                         (click)="groupName.hidden=!groupName.hidden;formEdit.groupName=members?.groupName"
                          class="icon fas fa-edit">
                       </a>
                     </div>
@@ -156,7 +156,7 @@
                   <div class="from-group">
                     <label class="font-weight-bold">Life Style</label>
                     <div *ngIf="lifeStyle.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.interestGroups}">
+                         [ngClass]="{'none-data': !members.person?.lifeStyle}">
                       {{ (members.person?.lifeStyle) ? members.person?.lifeStyle : (id == imId) ? 'Tap to update' : 'Data not avaiable'}}
                       <a *ngIf="id == imId"
                          (click)="lifeStyle.hidden=!lifeStyle.hidden;formEdit.lifeStyle=members.person?.lifeStyle"
@@ -211,9 +211,9 @@
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Email</div>
 
-                    <div *ngIf="email.hidden" class="mt-12" [ngClass]="{'none-data': !members.email?.email}">
-                      {{ (members.email?.email) ? members.email?.email : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
-                      <a *ngIf="id == imId" (click)="email.hidden=!email.hidden;formEdit.email=members.email?.email"
+                    <div *ngIf="email.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.email}">
+                      {{ (members.person?.email) ? members.person?.email : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
+                      <a *ngIf="id == imId" (click)="email.hidden=!email.hidden;formEdit.email=members.person?.email"
                          class="icon fas fa-edit">
                       </a>
                     </div>
@@ -234,7 +234,7 @@
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Job</div>
                     <div *ngIf="jobTitle.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.interestGroups}">
+                         [ngClass]="{'none-data': !members.person?.jobTitle}">
                       {{ (members.person?.jobTitle) ? members.person?.jobTitle : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId"
                          (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.person?.jobTitle"
@@ -259,7 +259,7 @@
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Job Industry</div>
                     <div *ngIf="jobIndustry.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.interestGroups}">
+                         [ngClass]="{'none-data': !members.person?.jobIndustry}">
                       {{ (members.person?.jobIndustry) ? members.person?.jobIndustry : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId"
                          (click)="jobIndustry.hidden=!jobIndustry.hidden;formEdit.jobIndustry=members.person?.jobIndustry"
@@ -315,7 +315,7 @@
                 <div class="mt-2 mt-md-0">
                   <div class="font-weight-bold">Alternate Employer Name</div>
                   <div *ngIf="employer.hidden" class="mt-12"
-                       [ngClass]="{'none-data': !members.person?.interestGroups}">
+                       [ngClass]="{'none-data': !members.person?.alternateEmployerName}">
                     <div class="d-inline-block w-60 text-truncate">
                       {{ (members.person?.alternateEmployerName) ? members.person?.alternateEmployerName : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                     </div>
@@ -343,7 +343,7 @@
                 <!-- Phone -->
                 <div class="mt-2 mt-md-0">
                   <div class="font-weight-bold">Phone Number</div>
-                  <div *ngIf="phone.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.interestGroups}">
+                  <div *ngIf="phone.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.phoneNumber}">
                     {{ (members.person?.phoneNumber) ? members.person?.phoneNumber : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                     <a *ngIf="id == imId"
                        (click)="phone.hidden=!phone.hidden;formEdit.phone=members.person?.phoneNumber"
