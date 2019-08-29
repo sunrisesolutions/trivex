@@ -70,11 +70,14 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                <input #dobi class="form-control p-2 datepicker" placeholder="Date of Birth" name="dob"
-                  [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (focus)="notEnoughOld=''"
-                  [maxDate]="{ year: date.year-15, month: 12, day: 31 }"
-                  [minDate]="{ year: date.year-80, month: 01, day: 01 }" [startDate]="{ year: date.year-21, month: 01 }"
-                  (click)="d.toggle()" type="text" />
+                <input #dobi class="form-control p-2" type="date" placeholder="Date of Birth" name="dob"
+                       [(ngModel)]="dob"
+                />
+<!--                <input #dobi class="form-control p-2" type="date" placeholder="Date of Birth" name="dob"-->
+<!--                  [(ngModel)]="dob" -->
+<!--                  [maxDate]="{ year: date.year-15, month: 12, day: 31 }"-->
+<!--                  [minDate]="{ year: date.year-80, month: 01, day: 01 }" [startDate]="{ year: date.year-21, month: 01 }"-->
+<!--                  (click)="d.toggle()" type="text" />-->
               </div>
             </div>
           </form>

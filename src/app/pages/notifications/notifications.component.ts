@@ -301,7 +301,7 @@ export class NotificationsComponent implements OnInit {
     return Number.parseInt(number);
   }
   checkingRole() {
-    if (this.roleChecker.ROLE_ADMIN || this.roleChecker.ROLE_MSG_ADMIN) {
+    if (this.roleChecker.ROLE_ORG_ADMIN || this.roleChecker.ROLE_MSG_ADMIN) {
       this.service.G_OrgByUuid(this.decoded.org)
         .subscribe(res => {
           if (!res['hydra:member'][0].adminAnnouncementEnabled ) {

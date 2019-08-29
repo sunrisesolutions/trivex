@@ -81,15 +81,15 @@ export class PostAnnouncementComponent implements OnInit {
     }
   } */
   checkingRole() {
-    if (this.roleChecker.ROLE_ADMIN || this.roleChecker.ROLE_MSG_ADMIN || this.roleChecker.ROLE_MSG_USER) {
+    if (this.roleChecker.ROLE_ORG_ADMIN || this.roleChecker.ROLE_MSG_ADMIN || this.roleChecker.ROLE_MSG_USER) {
       this.service.G_OrgByUuid(this.decoded.org)
         .subscribe(res => {
           if (!res['hydra:member'][0].adminAnnouncementEnabled ) {
-            return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+            return this.error = 'You are not allowed to access this page. Please contact admin.!!!';
           }
         })
     } else {
-      return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+      return this.error = 'You are not allowed to access this page. Please contact admin.!!!';
     }
   }
   getOptionSets() {

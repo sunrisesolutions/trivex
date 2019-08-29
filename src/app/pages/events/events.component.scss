@@ -1,57 +1,65 @@
-.text-light{
-    color: white !important;
+.text-light {
+  color: white !important;
 }
 
-.title-page{
-    animation-name: title;
-    animation-duration: 2500ms;
-    @keyframes title{
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to{
-            opacity: 1;
-            transform: translateX(0px);
-
-        }
+.title-page {
+  animation-name: title;
+  animation-duration: 2500ms;
+  @keyframes title {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
     }
-}
+    to {
+      opacity: 1;
+      transform: translateX(0px);
 
-.animation-fade{
-    animation-name: fade;
-    animation-duration: 2500ms;
-    @keyframes fade{
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to{
-            opacity: 1;
-            transform: translateX(0px);
-
-        }
     }
+  }
 }
 
-.cursor-pointer{
-    cursor: pointer !important;
+.animation-fade {
+  animation-name: fade;
+  animation-duration: 2500ms;
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+
+    }
+  }
 }
 
-.qr-image{
-    height: 150px;
+.card-body {
+  padding: 0px;
 }
-.sticky-create{
-    position: fixed !important;
-    bottom: 15px;
-    opacity:  0.3;
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
-.sticky-create:hover{
-    opacity:  1;
+
+.qr-image {
+  width: 100%;
 }
-.icon-hover{
-    opacity: 0.3;
+
+.sticky-create {
+  position: fixed !important;
+  bottom: 15px;
+  opacity: 0.3;
 }
-.icon-hover:hover{
-    opacity: 1;
+
+.sticky-create:hover {
+  opacity: 1;
+}
+
+.icon-hover {
+  opacity: 0.3;
+}
+
+.icon-hover:hover {
+  opacity: 1;
 }

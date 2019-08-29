@@ -1,9 +1,9 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {Router} from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
-import { CheckRoleService } from '../../services/check-role.service';
+import {CheckRoleService} from '../../services/check-role.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,12 +13,13 @@ import { CheckRoleService } from '../../services/check-role.service';
 export class DashboardComponent implements OnInit {
   access_token;
   qrLink;
-  isAdmin: boolean = false;
+  isEvent: boolean = false;
   isMessage: boolean = false;
   isQrCode: boolean = false;
   isUser: boolean = false;
 
-  decoded = jwt_decode(localStorage.getItem('token'))
+  decoded = jwt_decode(localStorage.getItem('token'));
+
   constructor(
     private router: Router,
     private service: PostService,
@@ -55,22 +56,22 @@ export class DashboardComponent implements OnInit {
       this.service.G_OrgByUuid(this.decoded.org)
         .subscribe(res => {
           if (res['hydra:member'][0].eventEnabled) {
-            return this.isAdmin = true;
+            return this.isEvent = true;
           }
-        })
-    } else {
-      if (this.roleChecker.ROLE_USER) {
-        this.isUser = true;
-        this.service.getMessage(1, '')
-          .subscribe(res => {
-            if (res['hydra:totalItems'] > 0) {
-              this.isMessage = true;
-            } else {
-              this.isQrCode = true;
-            }
-          })
-      }
+        });
     }
-
+    // if (this.roleChecker.ROLE_USER) {
+      this.isUser = true;
+      this.service.getMessage(1, '')
+        .subscribe(res => {
+          if (res['hydra:totalItems'] > 0) {
+            this.isMessage = true;
+          } else {
+            this.isQrCode = true;
+          }
+        });
+    // }
   }
+
+
 }

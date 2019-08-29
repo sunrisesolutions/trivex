@@ -87,7 +87,7 @@ export class SidebarComponent implements OnInit {
   manageEvents = {
     path: '/events',
     title: 'Manage Events',
-    icon: 'ni-email-83 text-black',
+    icon: 'ni-calendar-grid-58 text-black',
     class: ''
   };
   haveRolePostAnnouncement = {
@@ -178,14 +178,14 @@ export class SidebarComponent implements OnInit {
       let decoded = jwt_decode(localStorage.getItem('token'))
       this.service.G_OrgByUuid(decoded.org)
         .subscribe(res => {
-          if (res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_EVENT_ADMIN || res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_ORG_ADMIN) {
-            this.routes.push(this.manageEvents); /* Menu event */
-          }
-          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
+          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ORG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
             this.routes.push(this.haveRoleRecentAnnoucement);
           }
-          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_USER) {
+          if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ORG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_USER) {
             this.routes.push(this.haveRolePostAnnouncement);
+          }
+          if (res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_EVENT_ADMIN || res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_ORG_ADMIN) {
+            this.routes.push(this.manageEvents); /* Menu event */
           }
         })
       this.routes.push(this.haveRoleAnnouncementApproval);
@@ -346,6 +346,11 @@ export class SidebarComponent implements OnInit {
   toQrCode() {
     this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/qr-code`]);
   }
+
+  toQrScanner() {
+    this.router.navigate([`/qr-scanner`]);
+  }
+
 
   logout() {
     location.reload();
