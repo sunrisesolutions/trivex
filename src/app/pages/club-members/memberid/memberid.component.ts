@@ -29,6 +29,7 @@ export class MemberidComponent implements OnInit {
   id: number;
   formEdit = {
     name: '',
+    groupName: '',
     employerName: '',
     givenName: '',
     familyName: '',
@@ -189,6 +190,7 @@ export class MemberidComponent implements OnInit {
   clean() {
     this.formEdit = {
       name: '',
+      groupName: '',
       employerName: '',
       givenName: '',
       familyName: '',

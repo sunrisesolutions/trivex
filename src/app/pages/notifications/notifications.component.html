@@ -9,7 +9,7 @@
     </div> -->
   </div>
   <div *ngIf="!loading" class="">
-    <div *ngIf="title == 'Recent Announcements' " class="container mb-3 w-md-50">
+    <div *ngIf="title == 'Recent Announcements' " class="container mb-2 w-md-50">
       <h2 class="text-white-no-longer">{{title}}</h2>
       <!--    <div class="card py-3">-->
       <!--      <div class="card-content container">-->
@@ -27,7 +27,7 @@
     </div>
     <!--   (click)="open(content,delivery);delivery2=delivery;"  -->
 
-    <div *ngFor="let delivery of deliveries;let i = index;let c = count;" class="container mb-3 w-md-50">
+    <div *ngFor="let delivery of deliveries;let i = index;let c = count;" class="container mb-2 w-md-50">
       <div *ngIf="incomingOnly" routerLink="/club-members/notifications/deliveries/{{delivery.id}}">
         <!-- Modal Deliveries -->
         <ng-template #content let-modal>
@@ -139,11 +139,11 @@
           </div>
         </ng-template>
         <!-- /.Modal Deliveries -->
-        <div class="card py-3 cursor {{ delivery.readAt ? 'unread' : 'readed'  }}">
+        <div class="card cursor {{ delivery.readAt ? 'unread' : 'readed'  }}">
           <div class="card-content container">
             <div class="row">
               <div class="col-3 d-flex justify-content-center col-md-2">
-                <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px;height:80px"
+                <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px;height:80px; align-self: center;"
                   [src]="delivery.profilePicture" />
               </div>
               <div class="col-9 col-md-8 pl-mobile-custom text-left">
@@ -175,7 +175,7 @@
       </div>
       <div *ngIf="!incomingOnly" routerLink="/club-members/notifications/deliveries/{{delivery.id}}">
         <!--       -->
-        <div class="card py-3 read">
+        <div class="card read">
           <div class="card-content container">
             <div class="row">
               <div class="col-12 col-md-8 pl-mobile-custom">
