@@ -338,13 +338,15 @@ export class SidebarComponent implements OnInit {
 
   }
 
+  // ${localStorage.getItem('im_id').match(/\d+/g).map(Number)}
+
   toInfo() {
-    this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/info`]);
+    this.router.navigate([`/club-members/${this.member.id}/info`]);
 
   }
 
   toQrCode() {
-    this.router.navigate([`/club-members/${localStorage.getItem('im_id').match(/\d+/g).map(Number)}/qr-code`]);
+    this.router.navigate([`/club-members/${this.member.id}/qr-code`]);
   }
 
   toQrScanner() {
