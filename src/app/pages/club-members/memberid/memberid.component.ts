@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, EventEmitter } from "@angular/core";
-import { PostService } from "src/app/services/post.service";
-import * as jwt_decode from "jwt-decode";
-import { getRootComponents } from "@angular/core/src/render3/discovery_utils";
-import { HttpParams, HttpHeaders } from "@angular/common/http";
-import { Router, ActivatedRoute } from "@angular/router";
-import { HttpClient } from '@angular/common/http';
+import {Component, OnInit, Input, EventEmitter} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import * as jwt_decode from 'jwt-decode';
+import {getRootComponents} from '@angular/core/src/render3/discovery_utils';
+import {HttpParams, HttpHeaders} from '@angular/common/http';
+import {Router, ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+
 @Component({
-  selector: "info",
-  templateUrl: "./memberid.component.html",
-  styleUrls: ["./memberid.component.scss"]
+  selector: 'info',
+  templateUrl: './memberid.component.html',
+  styleUrls: ['./memberid.component.scss']
 })
 export class MemberidComponent implements OnInit {
   constructor(
@@ -19,12 +20,13 @@ export class MemberidComponent implements OnInit {
   ) {
     this.routes.params.subscribe(val => {
       this.getRootId();
-    })
+    });
   }
+
   notFoundMember;
   file;
   loading: boolean = true;
-  id;
+  id: number;
   formEdit = {
     name: '',
     employerName: '',
@@ -40,44 +42,51 @@ export class MemberidComponent implements OnInit {
     lifeStyle: '',
     mobileNumber: '',
 
-  }
-  imId;
-  snapID
+  };
+  imId:number;
+  imUuid;
+  snapID;
   members: Object = {
     personData: {
       name: ''
     }
-  }
+  };
   tokenRes = false;
   cToken;
   member;
+
   ngOnInit() {
     this.getRootId();
 
-    this.cToken = localStorage.getItem("token");
-    if (this.cToken == localStorage.getItem("token")) {
+    this.cToken = localStorage.getItem('token');
+    if (this.cToken == localStorage.getItem('token')) {
       this.tokenRes = true;
     }
-
-
+    const decoded = jwt_decode(this.cToken);
+    this.imUuid = decoded.im;
   }
+
   getRootId() {
     this.snapID = this.routes.snapshot.params.id;
     this.id = this.snapID;
-    this.imId = localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
+    // localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
+
     this.members['profilePicture'] = '/assets/img-process/giphy-loading.gif';
     this.service.getRootID(this.snapID).subscribe(res => {
       this.members = res;
+      // this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
+      if (res['uuid'] === this.imUuid) {
+        this.imId = parseInt(this.members['id'],10);
+      }
 
-      this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
       this.service.getPersonByUuid(this.members['personData'].uuid)
         .subscribe(res => {
           this.members['alternateName'] = res['hydra:member'][0].alternateName;
           this.members['person'] = res['hydra:member'][0];
           setTimeout(() => {
             this.loading = false;
-          },1000)
-        })
+          }, 1000);
+        });
       console.log(this.members);
       if (this.members['profilePicture']) {
         this.http.get(this.members['profilePicture'])
@@ -86,7 +95,7 @@ export class MemberidComponent implements OnInit {
             if (error.status === 404) {
               this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
             }
-          })
+          });
       } else {
         this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
       }
@@ -100,7 +109,7 @@ export class MemberidComponent implements OnInit {
   uploadProfilePicture(event: Event, urlUpload) {
     const snapID = this.routes.snapshot.params.id;
     if (snapID == localStorage.getItem('im_id')) {
-      const file = (<HTMLInputElement>document.getElementById("fileUpload")).files[0];
+      const file = (<HTMLInputElement>document.getElementById('fileUpload')).files[0];
       // return console.log(file);
       let attributes = urlUpload['attributes'];
       let inputs = urlUpload['inputs'];
@@ -117,34 +126,35 @@ export class MemberidComponent implements OnInit {
         this.http.post(attributes['action'], formLogoWrite)
           .subscribe(res => {
             let form = {
-              "profilePicture": attributes['action'] + urlUpload['filePath']
-            }
+              'profilePicture': attributes['action'] + urlUpload['filePath']
+            };
             this.service.uploadImage(form, snapID)
               .subscribe(res => {
                 console.log(res);
-              })
-          })
+              });
+          });
       }
     }
   }
 
   editInfo(data, element, id) {
-    if (this.routes.snapshot.params.id === localStorage.getItem('im_id')) {
+    console.log('in memberid.comp');
+    if (this.routes.snapshot.params.id == this.imId) {
       const formEdit = {
-        "familyName": (data.familyName) ? data.familyName : undefined,
-        "givenName": (data.givenName) ? data.givenName : undefined,
-        "email": (data.email) ? data.email : undefined,
-        "phoneNumber": (data.phone) ? data.phone : undefined,
-        "jobTitle": (data.job) ? data.job : undefined,
-        "jobIndustry": (data.jobIndustry) ? data.jobIndustry : undefined,
-        "employerName": (data.employerName) ? data.employerName : undefined,
-        "interestGroups": (data.interestGroups) ? data.interestGroups : undefined,
-        "alternateEmployerName": (data.alternateEmployerName) ? data.alternateEmployerName : undefined,
-        "homeAddress": (data.homeAddress) ? data.homeAddress : undefined,
-        "lifeStyle": (data.lifeStyle) ? data.lifeStyle : undefined,
-        "mobileNumber": (data.mobileNumber) ? data.mobileNumber : undefined,
+        'familyName': (data.familyName) ? data.familyName : undefined,
+        'givenName': (data.givenName) ? data.givenName : undefined,
+        'email': (data.email) ? data.email : undefined,
+        'phoneNumber': (data.phone) ? data.phone : undefined,
+        'jobTitle': (data.job) ? data.job : undefined,
+        'jobIndustry': (data.jobIndustry) ? data.jobIndustry : undefined,
+        'employerName': (data.employerName) ? data.employerName : undefined,
+        'interestGroups': (data.interestGroups) ? data.interestGroups : undefined,
+        'alternateEmployerName': (data.alternateEmployerName) ? data.alternateEmployerName : undefined,
+        'homeAddress': (data.homeAddress) ? data.homeAddress : undefined,
+        'lifeStyle': (data.lifeStyle) ? data.lifeStyle : undefined,
+        'mobileNumber': (data.mobileNumber) ? data.mobileNumber : undefined,
 
-      }
+      };
       this.service.editInfoPerson(`/people/${id.split('/')[2]}`, formEdit)
         .subscribe(res => {
           element.hidden = !element.hidden;
@@ -152,30 +162,31 @@ export class MemberidComponent implements OnInit {
           this.clean();
         }, err => {
           if (err.status === 404) {
-            alert(err.error['hydra:description'])
+            alert(err.error['hydra:description']);
           }
           if (err.status === 400) {
-            alert(err.error['hydra:description'])
+            alert(err.error['hydra:description']);
           }
           if (err.status === 500) {
-            alert(err.error['hydra:description'])
+            alert(err.error['hydra:description']);
           }
-        })
+        });
     }
   }
 
   toClubMem() {
-    this.router.navigate(["club-members"]);
+    this.router.navigate(['club-members']);
   }
+
   injectNumber(s) {
-    return s.substring(s.lastIndexOf("/") + 1);
+    return s.substring(s.lastIndexOf('/') + 1);
   }
 
   goHome() {
     return this.router.navigate(['/dashboard']);
   }
 
-  clean(){
+  clean() {
     this.formEdit = {
       name: '',
       employerName: '',
@@ -190,7 +201,7 @@ export class MemberidComponent implements OnInit {
       homeAddress: '',
       lifeStyle: '',
       mobileNumber: '',
-  
-    }
+
+    };
   }
 }
