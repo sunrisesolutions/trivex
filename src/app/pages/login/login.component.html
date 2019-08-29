@@ -36,26 +36,29 @@
           <form (keyup.enter)="login()" role="form">
             <div *ngIf="invalidLogin" class="alert alert-danger">Invalid</div>
             <div *ngIf="showOrg" class="form-group mb-3">
+              <strong>Organisation Code</strong>
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                  <span class="input-group-text"><i class="ni ni-building"></i></span>
                 </div>
-                <input [(ngModel)]="orgCode" name="orgCode" class="form-control p-2" placeholder="Organisation Code"
+                <input [(ngModel)]="orgCode" name="orgCode" class="form-control p-2" placeholder="my-company, my-club, my-school, ..."
                   type="email" />
               </div>
             </div>
 
             <div class="form-group mb-3">
+              <strong>NRIC/FIN</strong>
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-badge"></i></span>
                 </div>
-                <input [(ngModel)]="idNumber" name="idNumber" class="p-2 form-control" placeholder="NRIC/ID Number"
+                <input [(ngModel)]="idNumber" name="idNumber" class="p-2 form-control" placeholder="N01234567"
                   type="text" />
               </div>
             </div>
 
             <div class="form-group">
+              <strong>Contact Number</strong>
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
@@ -66,6 +69,7 @@
             </div>
 
             <div class="form-group">
+              <strong>Date of Birth</strong>
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
