@@ -215,7 +215,6 @@ export class SidebarComponent implements OnInit {
   }
 
   /* /.Device detector */
-
   checkingRole(adminOnly = false): boolean {
     let decoded = jwt_decode(localStorage.getItem('token'))
     this.service.G_OrgByUuid(decoded.org)
