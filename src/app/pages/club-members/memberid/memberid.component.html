@@ -1,5 +1,4 @@
-<div class="header pb-8 pt-8 pt-md-8 d-flex align-items-center"
-     style="min-height: 500px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: 180px;background-attachment: fixed;">
+<div class="header pb-8 pt-8 pt-md-8 d-flex align-items-center">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div *ngIf="loading && !notFoundMember" class="container text-center">
@@ -14,7 +13,7 @@
             <div class="card-profile-image" style="top:-20pt;">
               <a href="javascript:void(0)" class="mb-2">
                 <img id="img" (click)="id == imId ? upload.click() : goHome()" [src]="members.profilePicture"
-                     class="avatar"/>
+                  class="avatar" />
                 <div *ngIf="members.person?.alternateName" class="d-block d-md-none alternate position-absolute">
                   <div class="badge text-light bg-success">
                     {{members.person?.alternateName}}
@@ -25,7 +24,7 @@
                             $event,
                             members.profilePictureWriteForm
                           )
-                        " #upload class="d-none" type="file"/>
+                        " #upload class="d-none" type="file" />
 
               </a>
             </div>
@@ -33,10 +32,10 @@
             <div *ngIf="members.person?.name" class="ml-10 p-0 d-none d-md-block">
               <span *ngIf="name.hidden" class="font-weight-bold h1">
                 {{ members.person?.name }} <small *ngIf="members.person?.alternateName"
-                                                  class="badge bg-success text-light py-0 text-truncate d-inline">{{members.person?.alternateName}}</small>
+                  class="badge bg-success text-light py-0 text-truncate d-inline">{{members.person?.alternateName}}</small>
                 <a *ngIf="id == imId"
-                   (click)="name.hidden=!name.hidden;formEdit.givenName=members.person?.givenName;formEdit.familyName=members.person?.familyName"
-                   class="icon fas fa-edit">
+                  (click)="name.hidden=!name.hidden;formEdit.givenName=members.person?.givenName;formEdit.familyName=members.person?.familyName"
+                  class="icon fas fa-edit">
                 </a>
               </span>
               <!-- <small class="badge bg-success text-light">{{members?.alternateName}}</small> -->
@@ -52,7 +51,7 @@
                   </div>
                   <div class="d-flex align-items-center mt-4">
                     <a (click)="editInfo(formEdit, name, members?.person['@id'])"
-                       class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                      class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                   </div>
                 </div>
                 <a (click)="name.hidden=!name.hidden;clean()" class="btn btn-danger mt-2 text-light">Cancel</a>
@@ -98,8 +97,8 @@
                     <span *ngIf="name.hidden" class="font-weigth-light">
                       {{ members.person?.name }}
                       <a *ngIf="id == imId"
-                         (click)="name.hidden=!name.hidden;formEdit.givenName=members.person?.givenName;formEdit.familyName=members.person?.familyName"
-                         class="icon fas fa-edit">
+                        (click)="name.hidden=!name.hidden;formEdit.givenName=members.person?.givenName;formEdit.familyName=members.person?.familyName"
+                        class="icon fas fa-edit">
                       </a>
                     </span>
                   </div>
@@ -112,7 +111,7 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit, name,members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="name.hidden=!name.hidden;clean()" class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
@@ -128,12 +127,11 @@
                 <div class="">
                   <div class="from-group mt-12">
                     <label class="font-weight-bold">Group</label>
-                    <div *ngIf="groupName.hidden"
-                         [ngClass]="{'none-data': !members?.groupName}">
+                    <div *ngIf="groupName.hidden" [ngClass]="{'none-data': !members?.groupName}">
                       {{ (members.groupName) ? members.groupName : (id == imId) ? 'Tap to update' : 'Data not avaiable'}}
                       <a *ngIf="id == imId"
-                         (click)="groupName.hidden=!groupName.hidden;formEdit.groupName=members?.groupName"
-                         class="icon fas fa-edit">
+                        (click)="groupName.hidden=!groupName.hidden;formEdit.groupName=members?.groupName"
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -143,9 +141,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit, groupName, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="groupName.hidden=!groupName.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -155,12 +153,11 @@
                 <div class="">
                   <div class="from-group">
                     <label class="font-weight-bold">Life Style</label>
-                    <div *ngIf="lifeStyle.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.lifeStyle}">
+                    <div *ngIf="lifeStyle.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.lifeStyle}">
                       {{ (members.person?.lifeStyle) ? members.person?.lifeStyle : (id == imId) ? 'Tap to update' : 'Data not avaiable'}}
                       <a *ngIf="id == imId"
-                         (click)="lifeStyle.hidden=!lifeStyle.hidden;formEdit.lifeStyle=members.person?.lifeStyle"
-                         class="icon fas fa-edit">
+                        (click)="lifeStyle.hidden=!lifeStyle.hidden;formEdit.lifeStyle=members.person?.lifeStyle"
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -170,9 +167,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit, lifeStyle, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="lifeStyle.hidden=!lifeStyle.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -186,11 +183,11 @@
                     <label class="font-weight-bold">Interest Groups</label>
 
                     <div *ngIf="interestGroups.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.interestGroups}">
+                      [ngClass]="{'none-data': !members.person?.interestGroups}">
                       {{ (members.person?.interestGroups) ? members.person?.interestGroups : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId"
-                         (click)="interestGroups.hidden=!interestGroups.hidden;formEdit.interestGroups=members.person?.interestGroups"
-                         class="icon fas fa-edit">
+                        (click)="interestGroups.hidden=!interestGroups.hidden;formEdit.interestGroups=members.person?.interestGroups"
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -200,9 +197,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit, interestGroups, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="interestGroups.hidden=!interestGroups.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -214,7 +211,7 @@
                     <div *ngIf="email.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.email}">
                       {{ (members.person?.email) ? members.person?.email : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId" (click)="email.hidden=!email.hidden;formEdit.email=members.person?.email"
-                         class="icon fas fa-edit">
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -224,8 +221,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit, email, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
-                      <a (click)="email.hidden=!email.hidden;clean()" class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                      <a (click)="email.hidden=!email.hidden;clean()"
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -233,12 +231,11 @@
                 <div class="mt-2 mt-md-0">
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Job</div>
-                    <div *ngIf="jobTitle.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.jobTitle}">
+                    <div *ngIf="jobTitle.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.jobTitle}">
                       {{ (members.person?.jobTitle) ? members.person?.jobTitle : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId"
-                         (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.person?.jobTitle"
-                         class="icon fas fa-edit">
+                        (click)="jobTitle.hidden=!jobTitle.hidden;formEdit.job=members.person?.jobTitle"
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -248,9 +245,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit,jobTitle, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="jobTitle.hidden=!jobTitle.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -259,11 +256,11 @@
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Job Industry</div>
                     <div *ngIf="jobIndustry.hidden" class="mt-12"
-                         [ngClass]="{'none-data': !members.person?.jobIndustry}">
+                      [ngClass]="{'none-data': !members.person?.jobIndustry}">
                       {{ (members.person?.jobIndustry) ? members.person?.jobIndustry : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                       <a *ngIf="id == imId"
-                         (click)="jobIndustry.hidden=!jobIndustry.hidden;formEdit.jobIndustry=members.person?.jobIndustry"
-                         class="icon fas fa-edit">
+                        (click)="jobIndustry.hidden=!jobIndustry.hidden;formEdit.jobIndustry=members.person?.jobIndustry"
+                        class="icon fas fa-edit">
                       </a>
                     </div>
                   </div>
@@ -273,9 +270,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit,jobIndustry, members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="jobIndustry.hidden=!jobIndustry.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -291,12 +288,11 @@
                 <!-- Employer Name -->
                 <div class="mt-2 mt-md-0">
                   <div class="font-weight-bold">Employer Name</div>
-                  <div *ngIf="employer.hidden" class="mt-12"
-                       [ngClass]="{'none-data': !members.person?.interestGroups}">
+                  <div *ngIf="employer.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.interestGroups}">
                     {{ (members.person?.employerName) ? members.person?.employerName : (id == imId) ? 'Tap to update' : 'Data not avaiable'}}
                     <a *ngIf="id == imId"
-                       (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.person?.employerName"
-                       class="icon fas fa-edit">
+                      (click)="employer.hidden=!employer.hidden;formEdit.employerName=members.person?.employerName"
+                      class="icon fas fa-edit">
                     </a>
                   </div>
                   <div #employer hidden="true" class="form-group mt-2">
@@ -305,9 +301,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit,employer,members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="employer.hidden=!employer.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -315,13 +311,13 @@
                 <div class="mt-2 mt-md-0">
                   <div class="font-weight-bold">Alternate Employer Name</div>
                   <div *ngIf="employer.hidden" class="mt-12"
-                       [ngClass]="{'none-data': !members.person?.alternateEmployerName}">
+                    [ngClass]="{'none-data': !members.person?.alternateEmployerName}">
                     <div class="d-inline-block w-60 text-truncate">
                       {{ (members.person?.alternateEmployerName) ? members.person?.alternateEmployerName : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                     </div>
                     <a *ngIf="id == imId"
-                       (click)="alternateEmployerName.hidden=!alternateEmployerName.hidden;formEdit.alternateEmployerName=members.person?.alternateEmployerName"
-                       class="icon fas fa-edit ml-2">
+                      (click)="alternateEmployerName.hidden=!alternateEmployerName.hidden;formEdit.alternateEmployerName=members.person?.alternateEmployerName"
+                      class="icon fas fa-edit ml-2">
                     </a>
                   </div>
                   <div #alternateEmployerName hidden="true" class="form-group mt-2">
@@ -330,9 +326,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit,alternateEmployerName,members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="alternateEmployerName.hidden=!alternateEmployerName.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
@@ -346,15 +342,15 @@
                   <div *ngIf="phone.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.phoneNumber}">
                     {{ (members.person?.phoneNumber) ? members.person?.phoneNumber : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                     <a *ngIf="id == imId"
-                       (click)="phone.hidden=!phone.hidden;formEdit.phone=members.person?.phoneNumber"
-                       class="icon fas fa-edit">
+                      (click)="phone.hidden=!phone.hidden;formEdit.phone=members.person?.phoneNumber"
+                      class="icon fas fa-edit">
                     </a>
                   </div>
                   <div #phone hidden="true" class="form-group mt-2">
                     <div class="d-flex">
                       <input class="form-control" [(ngModel)]="formEdit.phone" type="text">
                       <a (click)="editInfo(formEdit,phone,members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                     </div>
                     <a (click)="phone.hidden=!phone.hidden;clean()" class="btn btn-danger mt-2 text-light">Cancel</a>
                   </div>
@@ -363,11 +359,11 @@
                 <div class="mt-2 mt-md-0">
                   <div class="font-weight-bold">Mobile Number</div>
                   <div *ngIf="mobilePhone.hidden" class="mt-12"
-                       [ngClass]="{'none-data': !members.person?.interestGroups}">
+                    [ngClass]="{'none-data': !members.person?.interestGroups}">
                     {{ (members.person?.mobileNumber) ? members.person?.mobileNumber : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
                     <a *ngIf="id == imId"
-                       (click)="mobilePhone.hidden=!mobilePhone.hidden;formEdit.mobileNumber=members.person?.mobileNumber"
-                       class="icon fas fa-edit">
+                      (click)="mobilePhone.hidden=!mobilePhone.hidden;formEdit.mobileNumber=members.person?.mobileNumber"
+                      class="icon fas fa-edit">
                     </a>
                   </div>
                   <div #mobilePhone hidden="true" class="form-group mt-2">
@@ -377,9 +373,9 @@
                     </div>
                     <div class="mt-2">
                       <a (click)="editInfo(formEdit,mobilePhone,members?.person['@id'])"
-                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
+                        class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="mobilePhone.hidden=!mobilePhone.hidden;clean()"
-                         class="btn btn-sm btn-default text-light">Cancel</a>
+                        class="btn btn-sm btn-default text-light">Cancel</a>
                     </div>
                   </div>
                 </div>
