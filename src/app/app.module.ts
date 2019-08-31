@@ -41,7 +41,7 @@ import { InfiniteScrollerDirective } from './services/infinite-scroller.directiv
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [
     PostService,

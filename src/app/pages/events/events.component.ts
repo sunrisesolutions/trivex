@@ -66,11 +66,19 @@ export class EventsComponent implements OnInit {
               for (let org of res['hydra:member']) {
                 e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/events/${this.getNumberOfString(e.id)}/registration.png`;
               }
-              console.log(res)
+              // console.log(res)
             })
-          // this.getCountAttendee(e['@id'].split('/')[2]);
+          this.apiService.eventGet(`/events/${e['@id'].split('/')[2]}/registrations?memberUuid%5Bexists%5D=true`)
+            .subscribe(res => {
+              e['isMember'] = res['hydra:totalItems'];
+            })
+          this.apiService.eventGet(`/events/${e['@id'].split('/')[2]}/registrations?memberUuid%5Bexists%5D=false`)
+            .subscribe(res => {
+              e['isNonMember'] = res['hydra:totalItems'];
+              console.log('COUNTTTTTTTT',res)
+            })
         }
-        console.log(this.events)
+        console.log('HEY EVENT', this.events)
       }, error => {
         if (error.status === 404) {
           this.getEventError = 'Event not found.!!!';
@@ -207,12 +215,10 @@ export class EventsComponent implements OnInit {
       date: this.date
     }
   }
-  getCountAttendee(id) {
-    this.apiService.eventGet(`/attendee?registration.member.Uuid=${id}&[exists]=false`)
-      .subscribe(res => {
-        console.log('attendee', res)
-      })
-  }
+
+  countMemberCheckin;
+  countNonMemberCheckin;
+
   checkingRole() {
     if (this.roleChecker.ROLE_EVENT_ADMIN || this.roleChecker.ROLE_ORG_ADMIN) {
       this.apiService.G_OrgByUuid(this.decoded.org)

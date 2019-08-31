@@ -1,10 +1,26 @@
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
   margin: 0px;
 }
 
 @media only screen and(max-width: 768px) {
   .card-content {
     text-align: center;
+  }
+  .avatar-notif{
+    width: 70px !important;
+    height: 70px !important;
+    margin-left: 12px !important;
   }
 }
 @media only screen and(min-width: 768px) {
@@ -37,12 +53,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   cursor: pointer !important;
 }
 
-
 ngx-select-dropdown {
-  /deep/ .selected-items li{
+  /deep/ .selected-items li {
     display: flex !important;
     align-items: center;
-    /deep/ .nsdicon-close{
+    /deep/ .nsdicon-close {
       margin-right: 10px !important;
     }
   }
@@ -50,12 +65,27 @@ ngx-select-dropdown {
   margin-right: 10px !important;
   margin-left: 10px !important;
 }
-.text-light{
+.text-light {
   color: white !important;
 }
-.btn{
+.btn {
   white-space: normal !important;
 }
-.avatar-notif{
-  object-fit: cover !important;
+.avatar-notif {
+  object-fit: cover;
+  width: 80px;
+  height: 80px;
+  align-self: center;
+}
+@media only screen and (max-width: 768px) {
+  .header {
+    background-position: -200px !important;
+  }
+}
+.header {
+  min-height: 500px;
+  background-image: url('../../../assets/img/theme/profile-cover.jpg');
+  background-size: cover;
+  background-position: 180px;
+  background-attachment: fixed;
 }

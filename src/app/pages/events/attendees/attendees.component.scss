@@ -1,0 +1,35 @@
+@media only screen and (max-width: 768px) {
+  .header {
+    background-position: -200px !important;
+  }
+}
+.header {
+  min-height: 500px;
+  background-image: url("../../../../assets/img/theme/profile-cover.jpg");
+  background-size: cover;
+  background-position: 180px;
+  background-attachment: fixed;
+}
+.animation-fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1500ms;
+  animation-name: fade;
+  animation-duration: 1500ms;
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+}
+.icon {
+  object-fit: cover;
+  object-position: top;
+  height: 50pt;
+  width: 50pt;
+  border-radius: 100%;
+}

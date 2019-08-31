@@ -1,4 +1,6 @@
-<div style="cursor: default" class="header bg-gradient-danger py-7 pt-md-8 ">
+<div
+  class="header pb-8 pt-8 pt-md-8">
+  <span class="mask bg-gradient-danger opacity-8"></span>
   <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-6">
     <div class="form-group mb-0">
       <div class="input-group input-group-alternative">
@@ -10,7 +12,7 @@
       </div>
     </div>
   </form>
-  <img [class.d-flex]="loadingSearch===false" src="https://i.gifer.com/embedded/download/ZKZg.gif"
+  <img [class.d-flex]="loadingSearch===false" src="/assets/img-process/loading.gif"
     class="container d-none align-items-center  loading" alt="">
   <div class="container-fluid">
     <div [hidden]="loadingSearch===false" class="header-body">
@@ -24,7 +26,8 @@
                 <div class="col-auto d-flex flex-column">
                   <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
-                  <small *ngIf="member.alternateName" class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
+                  <small *ngIf="member.alternateName"
+                    class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
 
                 </div>
                 <div class="col text-muted">
@@ -35,10 +38,10 @@
                   <span>{{member.data.employerName}}</span><br>
                 </div>
               </div>
-<!--              <p class="mt-2 mb-0 text-sm text-right">-->
-<!--                <a routerLink="/club-members/{{member.route?.split('/')[2]}}/send-email"-->
-<!--                  class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>-->
-<!--              </p>-->
+              <!--              <p class="mt-2 mb-0 text-sm text-right">-->
+              <!--                <a routerLink="/club-members/{{member.route?.split('/')[2]}}/send-email"-->
+              <!--                  class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>-->
+              <!--              </p>-->
             </div>
           </div>
         </div>

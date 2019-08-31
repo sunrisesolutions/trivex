@@ -1,5 +1,8 @@
 <div appInfiniteScroller scrollPercent="50" immediateCallback="true" [scrollCallback]="scrollCallback"
-  class="scroll header bg-gradient-danger {{title != 'Recent Announcements'?'py-7':''}} pt-md-8 ">
+  class="scroll header pb-8 pt-lg-8 pt-md-8 {{title != 'Recent Announcements'?'py-7':''}}">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- CONTENT -->
   <div class="container text-center">
     <img *ngIf="loading" src="/assets/img-process/loading.gif" height="150px" alt="">
     <!-- <div *ngIf="error && !loading" class="card">
@@ -143,7 +146,7 @@
           <div class="card-content container">
             <div class="row">
               <div class="col-3 d-flex justify-content-center col-md-2">
-                <img alt="Image placeholder" class="rounded-circle" style="object-fit: cover; width: 80px;height:80px; align-self: center;"
+                <img alt="Image placeholder" class="avatar-notif rounded-circle"
                   [src]="delivery.profilePicture" />
               </div>
               <div class="col-9 col-md-8 pl-mobile-custom text-left">

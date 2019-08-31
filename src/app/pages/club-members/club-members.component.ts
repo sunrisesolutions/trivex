@@ -17,7 +17,7 @@ import 'rxjs/add/operator/do';
 export class ClubMembersComponent implements OnInit {
   /* Params text search */
   textSearch = null;
-  loadingSearch = false;
+  loadingSearch:boolean = true;
   /* Params text search */
 
   members: Array<any> = [];
@@ -44,7 +44,7 @@ export class ClubMembersComponent implements OnInit {
   }
   getMembers(textSearch: String = null) {
     if (textSearch !== null) {
-      this.loadingSearch = false;
+      this.loadingSearch = true;
       return this.service.getDataAPI(`?fulltextString=${textSearch}`)
         .subscribe(res => {
           this.members = res['hydra:member'];
@@ -69,12 +69,14 @@ export class ClubMembersComponent implements OnInit {
               member['profilePicture'] = 'assets/img-process/Not-found-img.gif';
             }
           }
+        },error=>{
+          this.loadingSearch = false;
         })
     } else {
       return this.service.getDataAPI(`?page=${this.currentPage}`).do(res => {
         console.log(res)
         setTimeout(() => {
-          this.loadingSearch = true;
+          this.loadingSearch = false;
         },2000)
         this.currentPage++;
         this.dec = this.decoded.im;
@@ -100,6 +102,8 @@ export class ClubMembersComponent implements OnInit {
           }
         }
         console.log(this.members);
+      },error =>{
+        this.loadingSearch =false;
       });
     }
 

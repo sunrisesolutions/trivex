@@ -24,6 +24,9 @@
       text-shadow: 0px 0px 5px rgb(90, 140, 235)
     }
   }
+  .header {
+    background-position: -200px !important;
+  }
 }
 
 @media only screen and (max-width: 960px){
@@ -41,4 +44,12 @@
 }
 ::-webkit-input-placeholder { /* Edge */
   color: black !important;
+}
+
+.header {
+  min-height: 500px;
+  background-image: url('../../../assets/img/theme/profile-cover.jpg');
+  background-size: cover;
+  background-position: 180px;
+  background-attachment: fixed;
 }

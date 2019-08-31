@@ -22,6 +22,7 @@ import { FreeOnMessageComponent } from 'src/app/pages/free-on-message/free-on-me
 import { DeliveriesComponent } from '../../pages/notifications/deliveries/deliveries.component';
 import { MessageComponent } from '../../pages/notifications/message/message.component';
 import { MessageApprovalComponent } from '../../pages/notifications/message-approval/message-approval.component';
+import { AttendeesComponent } from 'src/app/pages/events/attendees/attendees.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -60,10 +61,19 @@ export const AdminLayoutRoutes: Routes = [
   },
   {
     path: 'events',
-    component: EventsComponent
-  }, {
-    path: 'events/:id',
-    component: EventsComponent,
+    children: [
+      {
+        path: '',
+        component: EventsComponent
+      }, {
+        path: ':id',
+        component: EventsComponent,
+      }, {
+        path: ':id/attendees/:pages',
+        component: AttendeesComponent
+      }
+    ]
+
   },
   { path: "post-announcement", component: PostAnnouncementComponent },
 ];

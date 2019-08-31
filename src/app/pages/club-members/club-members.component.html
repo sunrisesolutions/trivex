@@ -1,6 +1,5 @@
 <div
-  style="min-height: 400px; background-image: url(/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;"
-  class="header bg-gradient-danger py-7 pt-md-8 ">
+  class="header pb-8 pt-8 pt-md-8 d-flex">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!--  -->
@@ -15,13 +14,15 @@
       </div>
     </div>
   </form>
-  <img [class.d-flex]="loadingSearch===false" src="https://i.gifer.com/embedded/download/ZKZg.gif"
-    class="container d-none align-items-center  loading" alt="">
-  <div class="container-fluid">
-    <div [hidden]="loadingSearch===false" class="header-body">
+
+  <div appInfiniteScroller scrollPercent="70" immediateCallback="true" [scrollCallback]="scrollCallback"
+    class="container-fluid">
+    <div *ngIf="loadingSearch" class="container text-center">
+      <img height="150px" src="/assets/img-process/loading.gif" alt="">
+    </div>
+    <div *ngIf="!loadingSearch" class="header-body">
       <!-- Card stats -->
-      <div id="infinite-scroller" appInfiniteScroller scrollPercent="10" immediateCallback="true"
-        [scrollCallback]="scrollCallback" class="row">
+      <div id="infinite-scroller" class="row">
         <div [hidden]="dec == member.uuid" *ngFor="let member of members" class="col-12">
           <div class="card card-stats mb-2">
             <div class="card-body">

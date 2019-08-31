@@ -1,6 +1,17 @@
-@media only screen and (min-width: 768px){
-  .w-md-70{
+@media only screen and (min-width: 768px) {
+  .w-md-70 {
     width: 70% !important;
   }
-  
+}
+@media only screen and (max-width: 768px) {
+  .header {
+    background-position: -200px !important;
+  }
+}
+.header {
+  min-height: 500px;
+  background-image: url('../../../assets/img/theme/profile-cover.jpg');
+  background-size: cover;
+  background-position: 180px;
+  background-attachment: fixed;
 }

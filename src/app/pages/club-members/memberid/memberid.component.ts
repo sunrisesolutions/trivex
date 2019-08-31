@@ -92,6 +92,7 @@ export class MemberidComponent implements OnInit {
       if (this.members['profilePicture']) {
         this.http.get(this.members['profilePicture'])
           .subscribe(res => {
+            console.log('image', res);
           }, error => {
             if (error.status === 404) {
               this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';

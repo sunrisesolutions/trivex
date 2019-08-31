@@ -30,6 +30,7 @@ import { DragToSelectModule } from 'ngx-drag-to-select';
 import {DeliveriesComponent} from '../../pages/notifications/deliveries/deliveries.component';
 import {MessageComponent} from '../../pages/notifications/message/message.component';
 import {MessageApprovalComponent} from '../../pages/notifications/message-approval/message-approval.component';
+import { AttendeesComponent } from '../../pages/events/attendees/attendees.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -63,6 +64,7 @@ import {MessageApprovalComponent} from '../../pages/notifications/message-approv
     DashboardComponent,
     PostAnnouncementComponent,
     NotificationsComponent,
+    AttendeesComponent,
     FreeOnMessageComponent,
     MessageComponent,
     MessageApprovalComponent,

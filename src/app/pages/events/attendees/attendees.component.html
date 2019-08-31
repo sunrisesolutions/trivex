@@ -1,0 +1,54 @@
+<div class="header pb-8 pt-8 pt-md-8">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <div *ngIf="error" class="container text-center">
+    <div class="card">
+      <div class="card-body">
+        <h1>{{error}}</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="container text-center">
+    <img height="150px" src="/assets/img-process/loading.gif" alt="">
+  </div>
+  <!-- /.Loading -->
+
+  <div *ngIf="!error && !loading" class="container animation-fade">
+    <!-- Card stats -->
+    <div class="row">
+      <div class="col-12">
+        <a routerLink="/events" class="fas text-dark fa-arrow-left"></a>
+      </div>
+      <div *ngFor="let d of data" class="col-12 mt-2">
+        <div class="card card-stats mb-2">
+          <div class="card-body">
+            <div class="row">
+              <div *ngIf="page === 'member'" class="col-auto d-flex flex-column">
+                <a><img class="icon shadow" [src]=d.profilePicture alt=""></a>
+                <small *ngIf="d.alternateName"
+                  class="badge mt-2 bg-success text-truncate text-light">{{d.alternateName}}</small>
+              </div>
+              <div class="col text-muted">
+                <a>
+                  <h2 class="h2 font-weight-bold">{{(page==='member') ? d.person?.name : d.givenName}}</h2>
+                </a>
+                <div>{{(page==='member') ? d.person?.jobTitle : d?.jobTitle}}</div><br>
+                <div>{{(page==='member') ? d.person?.employerName : d?.employerName}}</div><br>
+              </div>
+            </div>
+            <!--              <p class="mt-2 mb-0 text-sm text-right">-->
+            <!--                <a [routerLink]="'/club-members/' + injectNumber(member['@id']) + '/send-email'"-->
+            <!--                  class="text-uppercase btn btn-primary text-white-no-longer mr-2"><i class="ni ni-send"></i>EMAIL</a>-->
+            <!--              </p>-->
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-12 mb-2">
+          <div class="card card-stats my-4 mb-xl-0">
+
+          </div>
+        </div> -->
+    </div>
+  </div>
+</div>

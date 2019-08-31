@@ -230,7 +230,7 @@ export class SidebarComponent implements OnInit {
       return true;
     } else if (this.roleChecker.ROLE_ORG_ADMIN) {
       return true;
-    }else if(this.roleChecker.ROLE_EVENT_ADMIN){
+    } else if (this.roleChecker.ROLE_EVENT_ADMIN) {
       return true;
     } else {
       return false;

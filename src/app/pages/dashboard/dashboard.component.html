@@ -1,4 +1,6 @@
-<div class="">
+<div class="header d-flex align-items-center">
+        <span class="mask bg-gradient-danger opacity-8"></span>
+
         <!-- <div *ngIf="!checkingRole()" class="container text-center">
                 <div class="card">
                         <div class="card-body">
@@ -8,8 +10,8 @@
                         </div>
                 </div>
         </div> -->
-        <div class="d-flex flex-column align-items-center">
+        <!-- <div class="d-flex flex-column align-items-center"> -->
                 <qr-code *ngIf="isQrCode" class="w-100"></qr-code>
                 <app-notifications *ngIf="isMessage" class="w-100"></app-notifications>
-        </div>
+        <!-- </div> -->
 </div>
