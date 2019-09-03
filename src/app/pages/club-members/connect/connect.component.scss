@@ -5,3 +5,124 @@
     width: 135pt;
     border-radius: 100%;
 }
+.pt-md-8{
+  margin-top: 35px !important;
+}
+.icon{
+  font-size: 20px !important;
+  height: 0px !important;
+  width: 0px !important;
+}
+.text-light{
+  color: white !important;
+}
+
+.form-group{
+  margin-bottom: 0px;
+}
+
+@media only screen and(min-width: 768px){
+  .border-md-left{
+    border-left: solid black 1px;
+  }
+}
+
+@media only screen and(max-width: 768px){
+  #img{
+    left: 50% !important;
+  }
+
+  .fixed-my{
+    margin-top: -45px !important;
+  }
+  .mt--2{
+    margin-top: -10px !important;
+  }
+}
+
+#img{
+  left: 80px;
+}
+
+.fixed-my{
+  margin-top: -100px;
+}
+
+.ml-10{
+  margin-left: 190px !important;
+}
+
+.fa-pen{
+  font-size: 16px;
+  margin-left: 8px;
+  opacity: 0.3;
+}
+
+.fa-pen:hover {
+  opacity: 1;
+}
+.m-random{
+  margin-left: 37px;
+  margin-top: 12px;
+}
+.fas{
+  color: black;
+  cursor: pointer;
+}
+.h3{
+  color: black;
+}
+.h1{
+  color: black;
+}
+.animation-fade{
+  animation-name: fade;
+  animation-duration: 2500ms;
+  @keyframes fade{
+      from {
+          opacity: 0;
+          transform: translateX(-50px);
+      }
+      to{
+          opacity: 1;
+          transform: translateX(0px);
+
+      }
+  }
+}
+.h4{
+  color: black;
+}
+.h2{
+  color: black;
+}
+.h5{
+  color: black;
+}
+.alternate{
+  left: 123px;
+  top: 110px;
+}
+.none-data{
+  font-style:italic;
+  //font-weight: lighter;
+  //font-size: 13px;
+}
+.mt--12{
+  margin-top: -12px;
+}
+@media only screen and (max-width: 768px) {
+  .header {
+    background-position: -200px !important;
+  }
+}
+.header {
+  min-height: 500px;
+  background-image: url("../../../../assets/img/theme/profile-cover.jpg");
+  background-size: cover;
+  background-position: 180px;
+  background-attachment: fixed;
+}
+/* label{
+  margin-bottom: 0px;
+} */

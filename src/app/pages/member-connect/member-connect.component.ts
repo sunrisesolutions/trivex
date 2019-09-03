@@ -37,9 +37,10 @@ export class MemberConnectComponent implements OnInit {
       return s;
     }
   }
-
+  localId;
   ngOnInit() {
     const token = localStorage.getItem('token');
+    this.localId = localStorage.getItem('im_id');
     const decoded = jwt_decode(token);
     this.dec = decoded;
     // console.log('dec',decoded.im);

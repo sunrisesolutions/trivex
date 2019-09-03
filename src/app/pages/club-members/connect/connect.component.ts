@@ -18,7 +18,11 @@ export class ConnectComponent implements OnInit {
   id;
   idSnap;
   status;
-  members;
+  members: Object = {
+    personData: {
+      name: ''
+    }
+  };
   tokenRes = false;
   cToken;
   imId;
@@ -30,30 +34,78 @@ export class ConnectComponent implements OnInit {
     // if (this.cToken == localStorage.getItem("token")) {
     //   this.tokenRes = true;
     // }
-    const snapID = this.routes.snapshot.paramMap.get("id");
+    const snapID = this.routes.snapshot.paramMap.get('id');
     this.idSnap = snapID;
-    this.imId = localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
+    this.imId = localStorage.getItem('im_id');
+    if (this.routes.snapshot.paramMap.get('id') === localStorage.getItem('im_id')) {
+      return this.router.navigate(['/dashboard']);
+    } else {
+      this.onConnect();
+    }
+    this.id = +this.routes.snapshot.paramMap.get('id');
+    /*  this.service.getRootID(id).subscribe(res => {
+       console.log(res)
+       let getInfo = res;
+       this.members = getInfo;
+       this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
+       console.log("info user", res);
+       if (this.members.profilePicture) {
+         this.http.get(this.members.profilePicture)
+           .subscribe(res => { }, error => {
+             if (error.status === 404) {
+               this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+             }
+           })
+       } else {
+         this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+ 
+       }
+     }); */
+    this.getRootId();
+  }
+  loading: boolean = true;
+  snapID;
+  error;
+  getRootId() {
+    this.snapID = this.routes.snapshot.params.id;
+    this.id = this.snapID;
+    // localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
 
-    const id = +this.routes.snapshot.paramMap.get("id");
-    this.service.getRootID(id).subscribe(res => {
-      console.log(res)
-      let getInfo = res;
-      this.members = getInfo;
-      this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
-      console.log("info user", res);
-      if (this.members.profilePicture) {
-        this.http.get(this.members.profilePicture)
-          .subscribe(res => { }, error => {
+    this.members['profilePicture'] = '/assets/img-process/giphy-loading.gif';
+    this.service.getRootID(this.snapID).subscribe(res => {
+      this.members = res;
+      // this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
+      /*    if (res['uuid'] === this.imUuid) {
+           this.imId = parseInt(this.members['id'],10);
+         } */
+
+      this.service.getPersonByUuid(this.members['personData'].uuid)
+        .subscribe(res => {
+          this.members['alternateName'] = res['hydra:member'][0].alternateName;
+          this.members['person'] = res['hydra:member'][0];
+          setTimeout(() => {
+            this.loading = false;
+          }, 1000);
+        });
+      console.log(this.members);
+      if (this.members['profilePicture']) {
+        this.http.get(this.members['profilePicture'])
+          .subscribe(res => {
+            console.log('image', res);
+          }, error => {
             if (error.status === 404) {
-              this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
+              this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
             }
-          })
+          });
       } else {
-        this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif'
-
+        this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+      }
+    }, error => {
+      if (error.status === 404) {
+        this.loading = false;
+        this.error = 'Member Not Found.!!!';
       }
     });
-    this.onConnect();
   }
   onConnect() {
     // const idTit = new HttpParams();
@@ -68,6 +120,9 @@ export class ConnectComponent implements OnInit {
       this.uuidRes = response['toMember'].uuid;
       console.log("connect-member", response, this.imToken);
     });
+  }
+  goHome() {
+    return this.router.navigate(['/dashboard']);
   }
   injectNumber(s) {
     if (s) {
