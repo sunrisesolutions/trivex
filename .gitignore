@@ -3,7 +3,7 @@
 .vscode
 .idea
 
-public/deploy.php
+public/*
 
 # compiled output
 /dist
