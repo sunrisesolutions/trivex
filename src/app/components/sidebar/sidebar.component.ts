@@ -1,17 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PostService } from 'src/app/services/post.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from 'src/app/services/post-notif.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Delivery } from 'src/app/models/Deliveries';
-import { Route } from '@angular/compiler/src/core';
-import { Location } from '@angular/common';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {PostService} from 'src/app/services/post.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SwPush} from '@angular/service-worker';
+import {PushNotificationService} from 'src/app/services/post-notif.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Delivery} from 'src/app/models/Deliveries';
+import {Route} from '@angular/compiler/src/core';
+import {Location} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
-import { CheckRoleService } from 'src/app/services/check-role.service';
-import { ResourceParent } from '../../models/ResourceParent';
+import {CheckRoleService} from 'src/app/services/check-role.service';
+import {ResourceParent} from '../../models/ResourceParent';
 
 declare interface RouteInfo {
   path: string;
@@ -175,9 +175,12 @@ export class SidebarComponent implements OnInit {
       this.routes.push(this.freeOnMessage);
     } */
     if (this.checkingRole()) {
-      let decoded = jwt_decode(localStorage.getItem('token'))
+      let decoded = jwt_decode(localStorage.getItem('token'));
       this.service.G_OrgByUuid(decoded.org)
         .subscribe(res => {
+          if (res['hydra:member'][0].freeonMessagingEnabled) {
+            this.roleChecker.FREE_ON_MESSAGE = true;
+          }
           if (this.roleChecker.FREE_ON_MESSAGE) {
             this.routes.push(this.freeOnMessage);
           }
@@ -190,7 +193,7 @@ export class SidebarComponent implements OnInit {
           if (res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_EVENT_ADMIN || res['hydra:member'][0].eventEnabled && this.roleChecker.ROLE_ORG_ADMIN) {
             this.routes.push(this.manageEvents); /* Menu event */
           }
-        })
+        });
       this.routes.push(this.haveRoleAnnouncementApproval);
     }
   }
@@ -219,13 +222,13 @@ export class SidebarComponent implements OnInit {
 
   /* /.Device detector */
   checkingRole(adminOnly = false): boolean {
-    let decoded = jwt_decode(localStorage.getItem('token'))
+    let decoded = jwt_decode(localStorage.getItem('token'));
     this.service.G_OrgByUuid(decoded.org)
       .subscribe(res => {
         if (res['hydra:member'][0].freeonMessagingEnabled) {
           this.roleChecker.FREE_ON_MESSAGE = true;
         }
-      })
+      });
     if (this.roleChecker.ROLE_MSG_ADMIN) {
       return true;
     } else if (this.roleChecker.ROLE_MSG_USER) {
@@ -247,7 +250,7 @@ export class SidebarComponent implements OnInit {
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
       // this.delivery = delivery;
     }
     const d = new Date();
