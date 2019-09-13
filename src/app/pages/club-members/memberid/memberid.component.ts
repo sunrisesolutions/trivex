@@ -161,7 +161,7 @@ export class MemberidComponent implements OnInit {
       if (data.groupName != null && data.groupName !== undefined && data.groupName != '') {
         this.service.editGroupName(data.groupName, this.imId)
           .subscribe(res => {
-            element.hidden = !element.hidden;
+            // element.hidden = !element.hidden;
             this.formEdit.groupName = '';
           }, err => {
             if (err.status === 404) {
