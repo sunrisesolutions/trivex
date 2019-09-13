@@ -171,18 +171,22 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000);
     this.getInfoUser();
-    /* if (!this.checkingRole(true)) {
+     if (!this.checkingRole(true)) {
       this.routes.push(this.freeOnMessage);
-    } */
+    }
     if (this.checkingRole()) {
       let decoded = jwt_decode(localStorage.getItem('token'));
       this.service.G_OrgByUuid(decoded.org)
         .subscribe(res => {
+          console.log('abc')
           if (res['hydra:member'][0].freeonMessagingEnabled) {
+            console.log('def')
             this.roleChecker.FREE_ON_MESSAGE = true;
           }
+          console.log('hgj')
           if (this.roleChecker.FREE_ON_MESSAGE) {
-            this.routes.push(this.freeOnMessage);
+            console.log('zzzz')
+            // this.routes.push(this.freeOnMessage);
           }
           if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ORG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
             this.routes.push(this.haveRoleRecentAnnoucement);
