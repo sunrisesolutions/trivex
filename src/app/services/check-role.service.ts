@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class CheckRoleService {
+  FREE_ON_MESSAGE = false;
   ROLE_EVENT_ADMIN = false;
   ROLE_MSG_USER = false;
   ROLE_MSG_ADMIN = false;

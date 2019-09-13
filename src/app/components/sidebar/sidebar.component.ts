@@ -178,6 +178,9 @@ export class SidebarComponent implements OnInit {
       let decoded = jwt_decode(localStorage.getItem('token'))
       this.service.G_OrgByUuid(decoded.org)
         .subscribe(res => {
+          if (this.roleChecker.FREE_ON_MESSAGE) {
+            this.routes.push(this.freeOnMessage);
+          }
           if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ORG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
             this.routes.push(this.haveRoleRecentAnnoucement);
           }
@@ -220,7 +223,7 @@ export class SidebarComponent implements OnInit {
     this.service.G_OrgByUuid(decoded.org)
       .subscribe(res => {
         if (res['hydra:member'][0].freeonMessagingEnabled) {
-          this.routes.push(this.freeOnMessage);
+          this.roleChecker.FREE_ON_MESSAGE = true;
         }
       })
     if (this.roleChecker.ROLE_MSG_ADMIN) {
