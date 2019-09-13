@@ -1,20 +1,21 @@
-import { environment } from './../../environments/environment';
-import { ClubMembersComponent } from './../pages/club-members/club-members.component';
-import { Member } from './../models/Member';
-import { LoginComponent } from './../pages/login/login.component';
-import { Http, RequestOptions, Headers } from '@angular/http';
-import { Injectable } from '@angular/core';
-import { Body } from '@angular/http/src/body';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Data } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ResourceParent } from '../models/ResourceParent';
-import { forEach } from '@angular/router/src/utils/collection';
+import {environment} from './../../environments/environment';
+import {ClubMembersComponent} from './../pages/club-members/club-members.component';
+import {Member} from './../models/Member';
+import {LoginComponent} from './../pages/login/login.component';
+import {Http, RequestOptions, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Body} from '@angular/http/src/body';
+import {HttpHeaders, HttpClient} from '@angular/common/http';
+import {Data} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ResourceParent} from '../models/ResourceParent';
+import {forEach} from '@angular/router/src/utils/collection';
 
 /* header */
 export interface TEST {
   profilePicture: 'assets/img-process/giphy-loading.gif';
 }
+
 /* /.header */
 
 @Injectable({
@@ -129,7 +130,6 @@ export class PostService {
     return this.http.get(this.orgAPI + id, httpOptions);
   }
 
-  
 
   getDataAPI(page): Observable<Object> {
     const httpOptions = {
@@ -156,13 +156,14 @@ export class PostService {
   messageOptionStatistical(query) {
     const httpOptions = {
       headers: new HttpHeaders({
-        "accept": "application/ld+json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
 
     return this.http.get(`${this.messageAPI}${query}`, httpOptions);
   }
+
   messagePost(message): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -238,7 +239,8 @@ export class PostService {
     // console.log('returning observable');
     return observable;
   }
-  getTotalDelivery(){
+
+  getTotalDelivery() {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -247,6 +249,7 @@ export class PostService {
     };
     return this.http.get(`${this.messageAPI}/deliveries`, httpOptions);
   }
+
   readDelivery(read, delivery): Observable<Object> {
     const id = delivery['@id'];
     const httpOptions = {
@@ -288,6 +291,7 @@ export class PostService {
 
     return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`, httpOptions);
   }
+
   /* /.MESSAGES */
 
   /*  OptionSets API */
@@ -382,6 +386,16 @@ export class PostService {
       })
     };
     return this.http.put(`${this.orgAPI}/individual_members/${id}`, file, httpOptions);
+  }
+
+  editGroupName(groupName, id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.put(`${this.orgAPI}/individual_members/${id}`, {'groupName': groupName}, httpOptions);
   }
 
   G_OrgByUuid(uuid) {
@@ -505,8 +519,9 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.put(`${this.personAPI}${id}`, data, httpOptions)
+    return this.http.put(`${this.personAPI}${id}`, data, httpOptions);
   }
+
   getPersonByUuid(uuid): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -516,7 +531,8 @@ export class PostService {
     };
     return this.http.get(`${this.personAPI}/people?uuid=${uuid}`, httpOptions);
   }
-  getPersonData(params): Observable<Object>{
+
+  getPersonData(params): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -525,5 +541,6 @@ export class PostService {
     };
     return this.http.get(`${this.personAPI}/people${params}`, httpOptions);
   }
+
   /* /.PERSON API */
 }

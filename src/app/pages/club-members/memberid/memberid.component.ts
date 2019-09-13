@@ -44,7 +44,7 @@ export class MemberidComponent implements OnInit {
     mobileNumber: '',
 
   };
-  imId:number;
+  imId: number;
   imUuid;
   snapID;
   members: Object = {
@@ -77,7 +77,7 @@ export class MemberidComponent implements OnInit {
       this.members = res;
       // this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
       if (res['uuid'] === this.imUuid) {
-        this.imId = parseInt(this.members['id'],10);
+        this.imId = parseInt(this.members['id'], 10);
       }
 
       this.service.getPersonByUuid(this.members['personData'].uuid)
@@ -158,6 +158,23 @@ export class MemberidComponent implements OnInit {
         'mobileNumber': (data.mobileNumber) ? data.mobileNumber : undefined,
 
       };
+      if (data.groupName != null && data.groupName !== undefined && data.groupName != '') {
+        this.service.editGroupName(data.groupName, this.imId)
+          .subscribe(res => {
+            element.hidden = !element.hidden;
+            this.formEdit.groupName = '';
+          }, err => {
+            if (err.status === 404) {
+              alert(err.error['hydra:description']);
+            }
+            if (err.status === 400) {
+              alert(err.error['hydra:description']);
+            }
+            if (err.status === 500) {
+              alert(err.error['hydra:description']);
+            }
+          });
+      }
       this.service.editInfoPerson(`/people/${id.split('/')[2]}`, formEdit)
         .subscribe(res => {
           element.hidden = !element.hidden;
