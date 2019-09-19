@@ -31,12 +31,6 @@ export class SidebarComponent implements OnInit {
   /* SELECT Options*/
   routes: RouteInfo[] = [
     {
-      path: `/club-members/list`,
-      title: 'Club Members',
-      icon: 'ni-bullet-list-67 text-red',
-      class: ''
-    },
-    {
       path: '/member-connect',
       title: 'Members I have met',
       icon: 'ni-planet text-blue',
@@ -78,6 +72,12 @@ export class SidebarComponent implements OnInit {
   queryDeliveriesREAD = '&readAt%5Bexists%5D=false';
   deliveries: Delivery[];
   delivery2: Delivery;
+  clubMembers = {
+  path: `/club-members/list`,
+  title: 'Club Members',
+  icon: 'ni-bullet-list-67 text-red',
+  class: ''
+};
   freeOnMessage = {
     path: '/free-on-delivery',
     title: 'Free On Message',
@@ -205,6 +205,8 @@ export class SidebarComponent implements OnInit {
             this.routes.push(this.manageEvents); /* Menu event */
           }
         });
+
+      this.routes.push(this.clubMembers);
       this.routes.push(this.haveRoleAnnouncementApproval);
     }
   }

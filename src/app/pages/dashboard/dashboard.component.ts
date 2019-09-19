@@ -60,11 +60,12 @@ export class DashboardComponent implements OnInit {
           }
         });
     } */
+
     if (this.roleChecker.ROLE_USER) {
       this.isUser = true;
-      this.service.getTotalDelivery()
+      this.service.getTotalDelivery(true)
         .subscribe(res => {
-          console.log(res)
+          console.log('dashboard.com.ts', res)
           if (res['hydra:totalItems'] > 0) {
             this.isMessage = true;
           } else {

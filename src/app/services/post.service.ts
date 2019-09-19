@@ -10,6 +10,7 @@ import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ResourceParent} from '../models/ResourceParent';
 import {forEach} from '@angular/router/src/utils/collection';
+import * as jwt_decode from 'jwt-decode';
 
 /* header */
 export interface TEST {
@@ -240,14 +241,25 @@ export class PostService {
     return observable;
   }
 
-  getTotalDelivery() {
+  decoded: any;
+
+  getTotalDelivery(incoming = null) {
+    let query = '?';
+    if (this.decoded == undefined ) {
+      this.decoded = jwt_decode(localStorage.getItem('token'));
+    }
+
+    if (incoming === true) {
+      query += '&messageSenderUuid=' + this.decoded.im;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.messageAPI}/deliveries`, httpOptions);
+
+    return this.http.get(`${this.messageAPI}/deliveries${query}`, httpOptions);
   }
 
   readDelivery(read, delivery): Observable<Object> {
