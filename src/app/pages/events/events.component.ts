@@ -64,7 +64,7 @@ export class EventsComponent implements OnInit {
           this.apiService.G_OrgByUuid(decoded.org)
             .subscribe(res => {
               for (let org of res['hydra:member']) {
-                e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/events/${this.getNumberOfString(e.id)}/registration.png`;
+                e['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.whatwechat.net/events/${this.getNumberOfString(e.id)}/registration.png`;
               }
               // console.log(res)
             })
@@ -117,7 +117,7 @@ export class EventsComponent implements OnInit {
         this.apiService.G_OrgByUuid(decoded.org)
           .subscribe(res => {
             for (let org of res['hydra:member']) {
-              this.event['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/events/${this.getNumberOfString(this.event['id'])}/registration.png`;
+              this.event['qrLink'] = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.whatwechat.net/events/${this.getNumberOfString(this.event['id'])}/registration.png`;
             }
             console.log(res)
           })

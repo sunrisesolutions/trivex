@@ -20,7 +20,7 @@ export class QrCodeComponent implements OnInit {
     this.service.G_OrgByUuid(decoded.org)
       .subscribe(res=>{
         for(let org of res['hydra:member']){
-          this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.trivesg.com/club-members/${id}/connect.png`;
+          this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://${org.subdomain}.whatwechat.net/club-members/${id}/connect.png`;
         }
         console.log(res)
       })

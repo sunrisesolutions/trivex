@@ -46,7 +46,7 @@
                 </div>
               </div>
               <!-- DECISION MAKING -->
-              <div *ngIf="message['status'] == 'MESSAGE_PENDING_APPROVAL'">
+              <div *ngIf=" (role.ROLE_MSG_ADMIN || role.ROLE_ORG_ADMIN) && message['status'] == 'MESSAGE_PENDING_APPROVAL'">
                 <div class="btn btn-success border mx-2 mb-2" [title]="">
                   <div (click)="submitDecision('approve')" class="d-flex flex-column justify-content-center">
                       <span class="text-truncate">

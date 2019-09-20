@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     // let accessTok = new FormData();
     // accessTok.append("access-token", `${snapAT}`);
     //
-    // this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.trivesg.com/dashboard/${snapAT}.png`;
+    // this.qrLink = `https://qrcode.magentapulse.com/qr-code/https://www.whatwechat.net/dashboard/${snapAT}.png`;
     //
     //
     // if (snapAT == this.access_token) {

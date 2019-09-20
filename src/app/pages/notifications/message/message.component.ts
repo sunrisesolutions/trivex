@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jwt_decode from 'jwt-decode';
 import { ResourceParent } from '../../../models/ResourceParent';
 import { Message } from '../../../models/Message';
+import {CheckRoleService} from '../../../services/check-role.service';
 
 @Component({
   selector: 'app-messages',
@@ -36,7 +37,8 @@ export class MessageComponent implements OnInit {
     public httpClient: HttpClient,
     private service: PostService, private modalService: NgbModal,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public roleChecker: CheckRoleService
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     // this.scrollCallback = this.getDelivery.bind(this);
@@ -58,8 +60,9 @@ export class MessageComponent implements OnInit {
     this.currentPage = 1;
     this.initialise();
   }
-
+  role:any;
   initialise() {
+    this.role = this.roleChecker;
     this.service.getMessageById(this.id).subscribe(
       (res: Message) => {
         this.message = res;
