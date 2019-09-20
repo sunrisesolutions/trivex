@@ -551,7 +551,7 @@ export class SidebarComponent implements OnInit {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    this.httpClient.get(`https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
+    this.httpClient.get(`https://messaging.api.whatwechat.net/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&groupByMessage=true`, httpOptions)
       .subscribe(res => {
         const recentAnnouncementCount = +res['hydra:member'].length;
         if (this.recentAnnouncementCount !== recentAnnouncementCount) {

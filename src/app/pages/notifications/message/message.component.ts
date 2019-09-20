@@ -117,7 +117,7 @@ export class MessageComponent implements OnInit {
       const requestForm = {
         'approved': true,
       };
-      this.httpClient.put(`https://messaging.api.trivesg.com/messages/${id}`, requestForm, httpOptions)
+      this.httpClient.put(`https://messaging.api.whatwechat.net/messages/${id}`, requestForm, httpOptions)
         .subscribe(res => {
           localStorage.setItem("flashMessage", "The message from ... has been approved");
           this.router.navigate(['/club-members/notifications/announcement-approvals']);
@@ -128,7 +128,7 @@ export class MessageComponent implements OnInit {
         'rejected': true,
         'decisionReasons': this.reasonsForRejection
       };
-      this.httpClient.put(`https://messaging.api.trivesg.com/messages/${id}`, requestForm, httpOptions)
+      this.httpClient.put(`https://messaging.api.whatwechat.net/messages/${id}`, requestForm, httpOptions)
         .subscribe(res => {
           console.log(res);
           this.router.navigate(['/club-members/notifications/announcement-approvals']);

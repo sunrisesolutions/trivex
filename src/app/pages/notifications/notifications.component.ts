@@ -282,9 +282,9 @@ export class NotificationsComponent implements OnInit {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    let url = `https://messaging.api.trivesg.com/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}`;
+    let url = `https://messaging.api.whatwechat.net/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}`;
     if (messageId !== null && selectedOption !== null) {
-      url = `https://messaging.api.trivesg.com/messages/${messageId}/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&selectedOptions=${selectedOption}`;
+      url = `https://messaging.api.whatwechat.net/messages/${messageId}/deliveries?optionsSelectedAt[exists]=true&selectedOptionsReadAt[exists]=false&message.sender.uuid=${decoded.im}&selectedOptions=${selectedOption}`;
     }
     this.httpClient.get(url, httpOptions)
       .subscribe(res => {

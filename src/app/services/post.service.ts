@@ -23,13 +23,13 @@ export interface TEST {
   providedIn: 'root'
 })
 export class PostService {
-  private loginAPI = 'https://user.api.trivesg.com/login/nric-phone-birthdate';
-  private refreshAPI = 'https://user.api.trivesg.com/token/refresh';
-  private orgAPI = 'https://org.api.trivesg.com';
-  private orgConnectionsAPI = 'https://org.api.trivesg.com/connections';
-  private messageAPI = 'https://messaging.api.trivesg.com';
-  private userAPI = 'https://user.api.trivesg.com/login/individual-member-access-token';
-  private personAPI = 'https://person.api.trivesg.com';
+  private loginAPI = 'https://user.api.whatwechat.net/login/nric-phone-birthdate';
+  private refreshAPI = 'https://user.api.whatwechat.net/token/refresh';
+  private orgAPI = 'https://org.api.whatwechat.net';
+  private orgConnectionsAPI = 'https://org.api.whatwechat.net/connections';
+  private messageAPI = 'https://messaging.api.whatwechat.net';
+  private userAPI = 'https://user.api.whatwechat.net/login/individual-member-access-token';
+  private personAPI = 'https://person.api.whatwechat.net';
 
   constructor(private http: HttpClient) {
   }
@@ -67,7 +67,7 @@ export class PostService {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       })
     }; */
-    return this.http.post(`https://user.api.trivesg.com/login/individual-member-access-token`, post);
+    return this.http.post(`https://user.api.whatwechat.net/login/individual-member-access-token`, post);
   }
 
   refreshToken(refresh): Observable<Object> {
@@ -427,11 +427,11 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`https://org.api.trivesg.com?subdomain=${subdomain}`, httpOptions);
+    return this.http.get(`https://org.api.whatwechat.net?subdomain=${subdomain}`, httpOptions);
   }
 
   getLogoFilter(subdomain) {
-    return this.http.get(`https://org.api.trivesg.com/organisation/logourl/${subdomain}`);
+    return this.http.get(`https://org.api.whatwechat.net/organisation/logourl/${subdomain}`);
   }
 
   /* /.Organisation API */

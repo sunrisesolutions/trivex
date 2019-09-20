@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 
 /* /.HEADER */
 
-const url = "https://messaging.api.trivesg.com/notif_subscriptions";
-const urlDel = "https://messaging.api.trivesg.com";
+const url = "https://messaging.api.whatwechat.net/notif_subscriptions";
+const urlDel = "https://messaging.api.whatwechat.net";
 
 
 @Injectable({
