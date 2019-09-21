@@ -295,7 +295,7 @@
           <a class="navbar-brand text-center">
             <img
               style="width: 80%; margin-left: 10pt;"
-              src="assets/img/brand/logo.png"
+              [src]="(!orgLogo) ? 'assets/img/brand/logo.png' : orgLogo"
             />
           </a>
           <div class="text-center text-muted mb-4">

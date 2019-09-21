@@ -1,22 +1,25 @@
-import { AuthLayoutRoutes } from './../../layouts/auth-layout/auth-layout.routing';
-import { Routes, Router, ActivatedRoute } from "@angular/router";
-import { Http } from "@angular/http";
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Attendee } from "../../models/Attendee";
-import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
-import { Registration } from "../../models/Registration";
-import { AttendeeService } from "../../services/attendee.service";
-import { PostService } from "src/app/services/post.service";
+import {AuthLayoutRoutes} from './../../layouts/auth-layout/auth-layout.routing';
+import {Routes, Router, ActivatedRoute} from '@angular/router';
+import {Http} from '@angular/http';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Attendee} from '../../models/Attendee';
+import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {Registration} from '../../models/Registration';
+import {AttendeeService} from '../../services/attendee.service';
+import {PostService} from 'src/app/services/post.service';
 import * as jwt_decode from 'jwt-decode';
+
 @Component({
-  selector: "app-register-event",
-  templateUrl: "./register-event.component.html",
-  styleUrls: ["./register-event.component.scss"]
+  selector: 'app-register-event',
+  templateUrl: './register-event.component.html',
+  styleUrls: ['./register-event.component.scss']
 })
 export class RegisterEventComponent implements OnInit {
+  orgLogo = 'https://i.ya-webdesign.com/images/peach-svg-animated-6.gif';
+
   dob: NgbDate;
   model = {
-    role: ""
+    role: ''
   };
   notEnoughYearOld = '';
   orgCode;
@@ -33,14 +36,14 @@ export class RegisterEventComponent implements OnInit {
   tokens;
   registration: Registration = {
     event: `/events/${this.routes.snapshot.params.id}`,
-    middleName: "",
-    birthDate: "",
-    givenName: "",
-    familyName: "",
-    gender: "",
-    email: "",
-    phoneNumber: "",
-    accessToken: "token"
+    middleName: '',
+    birthDate: '',
+    givenName: '',
+    familyName: '',
+    gender: '',
+    email: '',
+    phoneNumber: '',
+    accessToken: 'token'
   };
   invalidLogin: boolean = false;
   attendee: Attendee;
@@ -48,14 +51,16 @@ export class RegisterEventComponent implements OnInit {
   step = 1;
   done = false;
   loading = false;
-  error = "";
+  error = '';
   events;
+
   constructor(
     private service: PostService,
     private attendeeService: AttendeeService,
     private router: Router,
     private routes: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.date.year = new Date().getFullYear();
@@ -81,7 +86,7 @@ export class RegisterEventComponent implements OnInit {
         console.log(res);
       },
       err => {
-        this.error = err.error["hydra:description"];
+        this.error = err.error['hydra:description'];
         this.loading = false;
       }
     );
@@ -92,9 +97,11 @@ export class RegisterEventComponent implements OnInit {
     if (this.date.year - dob.year < 18) {
       this.notEnoughYearOld = 'You must be over 18 years old';
       this.loading = false;
-    } if (this.date.year - dob.year >= 18 && this.step === 3) {
+    }
+    if (this.date.year - dob.year >= 18 && this.step === 3) {
       this.login();
-    } if (this.date.year - dob.year >= 18 && this.step === 2) {
+    }
+    if (this.date.year - dob.year >= 18 && this.step === 2) {
       this.registerEvent();
     }
   }
@@ -107,6 +114,7 @@ export class RegisterEventComponent implements OnInit {
         this.loading = false;
         this.events = res;
         this.events['id'] = res['@id'];
+        this.getLogoOrganisation();
       }, error => {
         if (error.status === 404) {
           this.error = 'Event not found.!!!';
@@ -121,49 +129,51 @@ export class RegisterEventComponent implements OnInit {
           this.error = error.error.message;
         }
         // this.router.navigate(['/club-members']);
-      })
+      });
   }
-  @ViewChild("dobi") dobi: ElementRef;
+
+  @ViewChild('dobi') dobi: ElementRef;
+
   login() {
     let tokens;
 
     const inputDob = this.dobi.nativeElement.value;
     const formData = new FormData();
-    formData.append("org-code", this.orgCode);
-    formData.append("phone", this.phone);
-    formData.append("id-number", this.idNumber);
-    formData.append("birth-date", inputDob);
+    formData.append('org-code', this.orgCode);
+    formData.append('phone', this.phone);
+    formData.append('id-number', this.idNumber);
+    formData.append('birth-date', inputDob);
     const formRef = new FormData();
 
     // getinfo
-    const snapID = +this.routes.snapshot.paramMap.get("id");
+    const snapID = +this.routes.snapshot.paramMap.get('id');
     this.service.postFormData(formData)
       .subscribe(res => {
         let decoded = jwt_decode(res['token']);
         tokens = res['token'];
         this.service.getUserByuuidCustomToken(decoded.im, res['token'])
           .subscribe(res => {
-          let obj = res['hydra:member'][0];
-          let registration = {
-            event: `events/${snapID}`,
-            birthDate: `${obj.personData.dob}`,
-            middleName: null,
-            givenName: `${obj.personData.name}`,
-            familyName: `${obj.personData.employerName}`,
-            gender: `${obj.personData.jobTitle}`,
-            email: `${obj.personData.email}`,
-            phoneNumber: `${obj.personData.phone}`,
-            accessToken: "token",
-            memberUuid: `${obj.uuid}`
-          };
-          let child: Attendee = {
-            registration: registration
-          };
-          this.attendeeService.getAtten(child, tokens).subscribe(res => {
-            (this.done = true), console.log(res);
+            let obj = res['hydra:member'][0];
+            let registration = {
+              event: `events/${snapID}`,
+              birthDate: `${obj.personData.dob}`,
+              middleName: null,
+              givenName: `${obj.personData.name}`,
+              familyName: `${obj.personData.employerName}`,
+              gender: `${obj.personData.jobTitle}`,
+              email: `${obj.personData.email}`,
+              phoneNumber: `${obj.personData.phone}`,
+              accessToken: 'token',
+              memberUuid: `${obj.uuid}`
+            };
+            let child: Attendee = {
+              registration: registration
+            };
+            this.attendeeService.getAtten(child, tokens).subscribe(res => {
+              (this.done = true), console.log(res);
+            });
           });
-        })
-      })
+      });
     /*   this.service.getRootID(localStorage.getItem('im_')).subscribe(res => {
         let obj = res['personData'];
         let registration = {
@@ -180,7 +190,7 @@ export class RegisterEventComponent implements OnInit {
         let child: Attendee = {
           registration: registration
         };
-        
+
         this.service.postFormData(formData).subscribe(response => {
           // settoken
           console.log(response);
@@ -193,5 +203,15 @@ export class RegisterEventComponent implements OnInit {
         });
       }); */
     // Login
+  }
+
+
+  /* LOGIN BY SUBDOMAIN */
+  getLogoOrganisation() {
+    this.service.getLogoFilter(this.events.organisation.subdomain)
+      .subscribe(res => {
+        console.log('logo', res);
+        this.orgLogo = res['logoReadUrl'];
+      });
   }
 }
