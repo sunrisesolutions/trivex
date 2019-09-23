@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
         this.showOrg = true;
       } else {
         this.sub = parts[0];
-        if (this.sub === 'whatwechat') {
+        if (this.sub === 'whatwechat' && host !== 'whatwechat.whatwechat.net') {
           this.showOrg = true;
         } else {
           this.showOrg = false;
