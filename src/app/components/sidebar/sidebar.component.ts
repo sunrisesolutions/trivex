@@ -157,7 +157,7 @@ export class SidebarComponent implements OnInit {
     // =======
     setInterval(() => {
       if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&messageSenderUuid=' + this.decoded.im, 1)
+        this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&recipient.uuid='+ this.decoded.im + '&messageSenderUuid=' + this.decoded.im, 1)
           .subscribe(res => {
             this.countMess = res['hydra:totalItems'];
             if (this.fakeCountMess < this.countMess) {
