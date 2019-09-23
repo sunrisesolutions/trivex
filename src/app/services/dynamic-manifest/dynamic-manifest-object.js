@@ -1,6 +1,6 @@
 var manifest_object = {
-    "name": "Trivesg Web Application",
-    "short_name": "Trivesg Web Application",
+    "name": "WhatWeChat Web Application",
+    "short_name": "WhatWeChat Web Application",
     "theme_color": "#1976d2",
     "background_color": "#fafafa",
     "display": "standalone",
