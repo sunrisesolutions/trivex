@@ -12,6 +12,8 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
 import {CheckRoleService} from 'src/app/services/check-role.service';
 import {ResourceParent} from '../../models/ResourceParent';
+import {OrganisationService} from '../../services/organisation.service';
+import {Subscription} from 'rxjs';
 
 declare interface RouteInfo {
   path: string;
@@ -73,11 +75,11 @@ export class SidebarComponent implements OnInit {
   deliveries: Delivery[];
   delivery2: Delivery;
   clubMembers = {
-  path: `/club-members/list`,
-  title: 'Club Members',
-  icon: 'ni-bullet-list-67 text-red',
-  class: ''
-};
+    path: `/club-members/list`,
+    title: 'Club Members',
+    icon: 'ni-bullet-list-67 text-red',
+    class: ''
+  };
   freeOnMessage = {
     path: '/free-on-delivery',
     title: 'Free On Message',
@@ -129,10 +131,23 @@ export class SidebarComponent implements OnInit {
     private swPush: SwPush,
     private reqNotif: PushNotificationService,
     private deviceService: DeviceDetectorService,
-    public roleChecker: CheckRoleService
+    public roleChecker: CheckRoleService,
+    public orgService: OrganisationService
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
+    this.memberPhotoSub = this.orgService.getMemberPhoto()
+      .subscribe(mymessage => {
+        this.memberPhoto = mymessage;
+      });
+
   }
+
+  ngOnDestroy() {
+    this.memberPhotoSub.unsubscribe();
+  }
+
+  memberPhotoSub: Subscription;
+  memberPhoto: string;
 
   isOutgoing(delivery: Delivery) {
     return delivery.message.senderUuid == this.decoded.im;
@@ -157,7 +172,7 @@ export class SidebarComponent implements OnInit {
     // =======
     setInterval(() => {
       if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&recipient.uuid='+ this.decoded.im + '&messageSenderUuid=' + this.decoded.im, 1)
+        this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&recipient.uuid=' + this.decoded.im + '&messageSenderUuid=' + this.decoded.im, 1)
           .subscribe(res => {
             this.countMess = res['hydra:totalItems'];
             if (this.fakeCountMess < this.countMess) {
@@ -171,28 +186,28 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000);
     this.getInfoUser();
-     if (!this.checkingRole(true)) {
-       let decoded = jwt_decode(localStorage.getItem('token'));
-       this.service.G_OrgByUuid(decoded.org)
-         .subscribe(res => {
-           if (res['hydra:member'][0].freeonMessagingEnabled) {
-             this.roleChecker.FREE_ON_MESSAGE = true;
-             this.routes.push(this.freeOnMessage);
-           }
-         });
+    if (!this.checkingRole(true)) {
+      let decoded = jwt_decode(localStorage.getItem('token'));
+      this.service.G_OrgByUuid(decoded.org)
+        .subscribe(res => {
+          if (res['hydra:member'][0].freeonMessagingEnabled) {
+            this.roleChecker.FREE_ON_MESSAGE = true;
+            this.routes.push(this.freeOnMessage);
+          }
+        });
     }
     if (this.checkingRole()) {
       let decoded = jwt_decode(localStorage.getItem('token'));
       this.service.G_OrgByUuid(decoded.org)
         .subscribe(res => {
-          console.log('abc')
+          console.log('abc');
           if (res['hydra:member'][0].freeonMessagingEnabled) {
-            console.log('def')
+            console.log('def');
             this.roleChecker.FREE_ON_MESSAGE = true;
           }
-          console.log('hgj')
+          console.log('hgj');
           if (this.roleChecker.FREE_ON_MESSAGE) {
-            console.log('zzzz')
+            console.log('zzzz');
             // this.routes.push(this.freeOnMessage);
           }
           if (res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_ORG_ADMIN || res['hydra:member'][0].adminAnnouncementEnabled && this.roleChecker.ROLE_MSG_ADMIN) {
@@ -217,6 +232,7 @@ export class SidebarComponent implements OnInit {
       .subscribe(res => {
         this.member = res['hydra:member'][0];
         if (this.member) {
+          this.memberPhoto = this.member['profilePicture'];
           if (res['hydra:member'][0]['profilePicture']) {
             this.httpClient.get(this.member['profilePicture'])
               .subscribe(res => {

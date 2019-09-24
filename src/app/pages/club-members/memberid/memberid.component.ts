@@ -1,28 +1,40 @@
-import {Component, OnInit, Input, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, OnDestroy} from '@angular/core';
 import {PostService} from 'src/app/services/post.service';
 import * as jwt_decode from 'jwt-decode';
 import {getRootComponents} from '@angular/core/src/render3/discovery_utils';
 import {HttpParams, HttpHeaders} from '@angular/common/http';
 import {Router, ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {OrganisationService} from '../../../services/organisation.service';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'info',
   templateUrl: './memberid.component.html',
   styleUrls: ['./memberid.component.scss']
 })
-export class MemberidComponent implements OnInit {
+export class MemberidComponent implements OnInit, OnDestroy {
+  memberPhotoSub: Subscription;
+
   constructor(
     public service: PostService,
     private router: Router,
     private routes: ActivatedRoute,
-    public http: HttpClient
+    public http: HttpClient,
+    public orgService: OrganisationService
   ) {
     this.routes.params.subscribe(val => {
       this.getRootId();
+      this.memberPhotoSub = this.orgService.getMemberPhoto()
+        .subscribe(mymessage => this.memberPhoto = mymessage);
     });
   }
 
+  ngOnDestroy() {
+    this.memberPhotoSub.unsubscribe();
+  }
+
+  memberPhoto;
   notFoundMember;
   file;
   loading: boolean = true;
@@ -57,14 +69,15 @@ export class MemberidComponent implements OnInit {
   member;
 
   ngOnInit() {
+    this.orgService.updateMemberPhoto('/assets/img-process/giphy-loading.gif');
     this.getRootId();
-
     this.cToken = localStorage.getItem('token');
     if (this.cToken == localStorage.getItem('token')) {
       this.tokenRes = true;
     }
     const decoded = jwt_decode(this.cToken);
     this.imUuid = decoded.im;
+    //   members.profilePicture
   }
 
   getRootId() {
@@ -92,14 +105,17 @@ export class MemberidComponent implements OnInit {
       if (this.members['profilePicture']) {
         this.http.get(this.members['profilePicture'])
           .subscribe(res => {
+            this.memberPhoto = this.members['profilePicture'];
             console.log('image', res);
           }, error => {
             if (error.status === 404) {
-              this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+              this.memberPhoto = '/assets/img-process/Not-found-img.gif';
+            } else {
+              this.memberPhoto = this.members['profilePicture'];
             }
           });
       } else {
-        this.members['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+        this.memberPhoto = '/assets/img-process/Not-found-img.gif';
       }
     }, error => {
       if (error.status === 404) {
@@ -126,14 +142,21 @@ export class MemberidComponent implements OnInit {
       formLogoWrite.append('key', urlUpload['filePath']);
       formLogoWrite.append('file', file);
       if (file) {
+        this.memberPhoto = '/assets/img-process/loading.gif';
+        this.orgService.updateMemberPhoto(this.memberPhoto);
         this.http.post(attributes['action'], formLogoWrite)
           .subscribe(res => {
             let form = {
               'profilePicture': attributes['action'] + urlUpload['filePath']
             };
+            this.service.getRootID(this.snapID).subscribe(res => {
+              this.memberPhoto = res['profilePicture'];
+              this.orgService.updateMemberPhoto(this.memberPhoto);
+            });
             this.service.uploadImage(form, snapID)
               .subscribe(res => {
                 console.log(res);
+
               });
           });
       }

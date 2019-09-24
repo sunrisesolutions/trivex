@@ -12,7 +12,7 @@
           <div class="col-md-12 order-lg-2">
             <div class="card-profile-image" style="top:-20pt;">
               <a href="javascript:void(0)" class="mb-2">
-                <img id="img" (click)="id == imId ? upload.click() : goHome()" [src]="members.profilePicture"
+                <img id="img" (click)="id == imId ? upload.click() : goHome()" [src]="memberPhoto"
                   class="avatar" />
                 <div *ngIf="members.person?.alternateName" class="d-block d-md-none alternate position-absolute">
                   <div class="badge text-light bg-success">
