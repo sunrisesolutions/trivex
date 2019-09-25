@@ -43,16 +43,16 @@ export class AttendeesComponent implements OnInit {
         }, 2000)
         if (params === 'member') {
           for (let d of this.data) {
-            this.apiService.getUserByuuid(d.memberUuid)
-              .subscribe(res => {
-                d['profilePicture'] = res['hydra:member'][0]['profilePicture'];
-                this.apiService.getPersonByUuid(res['hydra:member'][0]['personData']['uuid'])
-                  .subscribe(res => {
-                    d['person'] = res['hydra:member'][0];
-                  })
-              })
+            // this.apiService.getUserByuuid(d.memberUuid)
+            //   .subscribe(res => {
+            //     d['profilePicture'] = res['hydra:member'][0]['profilePicture'];
+            //     this.apiService.getPersonByUuid(res['hydra:member'][0]['personData']['uuid'])
+            //       .subscribe(res => {
+            //         d['person'] = res['hydra:member'][0];
+            //       })
+            //   })
           }
-        } 
+        }
         console.log(this.data);
       })
   }

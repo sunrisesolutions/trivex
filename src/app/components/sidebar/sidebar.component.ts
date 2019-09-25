@@ -137,7 +137,7 @@ export class SidebarComponent implements OnInit {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.memberPhotoSub = this.orgService.getMemberPhoto()
       .subscribe(mymessage => {
-        this.memberPhoto = mymessage;
+        this.memberPhoto = this.member['profilePicture'] = mymessage;
       });
 
   }
@@ -239,11 +239,11 @@ export class SidebarComponent implements OnInit {
 
               }, error => {
                 if (error.status === 404) {
-                  this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                  this.memberPhoto = this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
                 }
               });
           } else {
-            this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+            this.memberPhoto = this.member['profilePicture'] = '/assets/img-process/Not-found-img.gif';
           }
         }
       });

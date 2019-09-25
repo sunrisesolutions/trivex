@@ -142,7 +142,7 @@ export class MemberidComponent implements OnInit, OnDestroy {
       formLogoWrite.append('key', urlUpload['filePath']);
       formLogoWrite.append('file', file);
       if (file) {
-        this.memberPhoto = '/assets/img-process/loading.gif';
+        this.memberPhoto = this.members['profilePicture'] = '/assets/img-process/loading.gif';
         this.orgService.updateMemberPhoto(this.memberPhoto);
         this.http.post(attributes['action'], formLogoWrite)
           .subscribe(res => {
@@ -150,7 +150,7 @@ export class MemberidComponent implements OnInit, OnDestroy {
               'profilePicture': attributes['action'] + urlUpload['filePath']
             };
             this.service.getRootID(this.snapID).subscribe(res => {
-              this.memberPhoto = res['profilePicture'];
+              this.memberPhoto = this.members['profilePicture'] = res['profilePicture'];
               this.orgService.updateMemberPhoto(this.memberPhoto);
             });
             this.service.uploadImage(form, snapID)

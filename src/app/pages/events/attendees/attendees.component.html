@@ -25,16 +25,22 @@
           <div class="card-body">
             <div class="row">
               <div *ngIf="page === 'member'" class="col-auto d-flex flex-column">
-                <a><img class="icon shadow" [src]=d.profilePicture alt=""></a>
+                <a [routerLink]="'/club-members/' + d.individualMember.id + '/info'"><img class="icon shadow" [src]="d.individualMember.profilePictureReadUrl?d.individualMember.profilePictureReadUrl:'/assets/img-process/Not-found-img.gif'" alt=""></a>
                 <small *ngIf="d.alternateName"
                   class="badge mt-2 bg-success text-truncate text-light">{{d.alternateName}}</small>
               </div>
               <div class="col text-muted">
-                <a>
-                  <h2 class="h2 font-weight-bold">{{(page==='member') ? d.person?.name : d.givenName}}</h2>
+                <a *ngIf="page === 'member'" [routerLink]="'/club-members/' + d.individualMember.id + '/info'">
+                  <h2 class="h2 font-weight-bold">{{(page==='member') ? d.individualMember.person.name : d.givenName}}</h2>
                 </a>
-                <div>{{(page==='member') ? d.person?.jobTitle : d?.jobTitle}}</div><br>
-                <div>{{(page==='member') ? d.person?.employerName : d?.employerName}}</div><br>
+                <h2 *ngIf="page !== 'member'" class="h2 font-weight-bold">{{(page==='member') ? d.individualMember.person.name : d.givenName + " " + d.familyName}}</h2>
+
+                <div>{{(page==='member') ? d.individualMember.person.jobTitle : d.jobTitle}}</div>
+                <div>{{(page==='member') ? d.individualMember.person.employerName : d.employerName}}</div>
+                <div>{{(page==='member') ? d.individualMember.person.phoneNumber : d.phoneNumber}}</div>
+                <div>{{(page==='member') ? d.individualMember.person.gender : d.gender}}</div>
+                <div>{{(page==='member') ? d.individualMember.person.birthDate : (d.birthDate?(d.birthDate|date:'dd/MM/yyyy'):'Not Available')}}</div>
+
               </div>
             </div>
             <!--              <p class="mt-2 mb-0 text-sm text-right">-->
