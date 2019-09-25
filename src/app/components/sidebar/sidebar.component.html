@@ -40,7 +40,7 @@
             <!--              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>-->
             <!--              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>-->
             <!--            </div>-->
-            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-none align-items-center">
+            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
                 <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
                   type="checkbox" />

@@ -8,7 +8,7 @@
       class="h4 mb-0 text-white-no-longer text-uppercase d-none d-lg-inline-block " routerLinkActive="active"
       (click)="toQrCode()">My Qr-Code</a>
     <!-- Form -->
-    <!--  <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
+     <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto ml-md-auto mr-md-5">
       <div class="form-group mb-0" [ngClass]="{ 'focused': focus === true }">
         <div class="input-group input-group-alternative">
           <div class="input-group-prepend">
@@ -37,7 +37,7 @@
             <h6 class="text-sm text-muted m-0 mb-2">You have <strong class="text-primary">{{countMess}}</strong>
               unread notifications.</h6>
 
-            <div *ngIf="isSupported()" class="group-toggle d-none align-items-center">
+            <div *ngIf="isSupported()" class="group-toggle d-flex align-items-center">
               <label class="custom-toggle">
                 <input #statusControlIpt [(ngModel)]="status" (ngModelChange)="statusControl(statusControlIpt)"
                   name="checkbox" type="checkbox">
