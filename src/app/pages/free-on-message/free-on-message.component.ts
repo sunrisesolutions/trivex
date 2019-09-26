@@ -1,9 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import { getLocaleDateTimeFormat } from '@angular/common';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import {getLocaleDateTimeFormat} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import * as jwt_decode from 'jwt-decode';
+import {CheckRoleService} from '../../services/check-role.service';
 
 @Component({
   selector: 'app-free-on-message',
@@ -12,9 +13,10 @@ import * as jwt_decode from 'jwt-decode';
 })
 
 export class FreeOnMessageComponent implements OnInit {
+  isAdmin = false;
   error = '';
-  effectiveFrom: any = { year: 2019, moth: 8, day: 20 };
-  expireAt: any = { year: 2019, moth: 9, day: 20 };
+  effectiveFrom: any = {year: 2019, moth: 8, day: 20};
+  expireAt: any = {year: 2019, moth: 9, day: 20};
   notEnoughOld: any;
   deviceInfo = null;
   availabilityMessage = [];
@@ -113,22 +115,25 @@ export class FreeOnMessageComponent implements OnInit {
   constructor(
     public apiService: PostService,
     private deviceService: DeviceDetectorService,
+    public roleChecker: CheckRoleService,
   ) {
   }
 
   ngOnInit() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
+    this.isAdmin = this.checkingRole();
     this.getMessage();
-    this.checkingRole();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.loading = false;
-    },2000)
+    }, 2000);
   }
 
   isIOS() {
     return this.deviceInfo.os === 'iOS';
   }
-
+getDownloadUrl(){
+  return 'https://www.google.com';
+}
   checkForm(time, day, dateStart) {
     // let expireAt = dateStart.expireAt.day + dateStart.expireAt.month + dateStart.expireAt.year;
     // let effectiveFrom = dateStart.effectiveFrom.day + dateStart.effectiveFrom.month + dateStart.effectiveFrom.year;
@@ -197,13 +202,15 @@ export class FreeOnMessageComponent implements OnInit {
   }
 
   getMessage() {
+    const isAdmin = this.isAdmin;
     let decoded = jwt_decode(localStorage.getItem('token'));
-    this.apiService.getFreeOnMessage(decoded.im)
+    this.apiService.getFreeOnMessage(decoded.im, isAdmin)
       .subscribe(res => {
         this.availabilityMessage = res['hydra:member'];
-        console.log(res)
-      })
+        console.log(res);
+      });
   }
+
   deleteMessage(id) {
     if (window.confirm('Are you sure you want to delete this message ???')) {
       this.apiService.freeOnMessageDelete(id)
@@ -215,8 +222,9 @@ export class FreeOnMessageComponent implements OnInit {
         });
     }
   }
+
   editMessage(data) {
-    console.log(data)
+    console.log(data);
     let pos = 0;
     this.onEdit = true;
     this.idMessage = data['@id'];
@@ -233,6 +241,7 @@ export class FreeOnMessageComponent implements OnInit {
     this.form.expireAt = `${data.expireAt.split('T')[0]}`;
     window.scrollTo(0, pos - 20); // how far to scroll on each step
   }
+
   cancel() {
     this.onEdit = false;
     this.success = false;
@@ -249,14 +258,23 @@ export class FreeOnMessageComponent implements OnInit {
     this.form.effectiveFrom = new Date(Date.now()).toISOString().split('T')[0];
     this.form.expireAt = null;
   }
+
   checkingRole() {
-    let decoded = jwt_decode(localStorage.getItem('token'))
+    let decoded = jwt_decode(localStorage.getItem('token'));
     this.apiService.G_OrgByUuid(decoded.org)
       .subscribe(res => {
         console.log(res);
         if (!res['hydra:member'][0].freeonMessagingEnabled) {
-          return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+          this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
+          return false;
         }
-      })
+      });
+    if (this.roleChecker.ROLE_MSG_ADMIN) {
+      return true;
+    } else if (this.roleChecker.ROLE_ORG_ADMIN) {
+      return false;
+    } else {
+      return false;
+    }
   }
 }

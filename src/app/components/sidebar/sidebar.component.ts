@@ -186,16 +186,16 @@ export class SidebarComponent implements OnInit {
       }
     }, 2000);
     this.getInfoUser();
-    if (!this.checkingRole(true)) {
-      let decoded = jwt_decode(localStorage.getItem('token'));
-      this.service.G_OrgByUuid(decoded.org)
-        .subscribe(res => {
-          if (res['hydra:member'][0].freeonMessagingEnabled) {
-            this.roleChecker.FREE_ON_MESSAGE = true;
-            this.routes.push(this.freeOnMessage);
-          }
-        });
-    }
+
+    let decoded = jwt_decode(localStorage.getItem('token'));
+    this.service.G_OrgByUuid(decoded.org)
+      .subscribe(res => {
+        if (res['hydra:member'][0].freeonMessagingEnabled) {
+          this.roleChecker.FREE_ON_MESSAGE = true;
+          this.routes.push(this.freeOnMessage);
+        }
+      });
+
     if (this.checkingRole()) {
       let decoded = jwt_decode(localStorage.getItem('token'));
       this.service.G_OrgByUuid(decoded.org)

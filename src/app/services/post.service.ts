@@ -293,7 +293,7 @@ export class PostService {
     return this.http.get(this.messageAPI + `/messages/${id}`, httpOptions);
   }
 
-  getFreeOnMessage(senderUuid): Observable<Object> {
+  getFreeOnMessage(senderUuid, isAdmin = false): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -301,6 +301,9 @@ export class PostService {
       })
     };
 
+    if (isAdmin) {
+      return this.http.get(`${this.messageAPI}/free_on_messages`, httpOptions);
+    }
     return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`, httpOptions);
   }
 
