@@ -119,7 +119,10 @@ export class FreeOnMessageComponent implements OnInit {
   ) {
   }
 
+  decoded: string;
+
   ngOnInit() {
+    this.decoded = jwt_decode(localStorage.getItem('token'));
     this.deviceInfo = this.deviceService.getDeviceInfo();
     this.isAdmin = this.checkingRole();
     this.getMessage();
@@ -131,9 +134,11 @@ export class FreeOnMessageComponent implements OnInit {
   isIOS() {
     return this.deviceInfo.os === 'iOS';
   }
-getDownloadUrl(){
-  return 'https://www.google.com';
-}
+
+  getDownloadUrl() {
+    return this.apiService.messageAPI + '/messages/' + this.decoded['org'] + '/download-org-free-on-messages-xlsx';
+  }
+
   checkForm(time, day, dateStart) {
     // let expireAt = dateStart.expireAt.day + dateStart.expireAt.month + dateStart.expireAt.year;
     // let effectiveFrom = dateStart.effectiveFrom.day + dateStart.effectiveFrom.month + dateStart.effectiveFrom.year;

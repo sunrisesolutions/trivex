@@ -27,7 +27,7 @@ export class PostService {
   private refreshAPI = 'https://user.api.whatwechat.net/token/refresh';
   private orgAPI = 'https://org.api.whatwechat.net';
   private orgConnectionsAPI = 'https://org.api.whatwechat.net/connections';
-  private messageAPI = 'https://messaging.api.whatwechat.net';
+  public messageAPI = 'https://messaging.api.whatwechat.net';
   private userAPI = 'https://user.api.whatwechat.net/login/individual-member-access-token';
   private personAPI = 'https://person.api.whatwechat.net';
 
