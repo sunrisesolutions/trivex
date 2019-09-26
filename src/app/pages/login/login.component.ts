@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
     // const inputDob = new Date(`${this.dob.day}-${this.dob.month}-${this.dob.year}`).toLocaleDateString();
     const formData = new FormData();
     // (this.showOrg) ? this.orgCode : this.sub)
-    formData.append("org-code", this.orgCode;
+    formData.append("org-code", this.orgCode);
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", this.dobi.nativeElement.value);
