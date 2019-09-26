@@ -437,6 +437,10 @@ export class PostService {
     return this.http.get(`https://org.api.whatwechat.net/organisation/logourl/${subdomain}`);
   }
 
+  getOrganisationCodeBySubdomain(subdomain) {
+    return this.http.get(`https://org.api.whatwechat.net/organisation/org-code-by-subdomain/${subdomain}`);
+  }
+
   /* /.Organisation API */
 
   /* EVENTS API */

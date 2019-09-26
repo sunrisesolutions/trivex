@@ -69,6 +69,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.getSubdomain();
+    this.getOrganisationCode();
+
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
     //   this.id = get;
@@ -116,7 +118,8 @@ export class LoginComponent implements OnInit {
   login() {
     // const inputDob = new Date(`${this.dob.day}-${this.dob.month}-${this.dob.year}`).toLocaleDateString();
     const formData = new FormData();
-    formData.append("org-code", (this.showOrg) ? this.orgCode : this.sub);
+    // (this.showOrg) ? this.orgCode : this.sub)
+    formData.append("org-code", this.orgCode;
     formData.append("phone", this.phone);
     formData.append("id-number", this.idNumber);
     formData.append("birth-date", this.dobi.nativeElement.value);
@@ -223,5 +226,12 @@ export class LoginComponent implements OnInit {
     const manifestURL = URL.createObjectURL(blob);
     document.querySelector('#org-manifest').setAttribute('href', manifestURL)
   }
-  /* /.LOGIN BY SUBDOMAIN */
+  /* LOGIN BY SUBDOMAIN */
+  getOrganisationCode() {
+    this.service.getOrganisationCodeBySubdomain(this.events.organisation.subdomain)
+      .subscribe(res => {
+        console.log('code', res);
+        this.orgCode = res['organisationCode'];
+      });
+  }
 }
