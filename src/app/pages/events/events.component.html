@@ -18,11 +18,13 @@
         <!--  badge animation-fade mx-0 bg-success  -->
         <small (click)="createEvent=true;clean();editEvent=false" class="btn animation-fade btn-primary">Create New
           Event</small>
-        <hr class="my-2 w-50" />
+        <hr class="my-2 w-50"/>
       </div>
       <div *ngIf="!idEvent() && !createEvent && !editEvent" class="container text-center">
         <div *ngFor="let e of events" class="cursor-pointer animation-fade card my-2">
           <div class="text-right mr-3 mt-3">
+            <a href="{{getDownloadUrl(e.integerId)}}"
+               class="fa fa-download  icon-hover cursor-pointer mx-2 text-primary"></a>
             <a (click)="updateEvent(e, e['@id'])" class="far fa-edit  icon-hover cursor-pointer mx-2 text-primary"></a>
             <a (click)="deleteEvent(e['@id'])" class="fas fa-trash-alt  icon-hover cursor-pointer text-danger"></a>
           </div>
@@ -35,13 +37,15 @@
             <div class="row text-light">
               <!-- Member -->
               <div class="col-12 col-md-6">
-                <a [routerLink]="'/events/'+ e['@id'].split('/')[2] +'/attendees/member'" class="btn btn-primary form-control">Member Check-ins <span
-                    class="badge bg-light">{{(e.isMember > 0 ) ? e.isMember : 0}}</span></a>
+                <a [routerLink]="'/events/'+ e['@id'].split('/')[2] +'/attendees/member'"
+                   class="btn btn-primary form-control">Member Check-ins <span
+                  class="badge bg-light">{{(e.isMember > 0) ? e.isMember : 0}}</span></a>
               </div>
               <!-- Non-member -->
               <div class="col-12 mt-2 mt-md-0 col-md-6">
-                <a [routerLink]="'/events/'+ e['@id'].split('/')[2] +'/attendees/non-member'" class="btn btn-success form-control">Non-Member Check-ins <span
-                    class="badge bg-light">{{(e.isNonMember > 0 ) ? e.isNonMember : 0}}</span></a>
+                <a [routerLink]="'/events/'+ e['@id'].split('/')[2] +'/attendees/non-member'"
+                   class="btn btn-success form-control">Non-Member Check-ins <span
+                  class="badge bg-light">{{(e.isNonMember > 0) ? e.isNonMember : 0}}</span></a>
               </div>
             </div>
           </div>
@@ -56,7 +60,7 @@
         </div>
         <div class="animation-fade card my-2">
           <small class="text-left ml-2">Status: <span
-              [ngClass]="{'text-success': event?.enabled, 'text-danger': event?.disabled}">{{(event?.enabled) ? 'active' : (event?.disabled) ? 'deactive' : ''}}</span></small>
+            [ngClass]="{'text-success': event?.enabled, 'text-danger': event?.disabled}">{{(event?.enabled) ? 'active' : (event?.disabled) ? 'deactive' : ''}}</span></small>
           <div class="card-body">
             <div (click)="toEventRegistration(event.id)" class="h1">{{event.name}}</div>
             <div (click)="toEventRegistration(event.id)" class="cursor-pointer h2">{{event.title}}
@@ -86,7 +90,7 @@
                 <div class="form-group">
                   <label class="form-text">Name:</label>
                   <input #name required [(ngModel)]="formSubmit.name" name="name" placeholder="Name"
-                    class="form-control" type="text">
+                         class="form-control" type="text">
                 </div>
               </div>
               <div class="col-12">
@@ -96,7 +100,7 @@
                     <div class="form-group">
                       <label class="form-text">Title:</label>
                       <input placeholder="Title" [(ngModel)]="formSubmit.title" name="title" class="form-control"
-                        type="text">
+                             type="text">
                     </div>
                   </div>
                   <!-- Sub Title -->
@@ -104,7 +108,7 @@
                     <div class="form-group">
                       <label class="form-text">Sub Title:</label>
                       <input placeholder="Sub Title" [(ngModel)]="formSubmit.subTitle" name="subTitle"
-                        class="form-control" type="text">
+                             class="form-control" type="text">
                     </div>
                   </div>
                 </div>
@@ -116,7 +120,7 @@
                     <div class="form-group">
                       <label class="form-text">Start On:</label>
                       <input [(ngModel)]="date.startOn" name="startOn" placeholder="Start On" class="form-control"
-                        type="date">
+                             type="date">
                     </div>
                   </div>
                   <!-- End On -->
@@ -124,7 +128,7 @@
                     <div class="form-group">
                       <label class="form-text">End On:</label>
                       <input [(ngModel)]="date.endOn" name="endOn" placeholder="End On" class="form-control"
-                        type="date">
+                             type="date">
                     </div>
                   </div>
                 </div>
@@ -135,7 +139,7 @@
           <div class="card-footer text-center text-md-right text-light">
             <a (click)="finished()" class="btn btn-danger">CANCEL</a>
             <a (click)="submitEvent(formSubmit);" class="btn btn-primary"
-              [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle && edit===false}">SUBMIT</a>
+               [ngClass]="{'disabled': !formSubmit.name || !formSubmit.title || !formSubmit.subTitle && edit===false}">SUBMIT</a>
           </div>
         </div>
       </div>
