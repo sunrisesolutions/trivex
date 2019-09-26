@@ -1,9 +1,9 @@
-import { AttendeeService } from "./../../services/attendee.service";
-import { AdminLayoutRoutes } from "./../../layouts/admin-layout/admin-layout.routing";
-import { Observable } from "rxjs";
-import { PostService } from "./../../services/post.service";
-import { Http } from "@angular/http";
-import { AuthService } from "./../../services/auth.service";
+import {AttendeeService} from './../../services/attendee.service';
+import {AdminLayoutRoutes} from './../../layouts/admin-layout/admin-layout.routing';
+import {Observable} from 'rxjs';
+import {PostService} from './../../services/post.service';
+import {Http} from '@angular/http';
+import {AuthService} from './../../services/auth.service';
 import {
   Component,
   OnInit,
@@ -11,25 +11,25 @@ import {
   ViewChild,
   Input,
   ElementRef
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { NgbDate, NgbCalendar, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import * as jwt_decode from "jwt-decode";
-import { getLocaleDateTimeFormat } from "@angular/common";
-import { decode } from "@angular/router/src/url_tree";
-import { toBase64String } from "@angular/compiler/src/output/source_map";
-import { SettokenService } from "src/app/services/settoken.service";
-import { error } from "@angular/compiler/src/util";
-import { Routes } from "@angular/router";
-import { delay, timeout } from "q";
-import { ActivatedRoute } from '@angular/router';
-import { PushNotificationService } from "src/app/services/post-notif.service";
-import { SwPush } from "@angular/service-worker";
+} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbDate, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import * as jwt_decode from 'jwt-decode';
+import {getLocaleDateTimeFormat} from '@angular/common';
+import {decode} from '@angular/router/src/url_tree';
+import {toBase64String} from '@angular/compiler/src/output/source_map';
+import {SettokenService} from 'src/app/services/settoken.service';
+import {error} from '@angular/compiler/src/util';
+import {Routes} from '@angular/router';
+import {delay, timeout} from 'q';
+import {ActivatedRoute} from '@angular/router';
+import {PushNotificationService} from 'src/app/services/post-notif.service';
+import {SwPush} from '@angular/service-worker';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   // value formdata
@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
   error = '';
   notEnoughOld = '';
   showOrg: boolean = false;
+
   constructor(
     private router: Router,
     private service: PostService,
@@ -62,14 +63,16 @@ export class LoginComponent implements OnInit {
     private http: Http,
     private serviceToken: SettokenService,
     private route: ActivatedRoute,
-
   ) {
     this.date.year = new Date().getFullYear();
   }
+
   ngOnInit() {
 
     this.getSubdomain();
-    this.getOrganisationCode();
+    if (!this.showOrg) {
+      this.getOrganisationCode();
+    }
 
     // this.service.getDataAPI().subscribe(res => {
     //   let get = res.json()["hydra:member"]["0"]["@id"];
@@ -82,7 +85,7 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.returnUrl) {
-      console.log('should be redirecting here to ',this.returnUrl);
+      console.log('should be redirecting here to ', this.returnUrl);
       this.router.navigateByUrl(this.returnUrl)
         .catch(() => this.router.navigate([`dashboard`]));
       console.log('done redirecting');
@@ -97,7 +100,7 @@ export class LoginComponent implements OnInit {
   getSubdomain() {
     var host = window.location.hostname;
     var parts = host.split('.');
-    console.log(parts)
+    console.log(parts);
     if (parts.length >= 2) {
       if (parts[0] === 'www') {
         this.showOrg = true;
@@ -114,15 +117,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  @ViewChild("dobi") dobi: ElementRef;
+  @ViewChild('dobi') dobi: ElementRef;
+
   login() {
     // const inputDob = new Date(`${this.dob.day}-${this.dob.month}-${this.dob.year}`).toLocaleDateString();
     const formData = new FormData();
     // (this.showOrg) ? this.orgCode : this.sub)
-    formData.append("org-code", this.orgCode);
-    formData.append("phone", this.phone);
-    formData.append("id-number", this.idNumber);
-    formData.append("birth-date", this.dobi.nativeElement.value);
+    formData.append('org-code', this.orgCode);
+    formData.append('phone', this.phone);
+    formData.append('id-number', this.idNumber);
+    formData.append('birth-date', this.dobi.nativeElement.value);
 
     // const formRef = new FormData();
     this.loading = true;
@@ -133,10 +137,10 @@ export class LoginComponent implements OnInit {
       let imID = response['im_id'];
       this.loading = false;
       // console.log("token", response);
-      localStorage.setItem("im_id", imID);
-      localStorage.setItem("token", setToken);
-      localStorage.setItem("refresh_token", refreshToken);
-      localStorage.setItem("access_token", accessToken);
+      localStorage.setItem('im_id', imID);
+      localStorage.setItem('token', setToken);
+      localStorage.setItem('refresh_token', refreshToken);
+      localStorage.setItem('access_token', accessToken);
       let id = response['im_id'];
       // console.log(accessToken);
       // decoded
@@ -144,9 +148,9 @@ export class LoginComponent implements OnInit {
       let decoded = jwt_decode(token);
       // console.log(decoded.exp);
       //refresh
-      this.router.navigateByUrl(this.returnUrl)
+      this.router.navigateByUrl(this.returnUrl);
       if (this.remStatus === true) {
-        localStorage.setItem("remember", refreshToken);
+        localStorage.setItem('remember', refreshToken);
       }
     }, error => {
       if (error.status === 401 || error.status === 500) {
@@ -174,16 +178,16 @@ export class LoginComponent implements OnInit {
     if (!this.showOrg) {
       this.service.getLogoFilter(this.sub)
         .subscribe(res => {
-          console.log('logo', res)
+          console.log('logo', res);
           this.orgLogo = res['logoReadUrl'];
           /* Dynamic Manifest */
           let paramsDataManifest = {
             logo: this.orgLogo,
             name: this.sub,
             host: document.location.host
-          }
+          };
 
-          this.createManifestUrl(paramsDataManifest)
+          this.createManifestUrl(paramsDataManifest);
           /* check server image */
           this.http.get(this.orgLogo)
             .subscribe(res => {
@@ -192,9 +196,9 @@ export class LoginComponent implements OnInit {
               if (err.status === 404) {
                 this.orgLogo = '/assets/img-process/Not-found-img.gif';
                 paramsDataManifest.logo = this.orgLogo;
-                this.createManifestUrl(paramsDataManifest)
+                this.createManifestUrl(paramsDataManifest);
               }
-            })
+            });
         }, error => {
           if (error.status === 404) {
             this.orgLogo = './assets/img-process/Not-found-img.gif';
@@ -207,28 +211,30 @@ export class LoginComponent implements OnInit {
     }
 
   }
+
   createManifestUrl(data) {
     var myDynamicManifest = {
-      "name": data['name'].toUpperCase(),
-      "short_name": data['name'].toLowerCase(),
-      "display": 'fullscreen',
-      "start_url": 'https://' + data['host'],
-      "background_color": "#000000",
-      "theme_color": "#0f4a73",
-      "icons": [{
-        "src": data['logo'],
-        "sizes": 'any',
-        "type": "image/*"
+      'name': data['name'].toUpperCase(),
+      'short_name': data['name'].toLowerCase(),
+      'display': 'fullscreen',
+      'start_url': 'https://' + data['host'],
+      'background_color': '#000000',
+      'theme_color': '#0f4a73',
+      'icons': [{
+        'src': data['logo'],
+        'sizes': 'any',
+        'type': 'image/*'
       }]
-    }
+    };
     const stringManifest = JSON.stringify(myDynamicManifest);
-    const blob = new Blob([stringManifest], { type: 'application/json' });
+    const blob = new Blob([stringManifest], {type: 'application/json'});
     const manifestURL = URL.createObjectURL(blob);
-    document.querySelector('#org-manifest').setAttribute('href', manifestURL)
+    document.querySelector('#org-manifest').setAttribute('href', manifestURL);
   }
+
   /* LOGIN BY SUBDOMAIN */
   getOrganisationCode() {
-    this.service.getOrganisationCodeBySubdomain(this.events.organisation.subdomain)
+    this.service.getOrganisationCodeBySubdomain(this.sub)
       .subscribe(res => {
         console.log('code', res);
         this.orgCode = res['organisationCode'];
