@@ -24,8 +24,24 @@
 <h1 class="text-white-no-longer text-center display-5 display-md-1" *ngIf="error">
   {{ error | uppercase }}
 </h1>
+<div *ngIf="pending" class="container mt--8 pb-5">
+  <div class="col-12 col-lg-6 col-md-8">
+    <div *ngIf="!done" class="card bg-secondary shadow border-0">
+      <div class="card-header text-center bg-transparent pb-5">
+        <div class="text-center text-muted">
+          <h2>Registration in progress...</h2>
+          <img width="60%" src="/assets/img-process/giphy-loading.gif" alt="">
+        </div>
+        <a class="btn btn-danger mt-2" [routerLink]="['/club-members']"
+        >Back To Home Page</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Page content -->
-<div *ngIf="!error" class="container mt--8 pb-5">
+<div *ngIf="!error && !pending"  class="container mt--8 pb-5">
   <!-- Table -->
   <div class="row justify-content-center">
     <div class="col-12 col-lg-6 col-md-8">

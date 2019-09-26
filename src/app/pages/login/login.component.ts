@@ -80,8 +80,10 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.returnUrl) {
+      console.log('should be redirecting here to ',this.returnUrl);
       this.router.navigateByUrl(this.returnUrl)
         .catch(() => this.router.navigate([`dashboard`]));
+      console.log('done redirecting');
     } else {
       this.router.navigate([`dashboard`]);
     }

@@ -28,7 +28,9 @@ export class AuthService implements CanActivate {
     state: RouterStateSnapshot,
   ): boolean {
     if (!localStorage.getItem("token")) {
+      console.log('rediring to login page');
       this.router.navigate(["/login"], { queryParams: { 'redirectUrl': state.url } });
+      console.log('done rediring to login page');
       return false;
     } else {
       let decoded = jwt_decoded(localStorage.getItem('token'))

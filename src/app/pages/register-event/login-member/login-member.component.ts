@@ -69,10 +69,32 @@ export class EventLoginMember implements OnInit {
     //   this.id = get;
     // });
     this.checkEvent();
+    // if (localStorage.getItem("token")) {
+    //   let token = localStorage.getItem("token");
+    //   let obj = res['personData'];
+    //   const snapID = +this.routes.snapshot.paramMap.get("id");
+    //   let registration = {
+    //     event: `events/${snapID}`,
+    //     middleName: "sadsadsa",
+    //     birthDate: "2019-05-06",
+    //     givenName: `${obj.name}`,
+    //     familyName: `${obj.employerName}`,
+    //     gender: `${obj.jobTitle}`,
+    //     email: "",
+    //     phoneNumber: "sadsadsadsad",
+    //     accessToken: "token"
+    //   };
+    //   let attendant: Attendee = {
+    //     registration: registration
+    //   };
+    //   // attendees
+    //   this.atten.getAtten(attendant, token).subscribe(res => {
+    //     (this.done = true), console.log(res);
+    //   });
+    // }
   }
 
   @ViewChild("dobi") dobi: ElementRef;
-  asd;
   login() {
     let tokens;
 
@@ -86,6 +108,7 @@ export class EventLoginMember implements OnInit {
 
     // getinfo
     const snapID = +this.routes.snapshot.paramMap.get("id");
+    console.log('snapId from login-member.com.ts is ', snapID);
     this.service.getRootID(snapID).subscribe(res => {
       let obj = res['personData'];
       let registration = {
@@ -99,7 +122,7 @@ export class EventLoginMember implements OnInit {
         phoneNumber: "sadsadsadsad",
         accessToken: "token"
       };
-      let child: Attendee = {
+      let attendant: Attendee = {
         registration: registration
       };
       this.service.postFormData(formData).subscribe(response => {
@@ -108,7 +131,7 @@ export class EventLoginMember implements OnInit {
         tokens = response['token'];
         tokens.toString();
         // attendees
-        this.atten.getAtten(child, tokens).subscribe(res => {
+        this.atten.getAtten(attendant, tokens).subscribe(res => {
           (this.done = true), console.log(res);
         });
       });
