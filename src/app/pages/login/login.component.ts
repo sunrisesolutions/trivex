@@ -217,7 +217,7 @@ export class LoginComponent implements OnInit {
       'name': data['name'].toUpperCase() + ' WEB APP',
       'short_name': data['name'].toLowerCase(),
       'display': 'fullscreen',
-      'start_url': 'https://' + data['host'],
+      'start_url': 'https://' + data['host'] + '/login?redirectUrl=%2Fdashboard',
       'background_color': '#000000',
       'theme_color': '#0f4a73',
       'icons': [{
