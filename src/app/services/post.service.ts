@@ -23,7 +23,7 @@ export interface TEST {
   providedIn: 'root'
 })
 export class PostService {
-  private loginAPI = 'https://user.api.whatwechat.net/login/nric-phone-birthdate';
+  private loginAPI = 'https://user.api.whatwechat.net/login/phone-birthdate';
   private refreshAPI = 'https://user.api.whatwechat.net/token/refresh';
   private orgAPI = 'https://org.api.whatwechat.net';
   private orgConnectionsAPI = 'https://org.api.whatwechat.net/connections';
