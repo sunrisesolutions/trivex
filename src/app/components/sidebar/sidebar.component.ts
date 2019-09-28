@@ -22,7 +22,7 @@ declare interface RouteInfo {
   class: string;
 }
 
-const VAPID_SERVER_KEY = 'BAaWnIATw3HP0YMkQO6vehCxQixCA8V7odcu2cxgEYVEjDu2Ghj6HBKjracCeFKaV38vBsSAz4_yYCW7I6XYRPs';
+const VAPID_SERVER_KEY = 'BJxXIPchVoqDSC4w4m6t2_bnptlImeqkcJrhBNsWTrel-AAQ79rmzhUtnoHnG20OFyjnupji8PKBFHsDApsekQc';
 
 @Component({
   selector: 'app-sidebar',
@@ -436,7 +436,6 @@ export class SidebarComponent implements OnInit {
             'authToken': s.keys.auth,
             'p256dhKey': s.keys.p256dh,
             'contentEncoding': contentEncoding
-
           };
           this.reqNotif.addPushSubscriber(contain).subscribe(res => {
             this.idDelete = res['@id'];
