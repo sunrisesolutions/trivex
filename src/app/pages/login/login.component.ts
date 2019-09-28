@@ -214,7 +214,7 @@ export class LoginComponent implements OnInit {
   // data['logo']
   createManifestUrl(data) {
     var myDynamicManifest = {
-      'name': data['name'].toUpperCase() + 'WEB APP',
+      'name': data['name'].toUpperCase() + ' WEB APP',
       'short_name': data['name'].toLowerCase(),
       'display': 'fullscreen',
       'start_url': 'https://' + data['host'],
@@ -222,8 +222,8 @@ export class LoginComponent implements OnInit {
       'theme_color': '#0f4a73',
       'icons': [{
         'src': 'https://www.whatwechat.net/assets/icons/t-logo-192.png',
-        'sizes': 'any',
-        'type': 'image/*'
+        "sizes": "192x192",
+        'type': 'image/png'
       }]
     };
     const stringManifest = JSON.stringify(myDynamicManifest);
