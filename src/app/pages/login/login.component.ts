@@ -224,7 +224,13 @@ export class LoginComponent implements OnInit {
         'src': 'https://www.whatwechat.net/assets/icons/t-logo-192.png',
         'sizes': '192x192',
         'type': 'image/png'
-      }]
+      },
+        {
+          'src': 'https://www.whatwechat.net/assets/icons/t-logo-512.png',
+          'sizes': '512x512',
+          'type': 'image/png'
+        }
+  ]
     };
     const stringManifest = JSON.stringify(myDynamicManifest);
     const blob = new Blob([stringManifest], {type: 'application/json'});
