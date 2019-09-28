@@ -214,7 +214,7 @@ export class LoginComponent implements OnInit {
   // data['logo']
   createManifestUrl(data) {
     var myDynamicManifest = {
-      'name': data['name'].toUpperCase(),
+      'name': data['name'].toUpperCase() + 'WEB APP',
       'short_name': data['name'].toLowerCase(),
       'display': 'fullscreen',
       'start_url': 'https://' + data['host'],
