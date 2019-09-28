@@ -221,7 +221,7 @@ export class LoginComponent implements OnInit {
       'background_color': '#000000',
       'theme_color': '#0f4a73',
       'icons': [{
-        'src': '/assets/icons/t-logo-192.png',
+        'src': 'https://www.whatwechat.net/assets/icons/t-logo-192.png',
         'sizes': 'any',
         'type': 'image/*'
       }]
