@@ -40,14 +40,6 @@
             <!--              <button class="btn btn-primary {{incomingOnly == true?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('incoming')" ><i class="fas fa-inbox"></i></button>-->
             <!--              <button class="btn btn-primary {{incomingOnly == false?'active':''}} btn-lg" (click)="toggleIncomingMessageFilter('outgoing')" ><i class="far fa-share-square text-lg"></i></button>-->
             <!--            </div>-->
-            <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center">
-              <label class="custom-toggle">
-                <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
-                  type="checkbox" />
-                <span class="custom-toggle-slider rounded-circle"></span>
-              </label>
-              <label class="label ml-2">Receive Notification</label>
-            </div>
           </div>
           <!-- List group -->
           <div *ngIf="deliveries"
@@ -199,7 +191,7 @@
         </div>
       </li>
       <!--        autoClose="true"-->
-      <li class="nav-item" ngbDropdown placement="bottom-right">
+      <li #profileDropdown="ngbDropdown" autoClose="outside" class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="custom-avatar rounded-circle">
@@ -215,19 +207,30 @@
           <div class=" dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome!</h6>
           </div>
-          <a routerLinkActive="active" (click)="toInfo()" class="dropdown-item">
+          <button *ngIf="pwa.promptEvent" (click)="installPwa(); profileDropdown.close();">
+            Install
+          </button>
+          <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center form-control-sm">
+            <label class="custom-toggle">
+              <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
+                     type="checkbox" />
+              <span class="custom-toggle-slider rounded-circle"></span>
+            </label>
+            <label class="label ml-1">Receive Notification</label>
+          </div>
+          <a routerLinkActive="active" (click)="toInfo(); profileDropdown.close();" class="dropdown-item">
             <i class="text-dark fas fa-user"></i>
             <span class="text-dark">My profile</span>
           </a>
-          <a routerLinkActive="active" (click)="toQrCode()" class="dropdown-item">
+          <a routerLinkActive="active" (click)="toQrCode(); profileDropdown.close();" class="dropdown-item">
             <i class="text-dark fas fa-qrcode" aria-hidden="true"></i>
             <span class="text-dark">My QR</span>
           </a>
-          <a routerLinkActive="active" (click)="toQrScanner()" class="dropdown-item">
+          <a routerLinkActive="active" (click)="toQrScanner(); profileDropdown.close();" class="dropdown-item">
             <i class="text-dark fas fa-search" aria-hidden="true"> </i><span class="text-dark">QR Scanner</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a (click)="logout()" class="dropdown-item">
+          <a (click)="logout(); profileDropdown.close();" class="dropdown-item">
             <i class="text-dark ni ni-user-run"></i>
             <span class="text-dark">Logout</span>
           </a>

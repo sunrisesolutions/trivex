@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
     public service: PostService,
     public router: Router
   ) {
+    console.log('hello');
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('token');
     if (accessToken) {

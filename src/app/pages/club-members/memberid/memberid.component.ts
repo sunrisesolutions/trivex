@@ -69,7 +69,7 @@ export class MemberidComponent implements OnInit, OnDestroy {
   member;
 
   ngOnInit() {
-    this.orgService.updateMemberPhoto('/assets/img-process/giphy-loading.gif');
+    // this.orgService.updateMemberPhoto('/assets/img-process/giphy-loading.gif');
     this.getRootId();
     this.cToken = localStorage.getItem('token');
     if (this.cToken == localStorage.getItem('token')) {
@@ -85,7 +85,8 @@ export class MemberidComponent implements OnInit, OnDestroy {
     this.id = this.snapID;
     // localStorage.getItem("im_id").match(/\d+/g).map(Number).toString();
 
-    this.members['profilePicture'] = '/assets/img-process/giphy-loading.gif';
+    // this.members['profilePicture'] = '/assets/img-process/giphy-loading.gif';
+    // this.orgService.updateMemberPhoto(this.members['profilePicture']);
     this.service.getRootID(this.snapID).subscribe(res => {
       this.members = res;
       // this.members['id'] = this.members['@id'].match(/\d+/g).map(Number);
@@ -113,10 +114,12 @@ export class MemberidComponent implements OnInit, OnDestroy {
             } else {
               this.memberPhoto = this.members['profilePicture'];
             }
+
           });
       } else {
         this.memberPhoto = '/assets/img-process/Not-found-img.gif';
       }
+      this.orgService.updateMemberPhoto(this.memberPhoto);
     }, error => {
       if (error.status === 404) {
         this.loading = false;
@@ -143,6 +146,7 @@ export class MemberidComponent implements OnInit, OnDestroy {
       formLogoWrite.append('file', file);
       if (file) {
         this.memberPhoto = this.members['profilePicture'] = '/assets/img-process/loading.gif';
+        console.log('upload photo');
         this.orgService.updateMemberPhoto(this.memberPhoto);
         this.http.post(attributes['action'], formLogoWrite)
           .subscribe(res => {

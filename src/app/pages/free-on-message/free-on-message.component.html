@@ -160,7 +160,7 @@
           </div>
       </div>
       <div class="col-12 mt-1">
-        <h1>Free-on Messages <a href="{{getDownloadUrl()}}"
+        <h1>Free-on Messages <a *ngIf="isAdmin" href="{{getDownloadUrl()}}"
                                 class="fa fa-download  icon-hover cursor-pointer mx-2 text-primary"></a>
         </h1>
         <div *ngFor="let data of availabilityMessage" class="card my-2">

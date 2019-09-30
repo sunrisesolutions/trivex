@@ -14,6 +14,7 @@ import {CheckRoleService} from 'src/app/services/check-role.service';
 import {ResourceParent} from '../../models/ResourceParent';
 import {OrganisationService} from '../../services/organisation.service';
 import {Subscription} from 'rxjs';
+import {PwaService} from '../../services/pwa.service';
 
 declare interface RouteInfo {
   path: string;
@@ -63,7 +64,7 @@ export class SidebarComponent implements OnInit {
   public isCollapsed = true;
   uuid;
   img;
-  member;
+  member: any = {};
   countMess;
   idDelete: any;
   active;
@@ -132,14 +133,16 @@ export class SidebarComponent implements OnInit {
     private reqNotif: PushNotificationService,
     private deviceService: DeviceDetectorService,
     public roleChecker: CheckRoleService,
-    public orgService: OrganisationService
+    public orgService: OrganisationService,
+    public pwa: PwaService
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.memberPhotoSub = this.orgService.getMemberPhoto()
       .subscribe(mymessage => {
-        this.memberPhoto = this.member['profilePicture'] = mymessage;
+        if (mymessage != null) {
+          this.memberPhoto = this.member['profilePicture'] = mymessage;
+        }
       });
-
   }
 
   ngOnDestroy() {
@@ -185,6 +188,7 @@ export class SidebarComponent implements OnInit {
         }, 2000);
       }
     }, 2000);
+
     this.getInfoUser();
 
     let decoded = jwt_decode(localStorage.getItem('token'));
@@ -224,6 +228,10 @@ export class SidebarComponent implements OnInit {
       this.routes.push(this.clubMembers);
       this.routes.push(this.haveRoleAnnouncementApproval);
     }
+  }
+
+  installPwa(){
+    this.pwa.promptEvent.prompt();
   }
 
   getInfoUser() {
