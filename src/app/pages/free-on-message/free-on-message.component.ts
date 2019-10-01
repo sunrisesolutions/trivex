@@ -277,7 +277,7 @@ export class FreeOnMessageComponent implements OnInit {
     if (this.roleChecker.ROLE_MSG_ADMIN) {
       return true;
     } else if (this.roleChecker.ROLE_ORG_ADMIN) {
-      return false;
+      return true;
     } else {
       return false;
     }
