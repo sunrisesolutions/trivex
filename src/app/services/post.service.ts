@@ -461,7 +461,7 @@ export class PostService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }),
     };
-    return this.http.get(`${this.apiBase}${route}`);
+    return this.http.get(`${this.apiBase}${route}`, httpOptions);
   }
 
   eventPost(body): Observable<Object> {
