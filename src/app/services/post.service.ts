@@ -216,6 +216,32 @@ export class PostService {
     return this.http.get(this.messageAPI + `/deliveries/${id}`, httpOptions);
   }
 
+  getDeliveryStats(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
+    // console.log('post.getDelivery');
+    if (query == '&selfDelivery=true') {
+      console.log(' hey query is ', `/deliveries?page=${page}${query}`);
+    }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+
+    let resourceParentPath = '';
+    for (let index = 0; index < parents.length; index++) {
+      resourceParentPath += '/' + parents[index].name + '/' + parents[index].id;
+    }
+
+    let observable = this.http.get(this.messageAPI + resourceParentPath + `/delivery-stats?page=${page}${query}`, httpOptions);
+    if (query == '&selfDelivery=true') {
+      console.log(observable);
+    }
+    // console.log('returning observable');
+    return observable;
+  }
+
+
   getDelivery(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
     // console.log('post.getDelivery');
     if (query == '&selfDelivery=true') {

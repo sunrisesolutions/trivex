@@ -131,6 +131,10 @@ export class DeliveryComponent implements OnInit {
     this.active = item;
   }
 
+  isSelectedOption(delivery: Delivery, optionUuid: string) {
+    return delivery.selectedOptions.indexOf(optionUuid) > -1;
+  }
+
   statisticalOptions(options, infoDelivery: Delivery = null) {
     let query = '';
     const parents: Array<ResourceParent> = [];
@@ -139,9 +143,9 @@ export class DeliveryComponent implements OnInit {
     parent.name = 'messages';
     parents.push(parent);
 
-    query += '&selectedOptions=MSG-';
+    query += '&selectedOptions=MSG_OPT-';
 
-    this.service.getDelivery(query, this.currentPage, parents)
+    this.service.getDeliveryStats(query, this.currentPage, parents)
       .subscribe(res => {
         for (let o of options) {
           let query = '';
@@ -152,7 +156,7 @@ export class DeliveryComponent implements OnInit {
           parents.push(parent);
 
           query += '&selectedOptions=' + o.uuid;
-          this.service.getDelivery(query, this.currentPage, parents)
+          this.service.getDeliveryStats(query, this.currentPage, parents)
             .subscribe(optionRes => {
               o['voted'] = optionRes['hydra:totalItems'];
               o['totalVotes'] = res['hydra:totalItems'];
@@ -161,9 +165,11 @@ export class DeliveryComponent implements OnInit {
         console.log(options);
       });
   }
-logme(_var){
-    console.log('logggg',_var);
-}
+
+  logme(_var) {
+    console.log('logggg', _var);
+  }
+
   parseInt(number) {
     return Number.parseInt(number);
   }

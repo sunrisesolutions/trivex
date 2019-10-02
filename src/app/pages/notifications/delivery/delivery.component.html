@@ -98,6 +98,7 @@
                 " class="">
                 <a
                   routerLink="/club-members/notifications/message/{{ delivery.messageId }}/selected-option/{{ list.uuid }}">
+                  <code *ngIf="isSelectedOption(delivery, list.uuid)"> (Your Response) </code>
                   <label class="">{{list.name}}</label>
                   <div class="progress" style="height: 15px;">
                     <div class="progress-bar" role="progressbar"
