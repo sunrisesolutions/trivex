@@ -42,16 +42,17 @@ export class DeliveriesComponent implements OnInit {
       this.selectedOptionUuid = params['selectedOptionUuid'];
       this.deliveries = [];
       this.currentPage = 1;
-      this.service.getMessageById(this.id).subscribe(
-        (res: Message) => {
-          this.message = res;
-            if (this.initialised) {
-              this.getDelivery();
-            }
-
-          this.initialised = true;
-        }
-      );
+      this.getDelivery();
+      // this.service.getMessageById(this.id).subscribe(
+      //   (res: Message) => {
+      //     this.message = res;
+      //       if (this.initialised) {
+      //         this.getDelivery();
+      //       }
+      //
+      //     this.initialised = true;
+      //   }
+      // );
       this.service.messageOptionsGet('?page=1', '&uuid=' + this.selectedOptionUuid).subscribe(res => {
         this.optionName = res['hydra:member'][0].name;
       });
@@ -97,6 +98,10 @@ export class DeliveriesComponent implements OnInit {
         this.deliveries = this.deliveries.concat(res['hydra:member']);
         console.log('deliveries for delivery component requested successfully ', res, this.deliveries);
         for (let delivery of this.deliveries) {
+          if (!this.initialised) {
+            this.initialised = true;
+            this.message = delivery.message;
+          }
           console.log('requesting for delivery ', delivery);
           delivery.name = 'Loading...';
           delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
