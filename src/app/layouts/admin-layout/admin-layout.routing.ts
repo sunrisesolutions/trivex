@@ -39,7 +39,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'club-members/notifications', component: NotificationsComponent },
   { path: 'club-members/notifications/announcement-approvals', component: MessageApprovalComponent },
   { path: 'club-members/notifications/:status', component: NotificationsComponent },
-  { path: 'club-members/notifications/deliveries/:id/selected-option/:selectedOptionUuid', component: DeliveriesComponent },
+  { path: 'club-members/notifications/message/:id/selected-option/:selectedOptionUuid', component: DeliveriesComponent },
   { path: 'club-members/notifications/deliveries/:id', component: DeliveryComponent },
   { path: 'club-members/notifications/messages/:id', component: MessageComponent },
   { path: 'club-members/notifications/messages/:id/decide/:decision', component: MessageComponent },
