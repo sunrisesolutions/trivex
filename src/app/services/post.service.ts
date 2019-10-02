@@ -413,6 +413,16 @@ export class PostService {
     return this.http.put(`${this.orgAPI}/individual_members/${id}`, {'groupName': groupName}, httpOptions);
   }
 
+  editMemberEmail(email, id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/ld+json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.put(`${this.orgAPI}/individual_members/${id}`, {'email': email}, httpOptions);
+  }
+
   G_OrgByUuid(uuid) {
     const httpOptions = {
       headers: new HttpHeaders({

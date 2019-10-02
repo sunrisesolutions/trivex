@@ -173,7 +173,6 @@ export class MemberidComponent implements OnInit, OnDestroy {
       const formEdit = {
         'familyName': (data.familyName) ? data.familyName : undefined,
         'givenName': (data.givenName) ? data.givenName : undefined,
-        'email': (data.email) ? data.email : undefined,
         'phoneNumber': (data.phone) ? data.phone : undefined,
         'jobTitle': (data.job) ? data.job : undefined,
         'jobIndustry': (data.jobIndustry) ? data.jobIndustry : undefined,
@@ -202,6 +201,25 @@ export class MemberidComponent implements OnInit, OnDestroy {
             }
           });
       }
+
+      if (data.email != null && data.email !== undefined && data.email != '') {
+        this.service.editMemberEmail(data.email, this.imId)
+          .subscribe(res => {
+            // element.hidden = !element.hidden;
+            this.formEdit.email = '';
+          }, err => {
+            if (err.status === 404) {
+              alert(err.error['hydra:description']);
+            }
+            if (err.status === 400) {
+              alert(err.error['hydra:description']);
+            }
+            if (err.status === 500) {
+              alert(err.error['hydra:description']);
+            }
+          });
+      }
+
       this.service.editInfoPerson(`/people/${id.split('/')[2]}`, formEdit)
         .subscribe(res => {
           element.hidden = !element.hidden;

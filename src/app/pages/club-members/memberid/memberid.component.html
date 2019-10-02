@@ -208,9 +208,9 @@
                   <div class="form-group mt-2">
                     <div class="font-weight-bold">Email</div>
 
-                    <div *ngIf="email.hidden" class="mt-12" [ngClass]="{'none-data': !members.person?.email}">
-                      {{ (members.person?.email) ? members.person?.email : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
-                      <a *ngIf="id == imId" (click)="email.hidden=!email.hidden;formEdit.email=members.person?.email"
+                    <div *ngIf="email.hidden" class="mt-12" [ngClass]="{'none-data': !members?.email}">
+                      {{ (members?.email) ? members?.email : (id == imId) ? 'Tap to update' : 'Data not avaiable' }}
+                      <a *ngIf="id == imId" (click)="email.hidden=!email.hidden;formEdit.email=members?.email"
                         class="icon fas fa-edit">
                       </a>
                     </div>
@@ -220,7 +220,7 @@
                       <input class="form-control" [(ngModel)]="formEdit.email" type="text">
                     </div>
                     <div class="mt-2">
-                      <a (click)="editInfo(formEdit, email, members?.person['@id'])"
+                      <a (click)="editInfo(formEdit, email, members['@id'])"
                         class="btn btn-sm btn-primary ml-2 text-light">Submit</a>
                       <a (click)="email.hidden=!email.hidden;clean()"
                         class="btn btn-sm btn-default text-light">Cancel</a>

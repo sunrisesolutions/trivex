@@ -206,7 +206,7 @@
 
           <div class="card-footer">
             <div class="row">
-              <div class="col-12 col-md-6">
+              <div *ngIf="!isAdmin" class="col-12 col-md-6">
                 <a (click)="editMessage(data)" class="btn btn-primary w-100 text-light">EDIT</a>
               </div>
               <div class="col-12 col-md-6 mt-2 mt-md-0">
