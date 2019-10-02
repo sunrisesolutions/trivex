@@ -112,6 +112,7 @@ export class NotificationsComponent implements OnInit {
     let query = '&groupByMessage=true';
     if (this.incomingOnly) {
       query += '&messageSenderUuid=' + this.decoded.im;
+      query += '&recipient.uuid=' + this.decoded.im;
     } else if (this.incomingOnly === false) {
       query += '&message.sender.uuid=' + this.decoded.im;
     }

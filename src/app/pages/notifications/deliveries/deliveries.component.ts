@@ -42,7 +42,7 @@ export class DeliveriesComponent implements OnInit {
       this.selectedOptionUuid = params['selectedOptionUuid'];
       this.deliveries = [];
       this.currentPage = 1;
-      this.getDelivery();
+      // this.getDelivery();
       // this.service.getMessageById(this.id).subscribe(
       //   (res: Message) => {
       //     this.message = res;
