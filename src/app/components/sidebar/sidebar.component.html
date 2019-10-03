@@ -207,9 +207,9 @@
           <div class=" dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome!</h6>
           </div>
-          <button *ngIf="pwa.promptEvent" (click)="installPwa(); profileDropdown.close();">
-            Install
-          </button>
+<!--          <button *ngIf="pwa.promptEvent" (click)="installPwa(); profileDropdown.close();">-->
+<!--            Install-->
+<!--          </button>-->
           <div *ngIf="deviceInfo.os !== 'iOS'" class="group-toggle d-flex align-items-center form-control-sm">
             <label class="custom-toggle">
               <input id="checkbox123" [(ngModel)]="status" (ngModelChange)="statusControl()" name="checkbox"
