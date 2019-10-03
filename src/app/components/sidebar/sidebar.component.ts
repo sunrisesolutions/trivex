@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PostService} from 'src/app/services/post.service';
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SwPush} from '@angular/service-worker';
 import {PushNotificationService} from 'src/app/services/post-notif.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -134,7 +134,8 @@ export class SidebarComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     public roleChecker: CheckRoleService,
     public orgService: OrganisationService,
-    public pwa: PwaService
+    public pwa: PwaService,
+    private route: ActivatedRoute
   ) {
     this.decoded = jwt_decode(localStorage.getItem('token'));
     this.memberPhotoSub = this.orgService.getMemberPhoto()
