@@ -152,20 +152,20 @@ export class NavbarComponent implements OnInit {
     }
     this.getDelivery();
     // =======
-    setInterval(() => {
-      if (localStorage.getItem('token')) {
-        this.service.getDelivery(this.queryDeliveriesREAD, 1)
-          .subscribe(res => {
-            this.countMess = res['hydra:totalItems'];
-            if (this.fakeCountMess < this.countMess) {
-              return this.getDelivery();
-            }
-          })
-        setTimeout(() => {
-          this.fakeCountMess = this.countMess;
-        }, 2000)
-      }
-    }, 2000)
+    // setInterval(() => {
+    //   if (localStorage.getItem('token')) {
+    //     this.service.getDelivery(this.queryDeliveriesREAD, 1)
+    //       .subscribe(res => {
+    //         this.countMess = res['hydra:totalItems'];
+    //         if (this.fakeCountMess < this.countMess) {
+    //           return this.getDelivery();
+    //         }
+    //       })
+    //     setTimeout(() => {
+    //       this.fakeCountMess = this.countMess;
+    //     }, 2000)
+    //   }
+    // }, 2000)
 
     this.isSupported();
   }
@@ -177,48 +177,48 @@ export class NavbarComponent implements OnInit {
       .subscribe((res) => {
         // console.log('deliveries', res)
         this.deliveries = res['hydra:member'];
-        for (let delivery of this.deliveries) {
-          delivery.name = 'Waiting...';
-          delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
-          if (delivery['message'].senderUuid !== undefined) {
-            this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
-              .subscribe(response => {
-                let data = response['hydra:member'];
-                if (data[0]) {
-                  delivery['name'] = data[0]['personData'].name;
-                  // console.log('data', data)
-                  let profilePicture = data[0]['profilePicture'];
-
-                  delivery['profilePicture'] = profilePicture;
-                  if (delivery['profilePicture']) {
-                    this.httpClient.get(delivery['profilePicture'])
-                      .subscribe(res => {
-
-                      }, err => {
-                        if (err.status === 404) {
-                          delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
-                        }
-                      })
-                  } else {
-                    delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
-                  }
-                }
-              });
-          }
-          if (delivery['message']['optionSet']) {
-            this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
-              .subscribe(res => {
-                this.listMessageOptions = res['hydra:member']
-                delivery['arrayOptions'] = res['hydra:member'];
-                for (let option of this.listMessageOptions) {
-                  option['selectedOptionMessage'] = false;
-                }
-              })
-
-          }
-
-        }
-        console.log('navbar deliveries', this.deliveries)
+        // for (let delivery of this.deliveries) {
+        //   delivery.name = 'Waiting...';
+        //   delivery['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
+        //   if (delivery['message'].senderUuid !== undefined) {
+        //     this.service.getSender(`?uuid=${delivery['message'].senderUuid}`)
+        //       .subscribe(response => {
+        //         let data = response['hydra:member'];
+        //         if (data[0]) {
+        //           delivery['name'] = data[0]['personData'].name;
+        //           // console.log('data', data)
+        //           let profilePicture = data[0]['profilePicture'];
+        //
+        //           delivery['profilePicture'] = profilePicture;
+        //           if (delivery['profilePicture']) {
+        //             this.httpClient.get(delivery['profilePicture'])
+        //               .subscribe(res => {
+        //
+        //               }, err => {
+        //                 if (err.status === 404) {
+        //                   delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
+        //                 }
+        //               })
+        //           } else {
+        //             delivery.profilePicture = '/assets/img-process/Not-found-img.gif';
+        //           }
+        //         }
+        //       });
+        //   }
+        //   if (delivery['message']['optionSet']) {
+        //     this.service.optionSetsGet(`/${delivery['message'].optionSet['@id'].match(/\d+/g).map(Number)}/message_options`)
+        //       .subscribe(res => {
+        //         this.listMessageOptions = res['hydra:member']
+        //         delivery['arrayOptions'] = res['hydra:member'];
+        //         for (let option of this.listMessageOptions) {
+        //           option['selectedOptionMessage'] = false;
+        //         }
+        //       })
+        //
+        //   }
+        //
+        // }
+        // console.log('navbar deliveries', this.deliveries)
 
       });
 

@@ -173,7 +173,23 @@ export class SidebarComponent implements OnInit {
     });
     this.getDelivery();
     // =======
-    setInterval(() => {
+    // setInterval(() => {
+    // }, 2000);
+
+    if (localStorage.getItem('token')) {
+      this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&recipient.uuid=' + this.decoded.im + '&messageSenderUuid=' + this.decoded.im, 1)
+        .subscribe(res => {
+          this.countMess = res['hydra:totalItems'];
+          if (this.fakeCountMess < this.countMess) {
+            return this.getDelivery();
+          }
+        });
+      this.countSideBar();
+      setTimeout(() => {
+        this.fakeCountMess = this.countMess;
+      }, 2000);
+    }
+    this.route.params.subscribe(params => {
       if (localStorage.getItem('token')) {
         this.service.getDelivery(this.queryDeliveriesREAD + '&groupByMessage=true&recipient.uuid=' + this.decoded.im + '&messageSenderUuid=' + this.decoded.im, 1)
           .subscribe(res => {
@@ -187,7 +203,7 @@ export class SidebarComponent implements OnInit {
           this.fakeCountMess = this.countMess;
         }, 2000);
       }
-    }, 2000);
+    });
 
     this.getInfoUser();
 
