@@ -1,14 +1,14 @@
-import { Delivery } from './../../models/Deliveries';
-import { Component, Input, OnInit } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Delivery} from './../../models/Deliveries';
+import {Component, Input, OnInit} from '@angular/core';
+import {PostService} from 'src/app/services/post.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs-compat/add/operator/do';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import { ResourceParent } from '../../models/ResourceParent';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Message } from '../../models/Message';
-import { CheckRoleService } from 'src/app/services/check-role.service';
+import {ResourceParent} from '../../models/ResourceParent';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Message} from '../../models/Message';
+import {CheckRoleService} from 'src/app/services/check-role.service';
 
 @Component({
   selector: 'app-notifications',
@@ -108,6 +108,10 @@ export class NotificationsComponent implements OnInit {
     this.checkingRole();
   }
 
+  getDownloadUrl(messageId) {
+    return this.service.messageAPI + '/messages/' + messageId + '/download-org-simple-message-deliveries-xlsx';
+  }
+
   getDelivery() {
     let query = '&groupByMessage=true';
     if (this.incomingOnly) {
@@ -182,7 +186,7 @@ export class NotificationsComponent implements OnInit {
 
     delivery['idSender'] = delivery['message'].senderId;
     if (content) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true });
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true});
       // this.delivery = delivery;
     }
     let d = new Date();
@@ -301,16 +305,25 @@ export class NotificationsComponent implements OnInit {
   parseInt(number) {
     return Number.parseInt(number);
   }
+
   checkingRole() {
     if (this.roleChecker.ROLE_ORG_ADMIN || this.roleChecker.ROLE_MSG_ADMIN) {
       this.service.G_OrgByUuid(this.decoded.org)
         .subscribe(res => {
-          if (!res['hydra:member'][0].adminAnnouncementEnabled ) {
+          if (!res['hydra:member'][0].adminAnnouncementEnabled) {
             return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
           }
-        })
+        });
     } else {
       return this.error = 'You are not allowed to access this page. Please contact to admin.!!!';
     }
+  }
+
+  toggleOptionReceivability($event, delivery: Delivery) {
+    $event.stopPropagation();
+    this.service.messagePut({responsesReceivable: !delivery.message.responsesReceivable}, delivery.message['@id']).subscribe(res => {
+      delivery.message.responsesReceivable = res['responsesReceivable'];
+      console.log(res);
+    });
   }
 }

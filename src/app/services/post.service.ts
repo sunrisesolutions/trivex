@@ -544,7 +544,7 @@ export class PostService {
     return this.http.post(`${this.messageAPI}/free_on_messages`, body, httpOptions);
   }
 
-  freeOnMessagePut(body, id): Observable<Object> {
+  messagePut(body, id): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',

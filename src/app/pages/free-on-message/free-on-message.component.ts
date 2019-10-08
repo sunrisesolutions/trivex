@@ -189,7 +189,7 @@ export class FreeOnMessageComponent implements OnInit {
           this.error = error.error['hydra:description'];
         });
     } else {
-      this.apiService.freeOnMessagePut(freeOnMessageBody, this.idMessage)
+      this.apiService.messagePut(freeOnMessageBody, this.idMessage)
         .subscribe(res => {
           this.loading = false;
           this.success = true;

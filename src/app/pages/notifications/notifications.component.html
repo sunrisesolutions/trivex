@@ -194,6 +194,8 @@
                         }}</small>
                 </div>
 
+                <div (click)="$event; toggleOptionReceivability($event, delivery);" class="btn btn-sm {{delivery.message['responsesReceivable']?'btn-info':'btn-warning'}}">{{delivery.message['responsesReceivable']?'Open':'Closed'}} to new responses</div>
+
                 <div *ngFor="let option of delivery.arrayOptions;let i = index;let c = count;"
                   class="btn btn-primary cursor mr-1 mt-1"
                   routerLink="/club-members/notifications/message/{{ delivery.messageId }}/selected-option/{{ option.uuid }}">
@@ -201,6 +203,13 @@
                   <span [hidden]="option['newResponseCount'] === 0"
                     [innerHTML]="option['newResponseCount'] > 99 ? '99 +' : option['newResponseCount']"
                     class="badge badge-sidebar badge-danger"></span>
+                </div>
+
+                <div class="text-right mr-3">
+                  <a (click)="$event.stopPropagation();" href="{{getDownloadUrl(delivery.message.id)}} "
+                     class="fa fa-download  icon-hover cursor-pointer mx-2 text-primary"></a>
+<!--                  <a (click)="updateEvent(e, e['@id'])" class="far fa-edit  icon-hover cursor-pointer mx-2 text-primary"></a>-->
+<!--                  <a (click)="deleteEvent(e['@id'])" class="fas fa-trash-alt  icon-hover cursor-pointer text-danger"></a>-->
                 </div>
               </div>
             </div>

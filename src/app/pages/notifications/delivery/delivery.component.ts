@@ -175,7 +175,7 @@ export class DeliveryComponent implements OnInit {
   }
 
   isResponded(delivery: Delivery) {
-    return delivery.selectedOptions.length > 0;
+    return delivery.selectedOptions.length > 0 || !delivery.message.responsesReceivable;
   }
 
   putApproval(options, infoDelivery) {

@@ -115,6 +115,9 @@ export class DeliveriesComponent implements OnInit {
                 if (data[0]) {
                   delivery['name'] = data[0]['personData'].name;
                   delivery['jobTitle'] = data[0]['personData'].jobTitle;
+                  delivery['groupName'] = data[0].groupName;
+                  delivery['phone'] = data[0]['personData'].phone;
+
                   let profilePicture = data[0]['profilePicture'];
 
                   delivery['profilePicture'] = profilePicture;

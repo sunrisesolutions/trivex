@@ -44,7 +44,6 @@
       </div>
     </div>
   </div>
-
     <div (click)="delivery2=delivery;"
          *ngFor="let delivery of deliveries;let i = index;let c = count" class="container mb-3 w-md-50">
 <!--       *ngIf="delivery.recipientUuid != decoded.im"     -->
@@ -58,6 +57,8 @@
             </div>
             <div class="col-12 col-md-8 pl-mobile-custom text-center">
               <h2 class="font-weight-bold">{{delivery.name}}</h2>
+              <h4>{{delivery['groupName']}}</h4>
+              <h4>{{delivery['phone']}}</h4>
               <div style="font-size:18px !important;" class="text-truncate">
                 {{delivery.jobTitle}}
                 <div>

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class PwaService {
   promptEvent;
+  unreadMessageCount = 0;
   constructor() {
     window.addEventListener('beforeinstallprompt', event => {
       this.promptEvent = event;
