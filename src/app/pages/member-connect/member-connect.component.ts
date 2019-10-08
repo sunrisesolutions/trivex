@@ -105,16 +105,17 @@ export class MemberConnectComponent implements OnInit {
 
   processData = (mainData) => {
     this.loadingSearch = true;
+
     this.currentPage++;
     // console.log('1');
     var im_id = '/individual_members/' + localStorage.getItem('im_id');
+    console.log('endpoint', mainData, im_id);
 
     // JSON.stringify(news
     let members = this.members = this.members.concat(mainData['hydra:member']);
     // console.log('processing data ', mainData, this.members)
 
-    for (let data of members) {
-
+    for (let data of this.members) {
       // data['profilePicture'] = ' /assets/img-process/giphy-loading.gif';
       // console.log('2', data);
       data['fromId'] = (data['fromMember']['@id']);
@@ -148,12 +149,28 @@ export class MemberConnectComponent implements OnInit {
         data['route'] = `${data['toId']}`;
       } else if (data['toId'] === im_id) {
         data['data'] = data['personData']['from'];
+        console.log('I am toMember ', data['data']);
+
         this.service.getPersonByUuid(data['data'].uuid)
           .subscribe(res => {
             data['alternateName'] = res['hydra:member'][0].alternateName;
             data['person'] = res['hydra:member'][0];
           })
-        data['route'] = data['toId'];
+        this.service.getRootByFullID(data['fromMember']['@id'])
+          .subscribe(res => {
+            data['profilePicture'] = (res['profilePicture'] === null) ? '/assets/img-process/Not-found-img.gif' : res['profilePicture'];
+            if (res['profilePicture']) {
+              this.httpClient.get(res['profilePicture'])
+                .subscribe(res => {
+
+                }, err => {
+                  if (err.status === 404) {
+                    data['profilePicture'] = '/assets/img-process/Not-found-img.gif';
+                  }
+                });
+            }
+          });
+        data['route'] = data['fromId'];
       }
       // console.log('echoing member', data, im_id);
     }

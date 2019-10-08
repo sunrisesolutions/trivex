@@ -242,7 +242,7 @@ export class PostService {
   }
 
 
-  getDelivery(query, page: number = 1, parents: Array<ResourceParent> = []): Observable<Object> {
+  getDelivery(query, page: number = 1, parents: Array<ResourceParent> = [], isExpired = false): Observable<Object> {
     // console.log('post.getDelivery');
     if (query == '&selfDelivery=true') {
       console.log(' hey query is ', `/deliveries?page=${page}${query}`);
@@ -259,6 +259,8 @@ export class PostService {
       resourceParentPath += '/' + parents[index].name + '/' + parents[index].id;
     }
 
+    query = query + '&isExpired=false';
+
     let observable = this.http.get(this.messageAPI + resourceParentPath + `/deliveries?page=${page}${query}`, httpOptions);
     if (query == '&selfDelivery=true') {
       console.log(observable);
@@ -271,7 +273,7 @@ export class PostService {
 
   getTotalDelivery(incoming = null) {
     let query = '?';
-    if (this.decoded == undefined ) {
+    if (this.decoded == undefined) {
       this.decoded = jwt_decode(localStorage.getItem('token'));
     }
 
@@ -319,7 +321,7 @@ export class PostService {
     return this.http.get(this.messageAPI + `/messages/${id}`, httpOptions);
   }
 
-  getFreeOnMessage(senderUuid, isAdmin = false): Observable<Object> {
+  getFreeOnMessage(senderUuid, isAdmin = false, isExpired = false): Observable<Object> {
     const httpOptions = {
       headers: new HttpHeaders({
         'accept': 'application/ld+json',
@@ -328,9 +330,9 @@ export class PostService {
     };
 
     if (isAdmin) {
-      return this.http.get(`${this.messageAPI}/free_on_messages`, httpOptions);
+      return this.http.get(`${this.messageAPI}/free_on_messages&isExpired=` + String(isExpired), httpOptions);
     }
-    return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}`, httpOptions);
+    return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}&isExpired=` + String(isExpired), httpOptions);
   }
 
   /* /.MESSAGES */

@@ -20,18 +20,18 @@
       <div id="infinite-scroller" appInfiniteScroller scrollPercent="10" immediateCallback="true"
         [scrollCallback]="scrollCallback" class="row">
         <div *ngFor="let member of members" class="col-12">
-          <div *ngIf="member.data && member.route?.split('/')[2] !== localId" class="card card-stats mb-2">
+          <div *ngIf="member.data && member.id !== localId" class="card card-stats mb-2">
             <div class="card-body">
               <div class="row">
                 <div class="col-auto d-flex flex-column">
-                  <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info"><img class="icon shadow"
+                  <a routerLink="/club-members/{{member.id}}/info"><img class="icon shadow"
                       [src]=member.profilePicture alt=""></a>
                   <small *ngIf="member.alternateName"
                     class="badge mt-2 bg-success text-truncate text-light">{{member.alternateName}}</small>
 
                 </div>
                 <div class="col text-muted">
-                  <a routerLink="/club-members/{{member.route?.split('/')[2]}}/info">
+                  <a routerLink="/club-members/{{member.id}}/info">
                     <h2 class="h2 font-weight-bold">{{member.data.name}}</h2>
                   </a>
                   <span>{{member.data.jobTitle}}</span><br>
