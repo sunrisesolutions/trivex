@@ -330,7 +330,7 @@ export class PostService {
     };
 
     if (isAdmin) {
-      return this.http.get(`${this.messageAPI}/free_on_messages&isExpired=` + String(isExpired), httpOptions);
+      return this.http.get(`${this.messageAPI}/free_on_messages?isExpired=` + String(isExpired), httpOptions);
     }
     return this.http.get(`${this.messageAPI}/free_on_messages?sender.uuid=${senderUuid}&isExpired=` + String(isExpired), httpOptions);
   }
