@@ -194,7 +194,9 @@
                         }}</small>
                 </div>
 
-                <div (click)="$event; toggleOptionReceivability($event, delivery);" class="btn btn-sm {{delivery.message['responsesReceivable']?'btn-info':'btn-warning'}}">{{delivery.message['responsesReceivable']?'Open':'Closed'}} to new responses</div>
+                <div>
+                  <div (click)="$event; toggleOptionReceivability($event, delivery);" class="btn btn-sm {{delivery.message['responsesReceivable']?'btn-info':'btn-warning'}}">{{delivery.message['responsesReceivable']?'Open':'Closed'}} to new responses</div>
+                </div>
 
                 <div *ngFor="let option of delivery.arrayOptions;let i = index;let c = count;"
                   class="btn btn-primary cursor mr-1 mt-1"
