@@ -9,7 +9,9 @@ export class PwaService {
 
   constructor() {
     window.addEventListener('beforeinstallprompt', event => {
+      localStorage.setItem('log', 'beforeinstallprompt event added');
       event.preventDefault();
+      localStorage.setItem('log', 'beforeinstallprompt event added and default prevented');
     });
   }
 }
