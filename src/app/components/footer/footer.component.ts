@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PwaService} from '../../services/pwa.service';
 
 @Component({
@@ -11,17 +11,22 @@ export class FooterComponent implements OnInit {
 
   constructor(
     public pwa: PwaService,
-
-  ) { }
+  ) {
+  }
 
   installPwa() {
     this.pwa.promptEvent.prompt();
     this.pwa.promptEvent.userChoice
       .then((choiceResult) => {
+        let msg: string;
         if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the Wellness prompt');
+          msg = 'User accepted the Wellness prompt';
+          console.log(msg);
+          localStorage.setItem('log', msg);
         } else {
-          console.log('User dismissed the Wellness prompt');
+          msg = 'User dismissed the Wellness prompt';
+          localStorage.setItem('log', msg);
+          console.log(msg);
         }
         this.pwa.promptEvent = null;
       });
