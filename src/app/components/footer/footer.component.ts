@@ -16,6 +16,15 @@ export class FooterComponent implements OnInit {
 
   installPwa() {
     this.pwa.promptEvent.prompt();
+    this.pwa.promptEvent.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the Wellness prompt');
+        } else {
+          console.log('User dismissed the Wellness prompt');
+        }
+        this.pwa.promptEvent = null;
+      });
   }
 
   ngOnInit() {
