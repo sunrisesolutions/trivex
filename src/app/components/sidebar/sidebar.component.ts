@@ -247,7 +247,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  installPwa(){
+  installPwa() {
     this.pwa.promptEvent.prompt();
   }
 
