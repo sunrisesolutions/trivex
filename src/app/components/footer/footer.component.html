@@ -4,10 +4,15 @@
       <div class="col-12">
         <ul class="nav nav-footer justify-content-center">
           <li class="nav-item">
-<!--   routerLink="/post-announcement"         -->
-            <a class="nav-link">
-              <i class="ni ni-bell-55 display-4"></i>
-            </a>
+            <div *ngIf="pwa.promptEvent" class="footer mt-auto py-3" class="text-center">
+              <button class="btn btn-primary" (click)="installPwa();">
+                Install WebApp
+              </button>
+            </div>
+            <!--   routerLink="/post-announcement"         -->
+<!--            <a class="nav-link">-->
+<!--              <i class="ni ni-bell-55 display-4"></i>-->
+<!--            </a>-->
           </li>
         </ul>
       </div>
