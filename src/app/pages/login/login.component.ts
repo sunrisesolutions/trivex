@@ -235,7 +235,7 @@ export class LoginComponent implements OnInit {
     const stringManifest = JSON.stringify(myDynamicManifest);
     const blob = new Blob([stringManifest], {type: 'application/json'});
     const manifestURL = URL.createObjectURL(blob);
-    document.querySelector('#org-manifest').setAttribute('href', manifestURL);
+    // document.querySelector('#org-manifest').setAttribute('href', manifestURL);
   }
 
   /* LOGIN BY SUBDOMAIN */
